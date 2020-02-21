@@ -27,8 +27,8 @@ public class HelpUtils {
                 break;
             case "admin":
                 player.sendMessage(Var.prefix + ChatColor.AQUA + "点歌系统-管理员帮助 by: 真心.");
-                player.sendMessage(Var.prefix + ChatColor.GREEN + "/" + cmdName + " admin playAll 强制为所有玩家播放音乐.");
-                player.sendMessage(Var.prefix + ChatColor.GREEN + "/" + cmdName + " admin stopAll - 强制为所有玩家停止播放音乐.");
+                player.sendMessage(Var.prefix + ChatColor.GREEN + "/" + cmdName + " playAll 强制为所有玩家播放音乐.");
+                player.sendMessage(Var.prefix + ChatColor.GREEN + "/" + cmdName + " stopAll - 强制为所有玩家停止播放音乐.");
                 break;
             case "play":
                 player.sendMessage(Var.prefix + ChatColor.AQUA + "点歌系统-播放帮助 by: 真心.");

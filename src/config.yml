@@ -1,0 +1,8 @@
+# 是否开启调试模式
+debug: false
+# 点歌扣除的金币(设置为0则不扣除)
+# 拥有ZMusic.bypass的玩家无视扣除
+money: 10
+# 点歌的冷却时间(设置为0则无冷却)
+# 拥有ZMusic.bypass的玩家无视冷却
+cooldown: 5

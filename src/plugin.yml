@@ -1,16 +1,10 @@
 name: ZMusic
 main: cn.iqianye.MinecraftPlugins.ZMusic.Main
-version: 1.0
+version: 0.1-beta
 author: 真心
 description: 点歌系统
-depend: [AudioBuffer,Vault]
+depend: [AudioBuffer,ActionBarAPI,Vault]
 commands:
-  music:
-    usage: /music help
-    description: 点歌系统主命令
-  zmusic:
-    usage: /zmusic help
-    description: 点歌系统主命令
   zm:
     usage: /zm help
     description: 点歌系统主命令
