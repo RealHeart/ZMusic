@@ -151,7 +151,7 @@ public class PlayMusic {
                     }
                     break;
                 case "music":
-                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a在酷狗音乐点了一首§r[");
+                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a点了一首§r[");
                     TextComponent music = new TextComponent(musicName);
                     music.setColor(ChatColor.YELLOW);
                     music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
