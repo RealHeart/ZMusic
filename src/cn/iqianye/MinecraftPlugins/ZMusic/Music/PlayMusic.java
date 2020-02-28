@@ -28,6 +28,7 @@ public class PlayMusic {
     static String musicUrl;
     static List<Map<Integer, String>> musicLyric;
     static int musicMaxTime;
+    static String searchSourceName;
     static JsonObject json;
 
     public static void init() {
@@ -49,16 +50,20 @@ public class PlayMusic {
             switch (source) {
                 case "qq":
                     json = QQMusic.getMusicUrl(searchKey);
+                    searchSourceName = "QQ音乐";
                     break;
                 case "163":
                 case "netease":
                     json = NeteaseCloudMusic.getMusicUrl(searchKey);
+                    searchSourceName = "网易云音乐";
                     break;
                 case "kugou":
                     json = KuGouMusic.getMusicUrl(searchKey);
+                    searchSourceName = "酷狗音乐";
                     break;
                 case "kuwo":
                     json = KuwoMusic.getMusicUrl(searchKey);
+                    searchSourceName = "酷我音乐";
                     break;
                 default:
                     MessageUtils.sendErrorMessage("错误：未知的搜索源", player);
@@ -111,7 +116,7 @@ public class PlayMusic {
                                 timer.schedule(lyricSendTimer, 1000L, 1000L);
                                 PlayerStatus.setPlayerTimer(p, timer);
                             }
-                            MessageUtils.sendNormalMessage("播放§r[§e" + musicName + "§r]§a成功!", p);
+                            MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", p);
                         }
                     }
                     break;
@@ -147,11 +152,11 @@ public class PlayMusic {
                             timer.schedule(lyricSendTimer, 1000L, 1000L);
                             PlayerStatus.setPlayerTimer(player, timer);
                         }
-                        MessageUtils.sendNormalMessage("播放§r[§e" + musicName + "§r]§a成功!", player);
+                        MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", player);
                     }
                     break;
                 case "music":
-                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a点了一首§r[");
+                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a在" + searchSourceName + "点了一首§r[");
                     TextComponent music = new TextComponent(musicName);
                     music.setColor(ChatColor.YELLOW);
                     music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));

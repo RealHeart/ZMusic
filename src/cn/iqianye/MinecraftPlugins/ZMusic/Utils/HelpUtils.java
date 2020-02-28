@@ -23,6 +23,7 @@ public class HelpUtils {
                 }
                 MessageUtils.sendNormalMessage("====================================================", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " stop - 停止播放", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " url [MP3地址] - 播放网络音乐", player);
                 break;
             case "admin":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d管理员帮助 By 真心 §6=========", player);
@@ -33,14 +34,16 @@ public class HelpUtils {
             case "play":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d播放帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play qq <歌名> - QQ音乐播放§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " play netease <歌名> - 网易云音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " play 163 <歌名> - 网易云音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kugou <歌名> - 酷狗音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
                 break;
             case "music":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d点歌帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music qq <歌名> - QQ音乐点歌§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " music netease <歌名> - 网易云音乐点歌§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " music 163 <歌名> - 网易云音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kugou <歌名> - 酷狗音乐点歌§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
                 break;
             case "url":
                 MessageUtils.sendNormalMessage("/" + cmdName + " url <音乐直链> - 播放链接的音乐§a.", player);

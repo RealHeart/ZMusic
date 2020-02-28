@@ -15,10 +15,15 @@ public class Config {
     public static int cooldown;
     // Lyric
     public static boolean lyricEnable;
-    public static boolean supportBossBar;
-    public static boolean supportActionBar;
-    public static boolean supportTitle;
-    public static boolean supportChat;
+    public static boolean supportBossBar = false;
+    public static boolean supportActionBar = false;
+    public static boolean supportTitle = false;
+    public static boolean supportChat = false;
+
+    // RealSupport
+    public static boolean realSupportBossBar = true;
+    public static boolean realSupportActionBar = true;
+    public static boolean realSupportTitle = true;
 
     public static void load(FileConfiguration configuration) {
         // Version
@@ -30,9 +35,15 @@ public class Config {
         cooldown = configuration.getInt("music.cooldown");
         // Lyric
         lyricEnable = configuration.getBoolean("lyric.enable");
-        supportBossBar = configuration.getBoolean("lyric.bossBar");
-        supportActionBar = configuration.getBoolean("lyric.actionBar");
-        supportTitle = configuration.getBoolean("lyric.subTitle");
+        if (realSupportBossBar) {
+            supportBossBar = configuration.getBoolean("lyric.bossBar");
+        }
+        if (realSupportActionBar) {
+            supportActionBar = configuration.getBoolean("lyric.actionBar");
+        }
+        if (realSupportTitle) {
+            supportTitle = configuration.getBoolean("lyric.subTitle");
+        }
         supportChat = configuration.getBoolean("lyric.chatMessage");
     }
 }

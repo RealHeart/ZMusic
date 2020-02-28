@@ -37,16 +37,17 @@ public class Main extends JavaPlugin implements Listener {
         }
         reloadConfig();
         LogUtils.sendNormalMessage("成功加载配置文件!");
-        Config.load(getConfig());
         if (Bukkit.getPluginManager().isPluginEnabled("ActionBarAPI")) {
             LogUtils.sendNormalMessage("已检测到§eActionBarAPI§a, §eActionBar§a功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到§eActionBarAPI§c, §ePlaceholderAPI§c相关功能不生效.");
+            Config.realSupportActionBar = false;
         }
         if (Bukkit.getPluginManager().isPluginEnabled("BossBarAPI")) {
             LogUtils.sendNormalMessage("已检测到§eBossBarAPI§a, §eBossBar§a功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到§eBossBarAPI§c, §eBossBarAPI§c相关功能不生效.");
+            Config.realSupportBossBar = false;
         }
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             LogUtils.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
@@ -64,6 +65,7 @@ public class Main extends JavaPlugin implements Listener {
         } else {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
         }
+        Config.load(getConfig());
         LogUtils.sendNormalMessage("插件作者: 真心");
         LogUtils.sendNormalMessage("博客：www.zhenxin.xyz");
         LogUtils.sendNormalMessage("QQ：1307993674");
