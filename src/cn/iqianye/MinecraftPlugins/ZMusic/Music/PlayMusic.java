@@ -47,6 +47,7 @@ public class PlayMusic {
      */
     public static void play(String searchKey, String source, Player player, String type, List<Player> players) {
         try {
+            MessageUtils.sendNormalMessage("正在搜索中...", player);
             switch (source) {
                 case "qq":
                     json = QQMusic.getMusicUrl(searchKey);
@@ -101,6 +102,7 @@ public class PlayMusic {
                             }
                             lyricSendTimer.maxTime = musicMaxTime;
                             lyricSendTimer.name = musicName;
+                            lyricSendTimer.url = musicUrl;
                             lyricSendTimer.isActionBar = Config.supportActionBar;
                             lyricSendTimer.isBoosBar = Config.supportBossBar;
                             lyricSendTimer.isTitle = Config.supportTitle;
@@ -137,6 +139,7 @@ public class PlayMusic {
                         }
                         lyricSendTimer.maxTime = musicMaxTime;
                         lyricSendTimer.name = musicName;
+                        lyricSendTimer.url = musicUrl;
                         lyricSendTimer.isActionBar = Config.supportActionBar;
                         lyricSendTimer.isBoosBar = Config.supportBossBar;
                         lyricSendTimer.isTitle = Config.supportTitle;

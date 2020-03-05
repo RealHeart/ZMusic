@@ -80,7 +80,7 @@ public class NeteaseCloudMusic {
      * @param musicName 音乐名称
      * @return 音乐列表数组
      */
-    public static String[] getMusicList(String musicName) {
+    public static JsonArray getMusicList(String musicName) {
         try {
             String getUrl =
                     "https://music.163.com/api/search/get/web?csrf_token=Referer="
@@ -94,7 +94,30 @@ public class NeteaseCloudMusic {
                             URLEncoder.encode(musicName, "utf-8")
                             +
                             "&type=1";
-            return null;
+            Gson gson = new Gson();
+            String jsonText = NetUtils.getNetString(getUrl, null);
+            JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+            JsonObject result = json.getAsJsonObject("result");
+            JsonArray returnJson = new JsonArray();
+            if (result != null || result.get("songCount").getAsInt() != 0) {
+                JsonArray jsonOut = result.getAsJsonArray("songs");
+                for (JsonElement j : jsonOut) {
+                    String name = j.getAsJsonObject().get("name").getAsString();
+                    JsonArray singer = j.getAsJsonObject().get("artists").getAsJsonArray();
+                    String singerName = "";
+                    for (JsonElement js : singer) {
+                        singerName += js.getAsJsonObject().get("name").getAsString() + "/";
+                    }
+                    singerName = singerName.substring(0, singerName.length() - 1);
+                    JsonObject returnJsonObj = new JsonObject();
+                    returnJsonObj.addProperty("name", name);
+                    returnJsonObj.addProperty("singer", singerName);
+                    returnJson.add(returnJsonObj);
+                }
+                return returnJson;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

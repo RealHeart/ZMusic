@@ -13,7 +13,7 @@ public class MusicUtils {
      * @param player 玩家
      */
     public static void playSelf(String url, Player player) {
-       AudioBufferAPI.playForByParam(player, "[Net]" + url);
+        AudioBufferAPI.playForByParam(player, "[Net]" + url);
     }
 
     /**
@@ -24,10 +24,7 @@ public class MusicUtils {
      */
     public static void playAll(String url, List<Player> playerList) {
         for (Player player : playerList) {
-            if (!AudioBufferAPI.playForByParam(player, "[Net]" + url)) {
-                MessageUtils.sendErrorMessage("播放失败.", player);
-                OtherUtils.resetPlayerStatus(player);
-            }
+            AudioBufferAPI.playForByParam(player, "[Net]" + url);
         }
     }
 

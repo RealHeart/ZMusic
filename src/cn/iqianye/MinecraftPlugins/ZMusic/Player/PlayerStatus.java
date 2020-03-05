@@ -25,7 +25,9 @@ public class PlayerStatus {
     // 播放进度：最大时间
     private static Map<Player, Integer> maxTimeMap = new HashMap<>();
     // 当前进度的歌词
-    private static Map<Player, String> LyricMap = new HashMap<>();
+    private static Map<Player, String> lyricMap = new HashMap<>();
+    // 循环播放
+    private static Map<Player, Boolean> loopPlayMap = new HashMap<>();
 
     /**
      * 获取玩家播放状态
@@ -33,7 +35,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 播放状态
      */
-    public static boolean getPlayerPlayStatus(Player player) {
+    public static Boolean getPlayerPlayStatus(Player player) {
         return playingMap.get(player);
     }
 
@@ -43,7 +45,7 @@ public class PlayerStatus {
      * @param player  玩家
      * @param playing 播放状态
      */
-    public static void setPlayerPlayStatus(Player player, boolean playing) {
+    public static void setPlayerPlayStatus(Player player, Boolean playing) {
         playingMap.put(player, playing);
     }
 
@@ -154,7 +156,7 @@ public class PlayerStatus {
      * @return 歌词
      */
     public static String getPlayerLyric(Player player) {
-        return LyricMap.get(player);
+        return lyricMap.get(player);
     }
 
     /**
@@ -164,7 +166,27 @@ public class PlayerStatus {
      * @param lyric  歌词
      */
     public static void setPlayerLyric(Player player, String lyric) {
-        LyricMap.put(player, lyric);
+        lyricMap.put(player, lyric);
+    }
+
+    /**
+     * 获取玩家循环播放状态
+     *
+     * @param player 玩家
+     * @return 状态
+     */
+    public static Boolean getPlayerLoopPlay(Player player) {
+        return loopPlayMap.get(player);
+    }
+
+    /**
+     * 设置玩家循环播放状态
+     *
+     * @param player 玩家
+     * @param loop   状态
+     */
+    public static void setPlayerLoopPlay(Player player, Boolean loop) {
+        loopPlayMap.put(player, loop);
     }
 
 }

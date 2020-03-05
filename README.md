@@ -52,6 +52,17 @@
 示例：
 /zm music 163 勾指起誓
 ```
+* 搜索相关
+```text
+/zm search [搜索源] [歌名] - 搜索音乐
+搜索源可为：
+1.qq - QQ音乐
+2.netease/163 - 网易云音乐
+3.kugou - 酷狗音乐
+4.kuwo - 酷我音乐
+示例：
+/zm search 163 勾指起誓
+```
 * 管理员相关
 ```text
 /zm admin playAll [搜索源] [歌名] - 强制全服玩家播放音乐

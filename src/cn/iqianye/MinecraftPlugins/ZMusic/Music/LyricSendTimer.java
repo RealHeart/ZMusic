@@ -1,7 +1,9 @@
 package cn.iqianye.MinecraftPlugins.ZMusic.Music;
 
+import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
+import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import net.md_5.bungee.api.ChatColor;
@@ -19,6 +21,7 @@ public class LyricSendTimer extends TimerTask {
     public List<Map<Integer, String>> list;
     public int maxTime;
     public String name;
+    public String url;
     public boolean isBoosBar;
     public boolean isActionBar;
     public boolean isTitle;
@@ -58,19 +61,21 @@ public class LyricSendTimer extends TimerTask {
                             for (Map.Entry<Integer, String> entry : map.entrySet()) {
                                 if (entry.getKey() == time) {
                                     if (!entry.getValue().isEmpty()) {
-                                        PlayerStatus.setPlayerLyric(player, entry.getValue());
-                                        if (isBoosBar) {
-                                            textComponent.setText(entry.getValue());
-                                            bossBar.setTitle(textComponent);
-                                        }
-                                        if (isActionBar) {
-                                            ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
-                                        }
-                                        if (isTitle) {
-                                            player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
-                                        }
-                                        if (isChat) {
-                                            MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
+                                        if (Config.lyricEnable) {
+                                            PlayerStatus.setPlayerLyric(player, entry.getValue());
+                                            if (isBoosBar) {
+                                                textComponent.setText(entry.getValue());
+                                                bossBar.setTitle(textComponent);
+                                            }
+                                            if (isActionBar) {
+                                                ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
+                                            }
+                                            if (isTitle) {
+                                                player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
+                                            }
+                                            if (isChat) {
+                                                MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
+                                            }
                                         }
                                     }
                                 }
@@ -78,9 +83,19 @@ public class LyricSendTimer extends TimerTask {
                         }
                     }
                 } else {
-                    OtherUtils.resetPlayerStatus(player);
-                    bossBar.removePlayer(player);
-                    cancel();
+                    if (PlayerStatus.getPlayerLoopPlay(player) != null && PlayerStatus.getPlayerLoopPlay(player)) {
+                        MusicUtils.stopSelf(player);
+                        MusicUtils.playSelf(url, player);
+                        bossBar.removePlayer(player);
+                        textComponent.setText(name);
+                        bossBar = BossBarAPI.addBar(player, textComponent, BossBarAPI.Color.BLUE, BossBarAPI.Style.NOTCHED_20, 1.0F, maxTime, 20);
+                        PlayerStatus.setPlayerBoosBar(player, bossBar);
+                        time = 0;
+                    } else {
+                        OtherUtils.resetPlayerStatus(player);
+                        bossBar.removePlayer(player);
+                        cancel();
+                    }
                 }
             } else {
                 OtherUtils.resetPlayerStatus(player);

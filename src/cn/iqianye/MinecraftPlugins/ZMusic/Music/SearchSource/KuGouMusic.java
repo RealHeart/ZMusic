@@ -2,6 +2,8 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.NetUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.net.URLEncoder;
@@ -16,8 +18,6 @@ public class KuGouMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-
-
             String getUrl =
                     "https://songsearch.kugou.com/song_search_v2?keyword="
                             +
@@ -59,14 +59,52 @@ public class KuGouMusic {
                 byte[] bytes = decoder.decode(lyricBase64);
                 String lyric = new String(bytes, "utf-8");
                 lyric = lyric.replaceAll("\r", "");
-                System.out.println(lyric);
                 JsonObject returnObject = new JsonObject();
                 returnObject.addProperty("name", songName);
                 returnObject.addProperty("singer", songSinger);
                 returnObject.addProperty("url", song_url);
                 returnObject.addProperty("lyric", lyric);
-                System.out.println();
                 return returnObject;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
+
+    /**
+     * 获取音乐列表
+     *
+     * @param musicName 音乐名称
+     * @return 音乐列表数组
+     */
+    public static JsonArray getMusicList(String musicName) {
+        try {
+            String getUrl =
+                    "https://songsearch.kugou.com/song_search_v2?keyword="
+                            +
+                            URLEncoder.encode(musicName, "utf-8")
+                            +
+                            "&platform=WebFilter&format=json&page=1&pagesize=10";
+            String jsonText = NetUtils.getNetString(getUrl, null);
+            Gson gson = new Gson();
+            JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+            if (json.get("status").getAsInt() == 1) {
+                JsonObject data = json.get("data").getAsJsonObject();
+                JsonArray list = data.getAsJsonArray("lists");
+                JsonArray returnJson = new JsonArray();
+                for (JsonElement j : list) {
+                    String songName = j.getAsJsonObject().get("SongName").getAsString();
+                    String songSinger = j.getAsJsonObject().get("SingerName").getAsString();
+                    JsonObject returnJsonObj = new JsonObject();
+                    returnJsonObj.addProperty("name", songName);
+                    returnJsonObj.addProperty("singer", songSinger);
+                    returnJson.add(returnJsonObj);
+                }
+                return returnJson;
             } else {
                 return null;
             }

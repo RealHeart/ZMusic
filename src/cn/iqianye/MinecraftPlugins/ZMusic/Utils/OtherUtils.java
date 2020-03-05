@@ -2,7 +2,7 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Utils;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Main;
-import cn.iqianye.MinecraftPlugins.ZMusic.Other.Var;
+import cn.iqianye.MinecraftPlugins.ZMusic.Other.Val;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -104,24 +104,25 @@ public class OtherUtils {
                 int latestVerCode = json.get("latestVerCode").getAsInt();
                 String updateLog = json.get("updateLog").getAsString();
                 String downloadUrl = json.get("downloadUrl").getAsString();
-                if (Var.thisVerCode < latestVerCode) {
-                    Var.isLatest = false;
-                    Var.latestVer = latestVer;
-                    Var.updateLog = updateLog;
-                    Var.downloadUrl = downloadUrl;
-                    LogUtils.sendNormalMessage("发现新版本 V" + Var.latestVer);
+                if (Val.thisVerCode < latestVerCode) {
+                    Val.isLatest = false;
+                    Val.latestVer = latestVer;
+                    Val.updateLog = updateLog;
+                    Val.downloadUrl = downloadUrl;
+                    LogUtils.sendNormalMessage("发现新版本 V" + Val.latestVer);
                     LogUtils.sendNormalMessage("更新日志:");
-                    String[] log = Var.updateLog.split("\\n");
+                    String[] log = Val.updateLog.split("\\n");
                     for (String s : log) {
                         LogUtils.sendNormalMessage(s);
                     }
-                    LogUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Var.downloadUrl);
+                    LogUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl);
                 } else {
                     LogUtils.sendNormalMessage("已是最新版本!");
-                    Var.isLatest = true;
+                    Val.isLatest = true;
                 }
             } else {
                 LogUtils.sendErrorMessage("检查更新失败!");
+                Val.isLatest = true;
                 if (sender != null) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
