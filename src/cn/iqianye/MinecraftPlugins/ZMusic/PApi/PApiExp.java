@@ -24,6 +24,24 @@ public class PApiExp extends PlaceholderExpansion {
     }
 
     public String onPlaceholderRequest(Player player, String identifier) {
+        // 播放状态
+        if (identifier.equalsIgnoreCase("status_play")) {
+            boolean status = PlayerStatus.getPlayerPlayStatus(player);
+            if (status) {
+                return "播放中";
+            } else {
+                return "未播放";
+            }
+        }
+        // 循环状态
+        if (identifier.equalsIgnoreCase("status_loop")) {
+            boolean status = PlayerStatus.getPlayerLoopPlay(player);
+            if (status) {
+                return "开";
+            } else {
+                return "关";
+            }
+        }
         // 音乐名称
         if (identifier.equalsIgnoreCase("playing_name")) {
             String musicName = PlayerStatus.getPlayerMusicName(player);

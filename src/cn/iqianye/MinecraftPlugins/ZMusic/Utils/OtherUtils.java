@@ -54,7 +54,13 @@ public class OtherUtils {
                 bossBar.removePlayer(player);
             }
         }
-        player.sendTitle("", "", 0, 0, 0);
+        try {
+            player.sendTitle("", "", 0, 0, 0);
+        } catch (NoSuchMethodError e) {
+            player.sendTitle("", "");
+            LogUtils.sendErrorMessage(e.getMessage());
+            LogUtils.sendErrorMessage("当前服务端不支持新版本Title发送方式，已使用旧的方式发送。");
+        }
         PlayerStatus.setPlayerMusicName(player, null);
         PlayerStatus.setPlayerCurrentTime(player, null);
         PlayerStatus.setPlayerMaxTime(player, null);
@@ -80,7 +86,13 @@ public class OtherUtils {
                     bossBar.removePlayer(player);
                 }
             }
-            player.sendTitle("", "", 0, 0, 0);
+            try {
+                player.sendTitle("", "", 0, 0, 0);
+            } catch (Exception e) {
+                player.sendTitle("", "");
+                LogUtils.sendErrorMessage(e.getMessage());
+                LogUtils.sendErrorMessage("当前服务端不支持新版本Title发送方式，已使用旧的方式发送。");
+            }
             PlayerStatus.setPlayerMusicName(player, null);
             PlayerStatus.setPlayerCurrentTime(player, null);
             PlayerStatus.setPlayerMaxTime(player, null);

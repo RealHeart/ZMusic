@@ -71,7 +71,11 @@ public class LyricSendTimer extends TimerTask {
                                                 ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
                                             }
                                             if (isTitle) {
-                                                player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
+                                                try {
+                                                    player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
+                                                } catch (NoSuchMethodError e) {
+                                                    player.sendTitle("", "§b" + entry.getValue());
+                                                }
                                             }
                                             if (isChat) {
                                                 MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
