@@ -90,25 +90,33 @@ public class LyricSendTimer extends TimerTask {
                     if (PlayerStatus.getPlayerLoopPlay(player) != null && PlayerStatus.getPlayerLoopPlay(player)) {
                         MusicUtils.stopSelf(player);
                         MusicUtils.playSelf(url, player);
-                        bossBar.removePlayer(player);
-                        textComponent.setText(name);
-                        bossBar = BossBarAPI.addBar(player, textComponent, BossBarAPI.Color.BLUE, BossBarAPI.Style.NOTCHED_20, 1.0F, maxTime, 20);
-                        PlayerStatus.setPlayerBoosBar(player, bossBar);
+                        if (isBoosBar) {
+                            bossBar.removePlayer(player);
+                            textComponent.setText(name);
+                            bossBar = BossBarAPI.addBar(player, textComponent, BossBarAPI.Color.BLUE, BossBarAPI.Style.NOTCHED_20, 1.0F, maxTime, 20);
+                            PlayerStatus.setPlayerBoosBar(player, bossBar);
+                        }
                         time = 0;
                     } else {
                         OtherUtils.resetPlayerStatus(player);
-                        bossBar.removePlayer(player);
+                        if (isBoosBar) {
+                            bossBar.removePlayer(player);
+                        }
                         cancel();
                     }
                 }
             } else {
                 OtherUtils.resetPlayerStatus(player);
-                bossBar.removePlayer(player);
+                if (isBoosBar) {
+                    bossBar.removePlayer(player);
+                }
                 cancel();
             }
         } else {
             OtherUtils.resetPlayerStatus(player);
-            bossBar.removePlayer(player);
+            if (isBoosBar) {
+                bossBar.removePlayer(player);
+            }
             cancel();
         }
 

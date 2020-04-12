@@ -1,10 +1,7 @@
 package cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.NetUtils;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.net.URLEncoder;
 
@@ -94,7 +91,7 @@ public class NeteaseCloudMusic {
                             URLEncoder.encode(musicName, "utf-8")
                             +
                             "&type=1";
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().create();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
             JsonObject result = json.getAsJsonObject("result");

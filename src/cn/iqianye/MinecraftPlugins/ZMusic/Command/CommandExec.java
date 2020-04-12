@@ -2,6 +2,7 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Command;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Main;
+import cn.iqianye.MinecraftPlugins.ZMusic.Music.PlayList;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.PlayMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
@@ -89,6 +90,27 @@ public class CommandExec implements TabExecutor {
                                 MessageUtils.sendNormalMessage("循环播放已开启!", sender);
                             }
                             return true;
+                        case "playlist":
+                            if (sender instanceof Player) {
+                                if (args.length >= 2) {
+                                    if (args[1].equalsIgnoreCase("import")) {
+                                        new Thread(() -> {
+                                            PlayList.importPlayList(args[2], (Player) sender);
+                                        }).start();
+                                    } else if (args[1].equalsIgnoreCase("play")) {
+                                        new Thread(() -> {
+                                            PlayList.playPlayList(args[2], (Player) sender);
+                                        }).start();
+                                    }
+                                    return true;
+                                } else {
+                                    HelpUtils.sendHelp(cmd.getName(), "play", sender);
+                                    return true;
+                                }
+                            } else {
+                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                return true;
+                            }
                         case "url":
                             if (sender instanceof Player) {
                                 if (args.length == 2) {

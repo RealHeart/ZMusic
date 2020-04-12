@@ -1,10 +1,7 @@
 package cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.NetUtils;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.net.URLEncoder;
 import java.util.Base64;
@@ -90,7 +87,7 @@ public class KuGouMusic {
                             +
                             "&platform=WebFilter&format=json&page=1&pagesize=10";
             String jsonText = NetUtils.getNetString(getUrl, null);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
             if (json.get("status").getAsInt() == 1) {
                 JsonObject data = json.get("data").getAsJsonObject();
