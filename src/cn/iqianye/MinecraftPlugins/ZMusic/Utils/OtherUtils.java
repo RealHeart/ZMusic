@@ -5,6 +5,7 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Main;
 import cn.iqianye.MinecraftPlugins.ZMusic.Other.Val;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -163,6 +164,27 @@ public class OtherUtils {
         }
         bos.close();
         return new String(bos.toByteArray(), "utf-8");
+    }
+
+
+    /**
+     * 从网易云获取歌词并格式化
+     *
+     * @param id 音乐id
+     * @return 格式化后的List
+     */
+    public static List<Map<Integer, String>> getLyricFor163(String id) {
+        Gson gson = new GsonBuilder().create();
+        String lyricJsonText = NetUtils.getNetString("https://music.163.com/api/song/media?id=" + id, null);
+        JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
+        String lyric = "";
+        try {
+            lyric = lyricJson.get("lyric").getAsString();
+            lyric = lyric.replaceAll("\r", "");
+        } catch (Exception e) {
+
+        }
+        return formatLyric(lyric);
     }
 
 

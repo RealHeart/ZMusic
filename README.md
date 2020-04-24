@@ -10,10 +10,10 @@
 * 歌词显示
 * 多搜索源(QQ/网易云/酷狗/酷我)
 * 关键词搜索
+* 个人歌单
+* 歌单播放
 * 音量调节(开发中...)
-* 歌单播放(开发中...)
 * 循环整个歌单(开发中...)
-* 个人歌单(开发中...)
 
 # 视频
 [点击前往哔哩哔哩查看演示视频](https://www.bilibili.com/video/av92156922)
@@ -24,13 +24,16 @@
 
 # 命令
 * 主命令
+
 ```text
 /zm - 主命令
 /zm help - 查看帮助
 /zm play - 播放音乐
 /zm music - 全服点歌
 ```
+
 * 播放相关
+
 ```text
 /zm play [搜索源] [歌名] - 播放音乐
 搜索源可为：
@@ -41,7 +44,9 @@
 示例：
 /zm play 163 勾指起誓
 ```
+
 * 点歌相关
+
 ```text
 /zm music [搜索源] [歌名] - 播放音乐
 搜索源可为：
@@ -52,7 +57,9 @@
 示例：
 /zm music 163 勾指起誓
 ```
+
 * 搜索相关
+
 ```text
 /zm search [搜索源] [歌名] - 搜索音乐
 搜索源可为：
@@ -63,7 +70,19 @@
 示例：
 /zm search 163 勾指起誓
 ```
+
+* 歌单相关
+
+```text
+/zm playlist import <歌单链接> - 导入歌单
+- 示例：/zm playlist import https://music.163.com/#/playlist?id=363046232
+/zm playlist list - 查看已导入的歌单列表
+/zm playlist play <歌单ID> - 播放已导入的歌单(可查看列表直接点击播放)
+- 示例：/zm playlist play 363046232
+```
+
 * 管理员相关
+
 ```text
 /zm admin playAll [搜索源] [歌名] - 强制全服玩家播放音乐
 搜索源可为：
@@ -80,14 +99,19 @@
 
 #权限
 * 普通玩家权限
+
 ```text
 zmusic.use - 可使用play,stop等普通指令
 ```
+
 * 管理员权限
+
 ```text
 zmusic.admin - 可使用playAll,stopAll等管理员指令
 ```
+
 # 配置文件
+
 ```yaml
 # 配置文件版本(请勿修改)
 version: 1
@@ -121,9 +145,12 @@ lyric:
 
 # 变量
 * 需要PlaceholderAPI
+
 ```text
 %zmusic_playing_name% - 获取当前播放的音乐名称
 %zmusic_playing_lyric% - 获取当前时间显示的歌词
 %zmusic_time_current% - 获取当前播放的音乐的时间
 %zmusic_time_max% - 获取当前播放的音乐的最大时间
+%zmusic_status_play% - 获取玩家的播放状态
+%zmusic_status_loop% - 获取玩家的循环状态
 ```

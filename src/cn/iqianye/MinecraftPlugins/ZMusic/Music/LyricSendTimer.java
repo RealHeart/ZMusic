@@ -6,6 +6,8 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
+import com.google.gson.JsonArray;
+import com.locydragon.abf.api.AudioBufferAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -26,6 +28,11 @@ public class LyricSendTimer extends TimerTask {
     public boolean isActionBar;
     public boolean isTitle;
     public boolean isChat;
+    public boolean isPlayList = false;
+    public JsonArray playList;
+    boolean playListSetEd = false;
+    int playListLocation = 0;
+    int maxPlayListLocation = 1;
     BossBar bossBar;
     TextComponent textComponent;
     int time = 0;
@@ -35,6 +42,34 @@ public class LyricSendTimer extends TimerTask {
         time++;
         PlayerStatus.setPlayerCurrentTime(player, time);
         if (player.isOnline()) {
+
+            if (isPlayList) {
+                if (!playListSetEd) {
+                    time--;
+                    String tempId = playList.get(0).getAsJsonObject().get("id").getAsString();
+                    String tempUrl = "http://music.163.com/song/media/outer/url?id=" + tempId + ".mp3";
+                    String tempName = playList.get(0).getAsJsonObject().get("name").getAsString() + "(" + playList.get(0).getAsJsonObject().get("singer").getAsString() + ")";
+                    MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
+                    int tempMaxTime = 1;
+                    try {
+                        tempMaxTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + tempUrl);
+                    } catch (Exception e) {
+                        MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
+                    }
+                    PlayerStatus.setPlayerMusicName(player, tempName);
+                    PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
+                    maxTime = tempMaxTime;
+                    name = tempName;
+                    url = tempUrl;
+                    list = OtherUtils.getLyricFor163(tempId);
+                    playListLocation++;
+                    maxPlayListLocation = playList.size();
+                    playListSetEd = true;
+                    MusicUtils.playSelf(tempUrl, player);
+                }
+            }
+
+
             if (isBoosBar) {
                 if (bossBar == null) {
                     bossBar = PlayerStatus.getPlayerBoosBar(player);
@@ -87,7 +122,43 @@ public class LyricSendTimer extends TimerTask {
                         }
                     }
                 } else {
-                    if (PlayerStatus.getPlayerLoopPlay(player) != null && PlayerStatus.getPlayerLoopPlay(player)) {
+                    if (isPlayList) {
+                        if (playListLocation == maxPlayListLocation) {
+                            OtherUtils.resetPlayerStatus(player);
+                            if (isBoosBar) {
+                                bossBar.removePlayer(player);
+                            }
+                            cancel();
+                        } else {
+                            String tempId = playList.get(playListLocation).getAsJsonObject().get("id").getAsString();
+                            String tempUrl = "http://music.163.com/song/media/outer/url?id=" + tempId + ".mp3";
+                            String tempName = playList.get(playListLocation).getAsJsonObject().get("name").getAsString() + "(" + playList.get(playListLocation).getAsJsonObject().get("singer").getAsString() + ")";
+                            MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
+                            int tempMaxTime = 1;
+                            try {
+                                tempMaxTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + tempUrl);
+                            } catch (Exception e) {
+                                MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
+                            }
+                            PlayerStatus.setPlayerMusicName(player, tempName);
+                            PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
+                            maxTime = tempMaxTime;
+                            name = tempName;
+                            url = tempUrl;
+                            list = OtherUtils.getLyricFor163(tempId);
+                            playListLocation++;
+                            playListSetEd = true;
+                            MusicUtils.stopSelf(player);
+                            MusicUtils.playSelf(tempUrl, player);
+                            if (isBoosBar) {
+                                bossBar.removePlayer(player);
+                                textComponent.setText(name);
+                                bossBar = BossBarAPI.addBar(player, textComponent, BossBarAPI.Color.BLUE, BossBarAPI.Style.NOTCHED_20, 1.0F, maxTime, 20);
+                                PlayerStatus.setPlayerBoosBar(player, bossBar);
+                            }
+                            time = 0;
+                        }
+                    } else if (PlayerStatus.getPlayerLoopPlay(player) != null && PlayerStatus.getPlayerLoopPlay(player)) {
                         MusicUtils.stopSelf(player);
                         MusicUtils.playSelf(url, player);
                         if (isBoosBar) {
@@ -121,4 +192,6 @@ public class LyricSendTimer extends TimerTask {
         }
 
     }
+
+
 }

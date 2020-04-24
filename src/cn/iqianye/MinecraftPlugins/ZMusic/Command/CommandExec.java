@@ -33,7 +33,7 @@ public class CommandExec implements TabExecutor {
                     MessageUtils.sendNull(cmd.getName(), sender);
                     return true;
                 } else if (args.length >= 1) {
-                    switch (args[0]) {
+                    switch (args[0].toLowerCase()) {
                         case "music":
                             if (sender instanceof Player) {
                                 if (args.length >= 2) {
@@ -93,18 +93,27 @@ public class CommandExec implements TabExecutor {
                         case "playlist":
                             if (sender instanceof Player) {
                                 if (args.length >= 2) {
-                                    if (args[1].equalsIgnoreCase("import")) {
+                                    if (args[1].equalsIgnoreCase("list")) {
                                         new Thread(() -> {
-                                            PlayList.importPlayList(args[2], (Player) sender);
+                                            PlayList.showPlayList((Player) sender);
                                         }).start();
-                                    } else if (args[1].equalsIgnoreCase("play")) {
-                                        new Thread(() -> {
-                                            PlayList.playPlayList(args[2], (Player) sender);
-                                        }).start();
+                                        return true;
+                                    } else if (args.length >= 3) {
+                                        if (args[1].equalsIgnoreCase("import")) {
+                                            new Thread(() -> {
+                                                PlayList.importPlayList(args[2], (Player) sender);
+                                            }).start();
+                                        } else if (args[1].equalsIgnoreCase("play")) {
+                                            new Thread(() -> {
+                                                PlayList.playPlayList(args[2], (Player) sender);
+                                            }).start();
+                                        }
+                                        return true;
                                     }
+                                    HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
                                     return true;
                                 } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "play", sender);
+                                    HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
                                     return true;
                                 }
                             } else {
@@ -195,6 +204,7 @@ public class CommandExec implements TabExecutor {
                 if (sender.hasPermission("ZMusic.admin") || sender.isOp()) {
                     commandList = new String[]{"help",
                             "play",
+                            "playlist",
                             "music",
                             "stop",
                             "loop",
@@ -207,6 +217,7 @@ public class CommandExec implements TabExecutor {
                 } else {
                     commandList = new String[]{"help",
                             "play",
+                            "playlist",
                             "music",
                             "stop",
                             "loop",
@@ -234,10 +245,17 @@ public class CommandExec implements TabExecutor {
             } else if (args[0].equalsIgnoreCase("help")) {
                 if (args.length == 2) {
                     if (sender.hasPermission("ZMusic.admin") || sender.isOp()) {
-                        commandList = new String[]{"play", "music", "search", "url", "admin"};
+                        commandList = new String[]{"play", "playlist", "music", "search", "url", "admin"};
                     } else {
-                        commandList = new String[]{"play", "music", "search", "url"};
+                        commandList = new String[]{"play", "playlist", "music", "search", "url"};
                     }
+                    return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
+                } else {
+                    return new ArrayList<>();
+                }
+            } else if (args[0].equalsIgnoreCase("playlist")) {
+                if (args.length == 2) {
+                    commandList = new String[]{"play", "import", "list"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();

@@ -8,6 +8,7 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Utils.LogUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
+import cn.iqianye.MinecraftPlugins.ZMusic.bStats.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,6 +27,8 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         LogUtils.sendNormalMessage("正在加载中....");
+        //注册bStats
+        MetricsLite metricsLite = new MetricsLite(this, 7291);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CommandExec());
         //注册命令对应的自动补全器

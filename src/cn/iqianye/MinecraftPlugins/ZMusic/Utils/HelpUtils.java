@@ -43,6 +43,14 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
+            case "playlist":
+                MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d歌单帮助 By 真心 §6=========", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist import <歌单链接> - 导入歌单§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist list - 查看已导入的歌单列表§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist play <歌单ID> - 播放已导入的歌单§a.", player);
+                MessageUtils.sendNormalMessage("歌单功能仅支持网易云音乐。", player);
+                MessageUtils.sendNormalMessage("§6=========================================", player);
+                break;
             case "music":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d点歌帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music qq <歌名> - QQ音乐点歌§a.", player);
