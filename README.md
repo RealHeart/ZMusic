@@ -123,10 +123,10 @@ debug: false
 music:
   # 点歌扣除的金币(设置为0则不扣除)
   # 拥有zmusic.bypass的玩家无视扣除
-  money: 10 # 经济系统还没写 此条无效
+  money: 10
   # 点歌的冷却时间(设置为0则无冷却)
   # 拥有zmusic.bypass的玩家无视冷却
-  cooldown: 5 # 冷却系统还没写 此条无效
+  cooldown: 5
 
 # 歌词设置
 lyric:

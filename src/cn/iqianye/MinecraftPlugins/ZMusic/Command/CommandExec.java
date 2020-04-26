@@ -10,20 +10,22 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Utils.HelpUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandExec implements TabExecutor {
 
+    Map<Player, Integer> cooldown = new HashMap<>();
+    List<Player> cooldownStats = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { //指令输出
@@ -36,13 +38,63 @@ public class CommandExec implements TabExecutor {
                     switch (args[0].toLowerCase()) {
                         case "music":
                             if (sender instanceof Player) {
-                                if (args.length >= 2) {
-                                    new Thread(() -> {
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", null);
-                                    }).start();
-                                    return true;
+                                int cooldownSec = Config.cooldown;
+                                Thread startPlayThread = new Thread(() -> {
+                                    if (args.length >= 2) {
+                                        new Thread(() -> {
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", null);
+                                        }).start();
+                                    } else {
+                                        HelpUtils.sendHelp(cmd.getName(), "music", sender);
+                                    }
+                                });
+                                if (!sender.hasPermission("zmusic.bypass") || !sender.isOp()) {
+                                    if (!cooldownStats.contains(sender)) {
+                                        if (Config.realSupportVault) {
+                                            if (Config.money > 0) {
+                                                Economy econ;
+                                                RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+                                                econ = economyProvider.getProvider();
+                                                double money = econ.getBalance(((Player) sender).getPlayer());
+                                                if ((money - Config.money) >= 0) {
+                                                    econ.withdrawPlayer(((Player) sender).getPlayer(), Config.money);
+                                                    money = econ.getBalance(((Player) sender).getPlayer());
+                                                    MessageUtils.sendNormalMessage("点歌花费§e" + econ.format(Config.money) + "§a,已扣除,扣除后余额: §e" + econ.format(money) + "§a.", sender);
+                                                } else {
+                                                    MessageUtils.sendErrorMessage("金币不足,需要§e" + econ.format(Config.money) + "§c,你有§e" + econ.format(money) + "§c.", sender);
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                        startPlayThread.start();
+                                        if (cooldownSec > 0) {
+                                            cooldownStats.add((Player) sender);
+                                            cooldown.put((Player) sender, cooldownSec);
+                                            Timer timer = new Timer();
+                                            TimerTask timerTask = new TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    int sec = cooldown.get(sender);
+                                                    if (sec != 1) {
+                                                        sec--;
+                                                        cooldown.put((Player) sender, sec);
+                                                    } else {
+                                                        cooldownStats.remove(sender);
+                                                        cancel();
+                                                    }
+                                                }
+                                            };
+                                            timer.schedule(timerTask, 1000L, 1000L);
+                                            return true;
+                                        } else {
+                                            return true;
+                                        }
+                                    } else {
+                                        MessageUtils.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
+                                        return true;
+                                    }
                                 } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "music", sender);
+                                    startPlayThread.start();
                                     return true;
                                 }
                             }
@@ -135,7 +187,7 @@ public class CommandExec implements TabExecutor {
                                 MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
                                 return true;
                             }
-                        case "playAll":
+                        case "playall":
                             if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                                 List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
                                 if (args.length >= 2) {
@@ -151,7 +203,7 @@ public class CommandExec implements TabExecutor {
                                 MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                 return true;
                             }
-                        case "stopAll":
+                        case "stopall":
                             if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                                 List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
                                 MusicUtils.stopAll(players);

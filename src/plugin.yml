@@ -1,6 +1,6 @@
 name: ZMusic
 main: cn.iqianye.MinecraftPlugins.ZMusic.Main
-version: 0.5-beta
+version: 0.6-beta
 author: 真心
 description: 真心音乐系统
 depend:
@@ -9,6 +9,7 @@ softdepend:
   - ActionBarAPI
   - BossBarAPI
   - PlaceholderAPI
+  - Vault
 commands:
   zm:
     usage: /zm help
@@ -19,7 +20,7 @@ permissions:
     description: 普通玩家使用权限
   zmusic.bypass:
     default: false
-    description: 绕过部分配置权限
+    description: 绕过冷却和扣钱权限
   zmusic.admin:
     default: op
     description: 管理员权限

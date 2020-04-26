@@ -69,6 +69,7 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendNormalMessage("已检测到Vault, 经济功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
+            Config.realSupportVault = false;
         }
         Config.load(getConfig());
         LogUtils.sendNormalMessage("插件作者: 真心");
