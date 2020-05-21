@@ -166,7 +166,9 @@ public class PlayMusic {
                     music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                     message.addExtra(music);
                     message.addExtra("§r]§a点击歌名播放!");
-                    player.getServer().spigot().broadcast(message);
+                    for (Player p : players) {
+                        player.spigot().sendMessage(message);
+                    }
                     break;
             }
         } catch (Exception e) {

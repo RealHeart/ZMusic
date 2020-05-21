@@ -188,30 +188,40 @@ public class CommandExec implements TabExecutor {
                                 return true;
                             }
                         case "playall":
-                            if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
-                                if (args.length >= 2) {
-                                    new Thread(() -> {
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
-                                    }).start();
-                                    return true;
+                            if (sender instanceof Player) {
+                                if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
+                                    List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                    if (args.length >= 2) {
+                                        new Thread(() -> {
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
+                                        }).start();
+                                        return true;
+                                    } else {
+                                        HelpUtils.sendHelp(cmd.getName(), "admin", sender);
+                                        return true;
+                                    }
                                 } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "admin", sender);
+                                    MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                     return true;
                                 }
                             } else {
-                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
                                 return true;
                             }
                         case "stopall":
-                            if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
-                                MusicUtils.stopAll(players);
-                                OtherUtils.resetPlayerStatusAll(players);
-                                MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
-                                return true;
+                            if (sender instanceof Player) {
+                                if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
+                                    List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                    MusicUtils.stopAll(players);
+                                    OtherUtils.resetPlayerStatusAll(players);
+                                    MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
+                                    return true;
+                                } else {
+                                    MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                    return true;
+                                }
                             } else {
-                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
                                 return true;
                             }
                         case "help":

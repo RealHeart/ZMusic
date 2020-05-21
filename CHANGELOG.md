@@ -1,3 +1,6 @@
+# 0.7-beta | 2020-05-21
+* 修复playAll,stopAll命令控制台使用报错的问题
+* 修复1.7.10使用/zm music指令报错的问题
 # 0.6-beta | 2020-04-26
 * 修复playAll,stopAll命令无效问题
 * 添加经济系统

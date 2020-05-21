@@ -1,6 +1,6 @@
 name: ZMusic
 main: cn.iqianye.MinecraftPlugins.ZMusic.Main
-version: 0.6-beta
+version: 0.7-beta
 author: 真心
 description: 真心音乐系统
 depend:
@@ -19,7 +19,7 @@ permissions:
     default: true
     description: 普通玩家使用权限
   zmusic.bypass:
-    default: false
+    default: op
     description: 绕过冷却和扣钱权限
   zmusic.admin:
     default: op
