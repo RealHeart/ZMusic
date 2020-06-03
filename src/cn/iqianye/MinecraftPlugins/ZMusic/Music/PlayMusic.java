@@ -167,7 +167,7 @@ public class PlayMusic {
                     message.addExtra(music);
                     message.addExtra("§r]§a点击歌名播放!");
                     for (Player p : players) {
-                        player.spigot().sendMessage(message);
+                        p.spigot().sendMessage(message);
                     }
                     break;
             }
