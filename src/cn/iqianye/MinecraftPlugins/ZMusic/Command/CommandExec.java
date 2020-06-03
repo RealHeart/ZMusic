@@ -42,7 +42,8 @@ public class CommandExec implements TabExecutor {
                                 Thread startPlayThread = new Thread(() -> {
                                     if (args.length >= 2) {
                                         new Thread(() -> {
-                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", null);
+                                            List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", players);
                                         }).start();
                                     } else {
                                         HelpUtils.sendHelp(cmd.getName(), "music", sender);
