@@ -42,6 +42,9 @@ public class NeteaseCloudMusic {
                 String lyricJsonText = NetUtils.getNetString("https://music.163.com/api/song/media?id=" + musicID, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String name = jsonOut.get("name").getAsString();
+                int inttime = jsonOut.get("duration").getAsInt();
+                inttime = inttime / 1000;
+                String time = String.valueOf(inttime);
                 JsonArray singer = jsonOut.get("artists").getAsJsonArray();
                 String singerName = "";
                 for (JsonElement j : singer) {
@@ -56,7 +59,9 @@ public class NeteaseCloudMusic {
 
                 }
                 JsonObject returnJson = new JsonObject();
+                returnJson.addProperty("id", musicID);
                 returnJson.addProperty("url", musicUrl);
+                returnJson.addProperty("time", time);
                 returnJson.addProperty("name", name);
                 returnJson.addProperty("singer", singerName);
                 returnJson.addProperty("lyric", lyric);
@@ -100,6 +105,7 @@ public class NeteaseCloudMusic {
                 JsonArray jsonOut = result.getAsJsonArray("songs");
                 for (JsonElement j : jsonOut) {
                     String name = j.getAsJsonObject().get("name").getAsString();
+                    int musicID = j.getAsJsonObject().get("id").getAsInt();
                     JsonArray singer = j.getAsJsonObject().get("artists").getAsJsonArray();
                     String singerName = "";
                     for (JsonElement js : singer) {
@@ -107,6 +113,7 @@ public class NeteaseCloudMusic {
                     }
                     singerName = singerName.substring(0, singerName.length() - 1);
                     JsonObject returnJsonObj = new JsonObject();
+                    returnJsonObj.addProperty("id", musicID);
                     returnJsonObj.addProperty("name", name);
                     returnJsonObj.addProperty("singer", singerName);
                     returnJson.add(returnJsonObj);

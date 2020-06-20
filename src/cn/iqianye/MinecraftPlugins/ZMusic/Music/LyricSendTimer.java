@@ -7,7 +7,6 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import com.google.gson.JsonArray;
-import com.locydragon.abf.api.AudioBufferAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -50,12 +49,7 @@ public class LyricSendTimer extends TimerTask {
                     String tempUrl = "http://music.163.com/song/media/outer/url?id=" + tempId + ".mp3";
                     String tempName = playList.get(0).getAsJsonObject().get("name").getAsString() + "(" + playList.get(0).getAsJsonObject().get("singer").getAsString() + ")";
                     MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
-                    int tempMaxTime = 1;
-                    try {
-                        tempMaxTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + tempUrl);
-                    } catch (Exception e) {
-                        MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
-                    }
+                    int tempMaxTime = playList.get(0).getAsJsonObject().get("time").getAsInt();
                     PlayerStatus.setPlayerMusicName(player, tempName);
                     PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
                     maxTime = tempMaxTime;
@@ -134,12 +128,7 @@ public class LyricSendTimer extends TimerTask {
                             String tempUrl = "http://music.163.com/song/media/outer/url?id=" + tempId + ".mp3";
                             String tempName = playList.get(playListLocation).getAsJsonObject().get("name").getAsString() + "(" + playList.get(playListLocation).getAsJsonObject().get("singer").getAsString() + ")";
                             MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
-                            int tempMaxTime = 1;
-                            try {
-                                tempMaxTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + tempUrl);
-                            } catch (Exception e) {
-                                MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
-                            }
+                            int tempMaxTime = playList.get(0).getAsJsonObject().get("time").getAsInt();
                             PlayerStatus.setPlayerMusicName(player, tempName);
                             PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
                             maxTime = tempMaxTime;

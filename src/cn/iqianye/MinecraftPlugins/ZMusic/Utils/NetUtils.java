@@ -22,6 +22,7 @@ public class NetUtils {
             con.addRequestProperty("Charset", "UTF-8");
             con.addRequestProperty("Referer", Referer);
             con.addRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10; Redmi K20 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + Val.thisVer);
+            con.addRequestProperty("Cookie", "appver=2.0.2");
             con.setRequestMethod("GET");
             if (con.getResponseCode() == 200) {
                 InputStream is = con.getInputStream();

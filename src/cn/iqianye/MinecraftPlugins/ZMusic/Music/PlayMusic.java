@@ -10,7 +10,6 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
 import com.google.gson.JsonObject;
-import com.locydragon.abf.api.AudioBufferAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -24,6 +23,7 @@ import java.util.Timer;
 
 public class PlayMusic {
 
+    static String musicID;
     static String musicName;
     static String musicUrl;
     static List<Map<Integer, String>> musicLyric;
@@ -71,10 +71,13 @@ public class PlayMusic {
                     return;
             }
             if (json != null) {
+                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                    musicID = json.get("id").getAsString();
+                }
                 musicName = json.get("name").getAsString() + "(" + json.get("singer").getAsString() + ")";
                 musicUrl = json.get("url").getAsString();
                 musicLyric = OtherUtils.formatLyric(json.get("lyric").getAsString());
-                musicMaxTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + musicUrl);
+                musicMaxTime = json.get("time").getAsInt();
             } else {
                 MessageUtils.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
                 MessageUtils.sendErrorMessage("1.搜索的音乐不存在或已下架", player);
@@ -162,7 +165,12 @@ public class PlayMusic {
                     TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a在" + searchSourceName + "点了一首§r[");
                     TextComponent music = new TextComponent(musicName);
                     music.setColor(ChatColor.YELLOW);
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                    if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                        music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicID));
+                    } else {
+                        music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                    }
+
                     music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                     message.addExtra(music);
                     message.addExtra("§r]§a点击歌名播放!");

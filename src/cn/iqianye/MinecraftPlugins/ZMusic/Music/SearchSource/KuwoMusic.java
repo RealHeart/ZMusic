@@ -21,10 +21,12 @@ public class KuwoMusic {
             String musicID = abslist.get("MUSICRID").getAsString().replaceAll("MUSIC_", "");
             String name = abslist.get("NAME").getAsString();
             String singer = abslist.get("ARTIST").getAsString();
+            String time = abslist.get("DURATION").getAsString();
             String url = NetUtils.getNetString("http://antiserver.kuwo.cn/anti.s?type=convert_url&format=mp3&rid=" + musicID, null);
             JsonObject returnJson = new JsonObject();
             returnJson.addProperty("url", url);
             returnJson.addProperty("name", name);
+            returnJson.addProperty("time", time);
             returnJson.addProperty("singer", singer);
             returnJson.addProperty("lyric", "");
             return returnJson;

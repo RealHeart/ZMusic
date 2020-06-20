@@ -47,6 +47,9 @@ public class PlayList {
         config.set(playListId + ".info.songs", songs);
         for (JsonElement jsonElement : tracks) {
             String songName = jsonElement.getAsJsonObject().get("name").getAsString();
+            int intSongTime = jsonElement.getAsJsonObject().get("duration").getAsInt();
+            intSongTime = intSongTime / 1000;
+            String songTime = String.valueOf(intSongTime);
             JsonArray artists = jsonElement.getAsJsonObject().get("artists").getAsJsonArray();
             String songId = jsonElement.getAsJsonObject().get("id").getAsString();
             String artist = "";
@@ -57,6 +60,7 @@ public class PlayList {
             //config.set(playListId + "." + songId + ".id", songId);
             config.set(playListId + "." + songId + ".name", songName);
             config.set(playListId + "." + songId + ".singer", artist);
+            config.set(playListId + "." + songId + ".time", songTime);
         }
         try {
             config.save(configFile);

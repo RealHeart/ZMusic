@@ -28,6 +28,7 @@ public class QQMusic {
             JsonObject list = song.getAsJsonArray("list").get(0).getAsJsonObject();
             String songid = list.get("songmid").getAsString();
             String songName = list.get("songname").getAsString();
+            String songTime = list.get("interval").getAsString();
             JsonArray singer = list.getAsJsonArray("singer");
             String singerName = "";
             for (JsonElement j : singer) {
@@ -66,6 +67,7 @@ public class QQMusic {
 
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("url", mp3Url);
+            returnJSON.addProperty("time", songTime);
             returnJSON.addProperty("name", songName);
             returnJSON.addProperty("singer", singerName);
             returnJSON.addProperty("lyric", lyric);

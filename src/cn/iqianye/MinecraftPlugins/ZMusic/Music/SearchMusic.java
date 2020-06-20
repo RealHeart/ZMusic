@@ -15,6 +15,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 public class SearchMusic {
+    static String musicID;
     static String musicName;
     static String searchSourceName;
     static JsonArray json;
@@ -48,14 +49,25 @@ public class SearchMusic {
             MessageUtils.sendNormalMessage("在" + searchSourceName + "搜索到以下结果", player);
             int i = 1;
             for (JsonElement j : json) {
+                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                    musicID = j.getAsJsonObject().get("id").getAsString();
+                }
                 musicName = j.getAsJsonObject().get("name").getAsString() + "(" + j.getAsJsonObject().get("singer").getAsString() + ")";
                 TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + musicName);
                 i++;
                 TextComponent play = new TextComponent("§r[§e播放§r]§r");
-                play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicID));
+                } else {
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                }
                 play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                 TextComponent music = new TextComponent("§r[§e点歌§r]§r");
-                music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicName));
+                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicID));
+                } else {
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicName));
+                }
                 music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击点歌").create()));
                 message.addExtra(" ");
                 message.addExtra(play);
