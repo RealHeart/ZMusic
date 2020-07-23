@@ -128,7 +128,7 @@ public class LyricSendTimer extends TimerTask {
                             String tempUrl = "http://music.163.com/song/media/outer/url?id=" + tempId + ".mp3";
                             String tempName = playList.get(playListLocation).getAsJsonObject().get("name").getAsString() + "(" + playList.get(playListLocation).getAsJsonObject().get("singer").getAsString() + ")";
                             MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
-                            int tempMaxTime = playList.get(0).getAsJsonObject().get("time").getAsInt();
+                            int tempMaxTime = playList.get(playListLocation).getAsJsonObject().get("time").getAsInt();
                             PlayerStatus.setPlayerMusicName(player, tempName);
                             PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
                             maxTime = tempMaxTime;
