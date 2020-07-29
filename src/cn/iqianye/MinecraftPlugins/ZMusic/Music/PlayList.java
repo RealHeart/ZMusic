@@ -62,9 +62,7 @@ public class PlayList {
         for (JsonElement jsonElement : trackIds) {
             JsonObject jsonObject = NeteaseCloudMusic.getMusicUrl(jsonElement.getAsJsonObject().get("id").getAsString());
             String songName = jsonObject.get("name").getAsString();
-            int intSongTime = jsonObject.get("time").getAsInt();
-            intSongTime = intSongTime / 1000;
-            String songTime = String.valueOf(intSongTime);
+            int songTime = jsonObject.get("time").getAsInt();
             String singer = jsonObject.get("singer").getAsString();
             String songId = jsonObject.get("id").getAsString();
             config.set(playListId + "." + songId + ".name", songName);
