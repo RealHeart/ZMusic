@@ -35,17 +35,10 @@ public class Main extends JavaPlugin implements Listener {
         getCommand("zm").setTabCompleter(new CommandExec());
         getServer().getPluginManager().registerEvents(this, this);
         OtherUtils.checkUpdate(Val.thisVer, null);
-        File config = new File(getDataFolder() + File.separator + "config.yml");
-        if (!config.exists()) {
-            saveDefaultConfig();
-            LogUtils.sendErrorMessage("无法找到配置文件,正在创建!");
-        }
-        reloadConfig();
-        LogUtils.sendNormalMessage("成功加载配置文件!");
         if (Bukkit.getPluginManager().isPluginEnabled("ActionBarAPI")) {
             LogUtils.sendNormalMessage("已检测到§eActionBarAPI§a, §eActionBar§a功能生效.");
         } else {
-            LogUtils.sendErrorMessage("未找到§eActionBarAPI§c, §ePlaceholderAPI§c相关功能不生效.");
+            LogUtils.sendErrorMessage("未找到§eActionBarAPI§c, §eActionBar§c相关功能不生效.");
             Config.realSupportActionBar = false;
         }
         if (Bukkit.getPluginManager().isPluginEnabled("BossBarAPI")) {
@@ -71,7 +64,14 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
             Config.realSupportVault = false;
         }
+        File config = new File(getDataFolder() + File.separator + "config.yml");
+        if (!config.exists()) {
+            saveDefaultConfig();
+            LogUtils.sendErrorMessage("无法找到配置文件,正在创建!");
+        }
+        reloadConfig();
         Config.load(getConfig());
+        LogUtils.sendNormalMessage("成功加载配置文件!");
         LogUtils.sendNormalMessage("插件作者: 真心");
         LogUtils.sendNormalMessage("博客：www.zhenxin.xyz");
         LogUtils.sendNormalMessage("QQ：1307993674");

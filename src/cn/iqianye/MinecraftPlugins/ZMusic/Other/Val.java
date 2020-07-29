@@ -2,7 +2,7 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Other;
 
 public class Val {
     public static String thisVer = "0.10-beta";
-    public static int thisVerCode = 202007080;
+    public static int thisVerCode = 202007290;
     public static boolean isLatest = true;
     public static String updateLog;
     public static String latestVer;

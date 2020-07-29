@@ -1,13 +1,20 @@
 package cn.iqianye.MinecraftPlugins.ZMusic.Config;
 
+import cn.iqianye.MinecraftPlugins.ZMusic.Main;
+import cn.iqianye.MinecraftPlugins.ZMusic.Utils.LogUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public class Config {
     // Prefix
     public static String prefix = ChatColor.AQUA + "ZMusic " + ChatColor.YELLOW + ">>> " + ChatColor.RESET;
     // Version
     public static int version;
+    // LatestVersion
+    public static int latestVersion = 2;
     // Debug
     public static boolean debug;
     // Music
@@ -29,6 +36,16 @@ public class Config {
     public static void load(FileConfiguration configuration) {
         // Version
         version = configuration.getInt("version");
+        if (version != latestVersion) {
+            LogUtils.sendNormalMessage("-- 正在更新配置文件...");
+            File config = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + File.separator + "config.yml");
+            LogUtils.sendNormalMessage("-- 正在删除原配置文件...");
+            config.delete();
+            LogUtils.sendNormalMessage("-- 正在释放新配置文件...");
+            JavaPlugin.getPlugin(Main.class).saveDefaultConfig();
+            LogUtils.sendNormalMessage("-- 更新完毕.");
+            JavaPlugin.getPlugin(Main.class).reloadConfig();
+        }
         // Debug
         debug = configuration.getBoolean("debug");
         // Music

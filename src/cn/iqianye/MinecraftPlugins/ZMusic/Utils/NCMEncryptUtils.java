@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * 最终版本！！！
  */
-public class NewMusicEncrypt {
+public class NCMEncryptUtils {
 
     // 密钥
     private static String nonce = "0CoJUm6Qyw8W8jud";
@@ -109,7 +109,7 @@ public class NewMusicEncrypt {
         // 数据处理
         encryptedBytes = cipher.doFinal(byteContent);
         // 此处使用BASE64做转码功能，同时能起到2次加密的作用
-        return new String(Base64.getEncoder().encode(encryptedBytes), "UTF-8");
+        return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
     /**
