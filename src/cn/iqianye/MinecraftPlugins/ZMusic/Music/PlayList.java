@@ -62,6 +62,7 @@ public class PlayList {
         for (JsonElement jsonElement : songList) {
             String songName = jsonElement.getAsJsonObject().get("name").getAsString();
             int songTime = jsonElement.getAsJsonObject().get("dt").getAsInt();
+            songTime = songTime / 1000;
             JsonArray ar = jsonElement.getAsJsonObject().get("ar").getAsJsonArray();
             String singer = "";
             for (JsonElement j : ar) {

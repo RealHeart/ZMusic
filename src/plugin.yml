@@ -1,6 +1,6 @@
 name: ZMusic
 main: cn.iqianye.MinecraftPlugins.ZMusic.Main
-version: 1.0
+version: 1.1
 author: 真心
 description: 真心音乐系统
 depend:
