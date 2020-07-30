@@ -4,7 +4,6 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.KuGouMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.KuwoMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.NeteaseCloudMusic;
-import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.QQMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,10 +22,6 @@ public class SearchMusic {
     public static void sendList(String searchKey, String source, Player player) {
         MessageUtils.sendNormalMessage("正在搜索中...", player);
         switch (source) {
-            case "qq":
-                json = QQMusic.getMusicList(searchKey);
-                searchSourceName = "QQ音乐";
-                break;
             case "163":
             case "netease":
                 json = NeteaseCloudMusic.getMusicList(searchKey);

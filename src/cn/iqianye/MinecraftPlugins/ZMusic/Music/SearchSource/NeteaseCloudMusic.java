@@ -1,5 +1,6 @@
 package cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource;
 
+import cn.iqianye.MinecraftPlugins.ZMusic.Other.Val;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.NetUtils;
 import com.google.gson.*;
 
@@ -19,18 +20,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl =
-                    "https://music.163.com/api/search/get/web?csrf_token=Referer="
-                            +
-                            "http://music.163.com/search/&hlposttag="
-                            +
-                            URLEncoder.encode("</span>&hlpretag=< span class=\"s-fc7\">", "utf-8")
-                            +
-                            "&limit=1&s="
-                            +
-                            URLEncoder.encode(musicName, "utf-8")
-                            +
-                            "&type=1";
+            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1";
             Gson gson = new Gson();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -38,7 +28,16 @@ public class NeteaseCloudMusic {
             if (result != null || result.get("songCount").getAsInt() != 0) {
                 JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
                 int musicID = jsonOut.get("id").getAsInt();
-                String musicUrl = "http://music.163.com/song/media/outer/url?id=" + musicID + ".mp3";
+                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/url?id=" + musicID + "&br=320000&" +
+                        "cookie=" + Val.neteaseCookie, null), JsonObject.class);
+                String musicUrl = null;
+                try {
+                    musicUrl = getUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 String lyricJsonText = NetUtils.getNetString("https://music.163.com/api/song/media?id=" + musicID, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String name = jsonOut.get("name").getAsString();
@@ -84,18 +83,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonArray getMusicList(String musicName) {
         try {
-            String getUrl =
-                    "https://music.163.com/api/search/get/web?csrf_token=Referer="
-                            +
-                            "http://music.163.com/search/&hlposttag="
-                            +
-                            URLEncoder.encode("</span>&hlpretag=< span class=\"s-fc7\">", "utf-8")
-                            +
-                            "&limit=10&s="
-                            +
-                            URLEncoder.encode(musicName, "utf-8")
-                            +
-                            "&type=1";
+            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new GsonBuilder().create();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);

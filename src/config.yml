@@ -1,8 +1,17 @@
 # 配置文件版本(请勿修改)
-version: 1
+version: 2
 
 # 是否开启调试模式
 debug: false
+
+# 账号设置
+account:
+  # 网易云音乐
+  netease:
+    # 手机号
+    phone: 18888888888
+    # 密码
+    password: a123456
 
 # 点歌设置
 music:

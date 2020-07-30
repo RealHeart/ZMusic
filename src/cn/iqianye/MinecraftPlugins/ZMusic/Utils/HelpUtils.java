@@ -19,6 +19,7 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " help play - 查看播放帮助.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " help music - 查看点歌帮助.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " help search - 查看搜索帮助.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " help playlist - 查看歌单帮助.", player);
                 if (player.hasPermission("zmusic.admin") || player.isOp()) {
                     MessageUtils.sendNormalMessage("/" + cmdName + " help admin - 查看管理员帮助.", player);
                 }
@@ -37,7 +38,6 @@ public class HelpUtils {
                 break;
             case "play":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d播放帮助 By 真心 §6=========", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " play qq <歌名> - QQ音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play 163 <歌名> - 网易云音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kugou <歌名> - 酷狗音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
@@ -53,7 +53,6 @@ public class HelpUtils {
                 break;
             case "music":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d点歌帮助 By 真心 §6=========", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " music qq <歌名> - QQ音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music 163 <歌名> - 网易云音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kugou <歌名> - 酷狗音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kuwo <歌名> - 酷我音乐播放§a.", player);
@@ -61,7 +60,6 @@ public class HelpUtils {
                 break;
             case "search":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d搜索帮助 By 真心 §6=========", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " search qq <歌名> - QQ音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search 163 <歌名> - 网易云音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search kugou <歌名> - 酷狗音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search kuwo <歌名> - 酷我音乐播放§a.", player);

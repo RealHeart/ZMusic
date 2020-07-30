@@ -17,6 +17,9 @@ public class Config {
     public static int latestVersion = 2;
     // Debug
     public static boolean debug;
+    // Account
+    public static String neteasePhone;
+    public static String neteasePassword;
     // Music
     public static int money;
     public static int cooldown;
@@ -48,6 +51,9 @@ public class Config {
         }
         // Debug
         debug = configuration.getBoolean("debug");
+        // Account
+        neteasePhone = configuration.getString("account.netease.phone");
+        neteasePassword = configuration.getString("account.netease.password");
         // Music
         money = configuration.getInt("music.money");
         cooldown = configuration.getInt("music.cooldown");

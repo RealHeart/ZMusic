@@ -2,7 +2,7 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Music;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Main;
-import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.NeteaseCloudMusic;
+import cn.iqianye.MinecraftPlugins.ZMusic.Other.Val;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.*;
 import com.google.gson.*;
@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 
@@ -36,35 +35,40 @@ public class PlayList {
     public static void importPlayList(String url, Player player) {
         MessageUtils.sendNormalMessage("正在导入歌单，可能时间较长，请耐心等待...", player);
         String playListId = url.split("playlist\\?id=")[1];
-        url = "http://music.163.com/weapi/v3/playlist/detail?csrf_token=";
-        String text = "{\"id\": " + playListId + ",\"n\": 100000, \"s\": 8}";
-        Map data = new HashMap();
-        try {
-            data = NCMEncryptUtils.getData(text);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String s = "encSecKey=" + data.get("encSecKey").toString() + "&params=" + data.get("params").toString();
-        String jsonText = NetUtils.getNetStringPOST(url, "http://music.163.com/", s);
-        if (jsonText.isEmpty()) {
-            LogUtils.sendErrorMessage("错误: 获取歌单信息返回空，请等待2-5分钟后再试。");
-            MessageUtils.sendErrorMessage("错误: 获取歌单信息返回空，请等待2-5分钟后再试。", player);
-        }
+        url = Val.apiRoot + "playlist/detail?id=" + playListId;
+        String jsonText = NetUtils.getNetString(url, null);
         File configFile = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + "/playlists", player.getName() + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         Gson gson = new GsonBuilder().create();
         JsonObject json = gson.fromJson(jsonText, JsonObject.class);
         JsonArray trackIds = json.getAsJsonObject("playlist").getAsJsonArray("trackIds");
         String songs = json.getAsJsonObject("playlist").get("trackCount").getAsString();
+        if (Integer.parseInt(songs) > 1000) {
+            MessageUtils.sendErrorMessage("错误: 请确保歌单歌曲数量不超过1000首。", player);
+            return;
+        }
         String playListName = json.getAsJsonObject("playlist").get("name").getAsString();
         config.set(playListId + ".info.name", playListName);
         config.set(playListId + ".info.songs", songs);
+        StringBuilder sb = new StringBuilder();
+        String s;
         for (JsonElement jsonElement : trackIds) {
-            JsonObject jsonObject = NeteaseCloudMusic.getMusicUrl(jsonElement.getAsJsonObject().get("id").getAsString());
-            String songName = jsonObject.get("name").getAsString();
-            int songTime = jsonObject.get("time").getAsInt();
-            String singer = jsonObject.get("singer").getAsString();
-            String songId = jsonObject.get("id").getAsString();
+            sb.append(jsonElement.getAsJsonObject().get("id").getAsString()).append(",");
+        }
+        s = sb.toString();
+        s = s.substring(0, s.length() - 1);
+        JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
+        JsonArray songList = playListInfo.get("songs").getAsJsonArray();
+        for (JsonElement jsonElement : songList) {
+            String songName = jsonElement.getAsJsonObject().get("name").getAsString();
+            int songTime = jsonElement.getAsJsonObject().get("dt").getAsInt();
+            JsonArray ar = jsonElement.getAsJsonObject().get("ar").getAsJsonArray();
+            String singer = "";
+            for (JsonElement j : ar) {
+                singer += j.getAsJsonObject().get("name").getAsString() + "/";
+            }
+            singer = singer.substring(0, singer.length() - 1);
+            String songId = jsonElement.getAsJsonObject().get("id").getAsString();
             config.set(playListId + "." + songId + ".name", songName);
             config.set(playListId + "." + songId + ".singer", singer);
             config.set(playListId + "." + songId + ".time", songTime);
