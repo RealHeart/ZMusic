@@ -239,6 +239,25 @@ public class CommandExec implements TabExecutor {
                                 Config.load(JavaPlugin.getPlugin(Main.class).getConfig());
                                 MessageUtils.sendNormalMessage("配置文件重载完毕!", sender);
                                 return true;
+                            } else {
+                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                return true;
+                            }
+                        case "163hot":
+                            if (args.length == 2) {
+                                OtherUtils.neteaseHotComments((Player) sender, OtherUtils.argsXin1(args, ""));
+                                return true;
+                            } else {
+                                HelpUtils.sendHelp(cmd.getName(), "main", sender);
+                                return true;
+                            }
+                        case "163relogin":
+                            if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
+                                OtherUtils.loginNetease((Player) sender);
+                                return true;
+                            } else {
+                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                return true;
                             }
                         default:
                             MessageUtils.sendNull(cmd.getName(), sender);
@@ -276,6 +295,8 @@ public class CommandExec implements TabExecutor {
                             "admin",
                             "playAll",
                             "stopAll",
+                            "163relogin",
+                            "163hot",
                             "reload"};
                 } else {
                     commandList = new String[]{"help",
@@ -285,6 +306,7 @@ public class CommandExec implements TabExecutor {
                             "stop",
                             "loop",
                             "search",
+                            "163hot",
                             "url"};
                 }
                 return Arrays.stream(commandList).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());

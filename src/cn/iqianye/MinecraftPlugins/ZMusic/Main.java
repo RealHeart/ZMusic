@@ -71,7 +71,7 @@ public class Main extends JavaPlugin implements Listener {
         }
         reloadConfig();
         Config.load(getConfig());
-        OtherUtils.loginNetease();
+        OtherUtils.loginNetease(null);
         LogUtils.sendNormalMessage("成功加载配置文件!");
         LogUtils.sendNormalMessage("插件作者: 真心");
         LogUtils.sendNormalMessage("博客：www.zhenxin.xyz");

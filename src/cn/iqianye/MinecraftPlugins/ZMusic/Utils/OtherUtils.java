@@ -2,11 +2,10 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Utils;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Main;
+import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.NeteaseCloudMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Other.Val;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,6 +30,22 @@ public class OtherUtils {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < args.length; i++) {
             if (i != 0 & i != 1) {
+                s.append(args[i]).append(" ");
+            }
+        }
+        return s.toString().trim();
+    }
+
+    /**
+     * 参数合一
+     *
+     * @param args 参数
+     * @return 合并的值
+     */
+    public static String argsXin1(String[] args, String isComm) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            if (i != 0) {
                 s.append(args[i]).append(" ");
             }
         }
@@ -147,23 +162,62 @@ public class OtherUtils {
         }).start();
     }
 
-    public static void loginNetease() {
+    /**
+     * 登录网易云音乐
+     */
+    public static void loginNetease(Player player) {
         new Thread(() -> {
             try {
-                LogUtils.sendNormalMessage("正在尝试登录网易云音乐...");
-                String s = Val.apiRoot + "login/cellphone?phone=" + Config.neteasePhone + "&password=" + URLEncoder.encode(Config.neteasePassword);
-                LogUtils.sendNormalMessage(s);
-                String jsonText = NetUtils.getNetString(s, null);
-                Gson gson = new GsonBuilder().create();
-                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                if (jsonText != null) {
-                    Val.neteaseCookie = URLEncoder.encode(json.get("cookie").getAsString(), "UTF-8");
-                    LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
+                if (!Config.neteasePhone.equalsIgnoreCase("18888888888")) {
+                    if (player != null) {
+                        MessageUtils.sendNormalMessage("正在尝试登录网易云音乐...", player);
+                    }
+                    LogUtils.sendNormalMessage("正在尝试登录网易云音乐...");
+                    String s = Val.apiRoot + "login/cellphone";
+                    String c = "phone=" + Config.neteasePhone + "&password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                    String jsonText = NetUtils.getNetString(s, null, c);
+                    Gson gson = new GsonBuilder().create();
+                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                    if (jsonText != null) {
+                        Val.neteaseCookie = URLEncoder.encode(json.get("cookie").getAsString(), "UTF-8");
+                        if (player != null) {
+                            MessageUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), player);
+                        }
+                        LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
+                    } else {
+                        if (player != null) {
+                            MessageUtils.sendNormalMessage("登录失败: 请检查账号密码是否正确。", player);
+                        }
+                        LogUtils.sendErrorMessage("登录失败: 请检查账号密码是否正确。");
+                    }
                 } else {
-                    LogUtils.sendErrorMessage("登录失败: 请检查账号密码是否正确。");
+                    if (player != null) {
+                        MessageUtils.sendNormalMessage("登录失败：请在配置文件设置账号密码。", player);
+                    }
+                    LogUtils.sendErrorMessage("登录失败：请在配置文件设置账号密码。");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static void neteaseHotComments(Player player, String musicName) {
+        new Thread(() -> {
+            try {
+                Gson gson = new GsonBuilder().create();
+                JsonObject json = NeteaseCloudMusic.getMusicUrl(musicName);
+                String musicId = json.get("id").getAsString();
+                JsonObject jsonObject = gson.fromJson(NetUtils.getNetString("http://netease.api.zhenxin.xyz/comment/hot?limit=3&type=0&id=" + musicId, null), JsonObject.class);
+                JsonArray jsonArray = jsonObject.get("hotComments").getAsJsonArray();
+                MessageUtils.sendNormalMessage("====== [" + json.get("name").getAsString() + "] 的热门评论 =====", player);
+                for (JsonElement j : jsonArray) {
+                    MessageUtils.sendNormalMessage(j.getAsJsonObject().get("content").getAsString() + "\nBy: "
+                            + j.getAsJsonObject().get("user").getAsJsonObject().get("nickname").getAsString(), player);
+                }
+                MessageUtils.sendNormalMessage("=================================", player);
+            } catch (Exception e) {
+                MessageUtils.sendErrorMessage("获取评论失败。", player);
             }
         }).start();
     }

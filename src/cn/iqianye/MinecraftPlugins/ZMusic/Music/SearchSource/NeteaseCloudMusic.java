@@ -20,7 +20,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1";
+            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new Gson();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);

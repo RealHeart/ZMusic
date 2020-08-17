@@ -27,12 +27,14 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " stop - 停止播放", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " loop - 开/关循环播放", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " url [MP3地址] - 播放网络音乐", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " 163hot [歌名] - 获取网易云音乐热评(前三)", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
             case "admin":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d管理员帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playAll [搜索源] [歌名] - 强制为所有玩家播放音乐.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " stopAll - 强制为所有玩家停止播放音乐.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " 163relogin - 重新登录网易云音乐.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " reload - 重载配置文件.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
