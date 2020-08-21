@@ -151,6 +151,4 @@ lyric:
 %zmusic_playing_lyric% - 获取当前时间显示的歌词
 %zmusic_time_current% - 获取当前播放的音乐的时间
 %zmusic_time_max% - 获取当前播放的音乐的最大时间
-%zmusic_status_play% - 获取玩家的播放状态
-%zmusic_status_loop% - 获取玩家的循环状态
 ```
