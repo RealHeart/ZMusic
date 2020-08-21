@@ -41,6 +41,7 @@ public class HelpUtils {
             case "play":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d播放帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play 163 <歌名> - 网易云音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " play qq <歌名> - QQ音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kugou <歌名> - 酷狗音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
@@ -56,6 +57,7 @@ public class HelpUtils {
             case "music":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d点歌帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music 163 <歌名> - 网易云音乐点歌§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " music qq <歌名> - QQ音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kugou <歌名> - 酷狗音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kuwo <歌名> - 酷我音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
@@ -63,6 +65,7 @@ public class HelpUtils {
             case "search":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d搜索帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search 163 <歌名> - 网易云音乐点歌§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search qq <歌名> - QQ音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search kugou <歌名> - 酷狗音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " search kuwo <歌名> - 酷我音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);

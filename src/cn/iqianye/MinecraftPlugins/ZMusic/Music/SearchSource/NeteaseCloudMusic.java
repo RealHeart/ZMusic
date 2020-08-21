@@ -20,7 +20,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
+            String getUrl = Val.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new Gson();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -28,7 +28,7 @@ public class NeteaseCloudMusic {
             if (result != null || result.get("songCount").getAsInt() != 0) {
                 JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
                 int musicID = jsonOut.get("id").getAsInt();
-                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/url?id=" + musicID + "&br=320000&" +
+                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000&" +
                         "cookie=" + Val.neteaseCookie, null), JsonObject.class);
                 String musicUrl = null;
                 try {
@@ -83,7 +83,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonArray getMusicList(String musicName) {
         try {
-            String getUrl = Val.apiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
+            String getUrl = Val.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new GsonBuilder().create();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);

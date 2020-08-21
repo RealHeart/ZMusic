@@ -318,7 +318,8 @@ public class CommandExec implements TabExecutor {
                     ||
                     args[0].equalsIgnoreCase("playAll")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"qq",
+                    commandList = new String[]{
+                            "qq",
                             "163",
                             "netease",
                             "kugou",

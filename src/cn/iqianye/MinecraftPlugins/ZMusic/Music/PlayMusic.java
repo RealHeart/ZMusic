@@ -4,6 +4,7 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Config.Config;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.KuGouMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.KuwoMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.NeteaseCloudMusic;
+import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.QQMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
@@ -52,6 +53,10 @@ public class PlayMusic {
                 case "netease":
                     json = NeteaseCloudMusic.getMusicUrl(searchKey);
                     searchSourceName = "网易云音乐";
+                    break;
+                case "qq":
+                    json = QQMusic.getMusicUrl(searchKey);
+                    searchSourceName = "QQ音乐";
                     break;
                 case "kugou":
                     json = KuGouMusic.getMusicUrl(searchKey);

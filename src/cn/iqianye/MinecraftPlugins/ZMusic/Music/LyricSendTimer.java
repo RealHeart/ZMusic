@@ -52,7 +52,7 @@ public class LyricSendTimer extends TimerTask {
                     time--;
                     String tempId = playList.get(0).getAsJsonObject().get("id").getAsString();
                     Gson gson = new GsonBuilder().create();
-                    JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/url?id=" + tempId + "&br=320000&" +
+                    JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + tempId + "&br=320000&" +
                             "cookie=" + Val.neteaseCookie, null), JsonObject.class);
                     String tempUrl = tempUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
                     String tempName = playList.get(0).getAsJsonObject().get("name").getAsString() + "(" + playList.get(0).getAsJsonObject().get("singer").getAsString() + ")";
@@ -138,7 +138,7 @@ public class LyricSendTimer extends TimerTask {
                         } else {
                             String tempId = playList.get(playListLocation).getAsJsonObject().get("id").getAsString();
                             Gson gson = new GsonBuilder().create();
-                            JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/url?id=" + tempId + "&br=320000&" +
+                            JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + tempId + "&br=320000&" +
                                     "cookie=" + Val.neteaseCookie, null), JsonObject.class);
                             String tempUrl = tempUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
                             String tempName = playList.get(playListLocation).getAsJsonObject().get("name").getAsString() + "(" + playList.get(playListLocation).getAsJsonObject().get("singer").getAsString() + ")";

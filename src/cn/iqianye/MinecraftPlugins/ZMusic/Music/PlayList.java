@@ -35,7 +35,7 @@ public class PlayList {
     public static void importPlayList(String url, Player player) {
         MessageUtils.sendNormalMessage("正在导入歌单，可能时间较长，请耐心等待...", player);
         String playListId = url.split("playlist\\?id=")[1];
-        url = Val.apiRoot + "playlist/detail?id=" + playListId;
+        url = Val.neteaseApiRoot + "playlist/detail?id=" + playListId;
         String jsonText = NetUtils.getNetString(url, null);
         File configFile = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + "/playlists", player.getName() + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
@@ -57,7 +57,7 @@ public class PlayList {
         }
         s = sb.toString();
         s = s.substring(0, s.length() - 1);
-        JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Val.apiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
+        JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
         JsonArray songList = playListInfo.get("songs").getAsJsonArray();
         for (JsonElement jsonElement : songList) {
             String songName = jsonElement.getAsJsonObject().get("name").getAsString();
@@ -149,5 +149,9 @@ public class PlayList {
             timer.schedule(lyricSendTimer, 1000L, 1000L);
             PlayerStatus.setPlayerTimer(player, timer);
         }
+    }
+
+    public static void deletePlaylist(String id, Player player) {
+        // 暂时没找到删除配置的方法，以后再说。
     }
 }

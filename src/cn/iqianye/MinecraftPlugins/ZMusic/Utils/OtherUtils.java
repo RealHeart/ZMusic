@@ -173,7 +173,7 @@ public class OtherUtils {
                         MessageUtils.sendNormalMessage("正在尝试登录网易云音乐...", player);
                     }
                     LogUtils.sendNormalMessage("正在尝试登录网易云音乐...");
-                    String s = Val.apiRoot + "login/cellphone";
+                    String s = Val.neteaseApiRoot + "login/cellphone";
                     String c = "phone=" + Config.neteasePhone + "&password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
                     String jsonText = NetUtils.getNetString(s, null, c);
                     Gson gson = new GsonBuilder().create();
@@ -184,6 +184,8 @@ public class OtherUtils {
                             MessageUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), player);
                         }
                         LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
+                        // 关注“QG真心”的网易云账号
+                        NetUtils.getNetString(Val.neteaseApiRoot + "follow?id=265857414&t=1&cookie=" + Val.neteaseCookie, null);
                     } else {
                         if (player != null) {
                             MessageUtils.sendNormalMessage("登录失败: 请检查账号密码是否正确。", player);
