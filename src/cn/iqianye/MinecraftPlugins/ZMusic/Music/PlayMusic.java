@@ -6,6 +6,7 @@ import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.KuwoMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.NeteaseCloudMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Music.SearchSource.QQMusic;
 import cn.iqianye.MinecraftPlugins.ZMusic.Player.PlayerStatus;
+import cn.iqianye.MinecraftPlugins.ZMusic.Utils.LogUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MessageUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.MusicUtils;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
@@ -27,6 +28,7 @@ public class PlayMusic {
     static String musicName;
     static String musicUrl;
     static List<Map<Integer, String>> musicLyric;
+    static List<Map<Integer, String>> musicLyricTr;
     static int musicMaxTime;
     static String searchSourceName;
     static JsonObject json;
@@ -77,6 +79,9 @@ public class PlayMusic {
                 musicName = json.get("name").getAsString() + "(" + json.get("singer").getAsString() + ")";
                 musicUrl = json.get("url").getAsString();
                 musicLyric = OtherUtils.formatLyric(json.get("lyric").getAsString());
+                musicLyricTr = OtherUtils.formatLyric(json.get("lyricTr").getAsString());
+                LogUtils.sendNormalMessage(musicLyric.toString());
+                LogUtils.sendNormalMessage(musicLyricTr.toString());
                 musicMaxTime = json.get("time").getAsInt();
             } else {
                 MessageUtils.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
@@ -99,9 +104,25 @@ public class PlayMusic {
                             PlayerStatus.setPlayerCurrentTime(p, 0);
                             LyricSendTimer lyricSendTimer = new LyricSendTimer();
                             lyricSendTimer.player = p;
-                            lyricSendTimer.list = musicLyric;
+                            lyricSendTimer.lyric = musicLyric;
+                            lyricSendTimer.lyricTr = musicLyricTr;
                             if (musicLyric.isEmpty()) {
-                                MessageUtils.sendErrorMessage("未找到歌词信息", p);
+                                if (source.equalsIgnoreCase("kuwo")) {
+                                    MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词显示", p);
+                                } else {
+                                    MessageUtils.sendErrorMessage("未找到歌词信息", p);
+                                }
+                            }
+                            if (musicLyricTr.isEmpty()) {
+                                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                                    MessageUtils.sendErrorMessage("网易云音乐暂不支持显示歌词翻译", p);
+                                } else if (source.equalsIgnoreCase("kuwo")) {
+                                    MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", p);
+                                } else if (source.equalsIgnoreCase("kugou")) {
+                                    MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", p);
+                                } else {
+                                    MessageUtils.sendErrorMessage("未找到歌词翻译", p);
+                                }
                             }
                             lyricSendTimer.maxTime = musicMaxTime;
                             lyricSendTimer.name = musicName;
@@ -136,9 +157,25 @@ public class PlayMusic {
                         PlayerStatus.setPlayerCurrentTime(player, 0);
                         LyricSendTimer lyricSendTimer = new LyricSendTimer();
                         lyricSendTimer.player = player;
-                        lyricSendTimer.list = musicLyric;
+                        lyricSendTimer.lyric = musicLyric;
+                        lyricSendTimer.lyricTr = musicLyricTr;
                         if (musicLyric.isEmpty()) {
-                            MessageUtils.sendErrorMessage("未找到歌词信息", player);
+                            if (source.equalsIgnoreCase("kuwo")) {
+                                MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词显示", player);
+                            } else {
+                                MessageUtils.sendErrorMessage("未找到歌词信息", player);
+                            }
+                        }
+                        if (musicLyricTr.isEmpty()) {
+                            if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
+                                MessageUtils.sendErrorMessage("网易云音乐暂不支持显示歌词翻译", player);
+                            } else if (source.equalsIgnoreCase("kuwo")) {
+                                MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", player);
+                            } else if (source.equalsIgnoreCase("kugou")) {
+                                MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", player);
+                            } else {
+                                MessageUtils.sendErrorMessage("未找到歌词翻译", player);
+                            }
                         }
                         lyricSendTimer.maxTime = musicMaxTime;
                         lyricSendTimer.name = musicName;

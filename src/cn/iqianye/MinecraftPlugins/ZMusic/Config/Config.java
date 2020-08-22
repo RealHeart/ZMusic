@@ -2,6 +2,7 @@ package cn.iqianye.MinecraftPlugins.ZMusic.Config;
 
 import cn.iqianye.MinecraftPlugins.ZMusic.Main;
 import cn.iqianye.MinecraftPlugins.ZMusic.Utils.LogUtils;
+import cn.iqianye.MinecraftPlugins.ZMusic.Utils.OtherUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,17 +15,21 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 2;
+    public static int latestVersion = 3;
     // Debug
     public static boolean debug;
     // Account
-    public static String neteasePhone;
+    public static String neteaseloginType;
+    public static String neteaseAccount;
     public static String neteasePassword;
+    public static boolean neteaseFollow;
+    public static String neteasePasswordType;
     // Music
     public static int money;
     public static int cooldown;
     // Lyric
     public static boolean lyricEnable;
+    public static boolean showLyricTr;
     public static boolean supportBossBar = false;
     public static boolean supportActionBar = false;
     public static boolean supportTitle = false;
@@ -52,13 +57,21 @@ public class Config {
         // Debug
         debug = configuration.getBoolean("debug");
         // Account
-        neteasePhone = configuration.getString("account.netease.phone");
-        neteasePassword = configuration.getString("account.netease.password");
+        neteaseloginType = configuration.getString("account.netease.loginType");
+        neteaseAccount = configuration.getString("account.netease.account");
+        neteasePasswordType = configuration.getString("account.netease.passwordType");
+        if (neteasePasswordType.equalsIgnoreCase("normal")) {
+            neteasePassword = OtherUtils.getMD5String(configuration.getString("account.netease.password"));
+        } else if (neteasePasswordType.equalsIgnoreCase("md5")) {
+            neteasePassword = configuration.getString("account.netease.password");
+        }
+        neteaseFollow = configuration.getBoolean("account.netease.follow");
         // Music
         money = configuration.getInt("music.money");
         cooldown = configuration.getInt("music.cooldown");
         // Lyric
         lyricEnable = configuration.getBoolean("lyric.enable");
+        showLyricTr = configuration.getBoolean("lyric.showLyricTr");
         if (realSupportBossBar) {
             supportBossBar = configuration.getBoolean("lyric.bossBar");
         }

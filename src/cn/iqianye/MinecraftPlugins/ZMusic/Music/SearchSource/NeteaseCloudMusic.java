@@ -38,7 +38,7 @@ public class NeteaseCloudMusic {
                 }
 
 
-                String lyricJsonText = NetUtils.getNetString("https://music.163.com/api/song/media?id=" + musicID, null);
+                String lyricJsonText = NetUtils.getNetString(Val.neteaseApiRoot + "lyric?id=" + musicID, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String name = jsonOut.get("name").getAsString();
                 int inttime = jsonOut.get("duration").getAsInt();
@@ -51,11 +51,13 @@ public class NeteaseCloudMusic {
                 }
                 singerName = singerName.substring(0, singerName.length() - 1);
                 String lyric = "";
+                //String lyricTr = "";
                 try {
-                    lyric = lyricJson.get("lyric").getAsString();
+                    lyric = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
+                    //lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyric = lyric.replaceAll("\r", "");
+                    //lyricTr = lyricTr.replaceAll("\r", "");
                 } catch (Exception e) {
-
                 }
                 JsonObject returnJson = new JsonObject();
                 returnJson.addProperty("id", musicID);
@@ -64,6 +66,7 @@ public class NeteaseCloudMusic {
                 returnJson.addProperty("name", name);
                 returnJson.addProperty("singer", singerName);
                 returnJson.addProperty("lyric", lyric);
+                returnJson.addProperty("lyricTr", "");
                 return returnJson;
             } else {
                 return null;

@@ -24,7 +24,8 @@ import java.util.TimerTask;
 
 public class LyricSendTimer extends TimerTask {
     public Player player;
-    public List<Map<Integer, String>> list;
+    public List<Map<Integer, String>> lyric;
+    public List<Map<Integer, String>> lyricTr;
     public int maxTime;
     public String name;
     public String url;
@@ -58,7 +59,6 @@ public class LyricSendTimer extends TimerTask {
                     String tempName = playList.get(0).getAsJsonObject().get("name").getAsString() + "(" + playList.get(0).getAsJsonObject().get("singer").getAsString() + ")";
                     if (tempUrl == null) {
                         MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
-                        return;
                     }
                     MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
                     int tempMaxTime = playList.get(0).getAsJsonObject().get("time").getAsInt();
@@ -67,7 +67,7 @@ public class LyricSendTimer extends TimerTask {
                     maxTime = tempMaxTime;
                     name = tempName;
                     url = tempUrl;
-                    list = OtherUtils.getLyricFor163(tempId);
+                    lyric = OtherUtils.getLyricFor163(tempId);
                     playListLocation++;
                     maxPlayListLocation = playList.size();
                     playListSetEd = true;
@@ -97,29 +97,78 @@ public class LyricSendTimer extends TimerTask {
             }
             if (PlayerStatus.getPlayerPlayStatus(player)) {
                 if (time != maxTime) {
-                    if (!list.isEmpty()) {
-                        for (Map<Integer, String> map : list) {
+                    if (!lyric.isEmpty()) {
+                        for (int i = 0; i < lyric.size(); i++) {
+                            Map<Integer, String> map = lyric.get(i);
                             for (Map.Entry<Integer, String> entry : map.entrySet()) {
                                 if (entry.getKey() == time) {
                                     if (!entry.getValue().isEmpty()) {
                                         if (Config.lyricEnable) {
-                                            PlayerStatus.setPlayerLyric(player, entry.getValue());
+                                            if (Config.showLyricTr) {
+                                                if (!lyricTr.isEmpty()) {
+                                                    PlayerStatus.setPlayerLyric(player, entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")");
+                                                } else {
+                                                    PlayerStatus.setPlayerLyric(player, entry.getValue());
+                                                }
+                                            } else {
+                                                PlayerStatus.setPlayerLyric(player, entry.getValue());
+                                            }
                                             if (isBoosBar) {
-                                                textComponent.setText(entry.getValue());
+                                                if (Config.showLyricTr) {
+                                                    if (!lyricTr.isEmpty()) {
+                                                        textComponent.setText(entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")");
+                                                    } else {
+                                                        textComponent.setText(entry.getValue());
+                                                    }
+                                                } else {
+                                                    textComponent.setText(entry.getValue());
+                                                }
                                                 bossBar.setTitle(textComponent);
                                             }
                                             if (isActionBar) {
-                                                ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
+                                                if (Config.showLyricTr) {
+                                                    if (!lyricTr.isEmpty()) {
+                                                        ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")");
+                                                    } else {
+                                                        ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
+                                                    }
+                                                } else {
+                                                    ActionBarAPI.sendActionBar(player, "§b§l" + entry.getValue());
+                                                }
                                             }
                                             if (isTitle) {
-                                                try {
-                                                    player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
-                                                } catch (NoSuchMethodError e) {
-                                                    player.sendTitle("", "§b" + entry.getValue());
+                                                if (Config.showLyricTr) {
+                                                    if (!lyricTr.isEmpty()) {
+                                                        try {
+                                                            player.sendTitle("", "§b" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")", 0, 200, 20);
+                                                        } catch (NoSuchMethodError e) {
+                                                            player.sendTitle("", "§b" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")");
+                                                        }
+                                                    } else {
+                                                        try {
+                                                            player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
+                                                        } catch (NoSuchMethodError e) {
+                                                            player.sendTitle("", "§b" + entry.getValue());
+                                                        }
+                                                    }
+                                                } else {
+                                                    try {
+                                                        player.sendTitle("", "§b" + entry.getValue(), 0, 200, 20);
+                                                    } catch (NoSuchMethodError e) {
+                                                        player.sendTitle("", "§b" + entry.getValue());
+                                                    }
                                                 }
                                             }
                                             if (isChat) {
-                                                MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
+                                                if (Config.showLyricTr) {
+                                                    MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
+                                                    if (!lyricTr.isEmpty()) {
+                                                        MessageUtils.sendNormalMessage("§b" + lyricTr.get(i).get(entry.getKey()), player);
+                                                    }
+                                                } else {
+                                                    MessageUtils.sendNormalMessage("§b" + entry.getValue(), player);
+                                                }
+
                                             }
                                         }
                                     }
@@ -153,7 +202,7 @@ public class LyricSendTimer extends TimerTask {
                             maxTime = tempMaxTime;
                             name = tempName;
                             url = tempUrl;
-                            list = OtherUtils.getLyricFor163(tempId);
+                            lyric = OtherUtils.getLyricFor163(tempId);
                             playListLocation++;
                             playListSetEd = true;
                             MusicUtils.stopSelf(player);

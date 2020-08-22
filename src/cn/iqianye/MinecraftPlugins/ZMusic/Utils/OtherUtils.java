@@ -13,7 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.bossbar.BossBar;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,13 +170,20 @@ public class OtherUtils {
     public static void loginNetease(Player player) {
         new Thread(() -> {
             try {
-                if (!Config.neteasePhone.equalsIgnoreCase("18888888888")) {
+                if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
                     if (player != null) {
                         MessageUtils.sendNormalMessage("正在尝试登录网易云音乐...", player);
                     }
                     LogUtils.sendNormalMessage("正在尝试登录网易云音乐...");
-                    String s = Val.neteaseApiRoot + "login/cellphone";
-                    String c = "phone=" + Config.neteasePhone + "&password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                    String s = null;
+                    String c = null;
+                    if (Config.neteaseloginType.equalsIgnoreCase("phone")) {
+                        s = Val.neteaseApiRoot + "login/cellphone";
+                        c = "phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                    } else if (Config.neteaseloginType.equalsIgnoreCase("email")) {
+                        s = Val.neteaseApiRoot + "login";
+                        c = "email=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                    }
                     String jsonText = NetUtils.getNetString(s, null, c);
                     Gson gson = new GsonBuilder().create();
                     JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -184,8 +193,10 @@ public class OtherUtils {
                             MessageUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), player);
                         }
                         LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
-                        // 关注“QG真心”的网易云账号
-                        NetUtils.getNetString(Val.neteaseApiRoot + "follow?id=265857414&t=1&cookie=" + Val.neteaseCookie, null);
+                        if (Config.neteaseFollow) {
+                            // 关注“QG真心”的网易云账号
+                            NetUtils.getNetString(Val.neteaseApiRoot + "follow?id=265857414&t=1&cookie=" + Val.neteaseCookie, null);
+                        }
                     } else {
                         if (player != null) {
                             MessageUtils.sendNormalMessage("登录失败: 请检查账号密码是否正确。", player);
@@ -341,5 +352,21 @@ public class OtherUtils {
             return null;
         }
         return str;
+    }
+
+    public static String getMD5String(String str) {
+        try {
+            // 生成一个MD5加密计算摘要
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 计算md5函数
+            md.update(str.getBytes());
+            // digest()最后确定返回md5 hash值，返回值为8位字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+            //一个byte是八位二进制，也就是2位十六进制字符（2的8次方等于16的2次方）
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

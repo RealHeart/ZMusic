@@ -63,6 +63,7 @@ public class KuGouMusic {
                 returnObject.addProperty("time", song_time);
                 returnObject.addProperty("url", song_url);
                 returnObject.addProperty("lyric", lyric);
+                returnObject.addProperty("lyricTr", "");
                 return returnObject;
             } else {
                 return null;

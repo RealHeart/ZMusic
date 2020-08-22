@@ -8,6 +8,7 @@
 * 全服点歌
 * 单独播放
 * 歌词显示
+* 歌词翻译显示(目前仅支持QQ音乐)
 * 多搜索源(QQ/网易云/酷狗/酷我)
 * 关键词搜索
 * 个人歌单
@@ -114,10 +115,33 @@ zmusic.admin - 可使用playAll,stopAll等管理员指令
 
 ```yaml
 # 配置文件版本(请勿修改)
-version: 1
+version: 3
 
 # 是否开启调试模式
 debug: false
+
+# 账号设置
+account:
+  # 网易云音乐
+  netease:
+    # 登录方式
+    # email - 邮箱登录(密码处填写邮箱密码)
+    # phone - 手机号登录(密码处填写网易云密码)
+    loginType: phone
+    # 账号
+    # 邮箱登录填写邮箱
+    # 手机号登录填写手机号
+    account: 18888888888
+    # 密码
+    # 邮箱登录填写邮箱密码
+    # 手机号登录填写网易云密码
+    password: a123456
+    # 密码方式
+    # normal = 纯密码 由插件通过md5加密上传到服务器验证
+    # md5 = 密码通过md5加密后的值 由用户加密后存储在配置文件
+    passwordType: normal
+    # 是否关注作者的网易云音乐账号
+    follow: true
 
 # 点歌设置
 music:
@@ -132,10 +156,14 @@ music:
 lyric:
   # 是否启用歌词
   enable: true
+  # 是否显示歌词翻译
+  showLyricTr: true
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(Mod服请关闭，不支持BossBar)
+  # 需要前置插件BossBarAPI
   bossBar: true
   # 是否使用ActionBar显示歌词
+  # 需要前置插件ActionBarAPI
   actionBar: false
   # 是否使用Title显示歌词
   subTitle: false
