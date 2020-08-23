@@ -34,7 +34,9 @@ public class QQMusic {
             String lyricJsonText = NetUtils.getNetString(getLyricUrl, null);
             JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
             String lyric = lyricJson.get("data").getAsJsonObject().get("lyric").getAsString();
+            lyric = lyric.replaceAll("&apos;","'");
             String lyricTr = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
+            lyricTr = lyricTr.replaceAll("&apos;","'");
             String getMp3Url = Val.qqMusicApiRoot + "song/url?id=" + songmid;
             String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
             JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
