@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.placeholderAPI;
+package cn.iqianye.mc.zmusic.pApi;
 
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 /**
  * PlaceholderAPI 扩展类
  */
-public class PlaceholderAPIHook extends PlaceholderExpansion {
+public class PApiHook extends PlaceholderExpansion {
     @Override
     public String getIdentifier() {
         return "zmusic";
@@ -32,6 +32,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             } else {
                 return "无";
             }
+
         }
         // 歌词
         if (identifier.equalsIgnoreCase("playing_lyric")) {

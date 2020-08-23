@@ -1,10 +1,10 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.SearchSource.KuGouMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.KuwoMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.QQMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.MusicUtils;
@@ -56,6 +56,7 @@ public class PlayMusic {
                     searchSourceName = "网易云音乐";
                     break;
                 case "qq":
+                    MessageUtils.sendNormalMessage("QQ音乐需要在服务端获取音乐长度，可能搜索较慢，请耐心等待。", player);
                     json = QQMusic.getMusicUrl(searchKey);
                     searchSourceName = "QQ音乐";
                     break;

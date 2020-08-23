@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.music.SearchSource;
+package cn.iqianye.mc.zmusic.music.searchSource;
 
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.utils.NetUtils;

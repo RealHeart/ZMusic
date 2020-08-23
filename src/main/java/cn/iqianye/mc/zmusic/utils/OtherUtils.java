@@ -3,7 +3,7 @@ package cn.iqianye.mc.zmusic.utils;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.Main;
-import cn.iqianye.mc.zmusic.music.SearchSource.NeteaseCloudMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import com.google.gson.*;

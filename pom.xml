@@ -6,7 +6,7 @@
 
     <groupId>cn.iqianye.mc.zmusic</groupId>
     <artifactId>ZMusic</artifactId>
-    <version>1.5</version>
+    <version>1.5-git-replace</version>
 
     <repositories>
         <repository>

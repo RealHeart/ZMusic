@@ -3,7 +3,7 @@ package cn.iqianye.mc.zmusic;
 import cn.iqianye.mc.zmusic.command.CommandExec;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.other.Val;
-import cn.iqianye.mc.zmusic.placeholderAPI.PlaceholderAPIHook;
+import cn.iqianye.mc.zmusic.pApi.PApiHook;
 import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.MusicUtils;
@@ -37,7 +37,7 @@ public class Main extends JavaPlugin implements Listener {
         OtherUtils.checkUpdate(Val.thisVer, null);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             LogUtils.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
-            boolean success = new PlaceholderAPIHook().register();
+            boolean success = new PApiHook().register();
             if (success) {
                 LogUtils.sendNormalMessage("-- §r[§ePlaceholderAPI§r] §a注册成功!");
             } else {

@@ -1,10 +1,10 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.SearchSource.KuGouMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.KuwoMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.SearchSource.QQMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
