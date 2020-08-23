@@ -6,8 +6,6 @@ description: 真心音乐系统
 depend:
   - AudioBuffer
 softdepend:
-  - ActionBarAPI
-  - BossBarAPI
   - PlaceholderAPI
   - Vault
 commands:

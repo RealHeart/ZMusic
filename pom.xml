@@ -22,8 +22,8 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>QianyeGroup</id>
-            <url>https://gitee.com/QianyeGroup/maven/raw/master</url>
+            <id>zhenxin-repo</id>
+            <url>https://code.aliyun.com/zhenxin/Maven/raw/master/</url>
         </repository>
     </repositories>
 

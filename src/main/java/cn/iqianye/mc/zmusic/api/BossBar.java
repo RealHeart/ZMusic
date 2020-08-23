@@ -30,8 +30,8 @@ public class BossBar {
     public void showTitle() {
         bar = Bukkit.getServer().createBossBar(title, color, style);
         bar.setVisible(true);
-        bar.addPlayer(p);
         bar.setProgress(0);
+        bar.addPlayer(p);
         new bartimer(bar).runTaskAsynchronously(plugin);
     }
 
