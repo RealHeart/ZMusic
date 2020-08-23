@@ -1,0 +1,26 @@
+name: ZMusic
+main: cn.iqianye.mc.zmusic.Main
+version: 1.5
+author: 真心
+description: 真心音乐系统
+depend:
+  - AudioBuffer
+softdepend:
+  - ActionBarAPI
+  - BossBarAPI
+  - PlaceholderAPI
+  - Vault
+commands:
+  zm:
+    usage: /zm help
+    description: 主命令
+permissions:
+  zmusic.use:
+    default: true
+    description: 普通玩家使用权限
+  zmusic.bypass:
+    default: op
+    description: 绕过冷却和扣钱权限
+  zmusic.admin:
+    default: op
+    description: 管理员权限
