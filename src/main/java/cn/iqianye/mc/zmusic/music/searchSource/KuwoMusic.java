@@ -29,6 +29,7 @@ public class KuwoMusic {
             returnJson.addProperty("time", time);
             returnJson.addProperty("singer", singer);
             returnJson.addProperty("lyric", "");
+            returnJson.addProperty("lyricTr", "");
             return returnJson;
         } catch (Exception e) {
             e.printStackTrace();

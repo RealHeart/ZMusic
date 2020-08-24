@@ -19,6 +19,7 @@ import java.security.MessageDigest;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 public class OtherUtils {
 
@@ -249,6 +250,16 @@ public class OtherUtils {
         }
         bos.close();
         return new String(bos.toByteArray(), "utf-8");
+    }
+
+    public static String readInputStream(InputStreamReader inputStream) throws IOException {
+        char[] cbuffer = new char[1024];
+        int len = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((len = inputStream.read(cbuffer)) != -1) {
+            stringBuilder.append(cbuffer);
+        }
+        return stringBuilder.toString();
     }
 
 

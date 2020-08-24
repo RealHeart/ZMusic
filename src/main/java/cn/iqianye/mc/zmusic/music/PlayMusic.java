@@ -1,13 +1,12 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.*;
+import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.MusicUtils;
+import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatColor;
@@ -68,6 +67,18 @@ public class PlayMusic {
                     json = KuwoMusic.getMusicUrl(searchKey);
                     searchSourceName = "酷我音乐";
                     break;
+                case "bilibili":
+                    if (Val.bilibiliIsVIP) {
+                        MessageUtils.sendNormalMessage("哔哩哔哩音乐需要在插件服务器将M4A转换为MP3。", player);
+                        MessageUtils.sendNormalMessage("第一次搜索将会耗时很久，如有其他用户使用过，将会返回缓存文件。", player);
+                        MessageUtils.sendNormalMessage("请耐心等待。。。。", player);
+                        json = BiliBiliMusic.getMusic(searchKey);
+                        searchSourceName = "哔哩哔哩音乐";
+                        break;
+                    } else {
+                        MessageUtils.sendErrorMessage("错误,本服务器未授权.", player);
+                        return;
+                    }
                 default:
                     MessageUtils.sendErrorMessage("错误：未知的搜索源", player);
                     return;
@@ -106,7 +117,9 @@ public class PlayMusic {
                             lyricSendTimer.lyricTr = musicLyricTr;
                             if (musicLyric.isEmpty()) {
                                 if (source.equalsIgnoreCase("kuwo")) {
-                                    MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词显示", p);
+                                    MessageUtils.sendErrorMessage("酷我音乐暂不支持歌词显示", p);
+                                } else if (source.equalsIgnoreCase("bilibili")) {
+                                    MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持歌词显示", p);
                                 } else {
                                     MessageUtils.sendErrorMessage("未找到歌词信息", p);
                                 }
@@ -118,6 +131,8 @@ public class PlayMusic {
                                     MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", p);
                                 } else if (source.equalsIgnoreCase("kugou")) {
                                     MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", p);
+                                } else if (source.equalsIgnoreCase("bilibili")) {
+                                    MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持显示歌词翻译", p);
                                 } else {
                                     MessageUtils.sendErrorMessage("未找到歌词翻译", p);
                                 }
@@ -159,7 +174,9 @@ public class PlayMusic {
                         lyricSendTimer.lyricTr = musicLyricTr;
                         if (musicLyric.isEmpty()) {
                             if (source.equalsIgnoreCase("kuwo")) {
-                                MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词显示", player);
+                                MessageUtils.sendErrorMessage("酷我音乐暂不支持歌词显示", player);
+                            } else if (source.equalsIgnoreCase("bilibili")) {
+                                MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持歌词显示", player);
                             } else {
                                 MessageUtils.sendErrorMessage("未找到歌词信息", player);
                             }
@@ -171,6 +188,8 @@ public class PlayMusic {
                                 MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", player);
                             } else if (source.equalsIgnoreCase("kugou")) {
                                 MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", player);
+                            } else if (source.equalsIgnoreCase("bilibili")) {
+                                MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持显示歌词翻译", player);
                             } else {
                                 MessageUtils.sendErrorMessage("未找到歌词翻译", player);
                             }

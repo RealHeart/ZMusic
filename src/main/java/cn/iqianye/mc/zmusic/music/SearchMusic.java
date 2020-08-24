@@ -1,10 +1,7 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.*;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -39,6 +36,10 @@ public class SearchMusic {
             case "kuwo":
                 json = KuwoMusic.getMusicList(searchKey);
                 searchSourceName = "酷我音乐";
+                break;
+            case "bilibili":
+                json = BiliBiliMusic.getMusicList(searchKey);
+                searchSourceName = "哔哩哔哩音乐";
                 break;
             default:
                 MessageUtils.sendErrorMessage("错误：未知的搜索源", player);

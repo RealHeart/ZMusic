@@ -12,4 +12,6 @@ public class Val {
     public static String qqMusicApiRoot = "https://qqmusic.api.zhenxin.xyz/";
 
     public static String neteaseCookie;
+
+    public static boolean bilibiliIsVIP = false;
 }

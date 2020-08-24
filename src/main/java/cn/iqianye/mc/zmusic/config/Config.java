@@ -1,8 +1,13 @@
 package cn.iqianye.mc.zmusic.config;
 
 import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.utils.LogUtils;
+import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,15 +20,19 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 3;
+    public static int latestVersion = 4;
     // Debug
     public static boolean debug;
     // Account
+    // Netease
     public static String neteaseloginType;
     public static String neteaseAccount;
     public static String neteasePassword;
     public static boolean neteaseFollow;
     public static String neteasePasswordType;
+    // Bilibili
+    public static String bilibiliQQ;
+    public static String bilibiliKey;
     // Music
     public static int money;
     public static int cooldown;
@@ -55,6 +64,7 @@ public class Config {
         // Debug
         debug = configuration.getBoolean("debug");
         // Account
+        // Netease
         neteaseloginType = configuration.getString("account.netease.loginType");
         neteaseAccount = configuration.getString("account.netease.account");
         neteasePasswordType = configuration.getString("account.netease.passwordType");
@@ -64,6 +74,18 @@ public class Config {
             neteasePassword = configuration.getString("account.netease.password");
         }
         neteaseFollow = configuration.getBoolean("account.netease.follow");
+        // Bilibili
+        bilibiliQQ = configuration.getString("account.bilibili.qq");
+        bilibiliKey = configuration.getString("account.bilibili.key");
+        if (!bilibiliKey.equalsIgnoreCase("none")) {
+            new Thread(() -> {
+                Gson gson = new GsonBuilder().create();
+                String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/checkVIP.php?qq=" + bilibiliQQ + "&key=" + bilibiliKey, null);
+                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                LogUtils.sendErrorMessage(json.toString());
+                Val.bilibiliIsVIP = json.get("isVIP").getAsBoolean();
+            }).start();
+        }
         // Music
         money = configuration.getInt("music.money");
         cooldown = configuration.getInt("music.cooldown");

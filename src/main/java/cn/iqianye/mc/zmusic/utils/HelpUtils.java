@@ -44,6 +44,7 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " play qq <歌名> - QQ音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kugou <歌名> - 酷狗音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " play kuwo <歌名> - 酷我音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " play bilibili <歌名> - 哔哩哔哩音乐播放§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
             case "playlist":
@@ -59,15 +60,17 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " music 163 <歌名> - 网易云音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music qq <歌名> - QQ音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " music kugou <歌名> - 酷狗音乐点歌§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " music kuwo <歌名> - 酷我音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " music kuwo <歌名> - 酷我音乐点歌§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " music bilibili <歌名> - 哔哩哔哩音乐点歌§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
             case "search":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d搜索帮助 By 真心 §6=========", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " search 163 <歌名> - 网易云音乐点歌§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " search qq <歌名> - QQ音乐点歌§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " search kugou <歌名> - 酷狗音乐点歌§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " search kuwo <歌名> - 酷我音乐播放§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search 163 <歌名> - 网易云音乐搜索§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search qq <歌名> - QQ音乐搜索§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search kugou <歌名> - 酷狗音乐搜索§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search kuwo <歌名> - 酷我音乐搜索§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " search bilibili <歌名> - 酷我音乐搜索§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
             case "url":

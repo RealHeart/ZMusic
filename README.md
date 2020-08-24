@@ -42,6 +42,7 @@
 2.netease/163 - 网易云音乐
 3.kugou - 酷狗音乐
 4.kuwo - 酷我音乐
+5.bilibili - 哔哩哔哩音乐
 示例：
 /zm play 163 勾指起誓
 ```
@@ -55,6 +56,7 @@
 2.netease/163 - 网易云音乐
 3.kugou - 酷狗音乐
 4.kuwo - 酷我音乐
+5.bilibili - 哔哩哔哩音乐
 示例：
 /zm music 163 勾指起誓
 ```
@@ -68,6 +70,7 @@
 2.netease/163 - 网易云音乐
 3.kugou - 酷狗音乐
 4.kuwo - 酷我音乐
+5.bilibili - 哔哩哔哩音乐
 示例：
 /zm search 163 勾指起誓
 ```
@@ -91,6 +94,7 @@
 2.netease/163 - 网易云音乐
 3.kugou - 酷狗音乐
 4.kuwo - 酷我音乐
+5.bilibili - 哔哩哔哩音乐
 示例：
 /zm playAll 163 勾指起誓
 ------------------------
@@ -115,7 +119,9 @@ zmusic.admin - 可使用playAll,stopAll等管理员指令
 
 ```yaml
 # 配置文件版本(请勿修改)
-version: 3
+version: 4
+# 是否自动下载插件更新
+update: false
 
 # 是否开启调试模式
 debug: false
@@ -125,23 +131,38 @@ account:
   # 网易云音乐
   netease:
     # 登录方式
+    #
     # email - 邮箱登录(密码处填写邮箱密码)
     # phone - 手机号登录(密码处填写网易云密码)
     loginType: phone
     # 账号
+    #
     # 邮箱登录填写邮箱
     # 手机号登录填写手机号
     account: 18888888888
     # 密码
+    #
     # 邮箱登录填写邮箱密码
     # 手机号登录填写网易云密码
     password: a123456
     # 密码方式
+    #
     # normal = 纯密码 由插件通过md5加密上传到服务器验证
-    # md5 = 密码通过md5加密后的值 由用户加密后存储在配置文件
+    # md5 = 纯md5 由用户通过md5加密设置在配置文件 插件读取上传到服务器验证
     passwordType: normal
     # 是否关注作者的网易云音乐账号
     follow: true
+  # 哔哩哔哩
+  bilibili:
+    # 由于哔哩哔哩为m4a音频格式
+    # 需要服务器用来转换
+    # 因此哔哩哔哩播放功能收费5元/永久
+    # 联系作者获取授权
+    #
+    # 授权QQ
+    qq: 1307993674
+    # 授权Key
+    key: none
 
 # 点歌设置
 music:
