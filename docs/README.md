@@ -18,7 +18,8 @@
 * 循环整个歌单(开发中...)
 
 ## 视频
-<iframe src="//player.bilibili.com/player.html?aid=92156922&bvid=BV1J7411N7XL&cid=206442461&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+[点击前往哔哩哔哩查看演示视频](https://www.bilibili.com/video/av92156922)
 
 ## 反馈
 * 前往 [码云](https://gitee.com/realheart/ZMusic) 或 [Github](https://github.com/RealHeart/ZMusic) 提交 Issues
