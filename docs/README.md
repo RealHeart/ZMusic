@@ -260,7 +260,7 @@ lyric:
 
 [```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装   
 [```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
-[```Valut```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
+[```Vault```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
 
 ## 1.5及以下版本使用
 
