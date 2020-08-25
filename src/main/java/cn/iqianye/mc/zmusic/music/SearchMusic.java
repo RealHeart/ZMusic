@@ -41,6 +41,11 @@ public class SearchMusic {
                 json = BiliBiliMusic.getMusicList(searchKey);
                 searchSourceName = "哔哩哔哩音乐";
                 break;
+            case "migu":
+                json = MiguMusic.getMusicList(searchKey);
+                MessageUtils.sendNormalMessage("咪咕音乐需要在服务端获取音乐长度，可能搜索较慢，请耐心等待。", player);
+                searchSourceName = "咪咕音乐";
+                break;
             default:
                 MessageUtils.sendErrorMessage("错误：未知的搜索源", player);
                 return;

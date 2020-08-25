@@ -323,7 +323,9 @@ public class CommandExec implements TabExecutor {
                             "163",
                             "netease",
                             "kugou",
-                            "kuwo"};
+                            "kuwo",
+                            "bilibili",
+                            "migu"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();

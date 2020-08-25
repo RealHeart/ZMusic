@@ -10,6 +10,7 @@ public class Val {
 
     public static String neteaseApiRoot = "https://netease.api.zhenxin.xyz/";
     public static String qqMusicApiRoot = "https://qqmusic.api.zhenxin.xyz/";
+    public static String miguMusicApiRoot = "https://migu.api.zhenxin.xyz/";
 
     public static String neteaseCookie;
 
