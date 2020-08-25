@@ -1,8 +1,9 @@
-# ZMusic
+# 介绍
 
+## 构建状态
 [![Build Status](https://ci.zhenxin.xyz/buildStatus/icon?job=Minecraft%2FZMusic)](https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/)
 
-# 简介
+## 简介
 
 这是一个功能强大的音乐系统，支持以下功能。
 * 全服点歌
@@ -16,15 +17,15 @@
 * 音量调节(开发中...)
 * 循环整个歌单(开发中...)
 
-# 视频
+## 视频
 [点击前往哔哩哔哩查看演示视频](https://www.bilibili.com/video/av92156922)
 
-# 反馈
+## 反馈
 * 提交 [Issues](../../issues)
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
 # 命令
-* 主命令
+## 主命令
 
 ```text
 /zm - 主命令
@@ -33,87 +34,144 @@
 /zm music - 全服点歌
 ```
 
-* 播放相关
+## 播放
 
-```text
-/zm play [搜索源] [歌名] - 播放音乐
-搜索源可为：
-1.qq - QQ音乐
-2.netease/163 - 网易云音乐
-3.kugou - 酷狗音乐
-4.kuwo - 酷我音乐
-5.bilibili - 哔哩哔哩音乐
-示例：
-/zm play 163 勾指起誓
-```
+通过歌名搜索一个音乐，直接播放
 
-* 点歌相关
+### 命令
 
-```text
-/zm music [搜索源] [歌名] - 播放音乐
-搜索源可为：
-1.qq - QQ音乐
-2.netease/163 - 网易云音乐
-3.kugou - 酷狗音乐
-4.kuwo - 酷我音乐
-5.bilibili - 哔哩哔哩音乐
-示例：
-/zm music 163 勾指起誓
-```
+`/zm play`
 
-* 搜索相关
+### 参数
+`搜索源` 要搜索音乐的平台  
+目前支持以下平台  
+* qq - QQ音乐  
+* netease/163 - 网易云音乐  
+* kugou - 酷狗音乐  
+* kuwo - 酷我音乐  
+* bilibili - 哔哩哔哩音乐  
 
-```text
-/zm search [搜索源] [歌名] - 搜索音乐
-搜索源可为：
-1.qq - QQ音乐
-2.netease/163 - 网易云音乐
-3.kugou - 酷狗音乐
-4.kuwo - 酷我音乐
-5.bilibili - 哔哩哔哩音乐
-示例：
-/zm search 163 勾指起誓
-```
+`歌名` 要播放的歌名
 
-* 歌单相关
+### 示例
+`/zm play qq 你的猫咪`
 
-```text
-/zm playlist import <歌单链接> - 导入歌单
-- 示例：/zm playlist import https://music.163.com/#/playlist?id=363046232
-/zm playlist list - 查看已导入的歌单列表
-/zm playlist play <歌单ID> - 播放已导入的歌单(可查看列表直接点击播放)
-- 示例：/zm playlist play 363046232
-```
+## 点歌
 
-* 管理员相关
+通过歌名搜索一个音乐，全服发送后，玩家点击播放
 
-```text
-/zm admin playAll [搜索源] [歌名] - 强制全服玩家播放音乐
-搜索源可为：
-1.qq - QQ音乐
-2.netease/163 - 网易云音乐
-3.kugou - 酷狗音乐
-4.kuwo - 酷我音乐
-5.bilibili - 哔哩哔哩音乐
-示例：
-/zm playAll 163 勾指起誓
-------------------------
-/zm stopAll - 强制停止全部玩家播放音乐
-/zm reload - 重载配置文件
-```
+### 命令
 
-#权限
-* 普通玩家权限
+`/zm music`
 
-```text
-zmusic.use - 可使用play,stop等普通指令
-```
+### 参数
+`搜索源` 要搜索音乐的平台  
+目前支持以下平台  
+* qq - QQ音乐  
+* netease/163 - 网易云音乐  
+* kugou - 酷狗音乐  
+* kuwo - 酷我音乐  
+* bilibili - 哔哩哔哩音乐  
 
-* 管理员权限
+`歌名` 要点播的歌名
 
-```text
-zmusic.admin - 可使用playAll,stopAll等管理员指令
-```
+### 示例
+`/zm music qq 你的猫咪`
+
+## 搜索
+
+通过歌名搜索一个音乐，返回十首音乐的列表
+
+### 命令
+
+`/zm search`
+
+### 参数
+`搜索源` 要搜索音乐的平台  
+目前支持以下平台  
+* qq - QQ音乐  
+* netease/163 - 网易云音乐  
+* kugou - 酷狗音乐  
+* kuwo - 酷我音乐  
+* bilibili - 哔哩哔哩音乐  
+
+`歌名` 要搜索的歌名
+
+### 示例
+`/zm search qq 你的猫咪`
+
+## 歌单
+
+通过导入歌单存储在服务器，方便播放歌单。
+
+### 命令
+
+`/zm playlist`
+
+### 参数
+
+`平台` 要搜索音乐的平台  
+目前支持以下平台  
+* qq - QQ音乐  
+* netease/163 - 网易云音乐  
+
+`子命令` 对应平台的子命令
+
+* `import` 通过歌单链接导入歌单
+  * 参数
+    * `歌单链接` 对应平台的歌单链接
+* `list` 检索指定平台的歌单列表
+* `play` 通过歌单ID播放歌单(可用list获取)
+  * 参数
+    * `歌单ID` 指定平台的歌单ID
+
+### 示例
+导入:  
+* `/zm playlist qq import https://y.qq.com/n/yqq/playlist/1937967578.html`  
+* `/zm playlist 163 import https://music.163.com/#/playlist?id=363046232`  
+
+播放:  
+* `/zm playlist qq play 1937967578`
+* `/zm playlist play 363046232`  
+
+## 管理员
+管理员相关操作，全服强制播放，重载配置等
+
+### 主命令
+
+`/zm admin`
+
+### 子命令
+
+`playAll` 强制全服播放
+* 参数
+   * `搜索源` 要搜索音乐的平台  
+   目前支持以下平台  
+     * qq - QQ音乐  
+     * netease/163 - 网易云音乐  
+     * kugou - 酷狗音乐  
+     * kuwo - 酷我音乐  
+     * bilibili - 哔哩哔哩音乐 
+   * `歌名` 要播放的歌名
+
+* 示例
+
+`/zm playAll qq 你的猫咪`
+
+`stopAll` 强制停止全服播放  
+`playlist` 全服歌单主命令(子命令参考/zm playlist)  
+`163relogin` 重新登录网易云音乐  
+`reload` 重载配置文件  
+
+# 权限
+
+## 普通玩家权限
+
+`zmusic.use` 可使用play,stop等普通指令`
+
+## 管理员权限
+
+`zmusic.admin` 可使用playAll,stopAll等管理员指令
 
 # 配置文件
 
@@ -193,11 +251,21 @@ lyric:
 ```
 
 # 变量
-* 需要PlaceholderAPI
 
-```text
-%zmusic_playing_name% - 获取当前播放的音乐名称
-%zmusic_playing_lyric% - 获取当前时间显示的歌词
-%zmusic_time_current% - 获取当前播放的音乐的时间
-%zmusic_time_max% - 获取当前播放的音乐的最大时间
-```
+`%zmusic_playing_name%` 获取当前播放的音乐名称  
+`%zmusic_playing_lyric%` 获取当前时间显示的歌词  
+`%zmusic_time_current%` 获取当前播放的音乐的时间  
+`%zmusic_time_max%` 获取当前播放的音乐的最大时间  
+
+# 前置插件
+
+## 全版本使用
+
+[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装   
+[```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
+[```Valut```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
+
+## 1.5(不包括)版本前使用
+
+~~[```BossBarAPI```](https://www.mcbbs.net/thread-729531-1-1.html) [可选] 如需使用BossBar显示歌词 请安装~~  
+~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~  
