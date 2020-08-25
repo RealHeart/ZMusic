@@ -79,11 +79,6 @@ public class PlayMusic {
                         MessageUtils.sendErrorMessage("错误,本服务器未授权.", player);
                         return;
                     }
-                case "migu":
-                    MessageUtils.sendNormalMessage("咪咕音乐需要在服务端获取音乐长度，可能搜索较慢，请耐心等待。", player);
-                    json = MiguMusic.getMusic(searchKey);
-                    searchSourceName = "咪咕音乐";
-                    break;
                 default:
                     MessageUtils.sendErrorMessage("错误：未知的搜索源", player);
                     return;
@@ -197,8 +192,6 @@ public class PlayMusic {
                                 MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", player);
                             } else if (source.equalsIgnoreCase("bilibili")) {
                                 MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持显示歌词翻译", player);
-                            } else if (source.equalsIgnoreCase("migu")) {
-                                MessageUtils.sendErrorMessage("咪咕音乐暂不支持显示歌词翻译", player);
                             } else {
                                 MessageUtils.sendErrorMessage("未找到歌词翻译", player);
                             }
