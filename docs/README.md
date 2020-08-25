@@ -25,14 +25,13 @@
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
 # 命令
+
 ## 主命令
 
-```text
-/zm - 主命令
-/zm help - 查看帮助
-/zm play - 播放音乐
-/zm music - 全服点歌
-```
+`/zm` 主命令  
+`/zm help` 查看帮助  
+`/zm play` 播放音乐  
+`/zm music` 全服点歌  
 
 ## 播放
 
@@ -238,11 +237,9 @@ lyric:
   # 是否显示歌词翻译
   showLyricTr: true
   # 以下为显示方式设置，可同时启用
-  # 是否使用BossBar显示歌词(Mod服请关闭，不支持BossBar)
-  # 需要前置插件BossBarAPI
+  # 是否使用BossBar显示歌词(不支持1.8及以下)
   bossBar: true
   # 是否使用ActionBar显示歌词
-  # 需要前置插件ActionBarAPI
   actionBar: false
   # 是否使用Title显示歌词
   subTitle: false
@@ -265,7 +262,7 @@ lyric:
 [```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
 [```Valut```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
 
-## 1.5(不包括)版本前使用
+## 1.5及以下版本使用
 
 ~~[```BossBarAPI```](https://www.mcbbs.net/thread-729531-1-1.html) [可选] 如需使用BossBar显示歌词 请安装~~  
 ~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~  
