@@ -12,6 +12,9 @@ commands:
   zm:
     usage: /zm help
     description: 主命令
+  zmusic:
+    usage: /zm help
+    description: 主命令
 permissions:
   zmusic.use:
     default: true

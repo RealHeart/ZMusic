@@ -29,7 +29,8 @@ public class CommandExec implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { //指令输出
-        if (cmd.getName().equalsIgnoreCase("zm")) {
+        if (cmd.getName().equalsIgnoreCase("zm") ||
+                cmd.getName().equalsIgnoreCase("zmusic")) {
             if (sender.hasPermission("zmusic.use") || sender.isOp()) {
                 if (args.length == 0) {
                     MessageUtils.sendNull(cmd.getName(), sender);
@@ -118,7 +119,7 @@ public class CommandExec implements TabExecutor {
                             if (sender instanceof Player) {
                                 if (args.length >= 2) {
                                     new Thread(() -> {
-                                        SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender);
+                                        SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender, cmd.getName());
                                     }).start();
                                     return true;
                                 } else {

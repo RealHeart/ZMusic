@@ -31,8 +31,10 @@ public class Main extends JavaPlugin implements Listener {
         MetricsLite metricsLite = new MetricsLite(this, 7291);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CommandExec());
+        getCommand("zmusic").setExecutor(new CommandExec());
         //注册命令对应的自动补全器
         getCommand("zm").setTabCompleter(new CommandExec());
+        getCommand("zmusic").setTabCompleter(new CommandExec());
         getServer().getPluginManager().registerEvents(this, this);
         OtherUtils.checkUpdate(Val.thisVer, null);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {

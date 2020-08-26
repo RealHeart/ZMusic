@@ -17,7 +17,7 @@ public class SearchMusic {
     static String searchSourceName;
     static JsonArray json;
 
-    public static void sendList(String searchKey, String source, Player player) {
+    public static void sendList(String searchKey, String source, Player player, String cmdName) {
         MessageUtils.sendNormalMessage("正在搜索中...", player);
         switch (source) {
             case "163":
@@ -58,16 +58,16 @@ public class SearchMusic {
                 i++;
                 TextComponent play = new TextComponent("§r[§e播放§r]§r");
                 if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicID));
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " " + musicID));
                 } else {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " " + musicName));
                 }
                 play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                 TextComponent music = new TextComponent("§r[§e点歌§r]§r");
                 if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicID));
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " " + musicID));
                 } else {
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicName));
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " " + musicName));
                 }
                 music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击点歌").create()));
                 message.addExtra(" ");
