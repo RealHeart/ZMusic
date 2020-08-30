@@ -1,13 +1,15 @@
 package cn.iqianye.mc.zmusic;
 
+import cn.iqianye.mc.zmusic.api.AdvancementAPI;
+import cn.iqianye.mc.zmusic.api.Version;
 import cn.iqianye.mc.zmusic.command.CommandExec;
 import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.music.PlayList;
+import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.pApi.PApiHook;
-import cn.iqianye.mc.zmusic.utils.LogUtils;
-import cn.iqianye.mc.zmusic.utils.MessageUtils;
-import cn.iqianye.mc.zmusic.utils.MusicUtils;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
+import cn.iqianye.mc.zmusic.player.PlayerStatus;
+import cn.iqianye.mc.zmusic.utils.*;
 import cn.iqianye.mc.zmusic.bStats.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,6 +56,21 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
             Config.realSupportVault = false;
         }
+        Version version = new Version();
+        if (version.isLowerThan("1.7.10")) {
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.7.10，不支持Title显示");
+            Config.realSupportTitle = false;
+        }
+        if (version.isLowerThan("1.9")) {
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持BossBar");
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持ActionBar");
+            Config.realSupportBossBar = false;
+            Config.realSupportActionBar = false;
+        }
+        if (version.isLowerThan("1.12")) {
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度提示");
+            Config.realSupportAdvancement = false;
+        }
         File config = new File(getDataFolder() + File.separator + "config.yml");
         if (!config.exists()) {
             saveDefaultConfig();
@@ -78,6 +95,14 @@ public class Main extends JavaPlugin implements Listener {
             OtherUtils.resetPlayerStatusAll(players);
             MusicUtils.stopAll(players);
         }
+        for (Player player : players) {
+            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);
+            if (plp != null) {
+                plp.isStop = true;
+                PlayerStatus.setPlayerPlayListPlayer(player, null);
+                OtherUtils.resetPlayerStatus(player);
+            }
+        }
         LogUtils.sendNormalMessage("插件作者: 真心");
         LogUtils.sendNormalMessage("博客：www.zhenxin.xyz");
         LogUtils.sendNormalMessage("QQ：1307993674");
@@ -89,6 +114,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("zmusic.admin") || player.isOp()) {
+            OtherUtils.checkUpdate(Val.thisVer, player);
             if (!Val.isLatest) {
                 MessageUtils.sendNormalMessage("发现新版本 V" + Val.latestVer, player);
                 MessageUtils.sendNormalMessage("更新日志:", player);

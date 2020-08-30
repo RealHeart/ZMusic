@@ -1,8 +1,9 @@
 package cn.iqianye.mc.zmusic.utils;
 
+import cn.iqianye.mc.zmusic.Main;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
@@ -19,7 +20,6 @@ import java.security.MessageDigest;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.GZIPInputStream;
 
 public class OtherUtils {
 
@@ -66,6 +66,12 @@ public class OtherUtils {
         if (timer != null) {
             timer.cancel();
         }
+        PlayListPlayer playListPlayer = PlayerStatus.getPlayerPlayListPlayer(player);
+        if (playListPlayer != null) {
+            if (playListPlayer.isPlayEd) {
+                playListPlayer.isStop = true;
+            }
+        }
         if (Config.supportBossBar) {
             BossBar bossBar = PlayerStatus.getPlayerBoosBar(player);
             if (bossBar != null) {
@@ -76,13 +82,13 @@ public class OtherUtils {
             player.sendTitle("", "", 0, 0, 0);
         } catch (NoSuchMethodError e) {
             player.sendTitle("", "");
-            LogUtils.sendErrorMessage(e.getMessage());
-            LogUtils.sendErrorMessage("当前服务端不支持新版本Title发送方式，已使用旧的方式发送。");
         }
         PlayerStatus.setPlayerMusicName(player, null);
         PlayerStatus.setPlayerCurrentTime(player, null);
         PlayerStatus.setPlayerMaxTime(player, null);
         PlayerStatus.setPlayerLyric(player, null);
+        PlayerStatus.setPlayerPlatform(player, null);
+        PlayerStatus.setPlayerPlaySource(player, null);
     }
 
     /**
@@ -97,7 +103,12 @@ public class OtherUtils {
             if (timer != null) {
                 timer.cancel();
             }
-            String ver = JavaPlugin.getPlugin(Main.class).getServer().getVersion();
+            PlayListPlayer playListPlayer = PlayerStatus.getPlayerPlayListPlayer(player);
+            if (playListPlayer != null) {
+                if (playListPlayer.isPlayEd) {
+                    playListPlayer.isStop = true;
+                }
+            }
             if (Config.supportBossBar) {
                 BossBar bossBar = PlayerStatus.getPlayerBoosBar(player);
                 if (bossBar != null) {
@@ -108,13 +119,13 @@ public class OtherUtils {
                 player.sendTitle("", "", 0, 0, 0);
             } catch (Exception e) {
                 player.sendTitle("", "");
-                LogUtils.sendErrorMessage(e.getMessage());
-                LogUtils.sendErrorMessage("当前服务端不支持新版本Title发送方式，已使用旧的方式发送。");
             }
             PlayerStatus.setPlayerMusicName(player, null);
             PlayerStatus.setPlayerCurrentTime(player, null);
             PlayerStatus.setPlayerMaxTime(player, null);
             PlayerStatus.setPlayerLyric(player, null);
+            PlayerStatus.setPlayerPlatform(player, null);
+            PlayerStatus.setPlayerPlaySource(player, null);
         }
     }
 
@@ -168,9 +179,13 @@ public class OtherUtils {
     /**
      * 登录网易云音乐
      */
-    public static void loginNetease(Player player) {
+    public static void loginNetease(CommandSender sender) {
         new Thread(() -> {
             try {
+                Player player = null;
+                if (sender instanceof Player) {
+                    player = (Player) sender;
+                }
                 if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
                     if (player != null) {
                         MessageUtils.sendNormalMessage("正在尝试登录网易云音乐...", player);
@@ -264,27 +279,6 @@ public class OtherUtils {
 
 
     /**
-     * 从网易云获取歌词并格式化
-     *
-     * @param id 音乐id
-     * @return 格式化后的List
-     */
-    public static List<Map<Integer, String>> getLyricFor163(String id) {
-        Gson gson = new GsonBuilder().create();
-        String lyricJsonText = NetUtils.getNetString("https://music.163.com/api/song/media?id=" + id, null);
-        JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
-        String lyric = "";
-        try {
-            lyric = lyricJson.get("lyric").getAsString();
-            lyric = lyric.replaceAll("\r", "");
-        } catch (Exception e) {
-
-        }
-        return formatLyric(lyric);
-    }
-
-
-    /**
      * 格式化歌词信息
      *
      * @param lyric 歌词
@@ -345,24 +339,6 @@ public class OtherUtils {
         return time;
     }
 
-    public static String readString(String path) {
-        String str = "";
-        File file = new File(path);
-        try {
-            FileInputStream in = new FileInputStream(file);
-            // size  为字串的长度 ，这里一次性读完
-            int size = in.available();
-            byte[] buffer = new byte[size];
-            in.read(buffer);
-            in.close();
-            str = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return str;
-    }
-
     public static String getMD5String(String str) {
         try {
             // 生成一个MD5加密计算摘要
@@ -373,6 +349,36 @@ public class OtherUtils {
             // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
             //一个byte是八位二进制，也就是2位十六进制字符（2的8次方等于16的2次方）
             return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> queryFileNames(String filePath) {
+        ArrayList<String> es = new ArrayList<String>();
+        File f = new File(filePath);
+        File[] fs = f.listFiles();
+        for (int i = 0; i < fs.length; i++) {
+            if (fs[i].isFile()) {
+                es.add(fs[i].getName());
+            }
+        }
+        return es;
+    }
+
+    public static String readFileToString(File file) {
+        try {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader br = new BufferedReader(fileReader);
+            StringBuilder sb = new StringBuilder();
+            String temp = "";
+            while ((temp = br.readLine()) != null) {
+                // 拼接换行符
+                sb.append(temp).append("\n");
+            }
+            br.close();
+            return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

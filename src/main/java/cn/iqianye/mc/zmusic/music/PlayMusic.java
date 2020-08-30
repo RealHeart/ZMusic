@@ -1,5 +1,7 @@
 package cn.iqianye.mc.zmusic.music;
 
+import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
 import cn.iqianye.mc.zmusic.other.Val;
@@ -14,7 +16,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +59,6 @@ public class PlayMusic {
                     searchSourceName = "网易云音乐";
                     break;
                 case "qq":
-                    MessageUtils.sendNormalMessage("QQ音乐需要在服务端获取音乐长度，可能搜索较慢，请耐心等待。", player);
                     json = QQMusic.getMusicUrl(searchKey);
                     searchSourceName = "QQ音乐";
                     break;
@@ -107,8 +110,15 @@ public class PlayMusic {
                         MusicUtils.playAll(musicUrl, players);
                         OtherUtils.resetPlayerStatusAll(players);
                         for (Player p : players) {
+                            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(p);
+                            if (plp != null) {
+                                plp.isStop = true;
+                                PlayerStatus.setPlayerPlayListPlayer(p, null);
+                            }
                             PlayerStatus.setPlayerPlayStatus(p, true);
                             PlayerStatus.setPlayerMusicName(p, musicName);
+                            PlayerStatus.setPlayerPlatform(p, searchSourceName);
+                            PlayerStatus.setPlayerPlaySource(p, "搜索");
                             PlayerStatus.setPlayerMaxTime(p, musicMaxTime);
                             PlayerStatus.setPlayerCurrentTime(p, 0);
                             LyricSendTimer lyricSendTimer = new LyricSendTimer();
@@ -163,11 +173,19 @@ public class PlayMusic {
                     break;
                 case "self":
                     if (player != null) {
+                        PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);
+                        if (plp != null) {
+                            plp.isStop = true;
+                            PlayerStatus.setPlayerPlayListPlayer(player, null);
+                            OtherUtils.resetPlayerStatus(player);
+                        }
                         MusicUtils.stopSelf(player);
                         MusicUtils.playSelf(musicUrl, player);
                         OtherUtils.resetPlayerStatus(player);
                         PlayerStatus.setPlayerPlayStatus(player, true);
                         PlayerStatus.setPlayerMusicName(player, musicName);
+                        PlayerStatus.setPlayerPlatform(player, searchSourceName);
+                        PlayerStatus.setPlayerPlaySource(player, "搜索");
                         PlayerStatus.setPlayerMaxTime(player, musicMaxTime);
                         PlayerStatus.setPlayerCurrentTime(player, 0);
                         LyricSendTimer lyricSendTimer = new LyricSendTimer();
@@ -214,7 +232,11 @@ public class PlayMusic {
                             timer.schedule(lyricSendTimer, 1000L, 1000L);
                             PlayerStatus.setPlayerTimer(player, timer);
                         }
+                        JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
                         MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", player);
+                        if (Config.realSupportAdvancement) {
+                            new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicName, plugin).sendAdvancement((player));
+                        }
                     }
                     break;
                 case "music":

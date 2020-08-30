@@ -1,5 +1,7 @@
 package cn.iqianye.mc.zmusic.music;
 
+import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.other.Val;
@@ -14,9 +16,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
@@ -33,11 +37,6 @@ public class LyricSendTimer extends TimerTask {
     public boolean isActionBar;
     public boolean isTitle;
     public boolean isChat;
-    public boolean isPlayList = false;
-    public JsonArray playList;
-    boolean playListSetEd = false;
-    int playListLocation = 0;
-    int maxPlayListLocation = 1;
     BossBar bossBar;
     int time = 0;
 
@@ -46,36 +45,6 @@ public class LyricSendTimer extends TimerTask {
         time++;
         PlayerStatus.setPlayerCurrentTime(player, time);
         if (player.isOnline()) {
-
-            if (isPlayList) {
-                if (!playListSetEd) {
-                    time--;
-                    String tempId = playList.get(0).getAsJsonObject().get("id").getAsString();
-                    Gson gson = new GsonBuilder().create();
-                    JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + tempId + "&br=320000&" +
-                            "cookie=" + Val.neteaseCookie, null), JsonObject.class);
-                    String tempUrl = tempUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
-                    String tempName = playList.get(0).getAsJsonObject().get("name").getAsString() + "(" + playList.get(0).getAsJsonObject().get("singer").getAsString() + ")";
-                    if (tempUrl == null) {
-                        MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
-                    }
-                    MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
-                    int tempMaxTime = playList.get(0).getAsJsonObject().get("time").getAsInt();
-                    PlayerStatus.setPlayerMusicName(player, tempName);
-                    PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
-                    maxTime = tempMaxTime;
-                    name = tempName;
-                    url = tempUrl;
-                    lyric = OtherUtils.getLyricFor163(tempId);
-                    lyricTr = OtherUtils.formatLyric("");
-                    playListLocation++;
-                    maxPlayListLocation = playList.size();
-                    playListSetEd = true;
-                    MusicUtils.playSelf(tempUrl, player);
-                }
-            }
-
-
             if (isBoosBar) {
                 if (bossBar == null) {
                     bossBar = PlayerStatus.getPlayerBoosBar(player);
@@ -92,7 +61,7 @@ public class LyricSendTimer extends TimerTask {
                 }
             }
             if (PlayerStatus.getPlayerPlayStatus(player)) {
-                if (time != maxTime) {
+                if (!(time > maxTime)) {
                     if (!lyric.isEmpty()) {
                         for (int i = 0; i < lyric.size(); i++) {
                             Map<Integer, String> map = lyric.get(i);
@@ -172,62 +141,11 @@ public class LyricSendTimer extends TimerTask {
                         }
                     }
                 } else {
-                    if (isPlayList) {
-                        if (playListLocation == maxPlayListLocation) {
-                            OtherUtils.resetPlayerStatus(player);
-                            if (isBoosBar) {
-                                bossBar.removePlayer(player);
-                            }
-                            cancel();
-                        } else {
-                            String tempId = playList.get(playListLocation).getAsJsonObject().get("id").getAsString();
-                            Gson gson = new GsonBuilder().create();
-                            JsonObject tempUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + tempId + "&br=320000&" +
-                                    "cookie=" + Val.neteaseCookie, null), JsonObject.class);
-                            String tempUrl = tempUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
-                            String tempName = playList.get(playListLocation).getAsJsonObject().get("name").getAsString() + "(" + playList.get(playListLocation).getAsJsonObject().get("singer").getAsString() + ")";
-                            if (tempUrl == null) {
-                                MessageUtils.sendErrorMessage("错误，无法获取当前音乐§r[§e" + tempName + "§r]§c，可能音乐无版权或为VIP音乐.", player);
-                                return;
-                            }
-                            MessageUtils.sendNormalMessage("开始播放§r[§e" + tempName + "§r]§a.", player);
-                            int tempMaxTime = playList.get(playListLocation).getAsJsonObject().get("time").getAsInt();
-                            PlayerStatus.setPlayerMusicName(player, tempName);
-                            PlayerStatus.setPlayerMaxTime(player, tempMaxTime);
-                            maxTime = tempMaxTime;
-                            name = tempName;
-                            url = tempUrl;
-                            lyric = OtherUtils.getLyricFor163(tempId);
-                            lyricTr = OtherUtils.formatLyric("");
-                            playListLocation++;
-                            playListSetEd = true;
-                            MusicUtils.stopSelf(player);
-                            MusicUtils.playSelf(tempUrl, player);
-                            if (isBoosBar) {
-                                bossBar.removePlayer(player);
-                                bossBar = new BossBar(player, "§b§l" + name, BarColor.BLUE, BarStyle.SEGMENTED_20, maxTime);
-                                bossBar.showTitle();
-                                PlayerStatus.setPlayerBoosBar(player, bossBar);
-                            }
-                            time = 0;
-                        }
-                    } else if (PlayerStatus.getPlayerLoopPlay(player) != null && PlayerStatus.getPlayerLoopPlay(player)) {
-                        MusicUtils.stopSelf(player);
-                        MusicUtils.playSelf(url, player);
-                        if (isBoosBar) {
-                            bossBar.removePlayer(player);
-                            bossBar = new BossBar(player, "§b§l" + name, BarColor.BLUE, BarStyle.SEGMENTED_20, maxTime);
-                            bossBar.showTitle();
-                            PlayerStatus.setPlayerBoosBar(player, bossBar);
-                        }
-                        time = 0;
-                    } else {
-                        OtherUtils.resetPlayerStatus(player);
-                        if (isBoosBar) {
-                            bossBar.removePlayer(player);
-                        }
-                        cancel();
+                    OtherUtils.resetPlayerStatus(player);
+                    if (isBoosBar) {
+                        bossBar.removePlayer(player);
                     }
+                    cancel();
                 }
             } else {
                 OtherUtils.resetPlayerStatus(player);
@@ -243,7 +161,5 @@ public class LyricSendTimer extends TimerTask {
             }
             cancel();
         }
-
     }
-
 }

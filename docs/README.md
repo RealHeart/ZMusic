@@ -110,10 +110,19 @@
 
 ### 参数
 
-`平台` 要搜索音乐的平台  
+`平台/type` 要搜索音乐的平台  
 目前支持以下平台  
 * qq - QQ音乐  
-* netease/163 - 网易云音乐  
+* netease/163 - 网易云音乐
+
+如果平台为type 则为设置歌单播放方式.  
+目前支持
+* normal - 顺序播放
+* loop - 循环播放
+* random - 随机播放
+
+示例:
+`/zm playlist type random`
 
 `子命令` 对应平台的子命令
 
@@ -132,14 +141,14 @@
 
 播放:  
 * `/zm playlist qq play 1937967578`
-* `/zm playlist play 363046232`  
+* `/zm playlist 163 play 363046232`  
 
 ## 管理员
 管理员相关操作，全服强制播放，重载配置等
 
 ### 主命令
 
-`/zm admin`
+`/zm`
 
 ### 子命令
 
@@ -159,8 +168,6 @@
 `/zm playAll qq 你的猫咪`
 
 `stopAll` 强制停止全服播放  
-`playlist` 全服歌单主命令(子命令参考/zm playlist)  
-`163relogin` 重新登录网易云音乐  
 `reload` 重载配置文件  
 
 # 权限
@@ -240,7 +247,7 @@ lyric:
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(不支持1.8及以下)
   bossBar: true
-  # 是否使用ActionBar显示歌词
+  # 是否使用ActionBar显示歌词(不支持1.8及以下)
   actionBar: false
   # 是否使用Title显示歌词
   subTitle: false
@@ -254,6 +261,8 @@ lyric:
 `%zmusic_playing_lyric%` 获取当前时间显示的歌词  
 `%zmusic_time_current%` 获取当前播放的音乐的时间  
 `%zmusic_time_max%` 获取当前播放的音乐的最大时间  
+`%zmusic_playing_platform%` - 获取当前播放的音乐平台  
+`%zmusic_playing_source%` - 获取当前播放的音乐来源  
 
 # 前置插件
 

@@ -34,7 +34,6 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d管理员帮助 By 真心 §6=========", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playAll [搜索源] [歌名] - 强制为所有玩家播放音乐.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " stopAll - 强制为所有玩家停止播放音乐.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " 163relogin - 重新登录网易云音乐.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " reload - 重载配置文件.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
@@ -49,10 +48,10 @@ public class HelpUtils {
                 break;
             case "playlist":
                 MessageUtils.sendNormalMessage("§6========= §r[§bZMusic§r] §d歌单帮助 By 真心 §6=========", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " playlist import <歌单链接> - 导入歌单§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " playlist list - 查看已导入的歌单列表§a.", player);
-                MessageUtils.sendNormalMessage("/" + cmdName + " playlist play <歌单ID> - 播放已导入的歌单§a.", player);
-                MessageUtils.sendNormalMessage("歌单功能仅支持网易云音乐。", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] import <歌单链接> - 导入歌单§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] list - 查看已导入的歌单列表§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] play <歌单ID> - 播放已导入的歌单§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist type [normal/loop/random] - 设置歌单播放模式§a.", player);
                 MessageUtils.sendNormalMessage("§6=========================================", player);
                 break;
             case "music":

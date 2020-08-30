@@ -20,7 +20,7 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 4;
+    public static int latestVersion = 5;
     // Debug
     public static boolean debug;
     // Account
@@ -45,8 +45,11 @@ public class Config {
     public static boolean supportChat = false;
 
     // RealSupport
+    public static boolean realSupportBossBar = true;
     public static boolean realSupportTitle = true;
     public static boolean realSupportVault = true;
+    public static boolean realSupportAdvancement = true;
+    public static boolean realSupportActionBar = true;
 
     public static void load(FileConfiguration configuration) {
         // Version
@@ -63,6 +66,8 @@ public class Config {
         }
         // Debug
         debug = configuration.getBoolean("debug");
+        // Prefix
+        prefix = ChatColor.translateAlternateColorCodes('&', configuration.getString("prefix"));
         // Account
         // Netease
         neteaseloginType = configuration.getString("account.netease.loginType");
@@ -82,7 +87,6 @@ public class Config {
                 Gson gson = new GsonBuilder().create();
                 String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/checkVIP.php?qq=" + bilibiliQQ + "&key=" + bilibiliKey, null);
                 JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                LogUtils.sendErrorMessage(json.toString());
                 Val.bilibiliIsVIP = json.get("isVIP").getAsBoolean();
             }).start();
         }
@@ -92,8 +96,12 @@ public class Config {
         // Lyric
         lyricEnable = configuration.getBoolean("lyric.enable");
         showLyricTr = configuration.getBoolean("lyric.showLyricTr");
-        supportBossBar = configuration.getBoolean("lyric.bossBar");
-        supportActionBar = configuration.getBoolean("lyric.actionBar");
+        if (realSupportBossBar) {
+            supportBossBar = configuration.getBoolean("lyric.bossBar");
+        }
+        if (realSupportActionBar) {
+            supportActionBar = configuration.getBoolean("lyric.actionBar");
+        }
         if (realSupportTitle) {
             supportTitle = configuration.getBoolean("lyric.subTitle");
         }

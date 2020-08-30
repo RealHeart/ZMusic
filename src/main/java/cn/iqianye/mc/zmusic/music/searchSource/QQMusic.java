@@ -1,9 +1,11 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
 import cn.iqianye.mc.zmusic.other.Val;
+import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 import com.locydragon.abf.api.AudioBufferAPI;
+import org.json.simple.JSONArray;
 
 import java.net.URLEncoder;
 
@@ -23,8 +25,15 @@ public class QQMusic {
             JsonObject data = json.get("data").getAsJsonObject();
             JsonObject list = data.getAsJsonArray("list").get(0).getAsJsonObject();
             String songmid = list.get("songmid").getAsString();
-            String songName = list.get("songname").getAsString();
-            JsonArray singer = list.getAsJsonArray("singer");
+            String getSongInfo = Val.qqMusicApiRoot + "song?songmid=" + songmid;
+            String songInfoText = NetUtils.getNetString(getSongInfo, null);
+            JsonObject songInfo = gson.fromJson(songInfoText, JsonObject.class);
+            songInfo = songInfo.get("data").getAsJsonObject().get("track_info").getAsJsonObject();
+            songmid = songInfo.get("mid").getAsString();
+            String mediaId = songInfo.get("file").getAsJsonObject().get("media_mid").getAsString();
+            int songTime = songInfo.get("interval").getAsInt();
+            String songName = songInfo.get("title").getAsString();
+            JsonArray singer = songInfo.getAsJsonArray("singer");
             String singerName = "";
             for (JsonElement j : singer) {
                 singerName += j.getAsJsonObject().get("name").getAsString() + "/";
@@ -39,12 +48,10 @@ public class QQMusic {
             String lyricTr = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
             lyricTr = lyricTr.replaceAll("&apos;", "'");
             lyricTr = lyricTr.replaceAll("\r", "");
-            String getMp3Url = Val.qqMusicApiRoot + "song/url?id=" + songmid;
+            String getMp3Url = Val.qqMusicApiRoot + "song/url?id=" + songmid + "&mediaId=" + mediaId;
             String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
             JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
             String mp3Url = getMp3Json.get("data").getAsString();
-            int songTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + mp3Url);
-
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("url", mp3Url);
             returnJSON.addProperty("time", songTime);
@@ -86,6 +93,52 @@ public class QQMusic {
                 returnJsonObj.addProperty("singer", singerName);
                 returnJson.add(returnJsonObj);
             }
+            return returnJson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 获取音乐歌单
+     *
+     * @param playListId 歌单ID
+     * @return 音乐歌单信息
+     */
+    public static JsonObject getMusicSongList(String playListId) {
+        try {
+            String getUrl = Val.qqMusicApiRoot + "songlist?id=" + playListId;
+            Gson gson = new GsonBuilder().create();
+            JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
+            JsonObject data = json.get("data").getAsJsonObject();
+            JsonArray songList = data.getAsJsonArray("songlist");
+            String songListName = data.get("dissname").getAsString();
+            int songListSongNum = data.get("songnum").getAsInt();
+            JsonObject returnJson = new JsonObject();
+            JSONArray returnJsonArr = new JSONArray();
+            for (JsonElement j : songList) {
+                String songMid = j.getAsJsonObject().get("songmid").getAsString();
+                String strMediaMid = j.getAsJsonObject().get("strMediaMid").getAsString();
+                String songName = j.getAsJsonObject().get("songname").getAsString();
+                JsonArray singer = j.getAsJsonObject().getAsJsonArray("singer");
+                String singerName = "";
+                for (JsonElement js : singer) {
+                    singerName += js.getAsJsonObject().get("name").getAsString() + "/";
+                }
+                singerName = singerName.substring(0, singerName.length() - 1);
+                int songTime = j.getAsJsonObject().get("interval").getAsInt();
+                JsonObject returnJsonObj = new JsonObject();
+                returnJsonObj.addProperty("id", songMid);
+                returnJsonObj.addProperty("mid", strMediaMid);
+                returnJsonObj.addProperty("name", songName);
+                returnJsonObj.addProperty("singer", singerName);
+                returnJsonObj.addProperty("time", songTime);
+                returnJsonArr.add(returnJsonObj);
+            }
+            returnJson.addProperty("name", songListName);
+            returnJson.addProperty("songs", songListSongNum);
+            returnJson.add("list", gson.fromJson(returnJsonArr.toJSONString(), JsonElement.class));
             return returnJson;
         } catch (Exception e) {
             e.printStackTrace();

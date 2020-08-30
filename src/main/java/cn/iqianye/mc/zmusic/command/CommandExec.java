@@ -3,13 +3,13 @@ package cn.iqianye.mc.zmusic.command;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.Main;
 import cn.iqianye.mc.zmusic.music.PlayList;
+import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
 import cn.iqianye.mc.zmusic.music.SearchMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.HelpUtils;
-import cn.iqianye.mc.zmusic.utils.MessageUtils;
-import cn.iqianye.mc.zmusic.utils.MusicUtils;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -131,6 +131,12 @@ public class CommandExec implements TabExecutor {
                                 return true;
                             }
                         case "stop":
+                            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer((Player) sender);
+                            if (plp != null) {
+                                plp.isStop = true;
+                                PlayerStatus.setPlayerPlayListPlayer((Player) sender, null);
+                                OtherUtils.resetPlayerStatus((Player) sender);
+                            }
                             MusicUtils.stopSelf((Player) sender);
                             OtherUtils.resetPlayerStatus((Player) sender);
                             MessageUtils.sendNormalMessage("停止播放音乐成功!", sender);
@@ -147,29 +153,13 @@ public class CommandExec implements TabExecutor {
                         case "playlist":
                             if (sender instanceof Player) {
                                 if (args.length >= 2) {
-                                    if (args[1].equalsIgnoreCase("list")) {
-                                        new Thread(() -> {
-                                            PlayList.showPlayList((Player) sender);
-                                        }).start();
-                                        return true;
-                                    } else if (args.length >= 3) {
-                                        if (args[1].equalsIgnoreCase("import")) {
-                                            new Thread(() -> {
-                                                PlayList.importPlayList(args[2], (Player) sender);
-                                            }).start();
-                                        } else if (args[1].equalsIgnoreCase("play")) {
-                                            new Thread(() -> {
-                                                PlayList.playPlayList(args[2], (Player) sender);
-                                            }).start();
-                                        }
-                                        return true;
-                                    }
-                                    HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
-                                    return true;
-                                } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
+                                    new Thread(() -> {
+                                        PlayList.subCommand(args, cmd.getName(), (Player) sender);
+                                    }).start();
                                     return true;
                                 }
+                                HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
+                                return true;
                             } else {
                                 MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
                                 return true;
@@ -238,6 +228,7 @@ public class CommandExec implements TabExecutor {
                             if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                                 JavaPlugin.getPlugin(Main.class).reloadConfig();
                                 Config.load(JavaPlugin.getPlugin(Main.class).getConfig());
+                                OtherUtils.loginNetease(sender);
                                 MessageUtils.sendNormalMessage("配置文件重载完毕!", sender);
                                 return true;
                             } else {
@@ -250,14 +241,6 @@ public class CommandExec implements TabExecutor {
                                 return true;
                             } else {
                                 HelpUtils.sendHelp(cmd.getName(), "main", sender);
-                                return true;
-                            }
-                        case "163relogin":
-                            if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                OtherUtils.loginNetease((Player) sender);
-                                return true;
-                            } else {
-                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                 return true;
                             }
                         default:
@@ -284,7 +267,7 @@ public class CommandExec implements TabExecutor {
             return new ArrayList<>();
         } else if (args.length >= 1) {
             if (args.length == 1) {
-                if (sender.hasPermission("ZMusic.admin") || sender.isOp()) {
+                if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                     commandList = new String[]{"help",
                             "play",
                             "playlist",
@@ -296,7 +279,6 @@ public class CommandExec implements TabExecutor {
                             "admin",
                             "playAll",
                             "stopAll",
-                            "163relogin",
                             "163hot",
                             "reload"};
                 } else {
@@ -325,15 +307,14 @@ public class CommandExec implements TabExecutor {
                             "netease",
                             "kugou",
                             "kuwo",
-                            "bilibili",
-                            "migu"};
+                            "bilibili"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();
                 }
             } else if (args[0].equalsIgnoreCase("help")) {
                 if (args.length == 2) {
-                    if (sender.hasPermission("ZMusic.admin") || sender.isOp()) {
+                    if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                         commandList = new String[]{"play", "playlist", "music", "search", "url", "admin"};
                     } else {
                         commandList = new String[]{"play", "playlist", "music", "search", "url"};
@@ -344,8 +325,16 @@ public class CommandExec implements TabExecutor {
                 }
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"play", "import", "list"};
+                    commandList = new String[]{"qq", "netease", "163", "type"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
+                } else if (args.length == 3) {
+                    if (!args[1].equalsIgnoreCase("type")) {
+                        commandList = new String[]{"import", "play", "list", "update"};
+                        return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
+                    } else {
+                        commandList = new String[]{"random", "normal", "loop"};
+                        return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
+                    }
                 } else {
                     return new ArrayList<>();
                 }

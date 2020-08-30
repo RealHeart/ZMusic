@@ -34,6 +34,24 @@ public class PApiHook extends PlaceholderExpansion {
             }
 
         }
+        // 音乐平台
+        if (identifier.equalsIgnoreCase("playing_platform")) {
+            String musicName = PlayerStatus.getPlayerPlatform(player);
+            if (musicName != null) {
+                return musicName;
+            } else {
+                return "无";
+            }
+        }
+        // 音乐来源
+        if (identifier.equalsIgnoreCase("playing_source")) {
+            String musicName = PlayerStatus.getPlayerPlaySource(player);
+            if (musicName != null) {
+                return musicName;
+            } else {
+                return "无";
+            }
+        }
         // 歌词
         if (identifier.equalsIgnoreCase("playing_lyric")) {
             String lyric = PlayerStatus.getPlayerLyric(player);
@@ -49,7 +67,7 @@ public class PApiHook extends PlaceholderExpansion {
             if (currentTime != null) {
                 if (currentTime < 60) {
                     return "00" + ":" + String.format("%02d", currentTime);
-                } else if (currentTime > 60 && currentTime < 3600) {
+                } else if (currentTime < 3600) {
                     int m = currentTime / 60;
                     int s = currentTime % 60;
                     return String.format("%02d", m) + ":" + String.format("%02d", s);
@@ -69,7 +87,7 @@ public class PApiHook extends PlaceholderExpansion {
             if (maxTime != null) {
                 if (maxTime < 60) {
                     return "00" + ":" + String.format("%02d", maxTime);
-                } else if (maxTime > 60 && maxTime < 3600) {
+                } else if (maxTime < 3600) {
                     int m = maxTime / 60;
                     int s = maxTime % 60;
                     return String.format("%02d", m) + ":" + String.format("%02d", s);
