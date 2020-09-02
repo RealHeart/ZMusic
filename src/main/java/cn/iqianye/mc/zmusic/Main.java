@@ -29,6 +29,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         Config.debug = true;
+        Version version = new Version();
         LogUtils.sendNormalMessage("正在加载中....");
         //注册bStats
         MetricsLite metricsLite = new MetricsLite(this, 7291);
@@ -38,18 +39,22 @@ public class Main extends JavaPlugin implements Listener {
         getCommand("zm").setTabCompleter(new CommandExec());
         if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AudioBuffer")) {
             LogUtils.sendErrorMessage("请勿安装AudioBuffer插件.");
-            setEnabled(false);
+            Val.isEnable = false;
         }
         if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AllMusic")) {
             LogUtils.sendErrorMessage("请勿安装AllMusic插件.");
-            setEnabled(false);
+            Val.isEnable = false;
         }
         //注册Mod通信频道
         LogUtils.sendNormalMessage("正在注册Mod通信频道...");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "allmusic:channel");
         LogUtils.sendNormalMessage("-- §r[§eAllMusic§r]§a 频道注册完毕.");
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
-        LogUtils.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
+        if (!version.isHigherThan("1.13")) {
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
+            LogUtils.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
+        } else {
+            LogUtils.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.13，频道注册取消.");
+        }
         //注册事件监听器
         getServer().getPluginManager().registerEvents(this, this);
         OtherUtils.checkUpdate(Val.thisVer, null);
@@ -76,7 +81,6 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
             Val.isViaVer = false;
         }
-        Version version = new Version();
         if (Bukkit.getBukkitVersion().contains("1.7.10")) {
             if (!Bukkit.getBukkitVersion().contains("Uranium")) {
                 LogUtils.sendErrorMessage("检测到当前服务端非Uranium，不支持Title/ActionBar显示");

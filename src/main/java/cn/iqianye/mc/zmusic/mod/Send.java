@@ -21,7 +21,7 @@ public class Send {
             buf.writeBytes(bytes);
             player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "allmusic:channel", buf.array());
         } catch (Exception e) {
-            LogUtils.sendErrorMessage("§c数据发送发生错误");
+            LogUtils.sendErrorMessage("数据发送发生错误");
             e.printStackTrace();
         }
     }
@@ -32,7 +32,7 @@ public class Send {
         try {
             player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "AudioBuffer", data.getBytes());
         } catch (Exception e) {
-            LogUtils.sendErrorMessage("§c数据发送发生错误");
+            LogUtils.sendErrorMessage("数据发送发生错误");
             e.printStackTrace();
         }
     }

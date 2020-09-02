@@ -1,8 +1,8 @@
 package cn.iqianye.mc.zmusic.other;
 
 public class Val {
-    public static String thisVer = "1.7";
-    public static int thisVerCode = 202009020;
+    public static String thisVer = "1.7.1";
+    public static int thisVerCode = 202009021;
     public static boolean isLatest = true;
     public static String updateLog;
     public static String latestVer;
@@ -16,4 +16,6 @@ public class Val {
     public static boolean bilibiliIsVIP = false;
 
     public static boolean isViaVer = true;
+
+    public static boolean isEnable = true;
 }

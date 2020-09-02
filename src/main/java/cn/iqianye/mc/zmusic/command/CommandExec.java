@@ -6,6 +6,7 @@ import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
 import cn.iqianye.mc.zmusic.music.SearchMusic;
+import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.HelpUtils;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
@@ -32,232 +33,237 @@ public class CommandExec implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { //指令输出
         if (cmd.getName().equalsIgnoreCase("zm")) {
-            if (sender.hasPermission("zmusic.use") || sender.isOp()) {
-                if (args.length == 0) {
-                    MessageUtils.sendNull(cmd.getName(), sender);
-                    return true;
-                } else if (args.length >= 1) {
-                    switch (args[0].toLowerCase()) {
-                        case "music":
-                            if (sender instanceof Player) {
-                                int cooldownSec = Config.cooldown;
-                                Thread startPlayThread = new Thread(() -> {
-                                    if (args.length >= 2) {
-                                        new Thread(() -> {
-                                            List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
-                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", players);
-                                        }).start();
-                                    } else {
-                                        HelpUtils.sendHelp(cmd.getName(), "music", sender);
-                                    }
-                                });
-                                if (!sender.hasPermission("zmusic.bypass") || !sender.isOp()) {
-                                    if (!cooldownStats.contains(sender)) {
-                                        if (Config.realSupportVault) {
-                                            if (Config.money > 0) {
-                                                Economy econ;
-                                                RegisteredServiceProvider<Economy> economyProvider = org.bukkit.Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
-                                                econ = economyProvider.getProvider();
-                                                double money = econ.getBalance(((Player) sender).getPlayer());
-                                                if ((money - Config.money) >= 0) {
-                                                    econ.withdrawPlayer(((Player) sender).getPlayer(), Config.money);
-                                                    money = econ.getBalance(((Player) sender).getPlayer());
-                                                    MessageUtils.sendNormalMessage("点歌花费§e" + econ.format(Config.money) + "§a,已扣除,扣除后余额: §e" + econ.format(money) + "§a.", sender);
-                                                } else {
-                                                    MessageUtils.sendErrorMessage("金币不足,需要§e" + econ.format(Config.money) + "§c,你有§e" + econ.format(money) + "§c.", sender);
-                                                    return true;
-                                                }
-                                            }
+            if (Val.isEnable) {
+                if (sender.hasPermission("zmusic.use") || sender.isOp()) {
+                    if (args.length == 0) {
+                        MessageUtils.sendNull(cmd.getName(), sender);
+                        return true;
+                    } else if (args.length >= 1) {
+                        switch (args[0].toLowerCase()) {
+                            case "music":
+                                if (sender instanceof Player) {
+                                    int cooldownSec = Config.cooldown;
+                                    Thread startPlayThread = new Thread(() -> {
+                                        if (args.length >= 2) {
+                                            new Thread(() -> {
+                                                List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
+                                                PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", players);
+                                            }).start();
+                                        } else {
+                                            HelpUtils.sendHelp(cmd.getName(), "music", sender);
                                         }
-                                        startPlayThread.start();
-                                        if (cooldownSec > 0) {
-                                            cooldownStats.add((Player) sender);
-                                            cooldown.put((Player) sender, cooldownSec);
-                                            Timer timer = new Timer();
-                                            TimerTask timerTask = new TimerTask() {
-                                                @Override
-                                                public void run() {
-                                                    int sec = cooldown.get(sender);
-                                                    if (sec != 1) {
-                                                        sec--;
-                                                        cooldown.put((Player) sender, sec);
+                                    });
+                                    if (!sender.hasPermission("zmusic.bypass") || !sender.isOp()) {
+                                        if (!cooldownStats.contains(sender)) {
+                                            if (Config.realSupportVault) {
+                                                if (Config.money > 0) {
+                                                    Economy econ;
+                                                    RegisteredServiceProvider<Economy> economyProvider = org.bukkit.Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+                                                    econ = economyProvider.getProvider();
+                                                    double money = econ.getBalance(((Player) sender).getPlayer());
+                                                    if ((money - Config.money) >= 0) {
+                                                        econ.withdrawPlayer(((Player) sender).getPlayer(), Config.money);
+                                                        money = econ.getBalance(((Player) sender).getPlayer());
+                                                        MessageUtils.sendNormalMessage("点歌花费§e" + econ.format(Config.money) + "§a,已扣除,扣除后余额: §e" + econ.format(money) + "§a.", sender);
                                                     } else {
-                                                        cooldownStats.remove(sender);
-                                                        cancel();
+                                                        MessageUtils.sendErrorMessage("金币不足,需要§e" + econ.format(Config.money) + "§c,你有§e" + econ.format(money) + "§c.", sender);
+                                                        return true;
                                                     }
                                                 }
-                                            };
-                                            timer.schedule(timerTask, 1000L, 1000L);
-                                            return true;
+                                            }
+                                            startPlayThread.start();
+                                            if (cooldownSec > 0) {
+                                                cooldownStats.add((Player) sender);
+                                                cooldown.put((Player) sender, cooldownSec);
+                                                Timer timer = new Timer();
+                                                TimerTask timerTask = new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        int sec = cooldown.get(sender);
+                                                        if (sec != 1) {
+                                                            sec--;
+                                                            cooldown.put((Player) sender, sec);
+                                                        } else {
+                                                            cooldownStats.remove(sender);
+                                                            cancel();
+                                                        }
+                                                    }
+                                                };
+                                                timer.schedule(timerTask, 1000L, 1000L);
+                                                return true;
+                                            } else {
+                                                return true;
+                                            }
                                         } else {
+                                            MessageUtils.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
                                             return true;
                                         }
                                     } else {
-                                        MessageUtils.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
+                                        startPlayThread.start();
                                         return true;
                                     }
-                                } else {
-                                    startPlayThread.start();
-                                    return true;
                                 }
-                            }
-                        case "play":
-                            if (sender instanceof Player) {
-                                if (args.length >= 2) {
-                                    new Thread(() -> {
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "self", null);
-                                    }).start();
-                                    return true;
-                                } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "play", sender);
-                                    return true;
-                                }
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
-                                return true;
-                            }
-                        case "search":
-                            if (sender instanceof Player) {
-                                if (args.length >= 2) {
-                                    new Thread(() -> {
-                                        SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender, cmd.getName());
-                                    }).start();
-                                    return true;
-                                } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "search", sender);
-                                    return true;
-                                }
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
-                                return true;
-                            }
-                        case "stop":
-                            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer((Player) sender);
-                            if (plp != null) {
-                                plp.isStop = true;
-                                PlayerStatus.setPlayerPlayListPlayer((Player) sender, null);
-                                OtherUtils.resetPlayerStatus((Player) sender);
-                            }
-                            MusicUtils.stopSelf((Player) sender);
-                            OtherUtils.resetPlayerStatus((Player) sender);
-                            MessageUtils.sendNormalMessage("停止播放音乐成功!", sender);
-                            return true;
-                        case "loop":
-                            if (PlayerStatus.getPlayerLoopPlay((Player) sender) != null && PlayerStatus.getPlayerLoopPlay((Player) sender)) {
-                                PlayerStatus.setPlayerLoopPlay((Player) sender, false);
-                                MessageUtils.sendNormalMessage("循环播放已关闭!", sender);
-                            } else {
-                                PlayerStatus.setPlayerLoopPlay((Player) sender, true);
-                                MessageUtils.sendNormalMessage("循环播放已开启!", sender);
-                            }
-                            return true;
-                        case "playlist":
-                            if (sender instanceof Player) {
-                                if (args.length >= 2) {
-                                    new Thread(() -> {
-                                        PlayList.subCommand(args, cmd.getName(), (Player) sender);
-                                    }).start();
-                                    return true;
-                                }
-                                HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
-                                return true;
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
-                                return true;
-                            }
-                        case "url":
-                            if (sender instanceof Player) {
-                                if (args.length == 2) {
-                                    MusicUtils.stopSelf((Player) sender);
-                                    MusicUtils.playSelf(args[1], (Player) sender);
-                                    MessageUtils.sendNormalMessage("播放成功!", sender);
-                                    return true;
-                                } else {
-                                    HelpUtils.sendHelp(cmd.getName(), "url", sender);
-                                    return true;
-                                }
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
-                                return true;
-                            }
-                        case "playall":
-                            if (sender instanceof Player) {
-                                if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                    List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
+                            case "play":
+                                if (sender instanceof Player) {
                                     if (args.length >= 2) {
                                         new Thread(() -> {
-                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "self", null);
                                         }).start();
                                         return true;
                                     } else {
-                                        HelpUtils.sendHelp(cmd.getName(), "admin", sender);
+                                        HelpUtils.sendHelp(cmd.getName(), "play", sender);
                                         return true;
                                     }
                                 } else {
-                                    MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
                                     return true;
                                 }
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                            case "search":
+                                if (sender instanceof Player) {
+                                    if (args.length >= 2) {
+                                        new Thread(() -> {
+                                            SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender, cmd.getName());
+                                        }).start();
+                                        return true;
+                                    } else {
+                                        HelpUtils.sendHelp(cmd.getName(), "search", sender);
+                                        return true;
+                                    }
+                                } else {
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                    return true;
+                                }
+                            case "stop":
+                                PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer((Player) sender);
+                                if (plp != null) {
+                                    plp.isStop = true;
+                                    PlayerStatus.setPlayerPlayListPlayer((Player) sender, null);
+                                    OtherUtils.resetPlayerStatus((Player) sender);
+                                }
+                                MusicUtils.stopSelf((Player) sender);
+                                OtherUtils.resetPlayerStatus((Player) sender);
+                                MessageUtils.sendNormalMessage("停止播放音乐成功!", sender);
                                 return true;
-                            }
-                        case "stopall":
-                            if (sender instanceof Player) {
+                            case "loop":
+                                if (PlayerStatus.getPlayerLoopPlay((Player) sender) != null && PlayerStatus.getPlayerLoopPlay((Player) sender)) {
+                                    PlayerStatus.setPlayerLoopPlay((Player) sender, false);
+                                    MessageUtils.sendNormalMessage("循环播放已关闭!", sender);
+                                } else {
+                                    PlayerStatus.setPlayerLoopPlay((Player) sender, true);
+                                    MessageUtils.sendNormalMessage("循环播放已开启!", sender);
+                                }
+                                return true;
+                            case "playlist":
+                                if (sender instanceof Player) {
+                                    if (args.length >= 2) {
+                                        new Thread(() -> {
+                                            PlayList.subCommand(args, cmd.getName(), (Player) sender);
+                                        }).start();
+                                        return true;
+                                    }
+                                    HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
+                                    return true;
+                                } else {
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                    return true;
+                                }
+                            case "url":
+                                if (sender instanceof Player) {
+                                    if (args.length == 2) {
+                                        MusicUtils.stopSelf((Player) sender);
+                                        MusicUtils.playSelf(args[1], (Player) sender);
+                                        MessageUtils.sendNormalMessage("播放成功!", sender);
+                                        return true;
+                                    } else {
+                                        HelpUtils.sendHelp(cmd.getName(), "url", sender);
+                                        return true;
+                                    }
+                                } else {
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                    return true;
+                                }
+                            case "playall":
+                                if (sender instanceof Player) {
+                                    if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
+                                        List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
+                                        if (args.length >= 2) {
+                                            new Thread(() -> {
+                                                PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
+                                            }).start();
+                                            return true;
+                                        } else {
+                                            HelpUtils.sendHelp(cmd.getName(), "admin", sender);
+                                            return true;
+                                        }
+                                    } else {
+                                        MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                        return true;
+                                    }
+                                } else {
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                    return true;
+                                }
+                            case "stopall":
+                                if (sender instanceof Player) {
+                                    if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
+                                        List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
+                                        MusicUtils.stopAll(players);
+                                        OtherUtils.resetPlayerStatusAll(players);
+                                        MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
+                                        return true;
+                                    } else {
+                                        MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                        return true;
+                                    }
+                                } else {
+                                    MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                                    return true;
+                                }
+                            case "help":
+                                if (args.length == 2) {
+                                    HelpUtils.sendHelp(cmd.getName(), args[1], sender);
+                                    return true;
+                                } else {
+                                    HelpUtils.sendHelp(cmd.getName(), "main", sender);
+                                    return true;
+                                }
+                            case "reload":
                                 if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                    List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
-                                    MusicUtils.stopAll(players);
-                                    OtherUtils.resetPlayerStatusAll(players);
-                                    MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
+                                    JavaPlugin.getPlugin(Main.class).reloadConfig();
+                                    Config.load(JavaPlugin.getPlugin(Main.class).getConfig());
+                                    OtherUtils.loginNetease(sender);
+                                    MessageUtils.sendNormalMessage("配置文件重载完毕!", sender);
                                     return true;
                                 } else {
                                     MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                     return true;
                                 }
-                            } else {
-                                MessageUtils.sendErrorMessage("命令只能由玩家使用!", sender);
+                            case "163hot":
+                                if (args.length == 2) {
+                                    OtherUtils.neteaseHotComments((Player) sender, OtherUtils.argsXin1(args, ""));
+                                    return true;
+                                } else {
+                                    HelpUtils.sendHelp(cmd.getName(), "main", sender);
+                                    return true;
+                                }
+                            case "test":
+                                ViaAPI api = Via.getAPI();
+                                MessageUtils.sendNormalMessage(String.valueOf(api.getVersion()), sender);
                                 return true;
-                            }
-                        case "help":
-                            if (args.length == 2) {
-                                HelpUtils.sendHelp(cmd.getName(), args[1], sender);
+                            default:
+                                MessageUtils.sendNull(cmd.getName(), sender);
                                 return true;
-                            } else {
-                                HelpUtils.sendHelp(cmd.getName(), "main", sender);
-                                return true;
-                            }
-                        case "reload":
-                            if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                JavaPlugin.getPlugin(Main.class).reloadConfig();
-                                Config.load(JavaPlugin.getPlugin(Main.class).getConfig());
-                                OtherUtils.loginNetease(sender);
-                                MessageUtils.sendNormalMessage("配置文件重载完毕!", sender);
-                                return true;
-                            } else {
-                                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
-                                return true;
-                            }
-                        case "163hot":
-                            if (args.length == 2) {
-                                OtherUtils.neteaseHotComments((Player) sender, OtherUtils.argsXin1(args, ""));
-                                return true;
-                            } else {
-                                HelpUtils.sendHelp(cmd.getName(), "main", sender);
-                                return true;
-                            }
-                        case "test":
-                            ViaAPI api = Via.getAPI();
-                            MessageUtils.sendNormalMessage(String.valueOf(api.getVersion()), sender);
-                            return true;
-                        default:
-                            MessageUtils.sendNull(cmd.getName(), sender);
-                            return true;
+                        }
+                    } else {
+                        MessageUtils.sendNull(cmd.getName(), sender);
+                        return true;
                     }
                 } else {
-                    MessageUtils.sendNull(cmd.getName(), sender);
+                    MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.use 权限此使用命令.", sender);
                     return true;
                 }
             } else {
-                MessageUtils.sendErrorMessage("权限不足，你需要 zmusic.use 权限此使用命令.", sender);
+                MessageUtils.sendErrorMessage("错误: 请删除AudioBuffer/AllMusic插件.", sender);
                 return true;
             }
         }
