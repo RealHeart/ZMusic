@@ -64,7 +64,7 @@ lyric:
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(不支持1.8及以下)
   bossBar: true
-  # 是否使用ActionBar显示歌词(不支持1.8及以下)
+  # 是否使用ActionBar显示歌词
   actionBar: false
   # 是否使用Title显示歌词
   subTitle: false

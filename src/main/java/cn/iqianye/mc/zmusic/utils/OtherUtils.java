@@ -1,6 +1,5 @@
 package cn.iqianye.mc.zmusic.utils;
 
-import cn.iqianye.mc.zmusic.Main;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
@@ -11,7 +10,6 @@ import com.google.gson.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -78,10 +76,12 @@ public class OtherUtils {
                 bossBar.removePlayer(player);
             }
         }
-        try {
-            player.sendTitle("", "", 0, 0, 0);
-        } catch (NoSuchMethodError e) {
-            player.sendTitle("", "");
+        if (Config.supportTitle) {
+            try {
+                player.sendTitle("", "", 0, 0, 0);
+            } catch (NoSuchMethodError e) {
+                player.sendTitle("", "");
+            }
         }
         PlayerStatus.setPlayerMusicName(player, null);
         PlayerStatus.setPlayerCurrentTime(player, null);
@@ -115,10 +115,12 @@ public class OtherUtils {
                     bossBar.removePlayer(player);
                 }
             }
-            try {
-                player.sendTitle("", "", 0, 0, 0);
-            } catch (Exception e) {
-                player.sendTitle("", "");
+            if (Config.supportTitle) {
+                try {
+                    player.sendTitle("", "", 0, 0, 0);
+                } catch (NoSuchMethodError e) {
+                    player.sendTitle("", "");
+                }
             }
             PlayerStatus.setPlayerMusicName(player, null);
             PlayerStatus.setPlayerCurrentTime(player, null);

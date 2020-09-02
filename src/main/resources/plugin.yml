@@ -1,20 +1,19 @@
 name: ZMusic
 main: cn.iqianye.mc.zmusic.Main
-version: 1.6
+version: ${pom.version}
 author: 真心
 description: 真心音乐系统
-depend:
-  - AudioBuffer
 softdepend:
+  - ViaVersion
   - PlaceholderAPI
   - Vault
 commands:
   zm:
     usage: /zm help
     description: 主命令
-  zmusic:
-    usage: /zm help
-    description: 主命令
+    aliases:
+      - zmusic
+      - music
 permissions:
   zmusic.use:
     default: true

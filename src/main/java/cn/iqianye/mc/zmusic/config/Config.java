@@ -47,9 +47,9 @@ public class Config {
     // RealSupport
     public static boolean realSupportBossBar = true;
     public static boolean realSupportTitle = true;
+    public static boolean realSupportActionBar = true;
     public static boolean realSupportVault = true;
     public static boolean realSupportAdvancement = true;
-    public static boolean realSupportActionBar = true;
 
     public static void load(FileConfiguration configuration) {
         // Version

@@ -14,4 +14,6 @@ public class Val {
     public static String neteaseCookie;
 
     public static boolean bilibiliIsVIP = false;
+
+    public static boolean isViaVer = true;
 }

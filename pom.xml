@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.iqianye.mc.zmusic</groupId>
+    <groupId>cn.iqianye.mc</groupId>
     <artifactId>ZMusic</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
 
     <repositories>
         <repository>
@@ -25,13 +25,23 @@
             <id>zhenxin-repo</id>
             <url>https://code.aliyun.com/zhenxin/Maven/raw/master/</url>
         </repository>
+        <repository>
+            <id>viaversion-repo</id>
+            <url>https://repo.viaversion.com/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.16.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.minecraft</groupId>
+            <artifactId>minecraft-nms</artifactId>
+            <version>1.8.8</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -47,9 +57,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.locydragon.abf</groupId>
-            <artifactId>AudioBuffer</artifactId>
-            <version>1.0.3</version>
+            <groupId>us.myles</groupId>
+            <artifactId>viaversion</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+            <version>4.1.51.Final</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -67,6 +83,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

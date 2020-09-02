@@ -1,14 +1,12 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.Main;
-import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.MusicUtils;
-import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatColor;
@@ -16,7 +14,6 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -235,7 +232,7 @@ public class PlayMusic {
                         JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
                         MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", player);
                         if (Config.realSupportAdvancement) {
-                            new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicName, plugin).sendAdvancement((player));
+                           // new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicName, plugin).sendAdvancement((player));
                         }
                     }
                     break;

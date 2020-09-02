@@ -1,17 +1,13 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.Main;
-import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,31 +40,27 @@ public class PlayListPlayer extends BukkitRunnable {
         }
         int maxSongs = playList.size();
         maxSongs = maxSongs - 1;
-        if (Config.debug) {
-            LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已启动。");
-        }
+        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已启动。");
         while (!isStop) {
+            if (!player.isOnline()) {
+                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")检测到玩家[" + player.getName() + "] 离线,停止线程。");
+                break;
+            }
             if (type.equalsIgnoreCase("normal")) {
                 if (songs > maxSongs) {
                     isPlayEd = true;
                     break;
                 }
-                if (Config.debug) {
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                }
+                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
             } else if (type.equalsIgnoreCase("loop")) {
                 if (songs > maxSongs) {
                     songs = 0;
                 }
-                if (Config.debug) {
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                }
+                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
             } else if (type.equalsIgnoreCase("random")) {
                 Random random = new Random();
                 songs = random.nextInt(maxSongs);
-                if (Config.debug) {
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                }
+                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
             } else if (type.equalsIgnoreCase("stop")) {
                 break;
             }
@@ -168,13 +160,11 @@ public class PlayListPlayer extends BukkitRunnable {
                 timer.schedule(lyricSendTimer, 1000L, 1000L);
                 PlayerStatus.setPlayerTimer(player, timer);
             }
-            if (Config.debug) {
-                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")为[" + player.getName() + "]播放歌单<" + playListName + ">中的" + name);
-            }
+            LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")为[" + player.getName() + "]播放歌单<" + playListName + ">中的" + name);
             MessageUtils.sendNormalMessage("播放§r[§e" + name + "§r]§a成功!", player);
             JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
             if (Config.realSupportAdvancement) {
-                new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + name, plugin).sendAdvancement((player));
+                // new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + name, plugin).sendAdvancement((player));
             }
             try {
                 Thread.sleep((time * 1000) + 500);
@@ -183,8 +173,6 @@ public class PlayListPlayer extends BukkitRunnable {
             }
             songs++;
         }
-        if (Config.debug) {
-            LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已停止。");
-        }
+        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已停止。");
     }
 }

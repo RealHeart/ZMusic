@@ -3,7 +3,6 @@ package cn.iqianye.mc.zmusic.music.searchSource;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
-import com.locydragon.abf.api.AudioBufferAPI;
 
 import java.net.URLEncoder;
 
@@ -18,15 +17,19 @@ public class BiliBiliMusic {
             JsonObject searchJson = gson.fromJson(searchJsonText, JsonObject.class);
             JsonObject searchResult = searchJson.get("data").getAsJsonObject().get("result").getAsJsonArray().get(0).getAsJsonObject();
             String musicId = searchResult.get("id").getAsString();
-            String musicName = searchResult.get("title").getAsString();
-            String musicSinger = searchResult.get("author").getAsString();
+            String getInfo = "https://www.bilibili.com/audio/music-service-c/web/song/info?sid=" + musicId;
+            String infoJsonText = NetUtils.getNetStringBiliBiliGZip(getInfo, null);
+            infoJsonText = infoJsonText.trim();
+            JsonObject infoJson = gson.fromJson(infoJsonText, JsonObject.class);
+            String musicName = infoJson.get("data").getAsJsonObject().get("title").getAsString();
+            String musicSinger = infoJson.get("data").getAsJsonObject().get("author").getAsString();
+            int musicTime = infoJson.get("data").getAsJsonObject().get("duration").getAsInt();
             String getUrl = "https://www.bilibili.com/audio/music-service-c/web/url?sid=" + musicId;
             String urlJsonText = NetUtils.getNetStringBiliBiliGZip(getUrl, null);
             urlJsonText = urlJsonText.trim();
             JsonObject urlJson = gson.fromJson(urlJsonText, JsonObject.class);
             String musicUrl = urlJson.get("data").getAsJsonObject().get("cdns").getAsJsonArray().get(0).getAsString();
             musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php?qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"), null);
-            int musicTime = AudioBufferAPI.getAudioLengthByParamQuickly("[Net]" + musicUrl);
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("url", musicUrl);
             returnJSON.addProperty("time", musicTime);

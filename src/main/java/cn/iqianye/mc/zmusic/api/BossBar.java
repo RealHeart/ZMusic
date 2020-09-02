@@ -1,7 +1,6 @@
 package cn.iqianye.mc.zmusic.api;
 
 import cn.iqianye.mc.zmusic.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
@@ -28,7 +27,7 @@ public class BossBar {
     }
 
     public void showTitle() {
-        bar = Bukkit.getServer().createBossBar(title, color, style);
+        bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
         bar.setVisible(true);
         bar.setProgress(0);
         bar.addPlayer(p);

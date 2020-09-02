@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class AdvancementAPI {
@@ -27,17 +26,25 @@ public class AdvancementAPI {
 
     private JavaPlugin pl;
 
+    String c4RootName = "minecraft:record";
+    Version version = new Version();
     private String[] strings = new String[]{
-            "minecraft:record_13",
-            "minecraft:record_cat",
-            "minecraft:record_blocks",
-            "minecraft:record_chirp",
-            "minecraft:record_far",
-            "minecraft:record_mall",
-            "minecraft:record_mellohi",
-            "minecraft:record_strad",
-            "minecraft:record_ward",
-            "minecraft:record_wait"};
+            c4RootName + "_13",
+            c4RootName + "_cat",
+            c4RootName + "_blocks",
+            c4RootName + "_chirp",
+            c4RootName + "_far",
+            c4RootName + "_mall",
+            c4RootName + "_mellohi",
+            c4RootName + "_strad",
+            c4RootName + "_ward",
+            c4RootName + "_wait"};
+
+    {
+        if (version.isHigherThan("1.13")) {
+            c4RootName = "minecraft:music_disc";
+        }
+    }
 
     public AdvancementAPI(String id, String title, JavaPlugin pl) {
         this(new NamespacedKey(pl, id), title, pl);
@@ -74,16 +81,21 @@ public class AdvancementAPI {
 
     @SuppressWarnings("deprecation")
     private void add() {
-        try {
-            Bukkit.getUnsafe().loadAdvancement(id, getJson());
-            if (Config.debug) {
-                LogUtils.sendDebugMessage("[进度] 进度 " + id + " 已保存");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    Bukkit.getUnsafe().loadAdvancement(id, getJson());
+                    if (Config.debug) {
+                        LogUtils.sendDebugMessage("[进度] 进度 " + id + " 已保存");
+                    }
+                } catch (IllegalArgumentException e) {
+                    if (Config.debug) {
+                        LogUtils.sendDebugMessage("[进度] 保存失败：ID " + id + " 已存在");
+                    }
+                }
             }
-        } catch (IllegalArgumentException e) {
-            if (Config.debug) {
-                LogUtils.sendDebugMessage("[进度] 保存失败：ID " + id + " 已存在");
-            }
-        }
+        }.runTaskAsynchronously(pl);
     }
 
     @SuppressWarnings("deprecation")
@@ -97,14 +109,19 @@ public class AdvancementAPI {
 
     //给予成就
     private void grant(Player p) {
-        Advancement advancement = Bukkit.getAdvancement(id);
-        AdvancementProgress progress;
-        progress = p.getAdvancementProgress(advancement);
-        if (!progress.isDone()) {
-            for (String criteria : progress.getRemainingCriteria()) {
-                progress.awardCriteria(criteria);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Advancement advancement = Bukkit.getAdvancement(id);
+                AdvancementProgress progress;
+                progress = p.getAdvancementProgress(advancement);
+                if (!progress.isDone()) {
+                    for (String criteria : progress.getRemainingCriteria()) {
+                        progress.awardCriteria(criteria);
+                    }
+                }
             }
-        }
+        }.runTaskAsynchronously(pl);
     }
 
     public String getJson() {

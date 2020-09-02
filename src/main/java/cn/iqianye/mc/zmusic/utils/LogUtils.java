@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import java.util.logging.Logger;
-
 public class LogUtils {
 
     private static CommandSender sender = Bukkit.getConsoleSender();
@@ -26,7 +24,9 @@ public class LogUtils {
      * @param message 消息
      */
     public static void sendDebugMessage(String message) {
-        sender.sendMessage(Config.prefix + ChatColor.YELLOW + "[Debug] " + message);
+        if (Config.debug) {
+            sender.sendMessage(Config.prefix + ChatColor.YELLOW + "[Debug] " + message);
+        }
     }
 
     /**

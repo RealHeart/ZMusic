@@ -1,16 +1,16 @@
 package cn.iqianye.mc.zmusic;
 
-import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.api.Version;
+import cn.iqianye.mc.zmusic.bStats.MetricsLite;
 import cn.iqianye.mc.zmusic.command.CommandExec;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.pApi.PApiHook;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.*;
-import cn.iqianye.mc.zmusic.bStats.MetricsLite;
+import cn.iqianye.mc.zmusic.utils.LogUtils;
+import cn.iqianye.mc.zmusic.utils.MessageUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,18 +28,32 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        Config.debug = true;
         LogUtils.sendNormalMessage("正在加载中....");
         //注册bStats
         MetricsLite metricsLite = new MetricsLite(this, 7291);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CommandExec());
-        getCommand("zmusic").setExecutor(new CommandExec());
         //注册命令对应的自动补全器
         getCommand("zm").setTabCompleter(new CommandExec());
-        getCommand("zmusic").setTabCompleter(new CommandExec());
+        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AudioBuffer")) {
+            LogUtils.sendErrorMessage("请勿安装AudioBuffer插件.");
+            setEnabled(false);
+        }
+        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AllMusic")) {
+            LogUtils.sendErrorMessage("请勿安装AllMusic插件.");
+            setEnabled(false);
+        }
+        //注册Mod通信频道
+        LogUtils.sendNormalMessage("正在注册Mod通信频道...");
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "allmusic:channel");
+        LogUtils.sendNormalMessage("-- §r[§eAllMusic§r]§a 频道注册完毕.");
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
+        LogUtils.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
+        //注册事件监听器
         getServer().getPluginManager().registerEvents(this, this);
         OtherUtils.checkUpdate(Val.thisVer, null);
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             LogUtils.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
             boolean success = new PApiHook().register();
             if (success) {
@@ -50,27 +64,36 @@ public class Main extends JavaPlugin implements Listener {
         } else {
             LogUtils.sendErrorMessage("未找到§ePlaceholderAPI§c, §ePlaceholderAPI§c相关功能不生效.");
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             LogUtils.sendNormalMessage("已检测到Vault, 经济功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
             Config.realSupportVault = false;
         }
+        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
+            LogUtils.sendNormalMessage("已检测到ViaVersion, 高版本转发功能生效.");
+        } else {
+            LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
+            Val.isViaVer = false;
+        }
         Version version = new Version();
-        if (version.isLowerThan("1.7.10")) {
-            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.7.10，不支持Title显示");
-            Config.realSupportTitle = false;
+        if (Bukkit.getBukkitVersion().contains("1.7.10")) {
+            if (!Bukkit.getBukkitVersion().contains("Uranium")) {
+                LogUtils.sendErrorMessage("检测到当前服务端非Uranium，不支持Title/ActionBar显示");
+                Config.realSupportTitle = false;
+                Config.realSupportActionBar = false;
+            }
         }
-        if (version.isLowerThan("1.9")) {
+        if (version.isLowerThan("1.8")) {
             LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持BossBar");
-            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持ActionBar");
             Config.realSupportBossBar = false;
-            Config.realSupportActionBar = false;
         }
+        /*
         if (version.isLowerThan("1.12")) {
             LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度提示");
             Config.realSupportAdvancement = false;
         }
+        */
         File config = new File(getDataFolder() + File.separator + "config.yml");
         if (!config.exists()) {
             saveDefaultConfig();
@@ -90,10 +113,10 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         LogUtils.sendNormalMessage("正在卸载中....");
-        List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+        List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
         if (!players.isEmpty()) {
             OtherUtils.resetPlayerStatusAll(players);
-            MusicUtils.stopAll(players);
+            //MusicUtils.stopAll(players);
         }
         for (Player player : players) {
             PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);

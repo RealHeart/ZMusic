@@ -10,12 +10,17 @@
 * 单独播放
 * 歌词显示
 * 歌词翻译显示(目前仅支持QQ音乐)
-* 多搜索源(QQ/网易云/酷狗/酷我/哔哩哔哩)
+* 多搜索源(QQ/网易云/酷狗/酷我)
 * 关键词搜索
 * 个人歌单
-* 歌单播放
-* 音量调节(开发中...)
-* 循环整个歌单(开发中...)
+* 全服歌单
+* 歌单播放(QQ/网易云)
+* 音量调节(AllMusic支持)
+
+## 客户端Mod说明
+本插件需要客户端安装配套Mod才能正常播放  
+* 对于1.7.10-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
+* 对于1.12.2-1.16.2的客户端 请安装[`AllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
 
 ## 视频
 
@@ -33,6 +38,8 @@
 `/zm help` 查看帮助  
 `/zm play` 播放音乐  
 `/zm music` 全服点歌  
+`/zm search` 搜索音乐  
+`/zm playlist` 歌单系统  
 
 ## 播放
 
@@ -123,6 +130,12 @@
 
 示例:
 `/zm playlist type random`
+
+如果平台为global 则为全局歌单模式.  
+* 子命令与普通模式相同
+
+示例:
+`/zm playlist global qq list`
 
 `子命令` 对应平台的子命令
 
@@ -267,12 +280,16 @@ lyric:
 # 前置插件
 
 ## 全版本使用
-
-[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装   
+ 
 [```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
 [```Vault```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
 
-## 1.5及以下版本使用
+## 1.5,1.6版本使用
 
+~~[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装~~
+
+## 1.4及以下版本使用
+
+~~[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装~~
 ~~[```BossBarAPI```](https://www.mcbbs.net/thread-729531-1-1.html) [可选] 如需使用BossBar显示歌词 请安装~~  
 ~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~  

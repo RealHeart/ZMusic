@@ -1,10 +1,8 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
 import cn.iqianye.mc.zmusic.other.Val;
-import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
-import com.locydragon.abf.api.AudioBufferAPI;
 import org.json.simple.JSONArray;
 
 import java.net.URLEncoder;

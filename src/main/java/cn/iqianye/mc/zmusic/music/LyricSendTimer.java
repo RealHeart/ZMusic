@@ -1,26 +1,20 @@
 package cn.iqianye.mc.zmusic.music;
 
-import cn.iqianye.mc.zmusic.Main;
-import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.api.BossBar;
+import cn.iqianye.mc.zmusic.api.Version;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.other.Val;
+import cn.iqianye.mc.zmusic.nms.ActionBar;
+import cn.iqianye.mc.zmusic.nms.ActionBar_1_8_R3;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
+import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.MusicUtils;
-import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
@@ -37,8 +31,21 @@ public class LyricSendTimer extends TimerTask {
     public boolean isActionBar;
     public boolean isTitle;
     public boolean isChat;
+    public boolean isPlayList = false;
     BossBar bossBar;
     int time = 0;
+
+    Version version = new Version();
+    ActionBar actionBar = null;
+    boolean is1_8 = false;
+
+    {
+        if (version.isEquals("1.8")) {
+            LogUtils.sendDebugMessage("[ActionBar] 检测为服务端版本1.8,使用NMS发送.");
+            actionBar = new ActionBar_1_8_R3();
+            is1_8 = true;
+        }
+    }
 
     @Override
     public void run() {
@@ -92,12 +99,24 @@ public class LyricSendTimer extends TimerTask {
                                             if (isActionBar) {
                                                 if (Config.showLyricTr) {
                                                     if (!lyricTr.isEmpty()) {
-                                                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")"));
+                                                        if (!is1_8) {
+                                                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")"));
+                                                        } else {
+                                                            actionBar.sendActionBar(player, "§b§l" + entry.getValue() + "(" + lyricTr.get(i).get(entry.getKey()) + ")");
+                                                        }
                                                     } else {
-                                                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue()));
+                                                        if (!is1_8) {
+                                                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue()));
+                                                        } else {
+                                                            actionBar.sendActionBar(player, "§b§l" + entry.getValue());
+                                                        }
                                                     }
                                                 } else {
-                                                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue()));
+                                                    try {
+                                                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + entry.getValue()));
+                                                    } catch (Exception e) {
+                                                        actionBar.sendActionBar(player, "§b§l" + entry.getValue());
+                                                    }
                                                 }
                                             }
                                             if (isTitle) {
@@ -141,11 +160,33 @@ public class LyricSendTimer extends TimerTask {
                         }
                     }
                 } else {
-                    OtherUtils.resetPlayerStatus(player);
                     if (isBoosBar) {
                         bossBar.removePlayer(player);
                     }
-                    cancel();
+                    if (!isPlayList) {
+                        LogUtils.sendDebugMessage("[播放器] 非歌单模式 检测循环播放状态");
+                        Boolean loop = PlayerStatus.getPlayerLoopPlay(player);
+                        if (loop != null && loop) {
+                            LogUtils.sendDebugMessage("[播放器] 循环播放开启 重新播放当前音乐");
+                            time = 0;
+                            MusicUtils.stopSelf(player);
+                            MusicUtils.playSelf(url, player);
+                            if (isBoosBar) {
+                                bossBar = new BossBar(player, "§b§l" + name, BarColor.BLUE, BarStyle.SEGMENTED_20, maxTime);
+                                bossBar.showTitle();
+                            }
+                            PlayerStatus.setPlayerCurrentTime(player, time);
+                        } else {
+                            LogUtils.sendDebugMessage("[播放器] 循环播放关闭 结束计时器");
+                            OtherUtils.resetPlayerStatus(player);
+                            cancel();
+                        }
+                    } else {
+                        LogUtils.sendDebugMessage("[播放器] 歌单模式 结束计时器");
+                        OtherUtils.resetPlayerStatus(player);
+                        cancel();
+                    }
+
                 }
             } else {
                 OtherUtils.resetPlayerStatus(player);

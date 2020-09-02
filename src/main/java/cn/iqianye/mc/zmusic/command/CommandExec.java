@@ -1,23 +1,25 @@
 package cn.iqianye.mc.zmusic.command;
 
-import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
 import cn.iqianye.mc.zmusic.music.SearchMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.*;
+import cn.iqianye.mc.zmusic.utils.HelpUtils;
+import cn.iqianye.mc.zmusic.utils.MessageUtils;
+import cn.iqianye.mc.zmusic.utils.MusicUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import us.myles.ViaVersion.api.Via;
+import us.myles.ViaVersion.api.ViaAPI;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,8 +31,7 @@ public class CommandExec implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { //指令输出
-        if (cmd.getName().equalsIgnoreCase("zm") ||
-                cmd.getName().equalsIgnoreCase("zmusic")) {
+        if (cmd.getName().equalsIgnoreCase("zm")) {
             if (sender.hasPermission("zmusic.use") || sender.isOp()) {
                 if (args.length == 0) {
                     MessageUtils.sendNull(cmd.getName(), sender);
@@ -43,7 +44,7 @@ public class CommandExec implements TabExecutor {
                                 Thread startPlayThread = new Thread(() -> {
                                     if (args.length >= 2) {
                                         new Thread(() -> {
-                                            List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                            List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
                                             PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", players);
                                         }).start();
                                     } else {
@@ -55,7 +56,7 @@ public class CommandExec implements TabExecutor {
                                         if (Config.realSupportVault) {
                                             if (Config.money > 0) {
                                                 Economy econ;
-                                                RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+                                                RegisteredServiceProvider<Economy> economyProvider = org.bukkit.Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
                                                 econ = economyProvider.getProvider();
                                                 double money = econ.getBalance(((Player) sender).getPlayer());
                                                 if ((money - Config.money) >= 0) {
@@ -182,7 +183,7 @@ public class CommandExec implements TabExecutor {
                         case "playall":
                             if (sender instanceof Player) {
                                 if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                    List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                    List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
                                     if (args.length >= 2) {
                                         new Thread(() -> {
                                             PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
@@ -203,7 +204,7 @@ public class CommandExec implements TabExecutor {
                         case "stopall":
                             if (sender instanceof Player) {
                                 if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                    List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
+                                    List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
                                     MusicUtils.stopAll(players);
                                     OtherUtils.resetPlayerStatusAll(players);
                                     MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
@@ -243,6 +244,10 @@ public class CommandExec implements TabExecutor {
                                 HelpUtils.sendHelp(cmd.getName(), "main", sender);
                                 return true;
                             }
+                        case "test":
+                            ViaAPI api = Via.getAPI();
+                            MessageUtils.sendNormalMessage(String.valueOf(api.getVersion()), sender);
+                            return true;
                         default:
                             MessageUtils.sendNull(cmd.getName(), sender);
                             return true;
@@ -325,16 +330,22 @@ public class CommandExec implements TabExecutor {
                 }
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"qq", "netease", "163", "type"};
+                    commandList = new String[]{"qq", "netease", "163", "type", "global"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else if (args.length == 3) {
-                    if (!args[1].equalsIgnoreCase("type")) {
-                        commandList = new String[]{"import", "play", "list", "update"};
-                        return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
-                    } else {
+                    if (args[1].equalsIgnoreCase("type")) {
                         commandList = new String[]{"random", "normal", "loop"};
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
+                    } else if (args[1].equalsIgnoreCase("global")) {
+                        commandList = new String[]{"qq", "netease", "163"};
+                        return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
+                    } else {
+                        commandList = new String[]{"import", "play", "list", "update"};
+                        return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     }
+                } else if (args.length == 4) {
+                    commandList = new String[]{"import", "play", "list", "update"};
+                    return Arrays.stream(commandList).filter(s -> s.startsWith(args[3])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();
                 }
