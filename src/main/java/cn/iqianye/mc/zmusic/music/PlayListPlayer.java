@@ -73,7 +73,7 @@ public class PlayListPlayer extends BukkitRunnable {
             if (platform.equalsIgnoreCase("qq")) {
                 String id = playList.get(songs).get("id").getAsString();
                 String mid = playList.get(songs).get("mid").getAsString();
-                String getMp3Url = Val.qqMusicApiRoot + "song/url?id=" + id + "&mediaId=" + mid;
+                String getMp3Url = Config.qqMusicApiRoot + "song/url?id=" + id + "&mediaId=" + mid;
                 String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
                 JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
                 try {
@@ -84,7 +84,7 @@ public class PlayListPlayer extends BukkitRunnable {
                     songs++;
                     continue;
                 }
-                String getLyricUrl = Val.qqMusicApiRoot + "lyric?songmid=" + id;
+                String getLyricUrl = Config.qqMusicApiRoot + "lyric?songmid=" + id;
                 String lyricJsonText = NetUtils.getNetString(getLyricUrl, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String lyricText = lyricJson.get("data").getAsJsonObject().get("lyric").getAsString();
@@ -97,7 +97,7 @@ public class PlayListPlayer extends BukkitRunnable {
                 lyricTr = OtherUtils.formatLyric(lyricTrText);
             } else if (platform.equalsIgnoreCase("netease")) {
                 String id = playList.get(songs).get("id").getAsString();
-                String getMp3Url = Val.neteaseApiRoot + "song/url?id=" + id + "&br=320000&" +
+                String getMp3Url = Config.neteaseApiRoot + "song/url?id=" + id + "&br=320000&" +
                         "cookie=" + Val.neteaseCookie;
                 String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
                 JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
@@ -109,7 +109,7 @@ public class PlayListPlayer extends BukkitRunnable {
                     songs++;
                     continue;
                 }
-                String lyricJsonText = NetUtils.getNetString(Val.neteaseApiRoot + "lyric?id=" + id, null);
+                String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + id, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String lyricText = "";
                 try {

@@ -1,5 +1,5 @@
 # 配置文件版本(请勿修改)
-version: 5
+version: 6
 # 是否自动下载插件更新
 update: false
 # 插件提示信息显示前缀
@@ -7,6 +7,19 @@ prefix: '&bZMusic &e>>> &r'
 
 # 是否开启调试模式
 debug: false
+
+# API设置
+api:
+  # 网易云音乐API地址
+  #
+  # 使用开源项目NeteaseCloudMusicApi
+  # 推荐自行部署，需Node.js环境
+  # 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
+  netease: 'https://netease.api.zhenxin.xyz/'
+  # 使用开源项目QQMusicApi
+  # 推荐自行部署，需Node.js环境
+  # 地址: https://github.com/jsososo/QQMusicApi
+  qq: 'https://qqmusic.api.zhenxin.xyz/'
 
 # 账号设置
 account:

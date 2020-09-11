@@ -20,11 +20,14 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 5;
+    public static int latestVersion = 6;
     // Debug
     public static boolean debug;
     // Update
     public static boolean update;
+    // Api
+    public static String neteaseApiRoot;
+    public static String qqMusicApiRoot;
     // Account
     // Netease
     public static String neteaseloginType;
@@ -71,6 +74,9 @@ public class Config {
         update = configuration.getBoolean("update");
         // Prefix
         prefix = ChatColor.translateAlternateColorCodes('&', configuration.getString("prefix"));
+        // Api
+        neteaseApiRoot = configuration.getString("api.netease");
+        qqMusicApiRoot = configuration.getString("api.qq");
         // Account
         // Netease
         neteaseloginType = configuration.getString("account.netease.loginType");

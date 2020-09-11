@@ -1,6 +1,6 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
-import cn.iqianye.mc.zmusic.other.Val;
+import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 import org.json.simple.JSONArray;
@@ -17,13 +17,13 @@ public class QQMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Val.qqMusicApiRoot + "search?pageSize=1&key=" + URLEncoder.encode(musicName, "utf-8");
+            String getUrl = Config.qqMusicApiRoot + "search?pageSize=1&key=" + URLEncoder.encode(musicName, "utf-8");
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
             JsonObject data = json.get("data").getAsJsonObject();
             JsonObject list = data.getAsJsonArray("list").get(0).getAsJsonObject();
             String songmid = list.get("songmid").getAsString();
-            String getSongInfo = Val.qqMusicApiRoot + "song?songmid=" + songmid;
+            String getSongInfo = Config.qqMusicApiRoot + "song?songmid=" + songmid;
             String songInfoText = NetUtils.getNetString(getSongInfo, null);
             JsonObject songInfo = gson.fromJson(songInfoText, JsonObject.class);
             songInfo = songInfo.get("data").getAsJsonObject().get("track_info").getAsJsonObject();
@@ -37,7 +37,7 @@ public class QQMusic {
                 singerName += j.getAsJsonObject().get("name").getAsString() + "/";
             }
             singerName = singerName.substring(0, singerName.length() - 1);
-            String getLyricUrl = Val.qqMusicApiRoot + "lyric?songmid=" + songmid;
+            String getLyricUrl = Config.qqMusicApiRoot + "lyric?songmid=" + songmid;
             String lyricJsonText = NetUtils.getNetString(getLyricUrl, null);
             JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
             String lyric = lyricJson.get("data").getAsJsonObject().get("lyric").getAsString();
@@ -46,7 +46,7 @@ public class QQMusic {
             String lyricTr = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
             lyricTr = lyricTr.replaceAll("&apos;", "'");
             lyricTr = lyricTr.replaceAll("\r", "");
-            String getMp3Url = Val.qqMusicApiRoot + "song/url?id=" + songmid + "&mediaId=" + mediaId;
+            String getMp3Url = Config.qqMusicApiRoot + "song/url?id=" + songmid + "&mediaId=" + mediaId;
             String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
             JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
             String mp3Url = getMp3Json.get("data").getAsString();
@@ -72,7 +72,7 @@ public class QQMusic {
      */
     public static JsonArray getMusicList(String musicName) {
         try {
-            String getUrl = Val.qqMusicApiRoot + "search?pageSize=10&key=" + URLEncoder.encode(musicName, "utf-8");
+            String getUrl = Config.qqMusicApiRoot + "search?pageSize=10&key=" + URLEncoder.encode(musicName, "utf-8");
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
             JsonObject data = json.get("data").getAsJsonObject();
@@ -106,7 +106,7 @@ public class QQMusic {
      */
     public static JsonObject getMusicSongList(String playListId) {
         try {
-            String getUrl = Val.qqMusicApiRoot + "songlist?id=" + playListId;
+            String getUrl = Config.qqMusicApiRoot + "songlist?id=" + playListId;
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
             JsonObject data = json.get("data").getAsJsonObject();

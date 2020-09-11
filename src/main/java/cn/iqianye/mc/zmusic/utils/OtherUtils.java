@@ -225,9 +225,9 @@ public class OtherUtils {
                     String s = null;
                     String c = null;
                     if (Config.neteaseloginType.equalsIgnoreCase("phone")) {
-                        s = Val.neteaseApiRoot + "login/cellphone?phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                        s = Config.neteaseApiRoot + "login/cellphone?phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
                     } else if (Config.neteaseloginType.equalsIgnoreCase("email")) {
-                        s = Val.neteaseApiRoot + "login?email=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
+                        s = Config.neteaseApiRoot + "login?email=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
                     }
                     String jsonText = NetUtils.getNetString(s, null);
                     Gson gson = new GsonBuilder().create();
@@ -240,7 +240,7 @@ public class OtherUtils {
                         LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
                         if (Config.neteaseFollow) {
                             // 关注“QG真心”的网易云账号
-                            NetUtils.getNetString(Val.neteaseApiRoot + "follow?id=265857414&t=1&cookie=" + Val.neteaseCookie, null);
+                            NetUtils.getNetString(Config.neteaseApiRoot + "follow?id=265857414&t=1&cookie=" + Val.neteaseCookie, null);
                         }
                     } else {
                         if (player != null) {

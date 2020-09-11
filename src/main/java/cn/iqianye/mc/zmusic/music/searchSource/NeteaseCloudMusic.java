@@ -1,8 +1,7 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
+import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.other.Val;
-import cn.iqianye.mc.zmusic.utils.LogUtils;
-import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 import org.json.simple.JSONArray;
@@ -23,7 +22,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Val.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
+            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new Gson();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -31,7 +30,7 @@ public class NeteaseCloudMusic {
             if (result != null || result.get("songCount").getAsInt() != 0) {
                 JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
                 int musicID = jsonOut.get("id").getAsInt();
-                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000&" +
+                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000&" +
                         "cookie=" + Val.neteaseCookie, null), JsonObject.class);
                 String musicUrl = null;
                 try {
@@ -41,7 +40,7 @@ public class NeteaseCloudMusic {
                 }
 
 
-                String lyricJsonText = NetUtils.getNetString(Val.neteaseApiRoot + "lyric?id=" + musicID, null);
+                String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + musicID, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String name = jsonOut.get("name").getAsString();
                 int inttime = jsonOut.get("duration").getAsInt();
@@ -89,7 +88,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonArray getMusicList(String musicName) {
         try {
-            String getUrl = Val.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
+            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
             Gson gson = new GsonBuilder().create();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -130,7 +129,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicSongList(String playListId) {
         try {
-            String getUrl = Val.neteaseApiRoot + "playlist/detail?id=" + playListId;
+            String getUrl = Config.neteaseApiRoot + "playlist/detail?id=" + playListId;
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
             JsonArray trackIds = json.get("playlist").getAsJsonObject().get("trackIds").getAsJsonArray();
@@ -147,7 +146,7 @@ public class NeteaseCloudMusic {
             s = sb.toString();
             s = s.substring(0, s.length() - 1);
 
-            JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Val.neteaseApiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
+            JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
             JsonArray songList = playListInfo.get("songs").getAsJsonArray();
 
             JsonObject returnJson = new JsonObject();
