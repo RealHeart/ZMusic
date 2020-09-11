@@ -63,44 +63,33 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 当前播放时间
         if (identifier.equalsIgnoreCase("time_current")) {
-            Integer currentTime = PlayerStatus.getPlayerCurrentTime(player);
-            if (currentTime != null) {
-                if (currentTime < 60) {
-                    return "00" + ":" + String.format("%02d", currentTime);
-                } else if (currentTime < 3600) {
-                    int m = currentTime / 60;
-                    int s = currentTime % 60;
-                    return String.format("%02d", m) + ":" + String.format("%02d", s);
-                } else {
-                    int h = currentTime / 3600;
-                    int m = (currentTime % 3600) / 60;
-                    int s = (currentTime % 3600) % 60;
-                    return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
-                }
-            } else {
-                return "--:--";
-            }
+            Long currentTime = PlayerStatus.getPlayerCurrentTime(player);
+            return formatTime(currentTime);
         }
         // 最大播放时间
         if (identifier.equalsIgnoreCase("time_max")) {
-            Integer maxTime = PlayerStatus.getPlayerMaxTime(player);
-            if (maxTime != null) {
-                if (maxTime < 60) {
-                    return "00" + ":" + String.format("%02d", maxTime);
-                } else if (maxTime < 3600) {
-                    int m = maxTime / 60;
-                    int s = maxTime % 60;
-                    return String.format("%02d", m) + ":" + String.format("%02d", s);
-                } else {
-                    int h = maxTime / 3600;
-                    int m = (maxTime % 3600) / 60;
-                    int s = (maxTime % 3600) % 60;
-                    return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
-                }
-            } else {
-                return "--:--";
-            }
+            Long maxTime = PlayerStatus.getPlayerMaxTime(player);
+            return formatTime(maxTime);
         }
         return null;
+    }
+
+    private String formatTime(Long time) {
+        if (time != null) {
+            if (time < 60) {
+                return "00" + ":" + String.format("%02d", time);
+            } else if (time < 3600) {
+                long m = time / 60;
+                long s = time % 60;
+                return String.format("%02d", m) + ":" + String.format("%02d", s);
+            } else {
+                long h = time / 3600;
+                long m = (time % 3600) / 60;
+                long s = (time % 3600) % 60;
+                return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
+            }
+        } else {
+            return "--:--";
+        }
     }
 }

@@ -1,7 +1,9 @@
 package cn.iqianye.mc.zmusic.utils;
 
 import cn.iqianye.mc.zmusic.api.BossBar;
+import cn.iqianye.mc.zmusic.api.MultiMap;
 import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.music.LyricSender;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
@@ -17,7 +19,10 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,11 +65,26 @@ public class OtherUtils {
      *
      * @param player 玩家列表
      */
-    public static void resetPlayerStatus(Player player) {
+    public static void resetPlayerStatusSelf(Player player) {
+        resetPlayerStatus(player);
+    }
+
+    /**
+     * 重置全部玩家状态
+     *
+     * @param players 玩家列表
+     */
+    public static void resetPlayerStatusAll(List<Player> players) {
+        for (Player player : players) {
+            resetPlayerStatus(player);
+        }
+    }
+
+    private static void resetPlayerStatus(Player player) {
         PlayerStatus.setPlayerPlayStatus(player, false);
-        Timer timer = PlayerStatus.getPlayerTimer(player);
-        if (timer != null) {
-            timer.cancel();
+        LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
+        if (lyricSender != null) {
+            lyricSender.isStop = true;
         }
         PlayListPlayer playListPlayer = PlayerStatus.getPlayerPlayListPlayer(player);
         if (playListPlayer != null) {
@@ -91,46 +111,6 @@ public class OtherUtils {
         PlayerStatus.setPlayerLyric(player, null);
         PlayerStatus.setPlayerPlatform(player, null);
         PlayerStatus.setPlayerPlaySource(player, null);
-    }
-
-    /**
-     * 重置全部玩家状态
-     *
-     * @param players 玩家列表
-     */
-    public static void resetPlayerStatusAll(List<Player> players) {
-        for (Player player : players) {
-            PlayerStatus.setPlayerPlayStatus(player, false);
-            Timer timer = PlayerStatus.getPlayerTimer(player);
-            if (timer != null) {
-                timer.cancel();
-            }
-            PlayListPlayer playListPlayer = PlayerStatus.getPlayerPlayListPlayer(player);
-            if (playListPlayer != null) {
-                if (playListPlayer.isPlayEd) {
-                    playListPlayer.isStop = true;
-                }
-            }
-            if (Config.supportBossBar) {
-                BossBar bossBar = PlayerStatus.getPlayerBoosBar(player);
-                if (bossBar != null) {
-                    bossBar.removePlayer(player);
-                }
-            }
-            if (Config.supportTitle) {
-                try {
-                    player.sendTitle("", "", 0, 0, 0);
-                } catch (NoSuchMethodError e) {
-                    player.sendTitle("", "");
-                }
-            }
-            PlayerStatus.setPlayerMusicName(player, null);
-            PlayerStatus.setPlayerCurrentTime(player, null);
-            PlayerStatus.setPlayerMaxTime(player, null);
-            PlayerStatus.setPlayerLyric(player, null);
-            PlayerStatus.setPlayerPlatform(player, null);
-            PlayerStatus.setPlayerPlaySource(player, null);
-        }
     }
 
     /**
@@ -312,62 +292,87 @@ public class OtherUtils {
     /**
      * 格式化歌词信息
      *
-     * @param lyric 歌词
-     * @return 格式化后的List
+     * @param lyric   歌词
+     * @param lyricTr 歌词翻译
+     * @return 格式化后的Json
      */
-    public static List<Map<Integer, String>> formatLyric(String lyric) {
-        if (lyric != null) {
-            String[] lyrics = lyric.split("\\n");
-            List<Map<Integer, String>> list = new ArrayList<>();
-            String regex = "\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]"; // 正则表达式
-            Pattern pattern = Pattern.compile(regex); // 创建 Pattern 对象
-            for (String i : lyrics) {
-                Matcher matcher = pattern.matcher(i);
-                while (matcher.find()) {
-                    // 用于存储当前时间和文字信息的容器
-                    Map<Integer, String> map = new HashMap<>();
-                    String min = matcher.group(1); // 分钟
-                    String sec = matcher.group(2); // 秒
-                    String mill = matcher.group(3); // 毫秒，注意这里其实还要乘以10
-                    if (mill.length() > 2) {
-                        switch (mill.length()) {
-                            case 2:
-                                mill = String.valueOf(Integer.parseInt(mill) * 10);
-                            case 3:
-                                mill = mill.substring(0, mill.length() - 1);
-                                mill = String.valueOf(Integer.parseInt(mill) * 10);
-                        }
-                    }
-                    int time = timeToSec(min, sec, mill);
-                    // 获取当前时间的歌词信息
-                    String text = i.substring(matcher.end());
-                    map.put(time, text); // 添加到容器中
-                    list.add(map);
-                }
+    public static JsonObject formatLyric(String lyric, String lyricTr) {
+        Map<Long, String> lrcMap = formatLyric(lyric);
+        Map<Long, String> lrcTrMap = formatLyric(lyricTr);
+        JsonObject json = new JsonObject();
+        for (Map.Entry<Long, String> entry : lrcMap.entrySet()) {
+            JsonObject j = new JsonObject();
+            j.addProperty("lrc", entry.getValue());
+            if (lrcTrMap.get(entry.getKey()) != null) {
+                j.addProperty("lrcTr", lrcTrMap.get(entry.getKey()));
+            } else {
+                j.addProperty("lrcTr", "");
             }
-            return list;
-        } else {
-            return null;
+            json.add(String.valueOf(entry.getKey()), j);
         }
+        return json;
+    }
+
+    private static Map<Long, String> formatLyric(String lyric) {
+        Map<Long, String> map = new HashMap<>();
+        MultiMap<Long, String> multiMap = new MultiMap<>();
+        if (lyric.isEmpty()) {
+            return map;
+        }
+        String[] lyrics = lyric.split("\n");
+        String regex = "\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]";
+        Pattern pattern = Pattern.compile(regex);
+        for (String lrc : lyrics) {
+            Matcher matcher = pattern.matcher(lrc);
+            while (matcher.find()) {
+                String min = matcher.group(1);
+                String sec = matcher.group(2);
+                String mill = matcher.group(3);
+                if (mill.length() > 2) {
+                    switch (mill.length()) {
+                        case 2:
+                            mill = String.valueOf(Integer.parseInt(mill));
+                        case 3:
+                            mill = mill.substring(0, mill.length() - 1);
+                            mill = String.valueOf(Integer.parseInt(mill));
+                    }
+                }
+                long time = timeToSec(min, sec, mill);
+                String text = lrc.substring(matcher.end());
+                multiMap.put(time, text);
+            }
+        }
+        for (int i = 0; i < multiMap.getSize(); i++) {
+            Map<Long, List<String>> lrcs = multiMap.get(i);
+            for (Map.Entry<Long, List<String>> e : lrcs.entrySet()) {
+                List<String> eValue = e.getValue();
+                StringBuilder sb = new StringBuilder();
+                for (String s : eValue) {
+                    sb.append(s).append("\n");
+                }
+                String s = sb.substring(0, sb.length() - 1);
+                map.put(e.getKey(), s);
+            }
+        }
+        return map;
     }
 
     /**
-     * 将分,秒,毫秒转为秒
+     * 将分,秒,毫秒转为毫秒
      *
      * @param min  分
      * @param sec  秒
      * @param mill 毫秒
-     * @return 秒
+     * @return 毫秒
      */
-    private static int timeToSec(String min, String sec, String mill) {
+    private static long timeToSec(String min, String sec, String mill) {
         int m = Integer.parseInt(min);
         int s = Integer.parseInt(sec);
         int ms = Integer.parseInt(mill);
         if (s >= 60) {
             LogUtils.sendErrorMessage("警告: 出现了一个时间不正确的项 --> [" + min + ":" + sec + "." + mill.substring(0, 2) + "]");
         }
-        int time = (m * 60 * 1000 + s * 1000 + ms) / 1000;
-        return time;
+        return (m * 60 * 1000 + s * 1000 + ms) / 1000;
     }
 
     public static String getMD5String(String str) {
@@ -423,8 +428,7 @@ public class OtherUtils {
      * @param input       输入流
      * @throws IOException IOException
      */
-    public static void writeToLocal(String destination, InputStream input)
-            throws IOException {
+    public static void writeToLocal(String destination, InputStream input) throws IOException {
         int index;
         byte[] bytes = new byte[1024];
         FileOutputStream downloadFile = new FileOutputStream(destination);

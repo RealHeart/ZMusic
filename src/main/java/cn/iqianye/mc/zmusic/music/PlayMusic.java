@@ -18,17 +18,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Timer;
 
 public class PlayMusic {
 
     static String musicID;
     static String musicName;
     static String musicUrl;
-    static List<Map<Integer, String>> musicLyric;
-    static List<Map<Integer, String>> musicLyricTr;
-    static int musicMaxTime;
+    static JsonObject musicLyric;
+    static long musicMaxTime;
     static String searchSourceName;
     static JsonObject json;
 
@@ -89,8 +86,7 @@ public class PlayMusic {
                 }
                 musicName = json.get("name").getAsString() + "(" + json.get("singer").getAsString() + ")";
                 musicUrl = json.get("url").getAsString();
-                musicLyric = OtherUtils.formatLyric(json.get("lyric").getAsString());
-                musicLyricTr = OtherUtils.formatLyric(json.get("lyricTr").getAsString());
+                musicLyric = OtherUtils.formatLyric(json.get("lyric").getAsString(), json.get("lyricTr").getAsString());
                 musicMaxTime = json.get("time").getAsInt();
             } else {
                 MessageUtils.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
@@ -117,12 +113,19 @@ public class PlayMusic {
                             PlayerStatus.setPlayerPlatform(p, searchSourceName);
                             PlayerStatus.setPlayerPlaySource(p, "搜索");
                             PlayerStatus.setPlayerMaxTime(p, musicMaxTime);
-                            PlayerStatus.setPlayerCurrentTime(p, 0);
-                            LyricSendTimer lyricSendTimer = new LyricSendTimer();
-                            lyricSendTimer.player = p;
-                            lyricSendTimer.lyric = musicLyric;
-                            lyricSendTimer.lyricTr = musicLyricTr;
-                            if (musicLyric.isEmpty()) {
+                            PlayerStatus.setPlayerCurrentTime(p, 0L);
+                            LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
+                            if (lyricSender != null) {
+                                lyricSender = null;
+                                lyricSender = new LyricSender();
+                                PlayerStatus.setPlayerLyricSender(player, lyricSender);
+                            } else {
+                                lyricSender = new LyricSender();
+                                PlayerStatus.setPlayerLyricSender(player, lyricSender);
+                            }
+                            lyricSender.player = p;
+                            lyricSender.lyric = musicLyric;
+                            if (musicLyric == null) {
                                 if (source.equalsIgnoreCase("kuwo")) {
                                     MessageUtils.sendErrorMessage("酷我音乐暂不支持歌词显示", p);
                                 } else if (source.equalsIgnoreCase("bilibili")) {
@@ -131,39 +134,14 @@ public class PlayMusic {
                                     MessageUtils.sendErrorMessage("未找到歌词信息", p);
                                 }
                             }
-                            if (musicLyricTr.isEmpty()) {
-                                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                                    MessageUtils.sendErrorMessage("网易云音乐暂不支持显示歌词翻译", p);
-                                } else if (source.equalsIgnoreCase("kuwo")) {
-                                    MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", p);
-                                } else if (source.equalsIgnoreCase("kugou")) {
-                                    MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", p);
-                                } else if (source.equalsIgnoreCase("bilibili")) {
-                                    MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持显示歌词翻译", p);
-                                } else if (source.equalsIgnoreCase("migu")) {
-                                    MessageUtils.sendErrorMessage("咪咕音乐暂不支持显示歌词翻译", p);
-                                } else {
-                                    MessageUtils.sendErrorMessage("未找到歌词翻译", p);
-                                }
-                            }
-                            lyricSendTimer.maxTime = musicMaxTime;
-                            lyricSendTimer.name = musicName;
-                            lyricSendTimer.url = musicUrl;
-                            lyricSendTimer.isActionBar = Config.supportActionBar;
-                            lyricSendTimer.isBoosBar = Config.supportBossBar;
-                            lyricSendTimer.isTitle = Config.supportTitle;
-                            lyricSendTimer.isChat = Config.supportChat;
-                            Timer timer = PlayerStatus.getPlayerTimer(p);
-                            if (timer != null) {
-                                timer.cancel();
-                                timer = new Timer();
-                                timer.schedule(lyricSendTimer, 1000L, 1000L);
-                                PlayerStatus.setPlayerTimer(p, timer);
-                            } else {
-                                timer = new Timer();
-                                timer.schedule(lyricSendTimer, 1000L, 1000L);
-                                PlayerStatus.setPlayerTimer(p, timer);
-                            }
+                            lyricSender.maxTime = musicMaxTime;
+                            lyricSender.name = musicName;
+                            lyricSender.url = musicUrl;
+                            lyricSender.isActionBar = Config.supportActionBar;
+                            lyricSender.isBoosBar = Config.supportBossBar;
+                            lyricSender.isTitle = Config.supportTitle;
+                            lyricSender.isChat = Config.supportChat;
+                            lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
                             MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", p);
                         }
                     }
@@ -174,65 +152,40 @@ public class PlayMusic {
                         if (plp != null) {
                             plp.isStop = true;
                             PlayerStatus.setPlayerPlayListPlayer(player, null);
-                            OtherUtils.resetPlayerStatus(player);
+                            OtherUtils.resetPlayerStatusSelf(player);
                         }
                         MusicUtils.stopSelf(player);
                         MusicUtils.playSelf(musicUrl, player);
-                        OtherUtils.resetPlayerStatus(player);
+                        OtherUtils.resetPlayerStatusSelf(player);
                         PlayerStatus.setPlayerPlayStatus(player, true);
                         PlayerStatus.setPlayerMusicName(player, musicName);
                         PlayerStatus.setPlayerPlatform(player, searchSourceName);
                         PlayerStatus.setPlayerPlaySource(player, "搜索");
                         PlayerStatus.setPlayerMaxTime(player, musicMaxTime);
-                        PlayerStatus.setPlayerCurrentTime(player, 0);
-                        LyricSendTimer lyricSendTimer = new LyricSendTimer();
-                        lyricSendTimer.player = player;
-                        lyricSendTimer.lyric = musicLyric;
-                        lyricSendTimer.lyricTr = musicLyricTr;
-                        if (musicLyric.isEmpty()) {
-                            if (source.equalsIgnoreCase("kuwo")) {
-                                MessageUtils.sendErrorMessage("酷我音乐暂不支持歌词显示", player);
-                            } else if (source.equalsIgnoreCase("bilibili")) {
-                                MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持歌词显示", player);
-                            } else {
-                                MessageUtils.sendErrorMessage("未找到歌词信息", player);
-                            }
-                        }
-                        if (musicLyricTr.isEmpty()) {
-                            if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                                MessageUtils.sendErrorMessage("网易云音乐暂不支持显示歌词翻译", player);
-                            } else if (source.equalsIgnoreCase("kuwo")) {
-                                MessageUtils.sendErrorMessage("酷我音乐暂不支持显示歌词翻译", player);
-                            } else if (source.equalsIgnoreCase("kugou")) {
-                                MessageUtils.sendErrorMessage("酷狗音乐暂不支持显示歌词翻译", player);
-                            } else if (source.equalsIgnoreCase("bilibili")) {
-                                MessageUtils.sendErrorMessage("哔哩哔哩音乐暂不支持显示歌词翻译", player);
-                            } else {
-                                MessageUtils.sendErrorMessage("未找到歌词翻译", player);
-                            }
-                        }
-                        lyricSendTimer.maxTime = musicMaxTime;
-                        lyricSendTimer.name = musicName;
-                        lyricSendTimer.url = musicUrl;
-                        lyricSendTimer.isActionBar = Config.supportActionBar;
-                        lyricSendTimer.isBoosBar = Config.supportBossBar;
-                        lyricSendTimer.isTitle = Config.supportTitle;
-                        lyricSendTimer.isChat = Config.supportChat;
-                        Timer timer = PlayerStatus.getPlayerTimer(player);
-                        if (timer != null) {
-                            timer.cancel();
-                            timer = new Timer();
-                            timer.schedule(lyricSendTimer, 1000L, 1000L);
-                            PlayerStatus.setPlayerTimer(player, timer);
+                        PlayerStatus.setPlayerCurrentTime(player, 0L);
+                        LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
+                        if (lyricSender != null) {
+                            lyricSender = null;
+                            lyricSender = new LyricSender();
+                            PlayerStatus.setPlayerLyricSender(player, lyricSender);
                         } else {
-                            timer = new Timer();
-                            timer.schedule(lyricSendTimer, 1000L, 1000L);
-                            PlayerStatus.setPlayerTimer(player, timer);
+                            lyricSender = new LyricSender();
+                            PlayerStatus.setPlayerLyricSender(player, lyricSender);
                         }
+                        lyricSender.player = player;
+                        lyricSender.lyric = musicLyric;
+                        lyricSender.maxTime = musicMaxTime;
+                        lyricSender.name = musicName;
+                        lyricSender.url = musicUrl;
+                        lyricSender.isActionBar = Config.supportActionBar;
+                        lyricSender.isBoosBar = Config.supportBossBar;
+                        lyricSender.isTitle = Config.supportTitle;
+                        lyricSender.isChat = Config.supportChat;
+                        lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
                         JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
                         MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", player);
                         if (Config.realSupportAdvancement) {
-                           //new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())),"§a正在播放\n§e" + musicName, "minecraft:stone",plugin).sendAdvancement((player));
+                            //new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())),"§a正在播放\n§e" + musicName, "minecraft:stone",plugin).sendAdvancement((player));
                         }
                     }
                     break;
@@ -261,7 +214,6 @@ public class PlayMusic {
             MessageUtils.sendErrorMessage("2.搜索的音乐为付费音乐", player);
             MessageUtils.sendErrorMessage("3.搜索的音乐为试听音乐", player);
             MessageUtils.sendErrorMessage("4.服务器网络异常", player);
-            return;
         }
     }
 }

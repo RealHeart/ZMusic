@@ -12,7 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 public class PlayListPlayer extends BukkitRunnable {
 
@@ -65,10 +66,9 @@ public class PlayListPlayer extends BukkitRunnable {
                 break;
             }
             String name = playList.get(songs).get("name").getAsString() + "(" + playList.get(songs).get("singer").getAsString() + ")";
-            int time = playList.get(songs).get("time").getAsInt();
+            long time = playList.get(songs).get("time").getAsInt();
             String url = "";
-            List<Map<Integer, String>> lyric = new ArrayList<>();
-            List<Map<Integer, String>> lyricTr = new ArrayList<>();
+            JsonObject lyric = null;
             Gson gson = new GsonBuilder().create();
             if (platform.equalsIgnoreCase("qq")) {
                 String id = playList.get(songs).get("id").getAsString();
@@ -93,8 +93,7 @@ public class PlayListPlayer extends BukkitRunnable {
                 String lyricTrText = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
                 lyricTrText = lyricTrText.replaceAll("&apos;", "'");
                 lyricTrText = lyricTrText.replaceAll("\r", "");
-                lyric = OtherUtils.formatLyric(lyricText);
-                lyricTr = OtherUtils.formatLyric(lyricTrText);
+                lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
             } else if (platform.equalsIgnoreCase("netease")) {
                 String id = playList.get(songs).get("id").getAsString();
                 String getMp3Url = Config.neteaseApiRoot + "song/url?id=" + id + "&br=320000&" +
@@ -112,54 +111,46 @@ public class PlayListPlayer extends BukkitRunnable {
                 String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + id, null);
                 JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
                 String lyricText = "";
+                String lyricTrText = "";
                 try {
                     lyricText = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
+                    lyricTrText = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyricText = lyricText.replaceAll("\r", "");
-                    lyric = OtherUtils.formatLyric(lyricText);
-                    lyricTr = OtherUtils.formatLyric("");
+                    lyricTrText = lyricText.replaceAll("\r", "");
+                    lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
                 } catch (Exception ignored) {
                 }
             }
             MusicUtils.playSelf(url, player);
-            OtherUtils.resetPlayerStatus(player);
+            OtherUtils.resetPlayerStatusSelf(player);
             PlayerStatus.setPlayerPlayStatus(player, true);
             PlayerStatus.setPlayerMusicName(player, name);
             PlayerStatus.setPlayerPlatform(player, searchSourceName);
             PlayerStatus.setPlayerPlaySource(player, "歌单<" + playListName + ">");
             PlayerStatus.setPlayerMaxTime(player, time);
-            PlayerStatus.setPlayerCurrentTime(player, 0);
-            LyricSendTimer lyricSendTimer = new LyricSendTimer();
-            lyricSendTimer.player = player;
-            lyricSendTimer.lyric = lyric;
-            lyricSendTimer.lyricTr = lyricTr;
-            if (lyric.isEmpty()) {
+            PlayerStatus.setPlayerCurrentTime(player, 0L);
+            LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
+            if (lyricSender != null) {
+                lyricSender.cancel();
+                lyricSender = new LyricSender();
+                PlayerStatus.setPlayerLyricSender(player, lyricSender);
+            } else {
+                lyricSender = new LyricSender();
+                PlayerStatus.setPlayerLyricSender(player, lyricSender);
+            }
+            lyricSender.player = player;
+            lyricSender.lyric = lyric;
+            if (lyric == null) {
                 MessageUtils.sendErrorMessage("未找到歌词信息", player);
             }
-            if (lyricTr.isEmpty()) {
-                if (platform.equalsIgnoreCase("netease")) {
-                    MessageUtils.sendErrorMessage("网易云音乐暂不支持显示歌词翻译", player);
-                } else {
-                    MessageUtils.sendErrorMessage("未找到歌词翻译", player);
-                }
-            }
-            lyricSendTimer.maxTime = time;
-            lyricSendTimer.name = name;
-            lyricSendTimer.url = url;
-            lyricSendTimer.isActionBar = Config.supportActionBar;
-            lyricSendTimer.isBoosBar = Config.supportBossBar;
-            lyricSendTimer.isTitle = Config.supportTitle;
-            lyricSendTimer.isChat = Config.supportChat;
-            Timer timer = PlayerStatus.getPlayerTimer(player);
-            if (timer != null) {
-                timer.cancel();
-                timer = new Timer();
-                timer.schedule(lyricSendTimer, 1000L, 1000L);
-                PlayerStatus.setPlayerTimer(player, timer);
-            } else {
-                timer = new Timer();
-                timer.schedule(lyricSendTimer, 1000L, 1000L);
-                PlayerStatus.setPlayerTimer(player, timer);
-            }
+            lyricSender.maxTime = time;
+            lyricSender.name = name;
+            lyricSender.url = url;
+            lyricSender.isActionBar = Config.supportActionBar;
+            lyricSender.isBoosBar = Config.supportBossBar;
+            lyricSender.isTitle = Config.supportTitle;
+            lyricSender.isChat = Config.supportChat;
+            lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
             LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")为[" + player.getName() + "]播放歌单<" + playListName + ">中的" + name);
             MessageUtils.sendNormalMessage("播放§r[§e" + name + "§r]§a成功!", player);
             JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);

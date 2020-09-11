@@ -31,9 +31,6 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         Config.debug = true;
         Version version = new Version();
-        LogUtils.sendDebugMessage(Bukkit.getVersion());
-        LogUtils.sendDebugMessage(Bukkit.getBukkitVersion());
-        LogUtils.sendDebugMessage(Bukkit.getServer().getClass().getPackage().getName());
         LogUtils.sendNormalMessage("正在加载中....");
         //注册bStats
         bStats bStats = new bStats(this, 7291);
@@ -43,11 +40,11 @@ public class Main extends JavaPlugin implements Listener {
         getCommand("zm").setExecutor(new CommandExec());
         //注册命令对应的自动补全器
         getCommand("zm").setTabCompleter(new CommandExec());
-        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AudioBuffer")) {
+        if (getServer().getPluginManager().isPluginEnabled("AudioBuffer")) {
             LogUtils.sendErrorMessage("请勿安装AudioBuffer插件.");
             Val.isEnable = false;
         }
-        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("AllMusic")) {
+        if (getServer().getPluginManager().isPluginEnabled("AllMusic")) {
             LogUtils.sendErrorMessage("请勿安装AllMusic插件.");
             Val.isEnable = false;
         }
@@ -87,12 +84,9 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
             Val.isViaVer = false;
         }
-        if (getServer().getPluginManager().isPluginEnabled("Yum")) {
-
-        }
         if (version.isLowerThan("1.8")) {
             if (version.isEquals("1.7.10")) {
-                if (!getServer().getBukkitVersion().contains("Uranium")) {
+                if (!Bukkit.getName().contains("Uranium")) {
                     LogUtils.sendErrorMessage("检测到当前服务端非Uranium，不支持Title/ActionBar显示");
                     Config.realSupportTitle = false;
                     Config.realSupportActionBar = false;
@@ -132,7 +126,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         LogUtils.sendNormalMessage("正在卸载中....");
-        List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
+        List<Player> players = new ArrayList<>(getServer().getOnlinePlayers());
         if (!players.isEmpty()) {
             OtherUtils.resetPlayerStatusAll(players);
             //MusicUtils.stopAll(players);
@@ -142,7 +136,7 @@ public class Main extends JavaPlugin implements Listener {
             if (plp != null) {
                 plp.isStop = true;
                 PlayerStatus.setPlayerPlayListPlayer(player, null);
-                OtherUtils.resetPlayerStatus(player);
+                OtherUtils.resetPlayerStatusSelf(player);
             }
         }
         LogUtils.sendNormalMessage("插件作者: 真心");

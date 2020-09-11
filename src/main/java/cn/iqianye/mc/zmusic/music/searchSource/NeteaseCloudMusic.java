@@ -53,12 +53,12 @@ public class NeteaseCloudMusic {
                 }
                 singerName = singerName.substring(0, singerName.length() - 1);
                 String lyric = "";
-                //String lyricTr = "";
+                String lyricTr = "";
                 try {
                     lyric = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
-                    //lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
+                    lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyric = lyric.replaceAll("\r", "");
-                    //lyricTr = lyricTr.replaceAll("\r", "");
+                    lyricTr = lyricTr.replaceAll("\r", "");
                 } catch (Exception e) {
                 }
                 JsonObject returnJson = new JsonObject();
@@ -68,7 +68,7 @@ public class NeteaseCloudMusic {
                 returnJson.addProperty("name", name);
                 returnJson.addProperty("singer", singerName);
                 returnJson.addProperty("lyric", lyric);
-                returnJson.addProperty("lyricTr", "");
+                returnJson.addProperty("lyricTr", lyricTr);
                 return returnJson;
             } else {
                 return null;

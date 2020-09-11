@@ -1,12 +1,12 @@
 package cn.iqianye.mc.zmusic.player;
 
 import cn.iqianye.mc.zmusic.api.BossBar;
+import cn.iqianye.mc.zmusic.music.LyricSender;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 /**
  * 玩家状态类，处理玩家状态信息等
@@ -21,14 +21,14 @@ public class PlayerStatus {
     private static final Map<Player, String> platformMap = new HashMap<>();
     // 当前播放音乐平台
     private static final Map<Player, String> playSourceMap = new HashMap<>();
-    // Timer
-    private static final Map<Player, Timer> timerMap = new HashMap<>();
+    // LyricSender
+    private static final Map<Player, LyricSender> lyricSenderMap = new HashMap<>();
     // BossBar
     private static final Map<Player, BossBar> boosBarMap = new HashMap<>();
     // 播放进度：当前时间
-    private static final Map<Player, Integer> currentTimeMap = new HashMap<>();
+    private static final Map<Player, Long> currentTimeMap = new HashMap<>();
     // 播放进度：最大时间
-    private static final Map<Player, Integer> maxTimeMap = new HashMap<>();
+    private static final Map<Player, Long> maxTimeMap = new HashMap<>();
     // 当前进度的歌词
     private static final Map<Player, String> lyricMap = new HashMap<>();
     // 循环播放
@@ -119,23 +119,23 @@ public class PlayerStatus {
     }
 
     /**
-     * 获取玩家Timer
+     * 获取玩家LyricSender
      *
      * @param player 玩家
-     * @return Timer
+     * @return LyricSender
      */
-    public static Timer getPlayerTimer(Player player) {
-        return timerMap.get(player);
+    public static LyricSender getPlayerLyricSender(Player player) {
+        return lyricSenderMap.get(player);
     }
 
     /**
-     * 设置玩家Timer
+     * 设置玩家LyricSender
      *
-     * @param player 玩家
-     * @param timer  Timer
+     * @param player      玩家
+     * @param lyricSender LyricSender
      */
-    public static void setPlayerTimer(Player player, Timer timer) {
-        timerMap.put(player, timer);
+    public static void setPlayerLyricSender(Player player, LyricSender lyricSender) {
+        lyricSenderMap.put(player, lyricSender);
     }
 
     /**
@@ -164,7 +164,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 时间(秒)
      */
-    public static Integer getPlayerCurrentTime(Player player) {
+    public static Long getPlayerCurrentTime(Player player) {
         return currentTimeMap.get(player);
     }
 
@@ -174,7 +174,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param time   时间(秒)
      */
-    public static void setPlayerCurrentTime(Player player, Integer time) {
+    public static void setPlayerCurrentTime(Player player, Long time) {
         currentTimeMap.put(player, time);
     }
 
@@ -184,7 +184,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 时间(秒)
      */
-    public static Integer getPlayerMaxTime(Player player) {
+    public static Long getPlayerMaxTime(Player player) {
         return maxTimeMap.get(player);
     }
 
@@ -194,7 +194,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param time   时间(秒)
      */
-    public static void setPlayerMaxTime(Player player, Integer time) {
+    public static void setPlayerMaxTime(Player player, Long time) {
         maxTimeMap.put(player, time);
     }
 

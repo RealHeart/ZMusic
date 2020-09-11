@@ -35,7 +35,7 @@ public class KuGouMusic {
                 String infoJsonText = NetUtils.getNetString(getInfoUrl, "http://m.kugou.com/play/info/" + id);
                 JsonObject infoJosn = gson.fromJson(infoJsonText, JsonObject.class);
                 String song_url = infoJosn.get("url").getAsString();
-                String song_time = infoJosn.get("timeLength").getAsString();
+                int song_time = infoJosn.get("timeLength").getAsInt();
                 String getLyricInfoUrl = "http://krcs.kugou.com/search?ver=1&man=yes&client=mobi&keyword=&duration=&hash=" + hash;
                 String lyricInfoStr = NetUtils.getNetString(getLyricInfoUrl, null);
                 JsonObject getLyrrcJson = gson.fromJson(lyricInfoStr, JsonObject.class);

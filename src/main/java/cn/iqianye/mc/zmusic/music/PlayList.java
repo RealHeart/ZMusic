@@ -91,7 +91,7 @@ public class PlayList {
                             showPlayList(platform, player, true);
                             break;
                         case "play":
-                            OtherUtils.resetPlayerStatus(player);
+                            OtherUtils.resetPlayerStatusSelf(player);
                             playPlayList(args[4], platform, player, new ArrayList<>(), true);
                             break;
                         case "playall":
@@ -127,7 +127,7 @@ public class PlayList {
                     showPlayList(args[1], player, false);
                     break;
                 case "play":
-                    OtherUtils.resetPlayerStatus(player);
+                    OtherUtils.resetPlayerStatusSelf(player);
                     playPlayList(args[3], args[1], player, new ArrayList<>(), false);
                     break;
                 case "update":
@@ -304,7 +304,7 @@ public class PlayList {
             if (plp != null) {
                 plp.isStop = true;
                 PlayerStatus.setPlayerPlayListPlayer(player, null);
-                OtherUtils.resetPlayerStatus(player);
+                OtherUtils.resetPlayerStatusSelf(player);
                 MusicUtils.stopSelf(player);
             }
             PlayListPlayer playListPlayer = new PlayListPlayer();

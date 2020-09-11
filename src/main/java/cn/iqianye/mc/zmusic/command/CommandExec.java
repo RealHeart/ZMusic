@@ -138,10 +138,10 @@ public class CommandExec implements TabExecutor {
                                 if (plp != null) {
                                     plp.isStop = true;
                                     PlayerStatus.setPlayerPlayListPlayer((Player) sender, null);
-                                    OtherUtils.resetPlayerStatus((Player) sender);
+                                    OtherUtils.resetPlayerStatusSelf((Player) sender);
                                 }
                                 MusicUtils.stopSelf((Player) sender);
-                                OtherUtils.resetPlayerStatus((Player) sender);
+                                OtherUtils.resetPlayerStatusSelf((Player) sender);
                                 MessageUtils.sendNormalMessage("停止播放音乐成功!", sender);
                                 return true;
                             case "loop":
