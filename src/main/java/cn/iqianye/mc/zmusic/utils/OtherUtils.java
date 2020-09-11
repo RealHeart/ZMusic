@@ -7,6 +7,7 @@ import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import com.google.gson.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,18 +149,45 @@ public class OtherUtils {
                 int latestVerCode = json.get("latestVerCode").getAsInt();
                 String updateLog = json.get("updateLog").getAsString();
                 String downloadUrl = json.get("downloadUrl").getAsString();
+                String updateUrl = json.get("updateUrl").getAsString();
+                String updateMD5 = json.get("updateMD5").getAsString();
                 if (Val.thisVerCode < latestVerCode) {
                     Val.isLatest = false;
                     Val.latestVer = latestVer;
                     Val.updateLog = updateLog;
                     Val.downloadUrl = downloadUrl;
+                    Val.updateUrl = updateUrl;
                     LogUtils.sendNormalMessage("发现新版本 V" + Val.latestVer);
                     LogUtils.sendNormalMessage("更新日志:");
                     String[] log = Val.updateLog.split("\\n");
                     for (String s : log) {
                         LogUtils.sendNormalMessage(s);
                     }
-                    LogUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl);
+                    if (Config.update) {
+                        LogUtils.sendNormalMessage("已开启自动更新，正在下载最新版本中....");
+                        File file = Bukkit.getUpdateFolderFile();
+                        file = new File(file, "ZMusic-" + latestVer + ".jar");
+                        String md5 = "";
+                        try {
+                            md5 = getMD5Three(file.getAbsolutePath());
+                        } catch (IOException | NoSuchAlgorithmException e) {
+                            LogUtils.sendDebugMessage(e.getMessage());
+                        }
+                        if (!md5.equals(updateMD5)) {
+                            try {
+                                writeToLocal(file.getAbsolutePath(), NetUtils.getNetInputStream(updateUrl));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (Bukkit.getPluginManager().isPluginEnabled("Yum")) {
+                            LogUtils.sendNormalMessage("下载完成，请输入/yum upgrade更新插件.");
+                        } else {
+                            LogUtils.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.");
+                        }
+                    } else {
+                        LogUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl);
+                    }
                 } else {
                     LogUtils.sendNormalMessage("已是最新版本!");
                     Val.isLatest = true;
@@ -385,5 +414,42 @@ public class OtherUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 将InputStream写入本地文件
+     *
+     * @param destination 写入本地目录
+     * @param input       输入流
+     * @throws IOException IOException
+     */
+    public static void writeToLocal(String destination, InputStream input)
+            throws IOException {
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(destination);
+        while ((index = input.read(bytes)) != -1) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        input.close();
+        downloadFile.close();
+
+    }
+
+    public static String getMD5Three(String path) throws IOException, NoSuchAlgorithmException {
+        BigInteger bi = null;
+        byte[] buffer = new byte[8192];
+        int len = 0;
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        File f = new File(path);
+        FileInputStream fis = new FileInputStream(f);
+        while ((len = fis.read(buffer)) != -1) {
+            md.update(buffer, 0, len);
+        }
+        fis.close();
+        byte[] b = md.digest();
+        bi = new BigInteger(1, b);
+        return bi.toString(16);
     }
 }

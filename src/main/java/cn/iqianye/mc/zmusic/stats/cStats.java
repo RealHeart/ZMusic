@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.bStats;
+package cn.iqianye.mc.zmusic.stats;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,12 +29,12 @@ import java.util.zip.GZIPOutputStream;
  * Check out https://bStats.org/ to learn more about bStats!
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class MetricsLite {
+public class cStats {
 
-    // The version of this bStats class
-    public static final int B_STATS_VERSION = 1;
+    // The version of this cStats class
+    public static final int C_STATS_VERSION = 1;
     // The url to which the data is sent
-    private static final String URL = "https://bStats.org/submitData/bukkit";
+    private static final String URL = "https://cstats.iroselle.com/submitData/bukkit";
     // Should failed requests be logged?
     private static boolean logFailedRequests;
     // Should the sent data be logged?
@@ -46,42 +46,37 @@ public class MetricsLite {
 
     static {
         // You can use the property to disable the check in your test environment
-        if (System.getProperty("bstats.relocatecheck") == null || !System.getProperty("bstats.relocatecheck").equals("false")) {
+        if (System.getProperty("cStats.relocatecheck") == null || !System.getProperty("cStats.relocatecheck").equals("false")) {
             // Maven's Relocate is clever and changes strings, too. So we have to use this little "trick" ... :D
             final String defaultPackage = new String(
-                    new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's', '.', 'b', 'u', 'k', 'k', 'i', 't'});
+                    new byte[]{'c', 'o', 'm', '.', 'i', 'r', 'o', 's', 'e', 'l', 'l', 'e', '.', 'c', 's', 't', 'a', 't', 's', '.', 'b', 'u', 'k', 'k', 'i', 't'});
             final String examplePackage = new String(new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
             // We want to make sure nobody just copy & pastes the example and use the wrong package names
-            if (MetricsLite.class.getPackage().getName().equals(defaultPackage) || MetricsLite.class.getPackage().getName().equals(examplePackage)) {
-                throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
+            if (cStats.class.getPackage().getName().equals(defaultPackage) || cStats.class.getPackage().getName().equals(examplePackage)) {
+                throw new IllegalStateException("cStats Metrics class has not been relocated correctly!");
             }
         }
     }
 
     // The plugin
     private final Plugin plugin;
-    // The plugin id
-    private final int pluginId;
-    // Is bStats enabled on this server?
+    // Is cStats enabled on this server?
     private boolean enabled;
 
     /**
      * Class constructor.
      *
-     * @param plugin   The plugin which stats should be submitted.
-     * @param pluginId The id of the plugin.
-     *                 It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
+     * @param plugin The plugin which stats should be submitted.
      */
-    public MetricsLite(Plugin plugin, int pluginId) {
+    public cStats(Plugin plugin) {
         if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null!");
         }
         this.plugin = plugin;
-        this.pluginId = pluginId;
 
         // Get the config file
-        File bStatsFolder = new File(plugin.getDataFolder().getParentFile(), "bStats");
-        File configFile = new File(bStatsFolder, "config.yml");
+        File cStatsFolder = new File(plugin.getDataFolder().getParentFile(), "cStats");
+        File configFile = new File(cStatsFolder, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
         // Check if the config file exists
@@ -98,12 +93,12 @@ public class MetricsLite {
             // Should the response text be logged?
             config.addDefault("logResponseStatusText", false);
 
-            // Inform the server owners about bStats
+            // Inform the server owners about cStats
             config.options().header(
-                    "bStats collects some data for plugin authors like how many servers are using their plugins.\n" +
+                    "cStats collects some data for plugin authors like how many servers are using their plugins.\n" +
                             "To honor their work, you should not disable it.\n" +
                             "This has nearly no effect on the server performance!\n" +
-                            "Check out https://bStats.org/ to learn more :)"
+                            "Check out https://cstats.iroselle.com/ to learn more :)"
             ).copyDefaults(true);
             try {
                 config.save(configFile);
@@ -112,24 +107,25 @@ public class MetricsLite {
         }
 
         // Load the data
+        enabled = config.getBoolean("enabled", true);
         serverUUID = config.getString("serverUuid");
         logFailedRequests = config.getBoolean("logFailedRequests", false);
-        enabled = config.getBoolean("enabled", true);
         logSentData = config.getBoolean("logSentData", false);
         logResponseStatusText = config.getBoolean("logResponseStatusText", false);
+
         if (enabled) {
             boolean found = false;
-            // Search for all other bStats Metrics classes to see if we are the first one
+            // Search for all other cStats Metrics classes to see if we are the first one
             for (Class<?> service : Bukkit.getServicesManager().getKnownServices()) {
                 try {
-                    service.getField("B_STATS_VERSION"); // Our identifier :)
+                    service.getField("C_STATS_VERSION"); // Our identifier :)
                     found = true; // We aren't the first
                     break;
                 } catch (NoSuchFieldException ignored) {
                 }
             }
             // Register our service
-            Bukkit.getServicesManager().register(MetricsLite.class, this, plugin, ServicePriority.Normal);
+            Bukkit.getServicesManager().register(cStats.class, this, plugin, ServicePriority.Normal);
             if (!found) {
                 // We are the first!
                 startSubmitting();
@@ -138,7 +134,7 @@ public class MetricsLite {
     }
 
     /**
-     * Sends the data to the bStats server.
+     * Sends the data to the cStats server.
      *
      * @param plugin Any plugin. It's just used to get a logger instance.
      * @param data   The data to send.
@@ -152,7 +148,7 @@ public class MetricsLite {
             throw new IllegalAccessException("This method must not be called from the main thread!");
         }
         if (logSentData) {
-            plugin.getLogger().info("Sending data to bStats: " + data);
+            plugin.getLogger().info("Sending data to cStats: " + data);
         }
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 
@@ -166,7 +162,7 @@ public class MetricsLite {
         connection.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
         connection.addRequestProperty("Content-Length", String.valueOf(compressedData.length));
         connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
-        connection.setRequestProperty("User-Agent", "MC-Server/" + B_STATS_VERSION);
+        connection.setRequestProperty("User-Agent", "MC-Server/" + C_STATS_VERSION);
 
         // Send data
         connection.setDoOutput(true);
@@ -183,7 +179,7 @@ public class MetricsLite {
         }
 
         if (logResponseStatusText) {
-            plugin.getLogger().info("Sent data to bStats and received response: " + builder);
+            plugin.getLogger().info("Sent data to cStats and received response: " + builder);
         }
     }
 
@@ -206,9 +202,9 @@ public class MetricsLite {
     }
 
     /**
-     * Checks if bStats is enabled.
+     * Checks if cStats is enabled.
      *
-     * @return Whether bStats is enabled or not.
+     * @return Whether cStats is enabled or not.
      */
     public boolean isEnabled() {
         return enabled;
@@ -227,7 +223,7 @@ public class MetricsLite {
                     return;
                 }
                 // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the Bukkit scheduler
-                // Don't be afraid! The connection to the bStats server is still async, only the stats collection is sync ;)
+                // Don't be afraid! The connection to the cStats server is still async, only the stats collection is sync ;)
                 Bukkit.getScheduler().runTask(plugin, () -> submitData());
             }
         }, 1000 * 60 * 5, 1000 * 60 * 30);
@@ -249,9 +245,9 @@ public class MetricsLite {
         String pluginVersion = plugin.getDescription().getVersion();
 
         data.addProperty("pluginName", pluginName); // Append the name of the plugin
-        data.addProperty("id", pluginId); // Append the id of the plugin
         data.addProperty("pluginVersion", pluginVersion); // Append the version of the plugin
-        data.add("customCharts", new JsonArray());
+        JsonArray customCharts = new JsonArray();
+        data.add("customCharts", customCharts);
 
         return data;
     }
@@ -310,17 +306,17 @@ public class MetricsLite {
         final JsonObject data = getServerData();
 
         JsonArray pluginData = new JsonArray();
-        // Search for all other bStats Metrics classes to get their plugin data
+        // Search for all other cStats Metrics classes to get their plugin data
         for (Class<?> service : Bukkit.getServicesManager().getKnownServices()) {
             try {
-                service.getField("B_STATS_VERSION"); // Our identifier :)
+                service.getField("C_STATS_VERSION"); // Our identifier :)
 
                 for (RegisteredServiceProvider<?> provider : Bukkit.getServicesManager().getRegistrations(service)) {
                     try {
                         Object plugin = provider.getService().getMethod("getPluginData").invoke(provider.getProvider());
                         if (plugin instanceof JsonObject) {
                             pluginData.add((JsonObject) plugin);
-                        } else { // old bstats version compatibility
+                        } else { // old cStats version compatibility
                             try {
                                 Class<?> jsonObjectJsonSimple = Class.forName("org.json.simple.JSONObject");
                                 if (plugin.getClass().isAssignableFrom(jsonObjectJsonSimple)) {
@@ -333,7 +329,7 @@ public class MetricsLite {
                             } catch (ClassNotFoundException e) {
                                 // minecraft version 1.14+
                                 if (logFailedRequests) {
-                                    this.plugin.getLogger().log(Level.SEVERE, "Encountered unexpected exception ", e);
+                                    this.plugin.getLogger().log(Level.SEVERE, "Encountered unexpected exception", e);
                                 }
                             }
                         }
@@ -346,7 +342,7 @@ public class MetricsLite {
 
         data.add("plugins", pluginData);
 
-        // Create a new thread for the connection to the bStats server
+        // Create a new thread for the connection to the cStats server
         new Thread(() -> {
             try {
                 // Send the data

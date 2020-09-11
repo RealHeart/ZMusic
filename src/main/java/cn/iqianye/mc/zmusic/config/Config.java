@@ -23,6 +23,8 @@ public class Config {
     public static int latestVersion = 5;
     // Debug
     public static boolean debug;
+    // Update
+    public static boolean update;
     // Account
     // Netease
     public static String neteaseloginType;
@@ -66,6 +68,7 @@ public class Config {
         }
         // Debug
         debug = configuration.getBoolean("debug");
+        update = configuration.getBoolean("update");
         // Prefix
         prefix = ChatColor.translateAlternateColorCodes('&', configuration.getString("prefix"));
         // Account

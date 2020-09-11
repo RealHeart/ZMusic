@@ -1,13 +1,14 @@
 package cn.iqianye.mc.zmusic;
 
 import cn.iqianye.mc.zmusic.api.Version;
-import cn.iqianye.mc.zmusic.bStats.MetricsLite;
 import cn.iqianye.mc.zmusic.command.CommandExec;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.pApi.PApiHook;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
+import cn.iqianye.mc.zmusic.stats.bStats;
+import cn.iqianye.mc.zmusic.stats.cStats;
 import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
@@ -30,9 +31,14 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         Config.debug = true;
         Version version = new Version();
+        LogUtils.sendDebugMessage(Bukkit.getVersion());
+        LogUtils.sendDebugMessage(Bukkit.getBukkitVersion());
+        LogUtils.sendDebugMessage(Bukkit.getServer().getClass().getPackage().getName());
         LogUtils.sendNormalMessage("正在加载中....");
         //注册bStats
-        MetricsLite metricsLite = new MetricsLite(this, 7291);
+        bStats bStats = new bStats(this, 7291);
+        //注册cStats
+        cStats cStats = new cStats(this);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CommandExec());
         //注册命令对应的自动补全器
@@ -49,16 +55,16 @@ public class Main extends JavaPlugin implements Listener {
         LogUtils.sendNormalMessage("正在注册Mod通信频道...");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "allmusic:channel");
         LogUtils.sendNormalMessage("-- §r[§eAllMusic§r]§a 频道注册完毕.");
-        if (!version.isHigherThan("1.13")) {
+        if (!version.isHigherThan("1.12")) {
             getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
             LogUtils.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
         } else {
-            LogUtils.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.13，频道注册取消.");
+            LogUtils.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.12，频道注册取消.");
         }
         //注册事件监听器
         getServer().getPluginManager().registerEvents(this, this);
         OtherUtils.checkUpdate(Val.thisVer, null);
-        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             LogUtils.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
             boolean success = new PApiHook().register();
             if (success) {
@@ -69,26 +75,35 @@ public class Main extends JavaPlugin implements Listener {
         } else {
             LogUtils.sendErrorMessage("未找到§ePlaceholderAPI§c, §ePlaceholderAPI§c相关功能不生效.");
         }
-        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+        if (getServer().getPluginManager().isPluginEnabled("Vault")) {
             LogUtils.sendNormalMessage("已检测到Vault, 经济功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到Vault, 经济相关功能不生效.");
             Config.realSupportVault = false;
         }
-        if (org.bukkit.Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
+        if (getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
             LogUtils.sendNormalMessage("已检测到ViaVersion, 高版本转发功能生效.");
         } else {
             LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
             Val.isViaVer = false;
         }
-        if (Bukkit.getBukkitVersion().contains("1.7.10")) {
-            if (!Bukkit.getBukkitVersion().contains("Uranium")) {
-                LogUtils.sendErrorMessage("检测到当前服务端非Uranium，不支持Title/ActionBar显示");
+        if (getServer().getPluginManager().isPluginEnabled("Yum")) {
+
+        }
+        if (version.isLowerThan("1.8")) {
+            if (version.isEquals("1.7.10")) {
+                if (!getServer().getBukkitVersion().contains("Uranium")) {
+                    LogUtils.sendErrorMessage("检测到当前服务端非Uranium，不支持Title/ActionBar显示");
+                    Config.realSupportTitle = false;
+                    Config.realSupportActionBar = false;
+                }
+            } else {
+                LogUtils.sendErrorMessage("检测到当前服务端版本低于1.8，不支持Title/ActionBar显示");
                 Config.realSupportTitle = false;
                 Config.realSupportActionBar = false;
             }
         }
-        if (version.isLowerThan("1.8")) {
+        if (version.isLowerThan("1.9")) {
             LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持BossBar");
             Config.realSupportBossBar = false;
         }

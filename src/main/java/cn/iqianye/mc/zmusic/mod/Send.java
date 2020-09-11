@@ -19,7 +19,9 @@ public class Send {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "allmusic:channel", buf.array());
+            new Thread(() -> {
+                player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "allmusic:channel", buf.array());
+            }).start();
         } catch (Exception e) {
             LogUtils.sendErrorMessage("数据发送发生错误");
             e.printStackTrace();
@@ -30,7 +32,9 @@ public class Send {
         if (player == null)
             return;
         try {
-            player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "AudioBuffer", data.getBytes());
+            new Thread(() -> {
+                player.sendPluginMessage(JavaPlugin.getPlugin(Main.class), "AudioBuffer", data.getBytes());
+            }).start();
         } catch (Exception e) {
             LogUtils.sendErrorMessage("数据发送发生错误");
             e.printStackTrace();

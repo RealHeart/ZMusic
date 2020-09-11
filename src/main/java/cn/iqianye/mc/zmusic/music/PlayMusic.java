@@ -232,7 +232,7 @@ public class PlayMusic {
                         JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
                         MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicName + "§r]§a成功!", player);
                         if (Config.realSupportAdvancement) {
-                           // new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicName, plugin).sendAdvancement((player));
+                           //new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())),"§a正在播放\n§e" + musicName, "minecraft:stone",plugin).sendAdvancement((player));
                         }
                     }
                     break;

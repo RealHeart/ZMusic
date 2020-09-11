@@ -56,23 +56,28 @@ public class MusicUtils {
     }
 
     private static void Play(String url, Player player) {
-        if (version.isHigherThan("1.12")) {
+        if (version.isHigherThan("1.11")) {
+            LogUtils.sendDebugMessage("[播放] 服务端版本高于1.11，使用AllMusic发送播放数据.");
             Send.sendAM(player, "[Play]" + url);
         } else {
             if (Val.isViaVer) {
+                LogUtils.sendDebugMessage("[播放] 服务端存在ViaVer，进入客户端Netty版本检测.");
                 if (nettyVersion.isHigherThan(340, player)) {
+                    LogUtils.sendDebugMessage("[播放] 客户端版本高于1.12(340)，使用AllMusic发送播放数据.");
                     Send.sendAM(player, "[Play]" + url);
                 } else {
+                    LogUtils.sendDebugMessage("[播放] 客户端版本低于1.12(340)，使用AudioBuffer发送播放数据.");
                     Send.sendABF(player, "[Net]" + url);
                 }
             } else {
+                LogUtils.sendDebugMessage("[播放] 服务端版本低于1.11，使用AudioBuffer发送播放数据.");
                 Send.sendABF(player, "[Net]" + url);
             }
         }
     }
 
     private static void Stop(Player player) {
-        if (version.isHigherThan("1.12")) {
+        if (version.isHigherThan("1.11")) {
             Send.sendAM(player, "[Stop]");
         } else {
             if (Val.isViaVer) {

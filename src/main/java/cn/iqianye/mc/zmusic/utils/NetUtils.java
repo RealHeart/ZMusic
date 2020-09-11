@@ -76,6 +76,30 @@ public class NetUtils {
 
 
     /**
+     * 获取网络InputStream
+     *
+     * @param url 网络地址
+     * @return 获取的InputStream
+     */
+    public static InputStream getNetInputStream(String url) {
+        try {
+            URL getUrl = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) getUrl.openConnection();
+            con.setReadTimeout(20000);
+            con.setConnectTimeout(5000);
+            con.addRequestProperty("Charset", "UTF-8");
+            con.addRequestProperty("User-Agent", "ZMusic/" + Val.thisVer);
+            con.setRequestMethod("GET");
+            if (con.getResponseCode() == 200) {
+                return con.getInputStream();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 获取网络文件返回文本
      *
      * @param url 网络地址

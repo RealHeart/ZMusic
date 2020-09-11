@@ -1,12 +1,14 @@
 name: ZMusic
 main: cn.iqianye.mc.zmusic.Main
 version: ${pom.version}
+api-version: 1.13
 author: 真心
 description: 真心音乐系统
 softdepend:
   - ViaVersion
   - PlaceholderAPI
   - Vault
+  - Yum
 commands:
   zm:
     usage: /zm help

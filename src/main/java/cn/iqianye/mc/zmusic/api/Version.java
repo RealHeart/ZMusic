@@ -2,7 +2,6 @@ package cn.iqianye.mc.zmusic.api;
 
 import org.bukkit.Bukkit;
 
-
 public class Version {
 
     public String getRawVersion() {
@@ -10,37 +9,35 @@ public class Version {
     }
 
     public String getVersion() {
-        String[] rawver = getRawVersion().split("-");
-        return rawver[0];
+        return getRawVersion().split("-")[0];
     }
 
     //比目标版本低
     public boolean isLowerThan(String ver) {
-        String[] version = getVersion().split("\\.", 3);
-        String mid = version[1];
-        String[] testmid = ver.split("\\.");
-        if (Integer.parseInt(testmid[1]) >= Integer.parseInt(mid)) {
-            return true;
-        } else return false;
+        String[] versions = getVersion().split("\\.");
+        String[] vers = ver.split("\\.");
+        for (int i = 0; i <= (vers.length - 1); i++) {
+            if (Integer.parseInt(vers[i]) > Integer.parseInt(versions[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //比目标版本高
     public boolean isHigherThan(String ver) {
-        String[] version = getVersion().split("\\.");
-        String mid = version[1];
-        String[] testmid = ver.split("\\.");
-        if (Integer.parseInt(testmid[1]) <= Integer.parseInt(mid)) {
-            return true;
-        } else return false;
+        String[] versions = getVersion().split("\\.");
+        String[] vers = ver.split("\\.");
+        for (int i = 0; i <= (vers.length - 1); i++) {
+            if (Integer.parseInt(vers[i]) < Integer.parseInt(versions[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //与目标版本相等
     public boolean isEquals(String ver) {
-        String[] version = getVersion().split("\\.");
-        String mid = version[1];
-        String[] testmid = ver.split("\\.");
-        if (Integer.parseInt(testmid[1]) == Integer.parseInt(mid)) {
-            return true;
-        } else return false;
+        return getVersion().equals(ver);
     }
 }
