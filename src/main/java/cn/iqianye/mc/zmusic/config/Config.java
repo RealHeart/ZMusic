@@ -62,8 +62,9 @@ public class Config {
         if (version != latestVersion) {
             LogUtils.sendNormalMessage("-- 正在更新配置文件...");
             File config = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + File.separator + "config.yml");
-            LogUtils.sendNormalMessage("-- 正在删除原配置文件...");
-            config.delete();
+            File configBak = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + File.separator + "config.yml.v" + version + ".bak");
+            LogUtils.sendNormalMessage("-- 正在备份原配置文件...");
+            config.renameTo(configBak);
             LogUtils.sendNormalMessage("-- 正在释放新配置文件...");
             JavaPlugin.getPlugin(Main.class).saveDefaultConfig();
             LogUtils.sendNormalMessage("-- 更新完毕.");

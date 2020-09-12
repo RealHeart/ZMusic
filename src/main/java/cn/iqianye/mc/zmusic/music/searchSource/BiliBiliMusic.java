@@ -11,12 +11,17 @@ public class BiliBiliMusic {
     public static JsonObject getMusic(String keyword) {
         try {
             Gson gson = new GsonBuilder().create();
-            keyword = URLEncoder.encode(keyword, "UTF-8");
-            String searchUrl = "https://api.bilibili.com/audio/music-service-c/s?keyword=" + keyword + "&pagesize=1";
-            String searchJsonText = NetUtils.getNetStringBiliBili(searchUrl, null);
-            JsonObject searchJson = gson.fromJson(searchJsonText, JsonObject.class);
-            JsonObject searchResult = searchJson.get("data").getAsJsonObject().get("result").getAsJsonArray().get(0).getAsJsonObject();
-            String musicId = searchResult.get("id").getAsString();
+            String musicId;
+            if (keyword.contains(":au")) {
+                musicId = keyword.split(":au")[1];
+            } else {
+                keyword = URLEncoder.encode(keyword, "UTF-8");
+                String searchUrl = "https://api.bilibili.com/audio/music-service-c/s?keyword=" + keyword + "&pagesize=1";
+                String searchJsonText = NetUtils.getNetStringBiliBili(searchUrl, null);
+                JsonObject searchJson = gson.fromJson(searchJsonText, JsonObject.class);
+                JsonObject searchResult = searchJson.get("data").getAsJsonObject().get("result").getAsJsonArray().get(0).getAsJsonObject();
+                musicId = searchResult.get("id").getAsString();
+            }
             String getInfo = "https://www.bilibili.com/audio/music-service-c/web/song/info?sid=" + musicId;
             String infoJsonText = NetUtils.getNetStringBiliBiliGZip(getInfo, null);
             infoJsonText = infoJsonText.trim();

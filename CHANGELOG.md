@@ -1,3 +1,19 @@
+# 1.8 | 2020-09-12
+* 重写歌词系统
+* 网易云支持歌词显示
+* 修复uranium检测失败的问题
+* 配置文件新增设置API地址
+* 优化版本检测
+* 添加自动更新
+  * 需使用Yum插件的/yum upgrade指令
+* 配置文件更新会备份原配置文件
+* 哔哩哔哩音乐支持au号播放
+  * 使用方法: /zm play bilibili :auXXXXX
+  * 示例: /zm play bilibili :au1314949
+* 添加cStats(方便国内查看统计数据)
+  * 地址: https://cstats.iroselle.com/plugin/bukkit/ZMusic
+* PS: 本次更新会更新配置文件，请重新设置配置
+
 # 1.7.1 | 2020-09-02
 * 修复1.13以上版本无法加载插件的问题
 

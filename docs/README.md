@@ -102,7 +102,8 @@
 * kuwo - 酷我音乐  
 * bilibili - 哔哩哔哩音乐  
 
-`歌名` 要搜索的歌名
+`歌名` 要搜索的歌名  
+`:au号` 哔哩哔哩专用
 
 ### 示例
 `/zm search qq 你的猫咪`
@@ -197,12 +198,29 @@
 
 ```yaml
 # 配置文件版本(请勿修改)
-version: 4
+version: 6
 # 是否自动下载插件更新
 update: false
+# 插件提示信息显示前缀
+prefix: '&bZMusic &e>>> &r'
 
 # 是否开启调试模式
 debug: false
+
+# API设置
+api:
+  # 网易云音乐API地址
+  #
+  # 使用开源项目NeteaseCloudMusicApi
+  # 推荐自行部署，需Node.js环境
+  # 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
+  netease: 'https://netease.api.zhenxin.xyz/'
+  # QQ音乐API地址
+  # 
+  # 使用开源项目QQMusicApi
+  # 推荐自行部署，需Node.js环境
+  # 地址: https://github.com/jsososo/QQMusicApi
+  qq: 'https://qqmusic.api.zhenxin.xyz/'
 
 # 账号设置
 account:
@@ -260,7 +278,7 @@ lyric:
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(不支持1.8及以下)
   bossBar: true
-  # 是否使用ActionBar显示歌词(不支持1.8及以下)
+  # 是否使用ActionBar显示歌词
   actionBar: false
   # 是否使用Title显示歌词
   subTitle: false

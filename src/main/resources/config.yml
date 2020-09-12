@@ -16,6 +16,8 @@ api:
   # 推荐自行部署，需Node.js环境
   # 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
   netease: 'https://netease.api.zhenxin.xyz/'
+  # QQ音乐API地址
+  #
   # 使用开源项目QQMusicApi
   # 推荐自行部署，需Node.js环境
   # 地址: https://github.com/jsososo/QQMusicApi
