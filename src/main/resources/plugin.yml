@@ -9,6 +9,7 @@ softdepend:
   - PlaceholderAPI
   - Vault
   - Yum
+  - CMI
 commands:
   zm:
     usage: /zm help

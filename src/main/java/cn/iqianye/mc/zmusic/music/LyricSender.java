@@ -74,64 +74,74 @@ public class LyricSender extends BukkitRunnable {
                 if (!(time > maxTime)) {
                     if (lyric != null) {
                         JsonObject j = lyric.getAsJsonObject(String.valueOf(time));
-                        String lyric = "";
-                        String[] lyrics;
-                        String lrc;
-                        String lrcTr;
                         if (j != null) {
-                            lrc = j.get("lrc").getAsString();
-                            lrcTr = j.get("lrcTr").getAsString();
-                            lyric = lrc;
-                            if (Config.showLyricTr) {
-                                if (!lrcTr.isEmpty()) {
-                                    lyric = lrc + "(" + lrcTr + ")";
-                                }
+                            String lrc = j.get("lrc").getAsString();
+                            String lrcTr = j.get("lrcTr").getAsString();
+                            String[] lrcs = lrc.split("\n");
+                            String[] lrcTrs = {""};
+                            if (!lrcTr.isEmpty()) {
+                                lrcTrs = lrcTr.split("\n");
                             }
-                            lyrics = lyric.split("\n");
-                            for (String s : lyrics) {
-                                PlayerStatus.setPlayerLyric(player, s);
-                            }
-                            if (Config.lyricEnable) {
-                                if (isBoosBar) {
-                                    for (String s : lyrics) {
-                                        bossBar.setTitle("§b§l" + s);
+                            for (int i = 0; i < lrcs.length; i++) {
+                                String lyric;
+                                String lyricTr;
+                                lyric = lrcs[i];
+                                try {
+                                    lyricTr = lrcTrs[i];
+                                } catch (Exception e) {
+                                    lyricTr = "";
+                                }
+                                lyric = lyric.replaceAll("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]", "");
+                                lyricTr = lyricTr.replaceAll("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]", "");
+                                if (Config.showLyricTr) {
+                                    if (!lyricTr.isEmpty()) {
+                                        lyric = lyric + "(" + lyricTr + ")";
                                     }
                                 }
-                                if (isActionBar) {
-                                    for (String s : lyrics) {
-                                        if (!is1_8) {
-                                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + s));
-                                        } else {
-                                            actionBar.sendActionBar(player, "§b§l" + s);
+                                if (Config.lyricEnable) {
+                                    if (!lyric.isEmpty()) {
+                                        PlayerStatus.setPlayerLyric(player, lyric);
+                                    }
+                                    if (isBoosBar) {
+                                        if (!lyric.isEmpty()) {
+                                            bossBar.setTitle("§b§l" + lyric);
                                         }
                                     }
-                                }
-                                if (isTitle) {
-                                    for (String s : lyrics) {
+                                    if (isActionBar) {
+                                        if (!lyric.isEmpty()) {
+                                            if (!is1_8) {
+                                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b§l" + lyric));
+                                            } else {
+                                                actionBar.sendActionBar(player, "§b§l" + lyric);
+                                            }
+                                        }
+                                    }
+                                    if (isTitle) {
+                                        if (!lyric.isEmpty()) {
+                                            try {
+                                                player.sendTitle("", "§b" + lyric, 0, 200, 20);
+                                            } catch (NoSuchMethodError e) {
+                                                player.sendTitle("", "§b" + lyric);
+                                            }
+                                        }
+                                    }
+                                    if (isChat) {
+                                        lyric = lrcs[i];
                                         try {
-                                            player.sendTitle("", "§b" + s, 0, 200, 20);
-                                        } catch (NoSuchMethodError e) {
-                                            player.sendTitle("", "§b" + s);
+                                            lyricTr = lrcTrs[i];
+                                        } catch (Exception e) {
+                                            lyricTr = "";
                                         }
-                                    }
-                                }
-                                if (isChat) {
-                                    for (String s : lyrics) {
-                                        String sLrc = s.split("\\(")[0];
-                                        String tLrc = "";
-                                        try {
-                                            tLrc = s.split("\\(")[1].split("\\)")[0];
-                                        } catch (Exception ignored) {
-                                        }
-                                        MessageUtils.sendNormalMessage("§b" + sLrc, player);
+                                        lyric = lyric.replaceAll("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]", "");
+                                        lyricTr = lyricTr.replaceAll("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})\\]", "");
+                                        MessageUtils.sendNormalMessage("§b" + lyric, player);
                                         if (Config.showLyricTr) {
-                                            if (!tLrc.isEmpty()) {
-                                                MessageUtils.sendNormalMessage("§b" + tLrc, player);
+                                            if (!lyricTr.isEmpty()) {
+                                                MessageUtils.sendNormalMessage("§b" + lyricTr, player);
                                             }
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -173,7 +183,8 @@ public class LyricSender extends BukkitRunnable {
             }
             try {
                 Thread.sleep(1000L);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }

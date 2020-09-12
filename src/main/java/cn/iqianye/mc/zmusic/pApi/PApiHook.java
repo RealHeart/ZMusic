@@ -1,8 +1,10 @@
 package cn.iqianye.mc.zmusic.pApi;
 
+import cn.iqianye.mc.zmusic.Main;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * PlaceholderAPI 扩展类
@@ -70,6 +72,13 @@ public class PApiHook extends PlaceholderExpansion {
         if (identifier.equalsIgnoreCase("time_max")) {
             Long maxTime = PlayerStatus.getPlayerMaxTime(player);
             return formatTime(maxTime);
+        }
+        // 版本号
+        if (identifier.equalsIgnoreCase("version")) {
+            String ver = JavaPlugin.getPlugin(Main.class).getDescription().getVersion();
+            if (ver.contains("dev")) {
+                return "§c" + ver;
+            } else return ver;
         }
         return null;
     }

@@ -116,7 +116,7 @@ public class PlayListPlayer extends BukkitRunnable {
                     lyricText = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
                     lyricTrText = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyricText = lyricText.replaceAll("\r", "");
-                    lyricTrText = lyricText.replaceAll("\r", "");
+                    lyricTrText = lyricTrText.replaceAll("\r", "");
                     lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
                 } catch (Exception ignored) {
                 }

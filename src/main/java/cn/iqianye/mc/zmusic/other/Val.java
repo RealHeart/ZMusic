@@ -1,8 +1,8 @@
 package cn.iqianye.mc.zmusic.other;
 
 public class Val {
-    public static String thisVer = "1.8";
-    public static int thisVerCode = 202009120;
+    public static String thisVer;
+    public static int thisVerCode = 202009121;
     public static boolean isLatest = true;
     public static String updateLog;
     public static String latestVer;

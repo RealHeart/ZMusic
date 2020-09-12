@@ -30,6 +30,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         Config.debug = true;
+        Val.thisVer = getDescription().getVersion();
         Version version = new Version();
         LogUtils.sendNormalMessage("正在加载中....");
         //注册bStats
