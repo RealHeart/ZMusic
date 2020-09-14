@@ -20,7 +20,7 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 6;
+    public static int latestVersion = 7;
     // Debug
     public static boolean debug;
     // Update
@@ -44,10 +44,12 @@ public class Config {
     // Lyric
     public static boolean lyricEnable;
     public static boolean showLyricTr;
+    public static String lyricColor;
     public static boolean supportBossBar = false;
     public static boolean supportActionBar = false;
     public static boolean supportTitle = false;
     public static boolean supportChat = false;
+    public static boolean supportHud = false;
 
     // RealSupport
     public static boolean realSupportBossBar = true;
@@ -55,6 +57,7 @@ public class Config {
     public static boolean realSupportActionBar = true;
     public static boolean realSupportVault = true;
     public static boolean realSupportAdvancement = true;
+    public static boolean realSupportHud = true;
 
     public static void load(FileConfiguration configuration) {
         // Version
@@ -106,6 +109,7 @@ public class Config {
         // Lyric
         lyricEnable = configuration.getBoolean("lyric.enable");
         showLyricTr = configuration.getBoolean("lyric.showLyricTr");
+        lyricColor = ChatColor.translateAlternateColorCodes('&', configuration.getString("lyric.color"));
         if (realSupportBossBar) {
             supportBossBar = configuration.getBoolean("lyric.bossBar");
         }
@@ -114,6 +118,9 @@ public class Config {
         }
         if (realSupportTitle) {
             supportTitle = configuration.getBoolean("lyric.subTitle");
+        }
+        if (realSupportHud) {
+            supportHud = configuration.getBoolean("lyric.hud");
         }
         supportChat = configuration.getBoolean("lyric.chatMessage");
     }

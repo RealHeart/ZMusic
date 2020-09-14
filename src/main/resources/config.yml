@@ -1,5 +1,5 @@
 # 配置文件版本(请勿修改)
-version: 6
+version: 7
 # 是否自动下载插件更新
 update: false
 # 插件提示信息显示前缀
@@ -76,6 +76,8 @@ lyric:
   enable: true
   # 是否显示歌词翻译
   showLyricTr: true
+  # 歌词颜色
+  color: '&b'
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(不支持1.8及以下)
   bossBar: true
@@ -85,3 +87,5 @@ lyric:
   subTitle: false
   # 是否使用聊天信息显示歌词
   chatMessage: false
+  # 是否使用Hud发送歌词(仅支持1.12及以上)
+  hud: true

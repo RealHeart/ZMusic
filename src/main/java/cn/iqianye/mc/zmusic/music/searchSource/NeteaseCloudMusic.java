@@ -56,10 +56,17 @@ public class NeteaseCloudMusic {
                 String lyricTr = "";
                 try {
                     lyric = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
-                    lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyric = lyric.replaceAll("\r", "");
+                    lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
                     lyricTr = lyricTr.replaceAll("\r", "");
-                } catch (Exception e) {
+                } catch (Exception ignored) {
+                }
+                StringBuilder sb = new StringBuilder();
+                if (lyric.isEmpty()) {
+                    sb.append("未找到歌词信息\n");
+                }
+                if (lyricTr.isEmpty()) {
+                    sb.append("未找到歌词翻译\n");
                 }
                 JsonObject returnJson = new JsonObject();
                 returnJson.addProperty("id", musicID);
@@ -69,6 +76,7 @@ public class NeteaseCloudMusic {
                 returnJson.addProperty("singer", singerName);
                 returnJson.addProperty("lyric", lyric);
                 returnJson.addProperty("lyricTr", lyricTr);
+                returnJson.addProperty("error", sb.toString());
                 return returnJson;
             } else {
                 return null;

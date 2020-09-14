@@ -57,6 +57,11 @@ public class KuGouMusic {
                 byte[] bytes = decoder.decode(lyricBase64);
                 String lyric = new String(bytes, "utf-8");
                 lyric = lyric.replaceAll("\r", "");
+                StringBuilder sb = new StringBuilder();
+                if (lyric.isEmpty()) {
+                    sb.append("未找到歌词信息\n");
+                }
+                sb.append("酷狗音乐暂不支持翻译显示\n");
                 JsonObject returnObject = new JsonObject();
                 returnObject.addProperty("name", songName);
                 returnObject.addProperty("singer", songSinger);
@@ -64,6 +69,7 @@ public class KuGouMusic {
                 returnObject.addProperty("url", song_url);
                 returnObject.addProperty("lyric", lyric);
                 returnObject.addProperty("lyricTr", "");
+                returnObject.addProperty("error", sb.toString());
                 return returnObject;
             } else {
                 return null;

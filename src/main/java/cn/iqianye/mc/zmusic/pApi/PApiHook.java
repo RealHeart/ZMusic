@@ -2,6 +2,7 @@ package cn.iqianye.mc.zmusic.pApi;
 
 import cn.iqianye.mc.zmusic.Main;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +30,16 @@ public class PApiHook extends PlaceholderExpansion {
         // 音乐名称
         if (identifier.equalsIgnoreCase("playing_name")) {
             String musicName = PlayerStatus.getPlayerMusicName(player);
+            if (musicName != null) {
+                return musicName;
+            } else {
+                return "无";
+            }
+
+        }
+        // 音乐歌手
+        if (identifier.equalsIgnoreCase("playing_singer")) {
+            String musicName = PlayerStatus.getPlayerMusicSinger(player);
             if (musicName != null) {
                 return musicName;
             } else {
@@ -66,12 +77,12 @@ public class PApiHook extends PlaceholderExpansion {
         // 当前播放时间
         if (identifier.equalsIgnoreCase("time_current")) {
             Long currentTime = PlayerStatus.getPlayerCurrentTime(player);
-            return formatTime(currentTime);
+            return OtherUtils.formatTime(currentTime);
         }
         // 最大播放时间
         if (identifier.equalsIgnoreCase("time_max")) {
             Long maxTime = PlayerStatus.getPlayerMaxTime(player);
-            return formatTime(maxTime);
+            return OtherUtils.formatTime(maxTime);
         }
         // 版本号
         if (identifier.equalsIgnoreCase("version")) {
@@ -83,22 +94,5 @@ public class PApiHook extends PlaceholderExpansion {
         return null;
     }
 
-    private String formatTime(Long time) {
-        if (time != null) {
-            if (time < 60) {
-                return "00" + ":" + String.format("%02d", time);
-            } else if (time < 3600) {
-                long m = time / 60;
-                long s = time % 60;
-                return String.format("%02d", m) + ":" + String.format("%02d", s);
-            } else {
-                long h = time / 3600;
-                long m = (time % 3600) / 60;
-                long s = (time % 3600) % 60;
-                return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
-            }
-        } else {
-            return "--:--";
-        }
-    }
+
 }

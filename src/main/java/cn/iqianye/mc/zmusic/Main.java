@@ -85,6 +85,14 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
             Val.isViaVer = false;
         }
+        if (version.isHigherThan("1.11")) {
+            if (getServer().getPluginManager().isPluginEnabled("CMI")) {
+                LogUtils.sendErrorMessage("未找到CMI, 1.12-1.16支持进度提示.");
+            } else {
+                LogUtils.sendErrorMessage("未找到CMI, 仅1.12.2支持进度提示.");
+                Config.realSupportAdvancement = false;
+            }
+        }
         if (version.isLowerThan("1.8")) {
             if (version.isEquals("1.7.10")) {
                 if (!Bukkit.getName().contains("Uranium")) {
@@ -102,12 +110,10 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("检测到当前服务端版本低于1.9，不支持BossBar");
             Config.realSupportBossBar = false;
         }
-        /*
         if (version.isLowerThan("1.12")) {
-            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度提示");
-            Config.realSupportAdvancement = false;
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持Hud显示");
+            Config.realSupportHud = false;
         }
-        */
         File config = new File(getDataFolder() + File.separator + "config.yml");
         if (!config.exists()) {
             saveDefaultConfig();

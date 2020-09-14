@@ -30,6 +30,10 @@ public class KuwoMusic {
             returnJson.addProperty("singer", singer);
             returnJson.addProperty("lyric", "");
             returnJson.addProperty("lyricTr", "");
+            StringBuilder sb = new StringBuilder();
+            sb.append("酷我音乐暂不支持歌词显示\n");
+            sb.append("酷我音乐暂不支持翻译显示\n");
+            returnJson.addProperty("error", sb.toString());
             return returnJson;
         } catch (Exception e) {
             e.printStackTrace();

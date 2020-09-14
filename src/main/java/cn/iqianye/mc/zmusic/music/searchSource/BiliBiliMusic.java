@@ -42,6 +42,10 @@ public class BiliBiliMusic {
             returnJSON.addProperty("singer", musicSinger);
             returnJSON.addProperty("lyric", "");
             returnJSON.addProperty("lyricTr", "");
+            StringBuilder sb = new StringBuilder();
+            sb.append("酷我音乐暂不支持歌词显示\n");
+            sb.append("酷我音乐暂不支持翻译显示\n");
+            returnJSON.addProperty("error", sb.toString());
             return returnJSON;
         } catch (Exception e) {
             e.printStackTrace();

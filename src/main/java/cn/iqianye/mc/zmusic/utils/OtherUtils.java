@@ -3,6 +3,7 @@ package cn.iqianye.mc.zmusic.utils;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.api.MultiMap;
 import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.mod.Send;
 import cn.iqianye.mc.zmusic.music.LyricSender;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
@@ -105,7 +106,13 @@ public class OtherUtils {
                 player.sendTitle("", "");
             }
         }
+        if (Config.supportHud) {
+            Send.sendAM(player, "[Lyric]");
+            Send.sendAM(player, "[Info]");
+            Send.sendAM(player, "{\"EnableLyric\":false,\"EnableInfo\":false}");
+        }
         PlayerStatus.setPlayerMusicName(player, null);
+        PlayerStatus.setPlayerMusicSinger(player, null);
         PlayerStatus.setPlayerCurrentTime(player, null);
         PlayerStatus.setPlayerMaxTime(player, null);
         PlayerStatus.setPlayerLyric(player, null);
@@ -394,6 +401,9 @@ public class OtherUtils {
     public static ArrayList<String> queryFileNames(String filePath) {
         ArrayList<String> es = new ArrayList<String>();
         File f = new File(filePath);
+        if (!f.exists()) {
+            return null;
+        }
         File[] fs = f.listFiles();
         for (int i = 0; i < fs.length; i++) {
             if (fs[i].isFile()) {
@@ -455,5 +465,24 @@ public class OtherUtils {
         byte[] b = md.digest();
         bi = new BigInteger(1, b);
         return bi.toString(16);
+    }
+
+    public static String formatTime(Long time) {
+        if (time != null) {
+            if (time < 60) {
+                return "00" + ":" + String.format("%02d", time);
+            } else if (time < 3600) {
+                long m = time / 60;
+                long s = time % 60;
+                return String.format("%02d", m) + ":" + String.format("%02d", s);
+            } else {
+                long h = time / 3600;
+                long m = (time % 3600) / 60;
+                long s = (time % 3600) % 60;
+                return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
+            }
+        } else {
+            return "--:--";
+        }
     }
 }

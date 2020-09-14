@@ -6,7 +6,7 @@
 
     <groupId>cn.iqianye.mc</groupId>
     <artifactId>ZMusic</artifactId>
-    <version>1.8.1</version>
+    <version>1.9</version>
 
     <repositories>
         <repository>
@@ -39,9 +39,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.minecraft</groupId>
-            <artifactId>minecraft-nms</artifactId>
-            <version>1.8.8</version>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_8_R3</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_12_R1</artifactId>
+            <version>1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

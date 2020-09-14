@@ -336,7 +336,7 @@ public class CommandExec implements TabExecutor {
                 }
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"qq", "netease", "163", "type", "global"};
+                    commandList = new String[]{"qq", "netease", "163", "type", "global", "next", "prev"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else if (args.length == 3) {
                     if (args[1].equalsIgnoreCase("type")) {

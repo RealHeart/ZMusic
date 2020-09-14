@@ -17,6 +17,8 @@ public class PlayerStatus {
     private static final Map<Player, Boolean> playingMap = new HashMap<>();
     // 当前播放音乐名称
     private static final Map<Player, String> musicNameMap = new HashMap<>();
+    // 当前播放音乐歌手
+    private static final Map<Player, String> musicSingerMap = new HashMap<>();
     // 当前播放音乐平台
     private static final Map<Player, String> platformMap = new HashMap<>();
     // 当前播放音乐平台
@@ -76,6 +78,26 @@ public class PlayerStatus {
      */
     public static void setPlayerMusicName(Player player, String musicName) {
         musicNameMap.put(player, musicName);
+    }
+
+    /**
+     * 获取玩家当前播放音乐歌手
+     *
+     * @param player 玩家
+     * @return 当前播放音乐歌手
+     */
+    public static String getPlayerMusicSinger(Player player) {
+        return musicSingerMap.get(player);
+    }
+
+    /**
+     * 设置玩家当前播放音乐歌手
+     *
+     * @param player     玩家
+     * @param singerName 音乐歌手
+     */
+    public static void setPlayerMusicSinger(Player player, String singerName) {
+        musicSingerMap.put(player, singerName);
     }
 
     /**

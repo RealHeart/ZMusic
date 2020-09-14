@@ -46,6 +46,13 @@ public class QQMusic {
             String lyricTr = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
             lyricTr = lyricTr.replaceAll("&apos;", "'");
             lyricTr = lyricTr.replaceAll("\r", "");
+            StringBuilder sb = new StringBuilder();
+            if (lyric.isEmpty()) {
+                sb.append("未找到歌词信息\n");
+            }
+            if (lyricTr.isEmpty()) {
+                sb.append("未找到歌词翻译\n");
+            }
             String getMp3Url = Config.qqMusicApiRoot + "song/url?id=" + songmid + "&mediaId=" + mediaId;
             String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
             JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
@@ -57,6 +64,7 @@ public class QQMusic {
             returnJSON.addProperty("singer", singerName);
             returnJSON.addProperty("lyric", lyric);
             returnJSON.addProperty("lyricTr", lyricTr);
+            returnJSON.addProperty("error", sb.toString());
             return returnJSON;
         } catch (Exception e) {
             e.printStackTrace();
