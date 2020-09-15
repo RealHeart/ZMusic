@@ -299,4 +299,5 @@ public class PlayerStatus {
     public static void setPlayerPlayListType(Player player, String type) {
         playListType.put(player, type);
     }
+
 }

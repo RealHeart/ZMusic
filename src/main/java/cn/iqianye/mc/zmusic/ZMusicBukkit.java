@@ -1,7 +1,7 @@
 package cn.iqianye.mc.zmusic;
 
 import cn.iqianye.mc.zmusic.api.Version;
-import cn.iqianye.mc.zmusic.command.CommandExec;
+import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.other.Val;
@@ -20,15 +20,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main extends JavaPlugin implements Listener {
+public class ZMusicBukkit extends JavaPlugin implements Listener {
+
+    public static JavaPlugin plugin;
 
     @Override
     public void onEnable() {
+        CookieManager manager = new CookieManager();
+        CookieHandler.setDefault(manager);
+        plugin = this;
         Config.debug = true;
         Val.thisVer = getDescription().getVersion();
         Version version = new Version();
@@ -38,9 +46,9 @@ public class Main extends JavaPlugin implements Listener {
         //注册cStats
         cStats cStats = new cStats(this);
         //注册命令对应的执行器
-        getCommand("zm").setExecutor(new CommandExec());
+        getCommand("zm").setExecutor(new CmdBukkit());
         //注册命令对应的自动补全器
-        getCommand("zm").setTabCompleter(new CommandExec());
+        getCommand("zm").setTabCompleter(new CmdBukkit());
         if (getServer().getPluginManager().isPluginEnabled("AudioBuffer")) {
             LogUtils.sendErrorMessage("请勿安装AudioBuffer插件.");
             Val.isEnable = false;
@@ -85,14 +93,6 @@ public class Main extends JavaPlugin implements Listener {
             LogUtils.sendErrorMessage("未找到ViaVersion, 高版本转发功能不生效.");
             Val.isViaVer = false;
         }
-        if (version.isHigherThan("1.11")) {
-            if (getServer().getPluginManager().isPluginEnabled("CMI")) {
-                LogUtils.sendErrorMessage("未找到CMI, 1.12-1.16支持进度提示.");
-            } else {
-                LogUtils.sendErrorMessage("未找到CMI, 仅1.12.2支持进度提示.");
-                Config.realSupportAdvancement = false;
-            }
-        }
         if (version.isLowerThan("1.8")) {
             if (version.isEquals("1.7.10")) {
                 if (!Bukkit.getName().contains("Uranium")) {
@@ -113,6 +113,8 @@ public class Main extends JavaPlugin implements Listener {
         if (version.isLowerThan("1.12")) {
             LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持Hud显示");
             Config.realSupportHud = false;
+            LogUtils.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度");
+            Config.realSupportAdvancement = false;
         }
         File config = new File(getDataFolder() + File.separator + "config.yml");
         if (!config.exists()) {
@@ -135,15 +137,14 @@ public class Main extends JavaPlugin implements Listener {
         LogUtils.sendNormalMessage("正在卸载中....");
         List<Player> players = new ArrayList<>(getServer().getOnlinePlayers());
         if (!players.isEmpty()) {
-            OtherUtils.resetPlayerStatusAll(players);
-            //MusicUtils.stopAll(players);
-        }
-        for (Player player : players) {
-            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);
-            if (plp != null) {
-                plp.isStop = true;
-                PlayerStatus.setPlayerPlayListPlayer(player, null);
-                OtherUtils.resetPlayerStatusSelf(player);
+            for (Player player : players) {
+                OtherUtils.resetPlayerStatus(player);
+                PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);
+                if (plp != null) {
+                    plp.cancel();
+                    PlayerStatus.setPlayerPlayListPlayer(player, null);
+                    OtherUtils.resetPlayerStatus(player);
+                }
             }
         }
         LogUtils.sendNormalMessage("插件作者: 真心");
@@ -155,19 +156,24 @@ public class Main extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        if (player.hasPermission("zmusic.admin") || player.isOp()) {
-            OtherUtils.checkUpdate(Val.thisVer, player);
-            if (!Val.isLatest) {
-                MessageUtils.sendNormalMessage("发现新版本 V" + Val.latestVer, player);
-                MessageUtils.sendNormalMessage("更新日志:", player);
-                String[] updateLog = Val.updateLog.split("\\n");
-                for (String s : updateLog) {
-                    MessageUtils.sendNormalMessage(s, player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player player = event.getPlayer();
+                if (player.hasPermission("zmusic.admin") || player.isOp()) {
+                    OtherUtils.checkUpdate(Val.thisVer, player);
+                    if (!Val.isLatest) {
+                        MessageUtils.sendNormalMessage("发现新版本 V" + Val.latestVer, player);
+                        MessageUtils.sendNormalMessage("更新日志:", player);
+                        String[] updateLog = Val.updateLog.split("\\n");
+                        for (String s : updateLog) {
+                            MessageUtils.sendNormalMessage(s, player);
+                        }
+                        MessageUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl, player);
+                    }
                 }
-                MessageUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl, player);
             }
-        }
+        }.runTaskLaterAsynchronously(this, 40L);
     }
 
 }

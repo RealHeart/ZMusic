@@ -12,8 +12,8 @@ public class BiliBiliMusic {
         try {
             Gson gson = new GsonBuilder().create();
             String musicId;
-            if (keyword.contains(":au")) {
-                musicId = keyword.split(":au")[1];
+            if (keyword.contains("-id:")) {
+                musicId = keyword.split("-id:")[1];
             } else {
                 keyword = URLEncoder.encode(keyword, "UTF-8");
                 String searchUrl = "https://api.bilibili.com/audio/music-service-c/s?keyword=" + keyword + "&pagesize=1";
@@ -29,23 +29,26 @@ public class BiliBiliMusic {
             String musicName = infoJson.get("data").getAsJsonObject().get("title").getAsString();
             String musicSinger = infoJson.get("data").getAsJsonObject().get("author").getAsString();
             int musicTime = infoJson.get("data").getAsJsonObject().get("duration").getAsInt();
+            String lyric = infoJson.get("data").getAsJsonObject().get("lyric").getAsString();
+            if (!lyric.isEmpty()) {
+                lyric = NetUtils.getNetString(lyric, null);
+            }
             String getUrl = "https://www.bilibili.com/audio/music-service-c/web/url?sid=" + musicId;
             String urlJsonText = NetUtils.getNetStringBiliBiliGZip(getUrl, null);
             urlJsonText = urlJsonText.trim();
             JsonObject urlJson = gson.fromJson(urlJsonText, JsonObject.class);
             String musicUrl = urlJson.get("data").getAsJsonObject().get("cdns").getAsJsonArray().get(0).getAsString();
-            musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php?qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"), null);
+            musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php", null,
+                    "qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"));
             JsonObject returnJSON = new JsonObject();
+            returnJSON.addProperty("id", musicId);
             returnJSON.addProperty("url", musicUrl);
             returnJSON.addProperty("time", musicTime);
             returnJSON.addProperty("name", musicName);
             returnJSON.addProperty("singer", musicSinger);
-            returnJSON.addProperty("lyric", "");
+            returnJSON.addProperty("lyric", lyric);
             returnJSON.addProperty("lyricTr", "");
-            StringBuilder sb = new StringBuilder();
-            sb.append("酷我音乐暂不支持歌词显示\n");
-            sb.append("酷我音乐暂不支持翻译显示\n");
-            returnJSON.addProperty("error", sb.toString());
+            returnJSON.addProperty("error", "");
             return returnJSON;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +68,9 @@ public class BiliBiliMusic {
             for (JsonElement json : searchResultList) {
                 String musicName = json.getAsJsonObject().get("title").getAsString();
                 String musicSinger = json.getAsJsonObject().get("author").getAsString();
+                String musicId = json.getAsJsonObject().get("id").getAsString();
                 JsonObject returnJSONObj = new JsonObject();
+                returnJSONObj.addProperty("id", musicId);
                 returnJSONObj.addProperty("name", musicName);
                 returnJSONObj.addProperty("singer", musicSinger);
                 returnJSON.add(returnJSONObj);

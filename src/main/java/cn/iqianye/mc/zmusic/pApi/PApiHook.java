@@ -1,11 +1,10 @@
 package cn.iqianye.mc.zmusic.pApi;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * PlaceholderAPI 扩展类
@@ -86,7 +85,7 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 版本号
         if (identifier.equalsIgnoreCase("version")) {
-            String ver = JavaPlugin.getPlugin(Main.class).getDescription().getVersion();
+            String ver = ZMusicBukkit.plugin.getDescription().getVersion();
             if (ver.contains("dev")) {
                 return "§c" + ver;
             } else return ver;

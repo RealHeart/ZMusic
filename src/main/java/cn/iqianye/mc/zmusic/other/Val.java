@@ -1,8 +1,10 @@
 package cn.iqianye.mc.zmusic.other;
 
+import org.bukkit.entity.Player;
+
 public class Val {
     public static String thisVer;
-    public static int thisVerCode = 202009140;
+    public static int thisVerCode = 202009150;
     public static boolean isLatest = true;
     public static String updateLog;
     public static String latestVer;
@@ -16,4 +18,8 @@ public class Val {
     public static boolean isViaVer = true;
 
     public static boolean isEnable = true;
+
+    public static boolean isSendAdvancement = false;
+    public static Player advPlayer;
+    public static String advMessage;
 }

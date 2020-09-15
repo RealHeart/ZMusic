@@ -1,6 +1,6 @@
 package cn.iqianye.mc.zmusic.music;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
@@ -20,6 +20,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayMusic {
@@ -35,9 +36,7 @@ public class PlayMusic {
     static String searchSourceName;
     static JsonObject json;
 
-    public static void init() {
-
-    }
+    static long time;
 
 
     /**
@@ -52,6 +51,7 @@ public class PlayMusic {
     public static void play(String searchKey, String source, Player player, String type, List<Player> players) {
         try {
             MessageUtils.sendNormalMessage("正在搜索中...", player);
+            time = System.currentTimeMillis();
             switch (source) {
                 case "163":
                 case "netease":
@@ -92,7 +92,7 @@ public class PlayMusic {
                 }
                 musicName = json.get("name").getAsString();
                 musicSinger = json.get("singer").getAsString();
-                musicFullName = musicName + "(" + musicSinger + ")";
+                musicFullName = musicName + " - " + musicSinger;
                 musicUrl = json.get("url").getAsString();
                 musicLyric = OtherUtils.formatLyric(json.get("lyric").getAsString(), json.get("lyricTr").getAsString());
                 musicMaxTime = json.get("time").getAsInt();
@@ -107,106 +107,23 @@ public class PlayMusic {
             }
             switch (type) {
                 case "all":
-                    if (players != null) {
-                        MusicUtils.stopAll(players);
-                        MusicUtils.playAll(musicUrl, players);
-                        OtherUtils.resetPlayerStatusAll(players);
-                        for (Player p : players) {
-                            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(p);
-                            if (plp != null) {
-                                plp.isStop = true;
-                                PlayerStatus.setPlayerPlayListPlayer(p, null);
-                            }
-                            PlayerStatus.setPlayerPlayStatus(p, true);
-                            PlayerStatus.setPlayerMusicName(p, musicName);
-                            PlayerStatus.setPlayerMusicSinger(p, musicSinger);
-                            PlayerStatus.setPlayerPlatform(p, searchSourceName);
-                            PlayerStatus.setPlayerPlaySource(p, "搜索");
-                            PlayerStatus.setPlayerMaxTime(p, musicMaxTime);
-                            PlayerStatus.setPlayerCurrentTime(p, 0L);
-                            LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
-                            if (lyricSender != null) {
-                                lyricSender = new LyricSender();
-                                PlayerStatus.setPlayerLyricSender(player, lyricSender);
-                            } else {
-                                lyricSender = new LyricSender();
-                                PlayerStatus.setPlayerLyricSender(player, lyricSender);
-                            }
-                            lyricSender.player = p;
-                            lyricSender.lyric = musicLyric;
-                            lyricSender.maxTime = musicMaxTime;
-                            lyricSender.name = musicName;
-                            lyricSender.singer = musicSinger;
-                            lyricSender.fullName = musicFullName;
-                            lyricSender.url = musicUrl;
-                            lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
-                            for (String msg : errMsg) {
-                                if (!msg.isEmpty()) {
-                                    MessageUtils.sendErrorMessage(msg, p);
-                                }
-                            }
-                            MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicFullName + "§r]§a成功!", p);
-                        }
-                    }
+                    play(null, players, "管理员<" + player.getName() + ">强制播放");
                     break;
                 case "self":
-                    if (player != null) {
-                        PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(player);
-                        if (plp != null) {
-                            plp.isStop = true;
-                            PlayerStatus.setPlayerPlayListPlayer(player, null);
-                            OtherUtils.resetPlayerStatusSelf(player);
-                        }
-                        MusicUtils.stopSelf(player);
-                        MusicUtils.playSelf(musicUrl, player);
-                        OtherUtils.resetPlayerStatusSelf(player);
-                        PlayerStatus.setPlayerPlayStatus(player, true);
-                        PlayerStatus.setPlayerMusicName(player, musicName);
-                        PlayerStatus.setPlayerMusicSinger(player, musicSinger);
-                        PlayerStatus.setPlayerPlatform(player, searchSourceName);
-                        PlayerStatus.setPlayerPlaySource(player, "搜索");
-                        PlayerStatus.setPlayerMaxTime(player, musicMaxTime);
-                        PlayerStatus.setPlayerCurrentTime(player, 0L);
-                        LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
-                        if (lyricSender != null) {
-                            lyricSender = new LyricSender();
-                            PlayerStatus.setPlayerLyricSender(player, lyricSender);
-                        } else {
-                            lyricSender = new LyricSender();
-                            PlayerStatus.setPlayerLyricSender(player, lyricSender);
-                        }
-                        lyricSender.player = player;
-                        lyricSender.lyric = musicLyric;
-                        lyricSender.maxTime = musicMaxTime;
-                        lyricSender.name = musicName;
-                        lyricSender.singer = musicSinger;
-                        lyricSender.fullName = musicFullName;
-                        lyricSender.url = musicUrl;
-                        lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
-                        JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
-                        for (String msg : errMsg) {
-                            if (!msg.isEmpty()) {
-                                MessageUtils.sendErrorMessage(msg, player);
-                            }
-                        }
-                        MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicFullName + "§r]§a成功!", player);
-                        if (Config.realSupportAdvancement) {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cmi toast " + player.getName() + " -t:task &a正在播放\n&e" + musicFullName);
-                        } else {
-                            new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicFullName, plugin).sendAdvancement((player));
-                        }
-                    }
+                    play(player, new ArrayList<>(), "搜索");
                     break;
                 case "music":
                     TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player.getName() + "§a在" + searchSourceName + "点了一首§r[");
                     TextComponent music = new TextComponent(musicName);
                     music.setColor(ChatColor.YELLOW);
-                    if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                        music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicID));
+                    if (source.equalsIgnoreCase("163") ||
+                            source.equalsIgnoreCase("netease") ||
+                            source.equalsIgnoreCase("qq") ||
+                            source.equalsIgnoreCase("bilibili")) {
+                        music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " -id:" + musicID));
                     } else {
                         music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
                     }
-
                     music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                     message.addExtra(music);
                     message.addExtra("§r]§a点击歌名播放!");
@@ -222,6 +139,49 @@ public class PlayMusic {
             MessageUtils.sendErrorMessage("2.搜索的音乐为付费音乐", player);
             MessageUtils.sendErrorMessage("3.搜索的音乐为试听音乐", player);
             MessageUtils.sendErrorMessage("4.服务器网络异常", player);
+        }
+    }
+
+    private static void play(Player player, List<Player> players, String src) {
+        if (player != null) {
+            players.add(player);
+        }
+        for (Player p : players) {
+            OtherUtils.resetPlayerStatus(player);
+            PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer(p);
+            if (plp != null) {
+                plp.cancel();
+                PlayerStatus.setPlayerPlayListPlayer(p, null);
+            }
+            LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(p);
+            if (lyricSender != null) {
+                lyricSender.stop();
+            }
+            lyricSender = new LyricSender();
+            PlayerStatus.setPlayerLyricSender(p, lyricSender);
+            lyricSender.player = p;
+            lyricSender.lyric = musicLyric;
+            lyricSender.maxTime = musicMaxTime;
+            lyricSender.name = musicName;
+            lyricSender.singer = musicSinger;
+            lyricSender.fullName = musicFullName;
+            lyricSender.platform = searchSourceName;
+            lyricSender.src = src;
+            lyricSender.url = musicUrl;
+            lyricSender.init();
+            lyricSender.runTaskAsynchronously(ZMusicBukkit.plugin);
+            for (String msg : errMsg) {
+                if (!msg.isEmpty()) {
+                    MessageUtils.sendErrorMessage(msg, p);
+                }
+            }
+            MusicUtils.play(musicUrl, p);
+            time = System.currentTimeMillis() - time;
+            MessageUtils.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicFullName + "§r]§a成功,耗时" + time + "毫秒!", p);
+            if (Config.realSupportAdvancement) {
+                JavaPlugin plugin = ZMusicBukkit.plugin;
+                Bukkit.getServer().getScheduler().runTaskLater(plugin, () -> new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + musicFullName, plugin).sendAdvancement((p)), 1L);
+            }
         }
     }
 }

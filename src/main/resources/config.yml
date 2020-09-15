@@ -1,5 +1,5 @@
 # 配置文件版本(请勿修改)
-version: 7
+version: 8
 # 是否自动下载插件更新
 update: false
 # 插件提示信息显示前缀
@@ -87,5 +87,15 @@ lyric:
   subTitle: false
   # 是否使用聊天信息显示歌词
   chatMessage: false
-  # 是否使用Hud发送歌词(仅支持1.12及以上)
-  hud: true
+  # Hud 设置(仅支持1.12及以上)
+  hud:
+    # 是否启用Hud
+    enable: true
+    # 信息的X坐标
+    infoX: 2
+    # 信息的Y坐标
+    infoY: 12
+    # 歌词的X坐标
+    lyricX: 2
+    # 歌词的Y坐标
+    lyricY: 52

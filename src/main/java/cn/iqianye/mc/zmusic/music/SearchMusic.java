@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 public class SearchMusic {
     static String musicID;
     static String musicName;
+    static String musicSinger;
+    static String musicFullName;
     static String searchSourceName;
     static JsonArray json;
 
@@ -50,25 +52,26 @@ public class SearchMusic {
             MessageUtils.sendNormalMessage("在" + searchSourceName + "搜索到以下结果", player);
             int i = 1;
             for (JsonElement j : json) {
-                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                    musicID = j.getAsJsonObject().get("id").getAsString();
-                }
-                musicName = j.getAsJsonObject().get("name").getAsString() + "(" + j.getAsJsonObject().get("singer").getAsString() + ")";
-                TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + musicName);
+
+                musicName = j.getAsJsonObject().get("name").getAsString();
+                musicSinger = j.getAsJsonObject().get("singer").getAsString();
+                musicFullName = musicName + " - " + musicSinger;
+                TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + musicFullName);
                 i++;
                 TextComponent play = new TextComponent("§r[§e播放§r]§r");
-                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " " + musicID));
+                TextComponent music = new TextComponent("§r[§e点歌§r]§r");
+                if (source.equalsIgnoreCase("163") ||
+                        source.equalsIgnoreCase("netease") ||
+                        source.equalsIgnoreCase("qq") ||
+                        source.equalsIgnoreCase("bilibili")) {
+                    musicID = j.getAsJsonObject().get("id").getAsString();
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " -id:" + musicID));
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " -id:" + musicID));
                 } else {
                     play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " " + musicName));
-                }
-                play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
-                TextComponent music = new TextComponent("§r[§e点歌§r]§r");
-                if (source.equalsIgnoreCase("163") || source.equalsIgnoreCase("netease")) {
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " " + musicID));
-                } else {
                     music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " " + musicName));
                 }
+                play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                 music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击点歌").create()));
                 message.addExtra(" ");
                 message.addExtra(play);
@@ -83,7 +86,6 @@ public class SearchMusic {
             MessageUtils.sendErrorMessage("2.搜索的音乐为付费音乐", player);
             MessageUtils.sendErrorMessage("3.搜索的音乐为试听音乐", player);
             MessageUtils.sendErrorMessage("4.服务器网络异常", player);
-            return;
         }
     }
 }

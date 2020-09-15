@@ -1,7 +1,6 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 import org.json.simple.JSONArray;
@@ -22,7 +21,10 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1&cookie=" + Val.neteaseCookie;
+            if (musicName.contains("-id:")) {
+                musicName = musicName.split("-id:")[1];
+            }
+            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1";
             Gson gson = new Gson();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -30,8 +32,7 @@ public class NeteaseCloudMusic {
             if (result != null || result.get("songCount").getAsInt() != 0) {
                 JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
                 int musicID = jsonOut.get("id").getAsInt();
-                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000&" +
-                        "cookie=" + Val.neteaseCookie, null), JsonObject.class);
+                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000", null), JsonObject.class);
                 String musicUrl = null;
                 try {
                     musicUrl = getUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
@@ -96,7 +97,7 @@ public class NeteaseCloudMusic {
      */
     public static JsonArray getMusicList(String musicName) {
         try {
-            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1&cookie=" + Val.neteaseCookie;
+            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=10&type=1";
             Gson gson = new GsonBuilder().create();
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);

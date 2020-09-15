@@ -1,7 +1,7 @@
 name: ZMusic
-main: cn.iqianye.mc.zmusic.Main
+main: cn.iqianye.mc.zmusic.ZMusicBukkit
 version: ${pom.version}
-api-version: 1.13
+api-version: '1.13'
 author: 真心
 description: 真心音乐系统
 softdepend:

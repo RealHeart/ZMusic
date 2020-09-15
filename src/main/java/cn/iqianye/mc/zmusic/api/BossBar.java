@@ -1,6 +1,6 @@
 package cn.iqianye.mc.zmusic.api;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
@@ -14,8 +14,8 @@ public class BossBar {
     static BarColor color;
     static BarStyle style;
     static double seconds;
-    public final JavaPlugin plugin;
     static org.bukkit.boss.BossBar bar;
+    public final JavaPlugin plugin;
 
     public BossBar(Player p, String title, BarColor color, BarStyle style, double seconds) {
         BossBar.p = p;
@@ -23,7 +23,7 @@ public class BossBar {
         BossBar.color = color;
         BossBar.style = style;
         BossBar.seconds = seconds;
-        this.plugin = JavaPlugin.getPlugin(Main.class);
+        this.plugin = ZMusicBukkit.plugin;
     }
 
     public void showTitle() {
@@ -42,7 +42,7 @@ public class BossBar {
         bar.removePlayer(player);
     }
 
-    class bartimer extends BukkitRunnable {
+    static class bartimer extends BukkitRunnable {
         org.bukkit.boss.BossBar bar;
 
         public bartimer(org.bukkit.boss.BossBar bar1) {

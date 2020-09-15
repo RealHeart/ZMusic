@@ -17,12 +17,17 @@ public class QQMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            String getUrl = Config.qqMusicApiRoot + "search?pageSize=1&key=" + URLEncoder.encode(musicName, "utf-8");
+            String songmid;
             Gson gson = new GsonBuilder().create();
-            JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
-            JsonObject data = json.get("data").getAsJsonObject();
-            JsonObject list = data.getAsJsonArray("list").get(0).getAsJsonObject();
-            String songmid = list.get("songmid").getAsString();
+            if (musicName.contains("-id:")) {
+                songmid = musicName.split("-id:")[1];
+            } else {
+                String getUrl = Config.qqMusicApiRoot + "search?pageSize=1&key=" + URLEncoder.encode(musicName, "utf-8");
+                JsonObject json = gson.fromJson(NetUtils.getNetString(getUrl, null), JsonObject.class);
+                JsonObject data = json.get("data").getAsJsonObject();
+                JsonObject list = data.getAsJsonArray("list").get(0).getAsJsonObject();
+                songmid = list.get("songmid").getAsString();
+            }
             String getSongInfo = Config.qqMusicApiRoot + "song?songmid=" + songmid;
             String songInfoText = NetUtils.getNetString(getSongInfo, null);
             JsonObject songInfo = gson.fromJson(songInfoText, JsonObject.class);
@@ -88,6 +93,7 @@ public class QQMusic {
             JsonArray returnJson = new JsonArray();
             for (JsonElement j : list) {
                 String songName = j.getAsJsonObject().get("songname").getAsString();
+                String songmid = j.getAsJsonObject().get("songmid").getAsString();
                 JsonArray singer = j.getAsJsonObject().getAsJsonArray("singer");
                 String singerName = "";
                 for (JsonElement js : singer) {
@@ -95,6 +101,7 @@ public class QQMusic {
                 }
                 singerName = singerName.substring(0, singerName.length() - 1);
                 JsonObject returnJsonObj = new JsonObject();
+                returnJsonObj.addProperty("id", songmid);
                 returnJsonObj.addProperty("name", songName);
                 returnJsonObj.addProperty("singer", singerName);
                 returnJson.add(returnJsonObj);

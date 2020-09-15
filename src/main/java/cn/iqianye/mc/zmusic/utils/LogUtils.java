@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class LogUtils {
 
-    private static CommandSender sender = Bukkit.getConsoleSender();
+    private static final CommandSender sender = Bukkit.getConsoleSender();
 
     /**
      * 发送普通日志

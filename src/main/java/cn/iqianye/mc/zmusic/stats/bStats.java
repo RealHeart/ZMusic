@@ -28,7 +28,7 @@ import java.util.zip.GZIPOutputStream;
  * <p>
  * Check out https://bStats.org/ to learn more about bStats!
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess"})
 public class bStats {
 
     // The version of this bStats class
@@ -63,7 +63,7 @@ public class bStats {
     // The plugin id
     private final int pluginId;
     // Is bStats enabled on this server?
-    private boolean enabled;
+    private final boolean enabled;
 
     /**
      * Class constructor.

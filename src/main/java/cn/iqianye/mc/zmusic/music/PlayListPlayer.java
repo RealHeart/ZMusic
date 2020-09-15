@@ -1,14 +1,17 @@
 package cn.iqianye.mc.zmusic.music;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -22,20 +25,22 @@ public class PlayListPlayer extends BukkitRunnable {
 
     public List<JsonObject> playList;
     public String type = "normal";
-    public boolean isStop = false;
-    public boolean isPlayEd = false;
+    public String id;
     public boolean singleIsPlayEd = true;
     public boolean nextMusic = false;
     public boolean prevMusic = false;
+    public boolean jumpMusic = false;
+    public int jumpSong = 0;
     public String platform;
     public String playListName;
     public Player player;
+    String searchSourceName = "";
 
     int songs = 0;
+    int maxSongs;
 
-    @Override
-    public void run() {
-        String searchSourceName = "";
+    public void init() {
+        searchSourceName = "";
         switch (platform) {
             case "netease":
                 searchSourceName = "网易云音乐";
@@ -44,10 +49,14 @@ public class PlayListPlayer extends BukkitRunnable {
                 searchSourceName = "QQ音乐";
                 break;
         }
-        int maxSongs = playList.size();
+        maxSongs = playList.size();
         maxSongs = maxSongs - 1;
-        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已启动。");
-        while (!isStop) {
+
+    }
+
+    @Override
+    public void run() {
+        if (player.isOnline()) {
             if (nextMusic) {
                 if (songs != maxSongs) {
                     singleIsPlayEd = true;
@@ -68,34 +77,48 @@ public class PlayListPlayer extends BukkitRunnable {
                     prevMusic = false;
                 }
             }
+            if (jumpMusic) {
+                if (jumpSong < maxSongs) {
+                    songs = jumpSong - 1;
+                    singleIsPlayEd = true;
+                    jumpMusic = false;
+                } else {
+                    MessageUtils.sendErrorMessage("跳转失败: 指定的歌曲不存在", player);
+                    jumpMusic = false;
+                }
+            }
             if (singleIsPlayEd) {
+                long successTime = System.currentTimeMillis();
                 if (!player.isOnline()) {
                     LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")检测到玩家[" + player.getName() + "] 离线,停止线程。");
-                    break;
+                    cancel();
                 }
-                if (type.equalsIgnoreCase("normal")) {
-                    if (songs > maxSongs) {
-                        isPlayEd = true;
+                switch (type) {
+                    case "normal":
+                        if (songs > maxSongs) {
+                            cancel();
+                        }
+                        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
                         break;
-                    }
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                } else if (type.equalsIgnoreCase("loop")) {
-                    if (songs > maxSongs) {
-                        songs = 0;
-                    }
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                } else if (type.equalsIgnoreCase("random")) {
-                    Random random = new Random();
-                    songs = random.nextInt(maxSongs);
-                    LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
-                } else if (type.equalsIgnoreCase("stop")) {
-                    break;
+                    case "loop":
+                        if (songs > maxSongs) {
+                            songs = 0;
+                        }
+                        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
+                        break;
+                    case "random":
+                        Random random = new Random();
+                        songs = random.nextInt(maxSongs);
+                        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")模式为[" + type + "],当前音乐ID: " + songs);
+                        break;
+                    case "stop":
+                        cancel();
+                        break;
                 }
-
                 String name = playList.get(songs).get("name").getAsString();
                 String singer = playList.get(songs).get("singer").getAsString();
-                String fullName = name + "(" + singer + ")";
-                String nextfullName = "获取失败";
+                String fullName = name + " - " + singer;
+                String nextfullName;
                 switch (type) {
                     case "loop":
                         if ((songs + 1) > maxSongs) {
@@ -137,7 +160,7 @@ public class PlayListPlayer extends BukkitRunnable {
                         MessageUtils.sendErrorMessage("播放[§e" + fullName + "§c]失败.", player);
                         MessageUtils.sendErrorMessage("无法获取播放链接, 可能无版权或为VIP音乐.", player);
                         songs++;
-                        continue;
+                        return;
                     }
                     String getLyricUrl = Config.qqMusicApiRoot + "lyric?songmid=" + id;
                     String lyricJsonText = NetUtils.getNetString(getLyricUrl, null);
@@ -157,8 +180,7 @@ public class PlayListPlayer extends BukkitRunnable {
                     lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
                 } else if (platform.equalsIgnoreCase("netease")) {
                     String id = playList.get(songs).get("id").getAsString();
-                    String getMp3Url = Config.neteaseApiRoot + "song/url?id=" + id + "&br=320000&" +
-                            "cookie=" + Val.neteaseCookie;
+                    String getMp3Url = Config.neteaseApiRoot + "song/url?id=" + id + "&br=320000";
                     String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
                     JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
                     try {
@@ -167,7 +189,7 @@ public class PlayListPlayer extends BukkitRunnable {
                         MessageUtils.sendErrorMessage("播放[§e" + fullName + "§c]失败.", player);
                         MessageUtils.sendErrorMessage("无法获取播放链接, 可能无版权或为VIP音乐.", player);
                         songs++;
-                        continue;
+                        return;
                     }
                     String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + id, null);
                     JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
@@ -188,19 +210,10 @@ public class PlayListPlayer extends BukkitRunnable {
                         MessageUtils.sendErrorMessage("未找到歌词翻译", player);
                     }
                 }
-                MusicUtils.playSelf(url, player);
-                OtherUtils.resetPlayerStatusSelf(player);
-                PlayerStatus.setPlayerPlayStatus(player, true);
-                PlayerStatus.setPlayerMusicName(player, name);
-                PlayerStatus.setPlayerMusicSinger(player, singer);
-                PlayerStatus.setPlayerPlatform(player, searchSourceName);
-                PlayerStatus.setPlayerPlaySource(player, "歌单<" + playListName + ">");
-                PlayerStatus.setPlayerMaxTime(player, time);
-                PlayerStatus.setPlayerCurrentTime(player, 0L);
+                OtherUtils.resetPlayerStatus(player);
                 LyricSender lyricSender = PlayerStatus.getPlayerLyricSender(player);
                 if (lyricSender != null) {
-                    lyricSender.isStop = true;
-                    PlayerStatus.setPlayerLyricSender(player, null);
+                    lyricSender.stop();
                 }
                 lyricSender = new LyricSender();
                 PlayerStatus.setPlayerLyricSender(player, lyricSender);
@@ -210,28 +223,39 @@ public class PlayListPlayer extends BukkitRunnable {
                 lyricSender.name = name;
                 lyricSender.singer = singer;
                 lyricSender.fullName = fullName;
+                lyricSender.platform = searchSourceName;
+                lyricSender.platform = "歌单<" + playListName + ">";
                 lyricSender.url = url;
                 lyricSender.isPlayList = true;
                 lyricSender.nextMusicName = nextfullName;
                 lyricSender.playListPlayer = this;
-                lyricSender.runTaskAsynchronously(JavaPlugin.getPlugin(Main.class));
-                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")为[" + player.getName() + "]播放歌单<" + playListName + ">中的" + fullName);
-                MessageUtils.sendNormalMessage("播放§r[§e" + fullName + "§r]§a成功!", player);
+                lyricSender.init();
+                lyricSender.runTaskAsynchronously(ZMusicBukkit.plugin);
+                MusicUtils.play(url, player);
                 singleIsPlayEd = false;
-                JavaPlugin plugin = JavaPlugin.getPlugin(Main.class);
+                successTime = System.currentTimeMillis() - successTime;
+                LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")为[" + player.getName() + "]播放歌单<" + playListName + ">中的" + fullName);
+                TextComponent message = new TextComponent(Config.prefix + "§a播放§r[§e" + fullName + "§r]§a成功,耗时" + successTime + "毫秒!");
+                TextComponent prev = new TextComponent("§r[§e上一首§r]§r");
+                prev.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist prev"));
+                prev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击切换到上一首").create()));
+                TextComponent next = new TextComponent("§r[§e下一首§r]§r");
+                next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist next"));
+                next.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击切换到下一首").create()));
+                message.addExtra(" ");
+                message.addExtra(prev);
+                message.addExtra(" ");
+                message.addExtra(next);
+                player.spigot().sendMessage(message);
                 if (Config.realSupportAdvancement) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cmi toast " + player.getName() + " -t:task &a正在播放\n&e" + fullName);
-                } else {
-                    new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + fullName, plugin).sendAdvancement((player));
+                    JavaPlugin plugin = ZMusicBukkit.plugin;
+                    Bukkit.getServer().getScheduler().runTaskLater(plugin, () -> new AdvancementAPI(new NamespacedKey(plugin, String.valueOf(System.currentTimeMillis())), "§a正在播放\n§e" + fullName, plugin).sendAdvancement((player)), 1L);
                 }
                 songs++;
             }
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } else {
+            LogUtils.sendDebugMessage("[歌单]玩家离线 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已停止。");
+            cancel();
         }
-        LogUtils.sendDebugMessage("[歌单] 歌单播放器(ID:" + getTaskId() + ")[" + player.getName() + "]<" + playListName + ">线程已停止。");
     }
 }

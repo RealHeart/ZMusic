@@ -15,6 +15,7 @@ public class KuwoMusic {
         try {
             String getUrl = "http://search.kuwo.cn/r.s?all=" + URLEncoder.encode(musicName, "utf-8") + "&ft=music&itemset=web_2013&client=kt&pn=0&rn=1&rformat=json&encoding=utf8";
             String jsonStr = NetUtils.getNetString(getUrl, null);
+            jsonStr = jsonStr.replaceAll("&nbsp;", " ");
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(jsonStr, JsonObject.class);
             JsonObject abslist = json.getAsJsonArray("abslist").get(0).getAsJsonObject();
@@ -30,10 +31,9 @@ public class KuwoMusic {
             returnJson.addProperty("singer", singer);
             returnJson.addProperty("lyric", "");
             returnJson.addProperty("lyricTr", "");
-            StringBuilder sb = new StringBuilder();
-            sb.append("酷我音乐暂不支持歌词显示\n");
-            sb.append("酷我音乐暂不支持翻译显示\n");
-            returnJson.addProperty("error", sb.toString());
+            String sb = "酷我音乐暂不支持歌词显示\n" +
+                    "酷我音乐暂不支持翻译显示\n";
+            returnJson.addProperty("error", sb);
             return returnJson;
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,6 +51,7 @@ public class KuwoMusic {
         try {
             String getUrl = "http://search.kuwo.cn/r.s?all=" + URLEncoder.encode(musicName, "utf-8") + "&ft=music&itemset=web_2013&client=kt&pn=0&rn=10&rformat=json&encoding=utf8";
             String jsonStr = NetUtils.getNetString(getUrl, null);
+            jsonStr = jsonStr.replaceAll("&nbsp;", " ");
             Gson gson = new GsonBuilder().create();
             JsonObject json = gson.fromJson(jsonStr, JsonObject.class);
             JsonArray abslist = json.getAsJsonArray("abslist");

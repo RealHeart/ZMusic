@@ -9,12 +9,12 @@ import java.util.Map;
  * 自定义一对多map
  */
 public class MultiMap<K, V> {
-    private List<K> mkey;
-    private List<List<V>> mvlaue;
+    private final List<K> mkey;
+    private final List<List<V>> mvlaue;
 
     public MultiMap() {
-        mkey = new ArrayList<K>();
-        mvlaue = new ArrayList<List<V>>();
+        mkey = new ArrayList<>();
+        mvlaue = new ArrayList<>();
 
     }
 
@@ -22,7 +22,7 @@ public class MultiMap<K, V> {
      **添加元素
      */
     public void put(K key, V value) {
-        List list = new ArrayList<V>();
+        List<V> list = new ArrayList<V>();
         list.add(value);
         if (containsKey(key)) {
             mvlaue.get(mkey.indexOf(key)).add(value);

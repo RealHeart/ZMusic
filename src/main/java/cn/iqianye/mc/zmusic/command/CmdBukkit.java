@@ -1,17 +1,18 @@
 package cn.iqianye.mc.zmusic.command;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
+import cn.iqianye.mc.zmusic.api.ProgressBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
 import cn.iqianye.mc.zmusic.music.SearchMusic;
 import cn.iqianye.mc.zmusic.other.Val;
+import cn.iqianye.mc.zmusic.pApi.PApiHook;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.HelpUtils;
-import cn.iqianye.mc.zmusic.utils.MessageUtils;
-import cn.iqianye.mc.zmusic.utils.MusicUtils;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,13 +20,12 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import us.myles.ViaVersion.api.Via;
-import us.myles.ViaVersion.api.ViaAPI;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CommandExec implements TabExecutor {
+public class CmdBukkit implements TabExecutor {
 
     Map<Player, Integer> cooldown = new HashMap<>();
     List<Player> cooldownStats = new ArrayList<>();
@@ -43,16 +43,17 @@ public class CommandExec implements TabExecutor {
                             case "music":
                                 if (sender instanceof Player) {
                                     int cooldownSec = Config.cooldown;
-                                    Thread startPlayThread = new Thread(() -> {
-                                        if (args.length >= 2) {
-                                            new Thread(() -> {
+                                    BukkitRunnable startPlay = new BukkitRunnable() {
+                                        @Override
+                                        public void run() {
+                                            if (args.length >= 2) {
                                                 List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
                                                 PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "music", players);
-                                            }).start();
-                                        } else {
-                                            HelpUtils.sendHelp(cmd.getName(), "music", sender);
+                                            } else {
+                                                HelpUtils.sendHelp(cmd.getName(), "music", sender);
+                                            }
                                         }
-                                    });
+                                    };
                                     if (!sender.hasPermission("zmusic.bypass") || !sender.isOp()) {
                                         if (!cooldownStats.contains(sender)) {
                                             if (Config.realSupportVault) {
@@ -71,7 +72,7 @@ public class CommandExec implements TabExecutor {
                                                     }
                                                 }
                                             }
-                                            startPlayThread.start();
+                                            startPlay.runTaskAsynchronously(ZMusicBukkit.plugin);
                                             if (cooldownSec > 0) {
                                                 cooldownStats.add((Player) sender);
                                                 cooldown.put((Player) sender, cooldownSec);
@@ -99,16 +100,19 @@ public class CommandExec implements TabExecutor {
                                             return true;
                                         }
                                     } else {
-                                        startPlayThread.start();
+                                        startPlay.runTaskAsynchronously(ZMusicBukkit.plugin);
                                         return true;
                                     }
                                 }
                             case "play":
                                 if (sender instanceof Player) {
                                     if (args.length >= 2) {
-                                        new Thread(() -> {
-                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "self", null);
-                                        }).start();
+                                        new BukkitRunnable() {
+                                            @Override
+                                            public void run() {
+                                                PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "self", null);
+                                            }
+                                        }.runTaskAsynchronously(ZMusicBukkit.plugin);
                                         return true;
                                     } else {
                                         HelpUtils.sendHelp(cmd.getName(), "play", sender);
@@ -121,9 +125,12 @@ public class CommandExec implements TabExecutor {
                             case "search":
                                 if (sender instanceof Player) {
                                     if (args.length >= 2) {
-                                        new Thread(() -> {
-                                            SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender, cmd.getName());
-                                        }).start();
+                                        new BukkitRunnable() {
+                                            @Override
+                                            public void run() {
+                                                SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], (Player) sender, cmd.getName());
+                                            }
+                                        }.runTaskAsynchronously(ZMusicBukkit.plugin);
                                         return true;
                                     } else {
                                         HelpUtils.sendHelp(cmd.getName(), "search", sender);
@@ -136,12 +143,11 @@ public class CommandExec implements TabExecutor {
                             case "stop":
                                 PlayListPlayer plp = PlayerStatus.getPlayerPlayListPlayer((Player) sender);
                                 if (plp != null) {
-                                    plp.isStop = true;
+                                    plp.cancel();
                                     PlayerStatus.setPlayerPlayListPlayer((Player) sender, null);
-                                    OtherUtils.resetPlayerStatusSelf((Player) sender);
+                                    OtherUtils.resetPlayerStatus((Player) sender);
                                 }
-                                MusicUtils.stopSelf((Player) sender);
-                                OtherUtils.resetPlayerStatusSelf((Player) sender);
+                                OtherUtils.resetPlayerStatus((Player) sender);
                                 MessageUtils.sendNormalMessage("停止播放音乐成功!", sender);
                                 return true;
                             case "loop":
@@ -156,9 +162,12 @@ public class CommandExec implements TabExecutor {
                             case "playlist":
                                 if (sender instanceof Player) {
                                     if (args.length >= 2) {
-                                        new Thread(() -> {
-                                            PlayList.subCommand(args, cmd.getName(), (Player) sender);
-                                        }).start();
+                                        new BukkitRunnable() {
+                                            @Override
+                                            public void run() {
+                                                PlayList.subCommand(args, cmd.getName(), (Player) sender);
+                                            }
+                                        }.runTaskAsynchronously(ZMusicBukkit.plugin);
                                         return true;
                                     }
                                     HelpUtils.sendHelp(cmd.getName(), "playlist", sender);
@@ -170,9 +179,19 @@ public class CommandExec implements TabExecutor {
                             case "url":
                                 if (sender instanceof Player) {
                                     if (args.length == 2) {
-                                        MusicUtils.stopSelf((Player) sender);
-                                        MusicUtils.playSelf(args[1], (Player) sender);
-                                        MessageUtils.sendNormalMessage("播放成功!", sender);
+                                        new BukkitRunnable() {
+                                            @Override
+                                            public void run() {
+                                                MusicUtils.stop((Player) sender);
+                                                try {
+                                                    Thread.sleep(10);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                MusicUtils.play(args[1], (Player) sender);
+                                                MessageUtils.sendNormalMessage("播放成功!", sender);
+                                            }
+                                        }.runTaskAsynchronously(ZMusicBukkit.plugin);
                                         return true;
                                     } else {
                                         HelpUtils.sendHelp(cmd.getName(), "url", sender);
@@ -187,9 +206,12 @@ public class CommandExec implements TabExecutor {
                                     if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                                         List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
                                         if (args.length >= 2) {
-                                            new Thread(() -> {
-                                                PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
-                                            }).start();
+                                            new BukkitRunnable() {
+                                                @Override
+                                                public void run() {
+                                                    PlayMusic.play(OtherUtils.argsXin1(args), args[1], (Player) sender, "all", players);
+                                                }
+                                            }.runTaskAsynchronously(ZMusicBukkit.plugin);
                                             return true;
                                         } else {
                                             HelpUtils.sendHelp(cmd.getName(), "admin", sender);
@@ -207,8 +229,9 @@ public class CommandExec implements TabExecutor {
                                 if (sender instanceof Player) {
                                     if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
                                         List<Player> players = new ArrayList<>(org.bukkit.Bukkit.getServer().getOnlinePlayers());
-                                        MusicUtils.stopAll(players);
-                                        OtherUtils.resetPlayerStatusAll(players);
+                                        for (Player player : players) {
+                                            OtherUtils.resetPlayerStatus(player);
+                                        }
                                         MessageUtils.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
                                         return true;
                                     } else {
@@ -229,8 +252,19 @@ public class CommandExec implements TabExecutor {
                                 }
                             case "reload":
                                 if (sender.hasPermission("zmusic.admin") || sender.isOp()) {
-                                    JavaPlugin.getPlugin(Main.class).reloadConfig();
-                                    Config.load(JavaPlugin.getPlugin(Main.class).getConfig());
+                                    JavaPlugin plugin = ZMusicBukkit.plugin;
+                                    plugin.reloadConfig();
+                                    Config.load(plugin.getConfig());
+                                    if (plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                                        boolean success = new PApiHook().register();
+                                        if (success) {
+                                            LogUtils.sendNormalMessage("§r[§ePlaceholderAPI§r] §a注册成功!");
+                                            MessageUtils.sendNormalMessage("§r[§ePlaceholderAPI§r] §a注册成功!", sender);
+                                        } else {
+                                            LogUtils.sendErrorMessage("§r[§ePlaceholderAPI§r] §c注册失败!");
+                                            MessageUtils.sendErrorMessage("§r[§ePlaceholderAPI§r] §c注册失败!", sender);
+                                        }
+                                    }
                                     OtherUtils.loginNetease(sender);
                                     MessageUtils.sendNormalMessage("配置文件重载完毕!", sender);
                                     return true;
@@ -247,8 +281,22 @@ public class CommandExec implements TabExecutor {
                                     return true;
                                 }
                             case "test":
-                                ViaAPI api = Via.getAPI();
-                                MessageUtils.sendNormalMessage(String.valueOf(api.getVersion()), sender);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        ProgressBar progressBar = new ProgressBar('■', '□', 100 - 1);
+                                        for (int i = 0; i < 100; i++) {
+                                            progressBar.setProgress(i);
+                                            Player p = (Player) sender;
+                                            try {
+                                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(progressBar.getString()));
+                                                Thread.sleep(10);
+                                            } catch (Exception ignored) {
+                                            }
+                                        }
+                                    }
+                                }.runTaskAsynchronously(ZMusicBukkit.plugin);
+
                                 return true;
                             default:
                                 MessageUtils.sendNull(cmd.getName(), sender);
@@ -336,7 +384,7 @@ public class CommandExec implements TabExecutor {
                 }
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"qq", "netease", "163", "type", "global", "next", "prev"};
+                    commandList = new String[]{"qq", "netease", "163", "type", "global", "next", "prev", "jump"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else if (args.length == 3) {
                     if (args[1].equalsIgnoreCase("type")) {
@@ -346,11 +394,11 @@ public class CommandExec implements TabExecutor {
                         commandList = new String[]{"qq", "netease", "163"};
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     } else {
-                        commandList = new String[]{"import", "play", "list", "update"};
+                        commandList = new String[]{"import", "play", "list", "update", "show"};
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     }
                 } else if (args.length == 4) {
-                    commandList = new String[]{"import", "play", "list", "update"};
+                    commandList = new String[]{"import", "play", "list", "update", "show"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[3])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();

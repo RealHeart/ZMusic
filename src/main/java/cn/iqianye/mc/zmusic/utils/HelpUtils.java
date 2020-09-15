@@ -51,10 +51,12 @@ public class HelpUtils {
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] import <歌单链接> - 导入歌单§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] list - 查看已导入的歌单列表§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] play <歌单ID> - 播放已导入的歌单§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] show <歌单ID> - 查看已导入的歌单§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist [qq/163/netease] update - 更新已导入歌单.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist type [normal/loop/random] - 设置歌单播放模式§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist prev - 切换到下一首歌曲§a.", player);
                 MessageUtils.sendNormalMessage("/" + cmdName + " playlist next - 切换到下一首歌曲§a.", player);
+                MessageUtils.sendNormalMessage("/" + cmdName + " playlist jump [ID] - 跳转到指定歌曲§a.", player);
                 if (player.hasPermission("zmusic.admin") || player.isOp()) {
                     MessageUtils.sendNormalMessage("§6=========================================", player);
                     MessageUtils.sendNormalMessage("/" + cmdName + " playlist global [qq/163/netease] import <歌单链接> - 导入全服歌单§a.", player);

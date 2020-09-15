@@ -4,6 +4,7 @@ import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class KuGouMusic {
@@ -55,7 +56,7 @@ public class KuGouMusic {
                 String lyricBase64 = lyricJSON.get("content").getAsString();
                 Base64.Decoder decoder = Base64.getDecoder();
                 byte[] bytes = decoder.decode(lyricBase64);
-                String lyric = new String(bytes, "utf-8");
+                String lyric = new String(bytes, StandardCharsets.UTF_8);
                 lyric = lyric.replaceAll("\r", "");
                 StringBuilder sb = new StringBuilder();
                 if (lyric.isEmpty()) {

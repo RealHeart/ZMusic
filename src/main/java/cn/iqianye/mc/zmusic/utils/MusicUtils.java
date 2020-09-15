@@ -6,8 +6,6 @@ import cn.iqianye.mc.zmusic.mod.Send;
 import cn.iqianye.mc.zmusic.other.Val;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 public class MusicUtils {
 
     static Version version = new Version();
@@ -19,43 +17,7 @@ public class MusicUtils {
      * @param url    音乐地址
      * @param player 玩家
      */
-    public static void playSelf(String url, Player player) {
-        Play(url, player);
-    }
-
-    /**
-     * 播放音乐(全体)
-     *
-     * @param url        音乐地址
-     * @param playerList 玩家列表
-     */
-    public static void playAll(String url, List<Player> playerList) {
-        for (Player player : playerList) {
-            Play(url, player);
-        }
-    }
-
-    /**
-     * 停止播放音乐(个人)
-     *
-     * @param player 玩家
-     */
-    public static void stopSelf(Player player) {
-        Stop(player);
-    }
-
-    /**
-     * 停止播放音乐(全体)
-     *
-     * @param playerList 玩家列表
-     */
-    public static void stopAll(List<Player> playerList) {
-        for (Player player : playerList) {
-            Stop(player);
-        }
-    }
-
-    private static void Play(String url, Player player) {
+    public static void play(String url, Player player) {
         if (version.isHigherThan("1.11")) {
             LogUtils.sendDebugMessage("[播放] 服务端版本高于1.11，使用AllMusic发送播放数据.");
             Send.sendAM(player, "[Play]" + url);
@@ -76,7 +38,12 @@ public class MusicUtils {
         }
     }
 
-    private static void Stop(Player player) {
+    /**
+     * 停止播放音乐(个人)
+     *
+     * @param player 玩家
+     */
+    public static void stop(Player player) {
         if (version.isHigherThan("1.11")) {
             Send.sendAM(player, "[Stop]");
         } else {
@@ -91,5 +58,4 @@ public class MusicUtils {
             }
         }
     }
-
 }

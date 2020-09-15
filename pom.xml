@@ -6,7 +6,11 @@
 
     <groupId>cn.iqianye.mc</groupId>
     <artifactId>ZMusic</artifactId>
-    <version>1.9</version>
+    <version>1.10</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <repositories>
         <repository>
@@ -39,6 +43,13 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.16-R0.2-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.bukkit.nms</groupId>
             <artifactId>v1_8_R3</artifactId>
             <version>1</version>
@@ -47,6 +58,36 @@
         <dependency>
             <groupId>org.bukkit.nms</groupId>
             <artifactId>v1_12_R1</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_13_R2</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_14_R1</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_15_R1</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_16_R1</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit.nms</groupId>
+            <artifactId>v1_16_R2</artifactId>
             <version>1</version>
             <scope>provided</scope>
         </dependency>
@@ -96,5 +137,4 @@
             </resource>
         </resources>
     </build>
-
 </project>

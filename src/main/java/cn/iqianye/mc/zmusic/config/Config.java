@@ -1,6 +1,6 @@
 package cn.iqianye.mc.zmusic.config;
 
-import cn.iqianye.mc.zmusic.Main;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.utils.LogUtils;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 
@@ -20,7 +20,7 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 7;
+    public static int latestVersion = 8;
     // Debug
     public static boolean debug;
     // Update
@@ -50,6 +50,10 @@ public class Config {
     public static boolean supportTitle = false;
     public static boolean supportChat = false;
     public static boolean supportHud = false;
+    public static int hudLyricX;
+    public static int hudLyricY;
+    public static int hudInfoX;
+    public static int hudInfoY;
 
     // RealSupport
     public static boolean realSupportBossBar = true;
@@ -64,14 +68,15 @@ public class Config {
         version = configuration.getInt("version");
         if (version != latestVersion) {
             LogUtils.sendNormalMessage("-- 正在更新配置文件...");
-            File config = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + File.separator + "config.yml");
-            File configBak = new File(JavaPlugin.getPlugin(Main.class).getDataFolder() + File.separator + "config.yml.v" + version + ".bak");
+            File config = new File(ZMusicBukkit.plugin.getDataFolder() + File.separator + "config.yml");
+            File configBak = new File(ZMusicBukkit.plugin.getDataFolder() + File.separator + "config.yml.v" + version + ".bak");
             LogUtils.sendNormalMessage("-- 正在备份原配置文件...");
             config.renameTo(configBak);
             LogUtils.sendNormalMessage("-- 正在释放新配置文件...");
-            JavaPlugin.getPlugin(Main.class).saveDefaultConfig();
+            ZMusicBukkit.plugin.saveDefaultConfig();
             LogUtils.sendNormalMessage("-- 更新完毕.");
-            JavaPlugin.getPlugin(Main.class).reloadConfig();
+            ZMusicBukkit.plugin.reloadConfig();
+            load(ZMusicBukkit.plugin.getConfig());
         }
         // Debug
         debug = configuration.getBoolean("debug");
@@ -96,12 +101,15 @@ public class Config {
         bilibiliQQ = configuration.getString("account.bilibili.qq");
         bilibiliKey = configuration.getString("account.bilibili.key");
         if (!bilibiliKey.equalsIgnoreCase("none")) {
-            new Thread(() -> {
-                Gson gson = new GsonBuilder().create();
-                String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/checkVIP.php?qq=" + bilibiliQQ + "&key=" + bilibiliKey, null);
-                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                Val.bilibiliIsVIP = json.get("isVIP").getAsBoolean();
-            }).start();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Gson gson = new GsonBuilder().create();
+                    String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/checkVIP.php", null, "qq=" + bilibiliQQ + "&key=" + bilibiliKey);
+                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                    Val.bilibiliIsVIP = json.get("isVIP").getAsBoolean();
+                }
+            }.runTaskAsynchronously(ZMusicBukkit.plugin);
         }
         // Music
         money = configuration.getInt("music.money");
@@ -120,7 +128,11 @@ public class Config {
             supportTitle = configuration.getBoolean("lyric.subTitle");
         }
         if (realSupportHud) {
-            supportHud = configuration.getBoolean("lyric.hud");
+            supportHud = configuration.getBoolean("lyric.hud.enable");
+            hudInfoX = configuration.getInt("lyric.hud.infoX");
+            hudInfoY = configuration.getInt("lyric.hud.infoY");
+            hudLyricX = configuration.getInt("lyric.hud.lyricX");
+            hudLyricY = configuration.getInt("lyric.hud.lyricY");
         }
         supportChat = configuration.getBoolean("lyric.chatMessage");
     }
