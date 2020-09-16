@@ -1,8 +1,10 @@
 package cn.iqianye.mc.zmusic.utils.message;
 
+import cn.iqianye.mc.zmusic.ZMusicBC;
 import cn.iqianye.mc.zmusic.config.Conf;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -34,7 +36,14 @@ public class MessageBC implements Message {
 
     @Override
     public void sendTitleMessage(String title, String subTitle, Object playerObj) {
-
+        ProxiedPlayer player = (ProxiedPlayer) playerObj;
+        Title message = ZMusicBC.plugin.getProxy().createTitle();
+        message.title(new TextComponent(title));
+        message.subTitle(new TextComponent(subTitle));
+        message.fadeIn(0);
+        message.stay(200);
+        message.fadeOut(20);
+        player.sendTitle(message);
     }
 
     @Override

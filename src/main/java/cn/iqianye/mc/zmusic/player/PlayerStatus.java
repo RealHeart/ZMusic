@@ -1,8 +1,10 @@
 package cn.iqianye.mc.zmusic.player;
 
-import cn.iqianye.mc.zmusic.api.BossBar;
+import cn.iqianye.mc.zmusic.ZMusic;
+import cn.iqianye.mc.zmusic.api.bossbar.BossBar;
 import cn.iqianye.mc.zmusic.music.LyricSender;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
+import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +79,11 @@ public class PlayerStatus {
      */
     public static void setPlayerMusicName(Object player, String musicName) {
         musicNameMap.put(player, musicName);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("name", musicName);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -97,6 +104,11 @@ public class PlayerStatus {
      */
     public static void setPlayerMusicSinger(Object player, String singerName) {
         musicSingerMap.put(player, singerName);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("singer", singerName);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -112,11 +124,16 @@ public class PlayerStatus {
     /**
      * 设置玩家当前播放音乐平台
      *
-     * @param player    玩家
-     * @param musicName 音乐平台
+     * @param player   玩家
+     * @param platform 音乐平台
      */
-    public static void setPlayerPlatform(Object player, String musicName) {
-        platformMap.put(player, musicName);
+    public static void setPlayerPlatform(Object player, String platform) {
+        platformMap.put(player, platform);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("platform", platform);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -132,11 +149,16 @@ public class PlayerStatus {
     /**
      * 设置玩家当前播放音乐来源
      *
-     * @param player    玩家
-     * @param musicName 音乐来源
+     * @param player 玩家
+     * @param src    音乐来源
      */
-    public static void setPlayerPlaySource(Object player, String musicName) {
-        playSourceMap.put(player, musicName);
+    public static void setPlayerPlaySource(Object player, String src) {
+        playSourceMap.put(player, src);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("src", src);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -197,6 +219,11 @@ public class PlayerStatus {
      */
     public static void setPlayerCurrentTime(Object player, Long time) {
         currentTimeMap.put(player, time);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("currentTime", time);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -217,6 +244,11 @@ public class PlayerStatus {
      */
     public static void setPlayerMaxTime(Object player, Long time) {
         maxTimeMap.put(player, time);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("maxTime", time);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**
@@ -237,6 +269,11 @@ public class PlayerStatus {
      */
     public static void setPlayerLyric(Object player, String lyric) {
         lyricMap.put(player, lyric);
+        if (ZMusic.isBC) {
+            JsonObject json = new JsonObject();
+            json.addProperty("lyric", lyric);
+            ZMusic.send.sendZMPapi(player, json.toString());
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.HelpUtils;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

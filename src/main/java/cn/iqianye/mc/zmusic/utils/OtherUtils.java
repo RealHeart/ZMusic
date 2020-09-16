@@ -1,13 +1,12 @@
-package cn.iqianye.mc.zmusic.utils.other;
+package cn.iqianye.mc.zmusic.utils;
 
 import cn.iqianye.mc.zmusic.ZMusic;
-import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.api.MultiMap;
+import cn.iqianye.mc.zmusic.api.bossbar.BossBar;
 import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 
 import java.io.*;
@@ -66,6 +65,9 @@ public class OtherUtils {
                 bossBar.removePlayer(player);
             }
         }
+        if (Conf.supportTitle) {
+            ZMusic.message.sendTitleMessage("", "", player);
+        }
         if (Conf.supportHud) {
             ZMusic.send.sendAM(player, "[Lyric]");
             ZMusic.send.sendAM(player, "[Info]");
@@ -79,7 +81,7 @@ public class OtherUtils {
         PlayerStatus.setPlayerPlaySource(player, null);
     }
 
-    public static void checkUpdate(String ver) {
+    public static void checkUpdate() {
         ZMusic.runTask.start(() -> {
             String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
             if (jsonText != null) {

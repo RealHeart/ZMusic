@@ -1,8 +1,8 @@
-package cn.iqianye.mc.zmusic.pApi;
+package cn.iqianye.mc.zmusic.papi;
 
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 

@@ -3,8 +3,8 @@ package cn.iqianye.mc.zmusic.utils.server;
 import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.config.load.LoadBukkit;
-import cn.iqianye.mc.zmusic.pApi.PApiHook;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.papi.PApiHook;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerBukkit implements Server {

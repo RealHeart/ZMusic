@@ -1,20 +1,19 @@
 package cn.iqianye.mc.zmusic;
 
 import cn.iqianye.mc.zmusic.api.Version;
+import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.config.load.LoadBukkit;
 import cn.iqianye.mc.zmusic.mod.SendBukkit;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.other.Val;
-import cn.iqianye.mc.zmusic.pApi.PApiHook;
+import cn.iqianye.mc.zmusic.papi.PApiHook;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.stats.bStats;
-import cn.iqianye.mc.zmusic.stats.cStats;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
 import cn.iqianye.mc.zmusic.utils.message.MessageBukkit;
 import cn.iqianye.mc.zmusic.utils.music.MusicBukkit;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.player.PlayerBukkit;
 import cn.iqianye.mc.zmusic.utils.runnable.RunTaskBukkit;
 import cn.iqianye.mc.zmusic.utils.server.ServerBukkit;
@@ -40,6 +39,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+        ZMusic.isBC = false;
         ZMusic.log = new LogBukkit(getServer().getConsoleSender());
         ZMusic.runTask = new RunTaskBukkit();
         ZMusic.message = new MessageBukkit();
@@ -55,9 +55,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
         Version version = new Version();
         ZMusic.log.sendNormalMessage("正在加载中....");
         //注册bStats
-        bStats bStats = new bStats(this, 7291);
-        //注册cStats
-        cStats cStats = new cStats(this);
+        MetricsBukkit bStats = new MetricsBukkit(this, 7291);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CmdBukkit());
         //注册命令对应的自动补全器
@@ -82,7 +80,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
         }
         //注册事件监听器
         getServer().getPluginManager().registerEvents(this, this);
-        OtherUtils.checkUpdate(Val.thisVer);
+        OtherUtils.checkUpdate();
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             ZMusic.log.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
             boolean success = new PApiHook().register();
@@ -172,7 +170,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
         ZMusic.runTask.start(() -> {
             Player player = event.getPlayer();
             if (ZMusic.player.hasPermission(player, "zmusic.admin") || player.isOp()) {
-                OtherUtils.checkUpdate(Val.thisVer);
+                OtherUtils.checkUpdate();
                 if (!Val.isLatest) {
                     ZMusic.message.sendNormalMessage("发现新版本 V" + Val.latestVer, player);
                     ZMusic.message.sendNormalMessage("更新日志:", player);

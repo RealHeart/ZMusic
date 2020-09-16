@@ -11,6 +11,8 @@ import cn.iqianye.mc.zmusic.utils.server.Server;
 import java.io.File;
 
 public class ZMusic {
+    public static boolean isBC;
+
     public static Log log;
     public static Message message;
     public static RunTask runTask;

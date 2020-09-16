@@ -6,7 +6,7 @@ import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;

@@ -10,7 +10,7 @@ import cn.iqianye.mc.zmusic.music.SearchMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.HelpUtils;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.*;

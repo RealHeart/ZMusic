@@ -5,7 +5,7 @@ import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

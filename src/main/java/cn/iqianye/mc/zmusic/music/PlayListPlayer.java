@@ -5,7 +5,7 @@ import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -220,7 +220,7 @@ public class PlayListPlayer extends Thread {
                     lyricSender.singer = singer;
                     lyricSender.fullName = fullName;
                     lyricSender.platform = searchSourceName;
-                    lyricSender.platform = "歌单<" + playListName + ">";
+                    lyricSender.src = "歌单<" + playListName + ">";
                     lyricSender.url = url;
                     lyricSender.isPlayList = true;
                     lyricSender.nextMusicName = nextfullName;

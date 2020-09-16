@@ -1,3 +1,10 @@
+# 2.0-pre1 | 2020-09-17
+* BungeeCord 支持BossBar
+* BungeeCord 支持Title
+* 调整Hud位置(如是默认配置 请修改歌词Y坐标为72)
+* 修复Papi平台显示错误的问题
+* BC添加PAPI转发 子服需要安装ZMusic-Papi插件
+
 # 2.0-pre | 2020-09-16
 * 初步适配BC 目前歌词显示仅支持chat,actionBar,hub
 * BC仅支持1.12以上

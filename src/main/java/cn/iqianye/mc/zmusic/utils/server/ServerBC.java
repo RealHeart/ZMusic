@@ -3,7 +3,7 @@ package cn.iqianye.mc.zmusic.utils.server;
 import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.ZMusicBC;
 import cn.iqianye.mc.zmusic.config.load.LoadBC;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;

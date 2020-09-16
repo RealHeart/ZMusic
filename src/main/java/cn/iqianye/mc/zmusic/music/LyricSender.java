@@ -1,12 +1,12 @@
 package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.ZMusic;
-import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.api.ProgressBar;
+import cn.iqianye.mc.zmusic.api.bossbar.*;
 import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.nms.ActionBar;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -53,25 +53,34 @@ public class LyricSender extends Thread {
         if (Conf.supportBossBar) {
             bossBar = PlayerStatus.getPlayerBoosBar(player);
             if (bossBar == null) {
-                bossBar = new BossBar(player, Conf.lyricColor + fullName, BossBar.BarColor.BLUE, BossBar.BarStyle.SEGMENTED_20, maxTime);
-                bossBar.showTitle();
-                PlayerStatus.setPlayerBoosBar(player, bossBar);
+                initBossBar();
             } else {
                 bossBar.removePlayer(player);
-                bossBar = new BossBar(player, Conf.lyricColor + fullName, BossBar.BarColor.BLUE, BossBar.BarStyle.SEGMENTED_20, maxTime);
-                bossBar.showTitle();
-                PlayerStatus.setPlayerBoosBar(player, bossBar);
+                initBossBar();
             }
         }
         if (Conf.supportHud) {
             ZMusic.send.sendAM(player, Conf.hudInfoX, Conf.hudInfoY, Conf.hudLyricX, Conf.hudLyricY);
             hudInfo.append("歌名: ").append(name).append("\n");
             hudInfo.append("歌手: ").append(singer).append("\n");
+            hudInfo.append("平台: ").append(platform).append("\n");
+            hudInfo.append("来源: ").append(src).append("\n");
             hudInfo.append("进度: 00:00/").append(OtherUtils.formatTime(maxTime / 100));
             if (isPlayList) {
                 hudInfo.append("\n下一首: ").append(nextMusicName);
             }
         }
+
+    }
+
+    private void initBossBar() {
+        if (ZMusic.isBC) {
+            bossBar = new BossBarBC(player, Conf.lyricColor + fullName, BarColor.BLUE, BarStyle.SEGMENTED_20, maxTime);
+        } else {
+            bossBar = new BossBarBukkit(player, Conf.lyricColor + fullName, BarColor.BLUE, BarStyle.SEGMENTED_20, maxTime);
+        }
+        bossBar.showTitle();
+        PlayerStatus.setPlayerBoosBar(player, bossBar);
     }
 
     @Override
@@ -113,8 +122,7 @@ public class LyricSender extends Thread {
                                 PlayerStatus.setPlayerPlayStatus(player, true);
                                 ZMusic.music.play(url, player);
                                 if (Conf.supportBossBar) {
-                                    bossBar = new BossBar(player, "§b§l" + fullName, BossBar.BarColor.BLUE, BossBar.BarStyle.SEGMENTED_20, maxTime);
-                                    bossBar.showTitle();
+                                    initBossBar();
                                 }
                             } else {
                                 ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放关闭 线程停止");
@@ -223,7 +231,7 @@ public class LyricSender extends Thread {
         String str = hudInfo.toString();
         String[] strs = str.split("\n");
         progressBar.setProgress(time);
-        strs[2] = "进度: " + OtherUtils.formatTime(time) + "/" + OtherUtils.formatTime(maxTime) +
+        strs[4] = "进度: " + OtherUtils.formatTime(time) + "/" + OtherUtils.formatTime(maxTime) +
                 " " + progressBar.toString();
         StringBuilder sb = new StringBuilder();
         hudInfo = new StringBuilder();
