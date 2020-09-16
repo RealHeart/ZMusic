@@ -2,7 +2,7 @@ package cn.iqianye.mc.zmusic.pApi;
 
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
+import cn.iqianye.mc.zmusic.utils.other.OtherUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -28,7 +28,7 @@ public class PApiHook extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, String identifier) {
         // 音乐名称
         if (identifier.equalsIgnoreCase("playing_name")) {
-            String musicName = PlayerStatus.getPlayerMusicName(player);
+            String musicName = PlayerStatus.getPlayerMusicName(player.getName());
             if (musicName != null) {
                 return musicName;
             } else {
@@ -38,7 +38,7 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 音乐歌手
         if (identifier.equalsIgnoreCase("playing_singer")) {
-            String musicName = PlayerStatus.getPlayerMusicSinger(player);
+            String musicName = PlayerStatus.getPlayerMusicSinger(player.getName());
             if (musicName != null) {
                 return musicName;
             } else {
@@ -48,7 +48,7 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 音乐平台
         if (identifier.equalsIgnoreCase("playing_platform")) {
-            String musicName = PlayerStatus.getPlayerPlatform(player);
+            String musicName = PlayerStatus.getPlayerPlatform(player.getName());
             if (musicName != null) {
                 return musicName;
             } else {
@@ -57,7 +57,7 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 音乐来源
         if (identifier.equalsIgnoreCase("playing_source")) {
-            String musicName = PlayerStatus.getPlayerPlaySource(player);
+            String musicName = PlayerStatus.getPlayerPlaySource(player.getName());
             if (musicName != null) {
                 return musicName;
             } else {
@@ -66,7 +66,7 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 歌词
         if (identifier.equalsIgnoreCase("playing_lyric")) {
-            String lyric = PlayerStatus.getPlayerLyric(player);
+            String lyric = PlayerStatus.getPlayerLyric(player.getName());
             if (lyric != null) {
                 return lyric;
             } else {
@@ -75,12 +75,12 @@ public class PApiHook extends PlaceholderExpansion {
         }
         // 当前播放时间
         if (identifier.equalsIgnoreCase("time_current")) {
-            Long currentTime = PlayerStatus.getPlayerCurrentTime(player);
+            Long currentTime = PlayerStatus.getPlayerCurrentTime(player.getName());
             return OtherUtils.formatTime(currentTime);
         }
         // 最大播放时间
         if (identifier.equalsIgnoreCase("time_max")) {
-            Long maxTime = PlayerStatus.getPlayerMaxTime(player);
+            Long maxTime = PlayerStatus.getPlayerMaxTime(player.getName());
             return OtherUtils.formatTime(maxTime);
         }
         // 版本号

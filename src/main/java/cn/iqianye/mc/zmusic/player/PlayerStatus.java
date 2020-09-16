@@ -3,7 +3,6 @@ package cn.iqianye.mc.zmusic.player;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.music.LyricSender;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,31 +13,31 @@ import java.util.Map;
 public class PlayerStatus {
 
     // 播放状态
-    private static final Map<Player, Boolean> playingMap = new HashMap<>();
+    private static final Map<Object, Boolean> playingMap = new HashMap<>();
     // 当前播放音乐名称
-    private static final Map<Player, String> musicNameMap = new HashMap<>();
+    private static final Map<Object, String> musicNameMap = new HashMap<>();
     // 当前播放音乐歌手
-    private static final Map<Player, String> musicSingerMap = new HashMap<>();
+    private static final Map<Object, String> musicSingerMap = new HashMap<>();
     // 当前播放音乐平台
-    private static final Map<Player, String> platformMap = new HashMap<>();
+    private static final Map<Object, String> platformMap = new HashMap<>();
     // 当前播放音乐平台
-    private static final Map<Player, String> playSourceMap = new HashMap<>();
+    private static final Map<Object, String> playSourceMap = new HashMap<>();
     // LyricSender
-    private static final Map<Player, LyricSender> lyricSenderMap = new HashMap<>();
+    private static final Map<Object, LyricSender> lyricSenderMap = new HashMap<>();
     // BossBar
-    private static final Map<Player, BossBar> boosBarMap = new HashMap<>();
+    private static final Map<Object, BossBar> boosBarMap = new HashMap<>();
     // 播放进度：当前时间
-    private static final Map<Player, Long> currentTimeMap = new HashMap<>();
+    private static final Map<Object, Long> currentTimeMap = new HashMap<>();
     // 播放进度：最大时间
-    private static final Map<Player, Long> maxTimeMap = new HashMap<>();
+    private static final Map<Object, Long> maxTimeMap = new HashMap<>();
     // 当前进度的歌词
-    private static final Map<Player, String> lyricMap = new HashMap<>();
+    private static final Map<Object, String> lyricMap = new HashMap<>();
     // 循环播放
-    private static final Map<Player, Boolean> loopPlayMap = new HashMap<>();
+    private static final Map<Object, Boolean> loopPlayMap = new HashMap<>();
     // 歌单播放器
-    private static final Map<Player, PlayListPlayer> playListPlayer = new HashMap<>();
+    private static final Map<Object, PlayListPlayer> playListPlayer = new HashMap<>();
     // 歌单播放类型
-    private static final Map<Player, String> playListType = new HashMap<>();
+    private static final Map<Object, String> playListType = new HashMap<>();
 
     /**
      * 获取玩家播放状态
@@ -46,7 +45,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 播放状态
      */
-    public static Boolean getPlayerPlayStatus(Player player) {
+    public static Boolean getPlayerPlayStatus(Object player) {
         return playingMap.get(player);
     }
 
@@ -56,7 +55,7 @@ public class PlayerStatus {
      * @param player  玩家
      * @param playing 播放状态
      */
-    public static void setPlayerPlayStatus(Player player, Boolean playing) {
+    public static void setPlayerPlayStatus(Object player, Boolean playing) {
         playingMap.put(player, playing);
     }
 
@@ -66,7 +65,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 当前播放音乐名称
      */
-    public static String getPlayerMusicName(Player player) {
+    public static String getPlayerMusicName(Object player) {
         return musicNameMap.get(player);
     }
 
@@ -76,7 +75,7 @@ public class PlayerStatus {
      * @param player    玩家
      * @param musicName 音乐名称
      */
-    public static void setPlayerMusicName(Player player, String musicName) {
+    public static void setPlayerMusicName(Object player, String musicName) {
         musicNameMap.put(player, musicName);
     }
 
@@ -86,7 +85,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 当前播放音乐歌手
      */
-    public static String getPlayerMusicSinger(Player player) {
+    public static String getPlayerMusicSinger(Object player) {
         return musicSingerMap.get(player);
     }
 
@@ -96,7 +95,7 @@ public class PlayerStatus {
      * @param player     玩家
      * @param singerName 音乐歌手
      */
-    public static void setPlayerMusicSinger(Player player, String singerName) {
+    public static void setPlayerMusicSinger(Object player, String singerName) {
         musicSingerMap.put(player, singerName);
     }
 
@@ -106,7 +105,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 当前播放音乐平台
      */
-    public static String getPlayerPlatform(Player player) {
+    public static String getPlayerPlatform(Object player) {
         return platformMap.get(player);
     }
 
@@ -116,7 +115,7 @@ public class PlayerStatus {
      * @param player    玩家
      * @param musicName 音乐平台
      */
-    public static void setPlayerPlatform(Player player, String musicName) {
+    public static void setPlayerPlatform(Object player, String musicName) {
         platformMap.put(player, musicName);
     }
 
@@ -126,7 +125,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 当前播放音乐来源
      */
-    public static String getPlayerPlaySource(Player player) {
+    public static String getPlayerPlaySource(Object player) {
         return playSourceMap.get(player);
     }
 
@@ -136,7 +135,7 @@ public class PlayerStatus {
      * @param player    玩家
      * @param musicName 音乐来源
      */
-    public static void setPlayerPlaySource(Player player, String musicName) {
+    public static void setPlayerPlaySource(Object player, String musicName) {
         playSourceMap.put(player, musicName);
     }
 
@@ -146,7 +145,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return LyricSender
      */
-    public static LyricSender getPlayerLyricSender(Player player) {
+    public static LyricSender getPlayerLyricSender(Object player) {
         return lyricSenderMap.get(player);
     }
 
@@ -156,7 +155,7 @@ public class PlayerStatus {
      * @param player      玩家
      * @param lyricSender LyricSender
      */
-    public static void setPlayerLyricSender(Player player, LyricSender lyricSender) {
+    public static void setPlayerLyricSender(Object player, LyricSender lyricSender) {
         lyricSenderMap.put(player, lyricSender);
     }
 
@@ -166,7 +165,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return BossBar
      */
-    public static BossBar getPlayerBoosBar(Player player) {
+    public static BossBar getPlayerBoosBar(Object player) {
         return boosBarMap.get(player);
     }
 
@@ -176,7 +175,7 @@ public class PlayerStatus {
      * @param player  玩家
      * @param bossBar BossBar
      */
-    public static void setPlayerBoosBar(Player player, BossBar bossBar) {
+    public static void setPlayerBoosBar(Object player, BossBar bossBar) {
         boosBarMap.put(player, bossBar);
     }
 
@@ -186,7 +185,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 时间(秒)
      */
-    public static Long getPlayerCurrentTime(Player player) {
+    public static Long getPlayerCurrentTime(Object player) {
         return currentTimeMap.get(player);
     }
 
@@ -196,7 +195,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param time   时间(秒)
      */
-    public static void setPlayerCurrentTime(Player player, Long time) {
+    public static void setPlayerCurrentTime(Object player, Long time) {
         currentTimeMap.put(player, time);
     }
 
@@ -206,7 +205,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 时间(秒)
      */
-    public static Long getPlayerMaxTime(Player player) {
+    public static Long getPlayerMaxTime(Object player) {
         return maxTimeMap.get(player);
     }
 
@@ -216,7 +215,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param time   时间(秒)
      */
-    public static void setPlayerMaxTime(Player player, Long time) {
+    public static void setPlayerMaxTime(Object player, Long time) {
         maxTimeMap.put(player, time);
     }
 
@@ -226,7 +225,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 歌词
      */
-    public static String getPlayerLyric(Player player) {
+    public static String getPlayerLyric(Object player) {
         return lyricMap.get(player);
     }
 
@@ -236,7 +235,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param lyric  歌词
      */
-    public static void setPlayerLyric(Player player, String lyric) {
+    public static void setPlayerLyric(Object player, String lyric) {
         lyricMap.put(player, lyric);
     }
 
@@ -246,7 +245,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 状态
      */
-    public static Boolean getPlayerLoopPlay(Player player) {
+    public static Boolean getPlayerLoopPlay(Object player) {
         return loopPlayMap.get(player);
     }
 
@@ -256,7 +255,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param loop   状态
      */
-    public static void setPlayerLoopPlay(Player player, Boolean loop) {
+    public static void setPlayerLoopPlay(Object player, Boolean loop) {
         loopPlayMap.put(player, loop);
     }
 
@@ -266,7 +265,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 歌单播放器
      */
-    public static PlayListPlayer getPlayerPlayListPlayer(Player player) {
+    public static PlayListPlayer getPlayerPlayListPlayer(Object player) {
         return playListPlayer.get(player);
     }
 
@@ -276,7 +275,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param plp    歌单播放器
      */
-    public static void setPlayerPlayListPlayer(Player player, PlayListPlayer plp) {
+    public static void setPlayerPlayListPlayer(Object player, PlayListPlayer plp) {
         playListPlayer.put(player, plp);
     }
 
@@ -286,7 +285,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @return 歌单播放类型
      */
-    public static String getPlayerPlayListType(Player player) {
+    public static String getPlayerPlayListType(Object player) {
         return playListType.get(player);
     }
 
@@ -296,7 +295,7 @@ public class PlayerStatus {
      * @param player 玩家
      * @param type   歌单播放类型
      */
-    public static void setPlayerPlayListType(Player player, String type) {
+    public static void setPlayerPlayListType(Object player, String type) {
         playListType.put(player, type);
     }
 

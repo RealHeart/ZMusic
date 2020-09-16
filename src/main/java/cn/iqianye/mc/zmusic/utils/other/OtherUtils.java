@@ -1,19 +1,14 @@
-package cn.iqianye.mc.zmusic.utils;
+package cn.iqianye.mc.zmusic.utils.other;
 
-import cn.iqianye.mc.zmusic.ZMusicBukkit;
+import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.api.BossBar;
 import cn.iqianye.mc.zmusic.api.MultiMap;
-import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.mod.Send;
+import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.other.Val;
 import cn.iqianye.mc.zmusic.player.PlayerStatus;
+import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -62,30 +57,18 @@ public class OtherUtils {
         return s.toString().trim();
     }
 
-    /**
-     * 重置玩家状态
-     *
-     * @param player 玩家列表
-     */
-    public static void resetPlayerStatus(Player player) {
-        MusicUtils.stop(player);
+    public static void resetPlayerStatus(Object player) {
+        ZMusic.music.stop(player);
         PlayerStatus.setPlayerPlayStatus(player, false);
-        if (Config.supportBossBar) {
+        if (Conf.supportBossBar) {
             BossBar bossBar = PlayerStatus.getPlayerBoosBar(player);
             if (bossBar != null) {
                 bossBar.removePlayer(player);
             }
         }
-        if (Config.supportTitle) {
-            try {
-                player.sendTitle("", "", 0, 0, 0);
-            } catch (NoSuchMethodError e) {
-                player.sendTitle("", "");
-            }
-        }
-        if (Config.supportHud) {
-            Send.sendAM(player, "[Lyric]");
-            Send.sendAM(player, "[Info]");
+        if (Conf.supportHud) {
+            ZMusic.send.sendAM(player, "[Lyric]");
+            ZMusic.send.sendAM(player, "[Info]");
         }
         PlayerStatus.setPlayerMusicName(player, null);
         PlayerStatus.setPlayerMusicSinger(player, null);
@@ -96,165 +79,115 @@ public class OtherUtils {
         PlayerStatus.setPlayerPlaySource(player, null);
     }
 
-    /**
-     * 检查更新
-     *
-     * @param ver    当前版本
-     * @param sender CommandSender
-     */
-    public static void checkUpdate(String ver, CommandSender sender) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-
-                String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
-                if (jsonText != null) {
-                    Gson gson = new Gson();
-                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                    String latestVer = json.get("latestVer").getAsString();
-                    int latestVerCode = json.get("latestVerCode").getAsInt();
-                    String updateLog = json.get("updateLog").getAsString();
-                    String downloadUrl = json.get("downloadUrl").getAsString();
-                    String updateUrl = json.get("updateUrl").getAsString();
-                    String updateMD5 = json.get("updateMD5").getAsString();
-                    if (Val.thisVerCode < latestVerCode) {
-                        Val.isLatest = false;
-                        Val.latestVer = latestVer;
-                        Val.updateLog = updateLog;
-                        Val.downloadUrl = downloadUrl;
-                        Val.updateUrl = updateUrl;
-                        LogUtils.sendNormalMessage("发现新版本 V" + Val.latestVer);
-                        LogUtils.sendNormalMessage("更新日志:");
-                        String[] log = Val.updateLog.split("\\n");
-                        for (String s : log) {
-                            LogUtils.sendNormalMessage(s);
+    public static void checkUpdate(String ver) {
+        ZMusic.runTask.start(() -> {
+            String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
+            if (jsonText != null) {
+                Gson gson = new Gson();
+                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                String latestVer = json.get("latestVer").getAsString();
+                int latestVerCode = json.get("latestVerCode").getAsInt();
+                String updateLog = json.get("updateLog").getAsString();
+                String downloadUrl = json.get("downloadUrl").getAsString();
+                String updateUrl = json.get("updateUrl").getAsString();
+                String updateMD5 = json.get("updateMD5").getAsString();
+                if (Val.thisVerCode < latestVerCode) {
+                    Val.isLatest = false;
+                    Val.latestVer = latestVer;
+                    Val.updateLog = updateLog;
+                    Val.downloadUrl = downloadUrl;
+                    Val.updateUrl = updateUrl;
+                    ZMusic.log.sendNormalMessage("发现新版本 V" + Val.latestVer);
+                    ZMusic.log.sendNormalMessage("更新日志:");
+                    String[] log = Val.updateLog.split("\\n");
+                    for (String s : log) {
+                        ZMusic.log.sendNormalMessage(s);
+                    }
+                    if (Conf.update) {
+                        ZMusic.log.sendNormalMessage("已开启自动更新，正在下载最新版本中....");
+                        File file = ZMusic.dataFolder;
+                        file = new File(file, "ZMusic-" + latestVer + ".jar");
+                        String md5 = "";
+                        try {
+                            md5 = getMD5Three(file.getAbsolutePath());
+                        } catch (IOException | NoSuchAlgorithmException e) {
+                            ZMusic.log.sendDebugMessage(e.getMessage());
                         }
-                        if (Config.update) {
-                            LogUtils.sendNormalMessage("已开启自动更新，正在下载最新版本中....");
-                            File file = Bukkit.getUpdateFolderFile();
-                            file = new File(file, "ZMusic-" + latestVer + ".jar");
-                            String md5 = "";
+                        if (!md5.equals(updateMD5)) {
                             try {
-                                md5 = getMD5Three(file.getAbsolutePath());
-                            } catch (IOException | NoSuchAlgorithmException e) {
-                                LogUtils.sendDebugMessage(e.getMessage());
+                                OtherUtils.writeToLocal(file.getAbsolutePath(), NetUtils.getNetInputStream(updateUrl));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            if (!md5.equals(updateMD5)) {
-                                try {
-                                    writeToLocal(file.getAbsolutePath(), NetUtils.getNetInputStream(updateUrl));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            if (Bukkit.getPluginManager().isPluginEnabled("Yum")) {
-                                LogUtils.sendNormalMessage("下载完成，请输入/yum upgrade更新插件.");
-                            } else {
-                                LogUtils.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.");
-                            }
-                        } else {
-                            LogUtils.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + Val.downloadUrl);
                         }
+                        ZMusic.log.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.");
                     } else {
-                        LogUtils.sendNormalMessage("已是最新版本!");
-                        Val.isLatest = true;
+                        ZMusic.log.sendNormalMessage("下载地址: §e§n" + Val.downloadUrl);
                     }
                 } else {
-                    LogUtils.sendErrorMessage("检查更新失败!");
+                    ZMusic.log.sendNormalMessage("已是最新版本!");
                     Val.isLatest = true;
-                    if (sender != null) {
-                        if (sender instanceof Player) {
-                            Player player = (Player) sender;
-                            if (player.hasPermission("zmusic.admin") || player.isOp()) {
-                                MessageUtils.sendErrorMessage("检查更新失败!", player);
-                            }
-                        }
-                    }
                 }
+            } else {
+                ZMusic.log.sendErrorMessage("检查更新失败!");
+                Val.isLatest = true;
             }
-        }.runTaskAsynchronously(ZMusicBukkit.plugin);
+        });
     }
 
     /**
      * 登录网易云音乐
      */
-    public static void loginNetease(CommandSender sender) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    Player player = null;
-                    if (sender instanceof Player) {
-                        player = (Player) sender;
+    public static void loginNetease() {
+        ZMusic.runTask.start(() -> {
+            try {
+                if (!Conf.neteaseAccount.equalsIgnoreCase("18888888888")) {
+                    ZMusic.log.sendNormalMessage("正在尝试登录网易云音乐...");
+                    String s = null;
+                    if (Conf.neteaseloginType.equalsIgnoreCase("phone")) {
+                        s = Conf.neteaseApiRoot + "login/cellphone?phone=" + Conf.neteaseAccount + "&md5_password=" + URLEncoder.encode(Conf.neteasePassword, "UTF-8");
+                    } else if (Conf.neteaseloginType.equalsIgnoreCase("email")) {
+                        s = Conf.neteaseApiRoot + "login?email=" + Conf.neteaseAccount + "&md5_password=" + URLEncoder.encode(Conf.neteasePassword, "UTF-8");
                     }
-                    if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
-                        if (player != null) {
-                            MessageUtils.sendNormalMessage("正在尝试登录网易云音乐...", player);
-                        }
-                        LogUtils.sendNormalMessage("正在尝试登录网易云音乐...");
-                        String s = null;
-                        String c = null;
-                        if (Config.neteaseloginType.equalsIgnoreCase("phone")) {
-                            s = Config.neteaseApiRoot + "login/cellphone";
-                            c = "phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
-                        } else if (Config.neteaseloginType.equalsIgnoreCase("email")) {
-                            s = Config.neteaseApiRoot + "login";
-                            c = "email=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
-                        }
-                        String jsonText = NetUtils.getNetString(s, null, c);
-                        Gson gson = new GsonBuilder().create();
-                        JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                        if (jsonText != null) {
-                            Val.neteaseCookie = URLEncoder.encode(json.get("cookie").getAsString(), "UTF-8");
-                            if (player != null) {
-                                MessageUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), player);
-                            }
-                            LogUtils.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
-                            if (Config.neteaseFollow) {
-                                // 关注“QG真心”的网易云账号
-                                LogUtils.sendDebugMessage(NetUtils.getNetString(Config.neteaseApiRoot + "follow?id=265857414&t=1", null));
-                            }
-                        } else {
-                            if (player != null) {
-                                MessageUtils.sendNormalMessage("登录失败: 请检查账号密码是否正确。", player);
-                            }
-                            LogUtils.sendErrorMessage("登录失败: 请检查账号密码是否正确。");
+                    String jsonText = NetUtils.getNetString(s, null);
+                    Gson gson = new GsonBuilder().create();
+                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                    if (jsonText != null) {
+                        ZMusic.log.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
+                        if (Conf.neteaseFollow) {
+                            // 关注“QG真心”的网易云账号
+                            ZMusic.log.sendDebugMessage(NetUtils.getNetString(Conf.neteaseApiRoot + "follow?id=265857414&t=1", null));
                         }
                     } else {
-                        if (player != null) {
-                            MessageUtils.sendNormalMessage("登录失败：请在配置文件设置账号密码。", player);
-                        }
-                        LogUtils.sendErrorMessage("登录失败：请在配置文件设置账号密码。");
+                        ZMusic.log.sendErrorMessage("登录失败: 请检查账号密码是否正确。");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    ZMusic.log.sendErrorMessage("登录失败：请在配置文件设置账号密码。");
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }.runTaskAsynchronously(ZMusicBukkit.plugin);
+        });
     }
 
-    public static void neteaseHotComments(Player player, String musicName) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                try {
-                    Gson gson = new GsonBuilder().create();
-                    JsonObject json = NeteaseCloudMusic.getMusicUrl(musicName);
-                    String musicId = json.get("id").getAsString();
-                    JsonObject jsonObject = gson.fromJson(NetUtils.getNetString("http://netease.api.zhenxin.xyz/comment/hot?limit=3&type=0&id=" + musicId, null), JsonObject.class);
-                    JsonArray jsonArray = jsonObject.get("hotComments").getAsJsonArray();
-                    MessageUtils.sendNormalMessage("====== [" + json.get("name").getAsString() + "] 的热门评论 =====", player);
-                    for (JsonElement j : jsonArray) {
-                        MessageUtils.sendNormalMessage(j.getAsJsonObject().get("content").getAsString() + "\nBy: "
-                                + j.getAsJsonObject().get("user").getAsJsonObject().get("nickname").getAsString(), player);
-                    }
-                    MessageUtils.sendNormalMessage("=================================", player);
-                } catch (Exception e) {
-                    MessageUtils.sendErrorMessage("获取评论失败。", player);
+    public static void neteaseHotComments(Object player, String musicName) {
+        ZMusic.runTask.start(() -> {
+            try {
+                Gson gson = new GsonBuilder().create();
+                JsonObject json = NeteaseCloudMusic.getMusicUrl(musicName);
+                String musicId = json.get("id").getAsString();
+                JsonObject jsonObject = gson.fromJson(NetUtils.getNetString("http://netease.api.zhenxin.xyz/comment/hot?limit=3&type=0&id=" + musicId, null), JsonObject.class);
+                JsonArray jsonArray = jsonObject.get("hotComments").getAsJsonArray();
+                ZMusic.message.sendNormalMessage("====== [" + json.get("name").getAsString() + "] 的热门评论 =====", player);
+                for (JsonElement j : jsonArray) {
+                    ZMusic.message.sendNormalMessage(j.getAsJsonObject().get("content").getAsString() + "\nBy: "
+                            + j.getAsJsonObject().get("user").getAsJsonObject().get("nickname").getAsString(), player);
                 }
+                ZMusic.message.sendNormalMessage("=================================", player);
+            } catch (Exception e) {
+                ZMusic.message.sendErrorMessage("获取评论失败。", player);
             }
-        }.runTaskAsynchronously(ZMusicBukkit.plugin);
+        });
     }
 
     /**
@@ -368,7 +301,7 @@ public class OtherUtils {
         int s = Integer.parseInt(sec);
         int ms = Integer.parseInt(mill);
         if (s >= 60) {
-            LogUtils.sendErrorMessage("警告: 出现了一个时间不正确的项 --> [" + min + ":" + sec + "." + mill.substring(0, 2) + "]");
+            ZMusic.log.sendErrorMessage("警告: 出现了一个时间不正确的项 --> [" + min + ":" + sec + "." + mill.substring(0, 2) + "]");
         }
         return (m * 60 * 1000 + s * 1000 + ms) / 1000;
     }

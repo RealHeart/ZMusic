@@ -1,7 +1,8 @@
 package cn.iqianye.mc.zmusic.api;
 
-import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.utils.LogUtils;
+import cn.iqianye.mc.zmusic.ZMusic;
+import cn.iqianye.mc.zmusic.ZMusicBukkit;
+import cn.iqianye.mc.zmusic.config.Conf;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,7 +41,7 @@ public class AdvancementAPI {
 
     {
         ver = Bukkit.getServer().getClass().getPackage().getName().split("org.bukkit.craftbukkit.v")[1];
-        LogUtils.sendDebugMessage("[进度] NMS版本: " + ver);
+        ZMusic.log.sendDebugMessage("[进度] NMS版本: " + ver);
         Version version = new Version();
         if (version.isHigherThan("1.12")) {
             icons = new String[]{
@@ -72,28 +73,28 @@ public class AdvancementAPI {
         Random random = new Random();
         int r = random.nextInt(icons.length);
         this.icon = icons[r];
-        if (Config.debug) {
-            LogUtils.sendDebugMessage("[进度] 随机图标: " + icon);
+        if (Conf.debug) {
+            ZMusic.log.sendDebugMessage("[进度] 随机图标: " + icon);
         }
     }
 
-    public AdvancementAPI(String id, String title, JavaPlugin pl) {
-        this(new NamespacedKey(pl, id), title, pl);
+    public AdvancementAPI(String title) {
+        this(new NamespacedKey(ZMusicBukkit.plugin, String.valueOf(System.currentTimeMillis())), title);
     }
 
-    public AdvancementAPI(NamespacedKey id, String title, JavaPlugin pl) {
+    public AdvancementAPI(NamespacedKey id, String title) {
         this.id = id;
         this.title = title;
         this.description = "Zmusic 专用成就";
-        this.pl = pl;
+        this.pl = ZMusicBukkit.plugin;
     }
 
-    public AdvancementAPI(NamespacedKey id, String title, JavaPlugin pl, String frame) {
+    public AdvancementAPI(NamespacedKey id, String title, String frame) {
         this.id = id;
         this.title = title;
         this.description = "Zmusic 专用成就";
-        this.pl = pl;
         this.frame = frame;
+        this.pl = ZMusicBukkit.plugin;
     }
 
     public String getIcon() {
@@ -407,11 +408,12 @@ public class AdvancementAPI {
     }
 
 
-    public void sendAdvancement(Player p) {
+    public void sendAdvancement(Object p) {
+        Player player = (Player) p;
         add();
-        grant(p);
+        grant(player);
         Bukkit.getScheduler().runTaskLater(pl, () -> {
-            revoke(p);
+            revoke(player);
             remove();
         }, 20L);
     }

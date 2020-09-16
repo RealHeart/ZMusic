@@ -1,7 +1,5 @@
 package cn.iqianye.mc.zmusic.other;
 
-import org.bukkit.entity.Player;
-
 public class Val {
     public static String thisVer;
     public static int thisVerCode = 202009150;
@@ -11,15 +9,10 @@ public class Val {
     public static String downloadUrl;
     public static String updateUrl;
 
-    public static String neteaseCookie;
-
     public static boolean bilibiliIsVIP = false;
 
     public static boolean isViaVer = true;
 
     public static boolean isEnable = true;
 
-    public static boolean isSendAdvancement = false;
-    public static Player advPlayer;
-    public static String advMessage;
 }

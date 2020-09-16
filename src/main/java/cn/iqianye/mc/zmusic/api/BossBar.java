@@ -1,8 +1,6 @@
 package cn.iqianye.mc.zmusic.api;
 
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,8 +15,9 @@ public class BossBar {
     static org.bukkit.boss.BossBar bar;
     public final JavaPlugin plugin;
 
-    public BossBar(Player p, String title, BarColor color, BarStyle style, double seconds) {
-        BossBar.p = p;
+    public BossBar(Object p, String title, BarColor color, BarStyle style, double seconds) {
+        Player player = (Player) p;
+        BossBar.p = player;
         BossBar.title = title;
         BossBar.color = color;
         BossBar.style = style;
@@ -27,19 +26,38 @@ public class BossBar {
     }
 
     public void showTitle() {
-        bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
+        bar = org.bukkit.Bukkit.getServer().createBossBar(title, org.bukkit.boss.BarColor.valueOf(color.name()), org.bukkit.boss.BarStyle.valueOf(style.name()));
         bar.setVisible(true);
         bar.setProgress(0);
         bar.addPlayer(p);
         new bartimer(bar).runTaskAsynchronously(plugin);
     }
 
+    public void removePlayer(Object player) {
+        Player p = (Player) player;
+        bar.removePlayer(p);
+    }
+
+    public enum BarStyle {
+        SOLID,
+        SEGMENTED_6,
+        SEGMENTED_10,
+        SEGMENTED_12,
+        SEGMENTED_20;
+    }
+
     public void setTitle(String title) {
         bar.setTitle(title);
     }
 
-    public void removePlayer(Player player) {
-        bar.removePlayer(player);
+    public enum BarColor {
+        PINK,
+        BLUE,
+        RED,
+        GREEN,
+        YELLOW,
+        PURPLE,
+        WHITE;
     }
 
     static class bartimer extends BukkitRunnable {

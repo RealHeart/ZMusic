@@ -1,15 +1,14 @@
 package cn.iqianye.mc.zmusic.music;
 
-import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.ZMusic;
+import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
-import cn.iqianye.mc.zmusic.utils.MessageUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.entity.Player;
 
 public class SearchMusic {
     static String musicID;
@@ -19,8 +18,8 @@ public class SearchMusic {
     static String searchSourceName;
     static JsonArray json;
 
-    public static void sendList(String searchKey, String source, Player player, String cmdName) {
-        MessageUtils.sendNormalMessage("正在搜索中...", player);
+    public static void sendList(String searchKey, String source, Object player) {
+        ZMusic.message.sendNormalMessage("正在搜索中...", player);
         switch (source) {
             case "163":
             case "netease":
@@ -44,19 +43,19 @@ public class SearchMusic {
                 searchSourceName = "哔哩哔哩音乐";
                 break;
             default:
-                MessageUtils.sendErrorMessage("错误：未知的搜索源", player);
+                ZMusic.message.sendErrorMessage("错误：未知的搜索源", player);
                 return;
         }
         if (json != null) {
-            MessageUtils.sendNormalMessage("§6=========================================", player);
-            MessageUtils.sendNormalMessage("在" + searchSourceName + "搜索到以下结果", player);
+            ZMusic.message.sendNormalMessage("§6=========================================", player);
+            ZMusic.message.sendNormalMessage("在" + searchSourceName + "搜索到以下结果", player);
             int i = 1;
             for (JsonElement j : json) {
 
                 musicName = j.getAsJsonObject().get("name").getAsString();
                 musicSinger = j.getAsJsonObject().get("singer").getAsString();
                 musicFullName = musicName + " - " + musicSinger;
-                TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + musicFullName);
+                TextComponent message = new TextComponent(Conf.prefix + "§a" + i + "." + musicFullName);
                 i++;
                 TextComponent play = new TextComponent("§r[§e播放§r]§r");
                 TextComponent music = new TextComponent("§r[§e点歌§r]§r");
@@ -65,11 +64,11 @@ public class SearchMusic {
                         source.equalsIgnoreCase("qq") ||
                         source.equalsIgnoreCase("bilibili")) {
                     musicID = j.getAsJsonObject().get("id").getAsString();
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " -id:" + musicID));
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " -id:" + musicID));
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " -id:" + musicID));
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " -id:" + musicID));
                 } else {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " play " + source + " " + musicName));
-                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmdName + " music " + source + " " + musicName));
+                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
+                    music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicName));
                 }
                 play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                 music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击点歌").create()));
@@ -77,15 +76,15 @@ public class SearchMusic {
                 message.addExtra(play);
                 message.addExtra(" ");
                 message.addExtra(music);
-                player.spigot().sendMessage(message);
+                ZMusic.message.sendJsonMessage(message, player);
             }
-            MessageUtils.sendNormalMessage("§6=========================================", player);
+            ZMusic.message.sendNormalMessage("§6=========================================", player);
         } else {
-            MessageUtils.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
-            MessageUtils.sendErrorMessage("1.搜索的音乐不存在或已下架", player);
-            MessageUtils.sendErrorMessage("2.搜索的音乐为付费音乐", player);
-            MessageUtils.sendErrorMessage("3.搜索的音乐为试听音乐", player);
-            MessageUtils.sendErrorMessage("4.服务器网络异常", player);
+            ZMusic.message.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
+            ZMusic.message.sendErrorMessage("1.搜索的音乐不存在或已下架", player);
+            ZMusic.message.sendErrorMessage("2.搜索的音乐为付费音乐", player);
+            ZMusic.message.sendErrorMessage("3.搜索的音乐为试听音乐", player);
+            ZMusic.message.sendErrorMessage("4.服务器网络异常", player);
         }
     }
 }

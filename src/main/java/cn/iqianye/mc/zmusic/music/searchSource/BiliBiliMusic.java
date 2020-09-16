@@ -1,6 +1,6 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
-import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.config.Conf;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
 
@@ -39,7 +39,7 @@ public class BiliBiliMusic {
             JsonObject urlJson = gson.fromJson(urlJsonText, JsonObject.class);
             String musicUrl = urlJson.get("data").getAsJsonObject().get("cdns").getAsJsonArray().get(0).getAsString();
             musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php", null,
-                    "qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"));
+                    "qq=" + Conf.bilibiliQQ + "&key=" + Conf.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"));
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("id", musicId);
             returnJSON.addProperty("url", musicUrl);

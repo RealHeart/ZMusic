@@ -6,7 +6,7 @@
 
     <groupId>cn.iqianye.mc</groupId>
     <artifactId>ZMusic</artifactId>
-    <version>1.10</version>
+    <version>2.0-pre</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
