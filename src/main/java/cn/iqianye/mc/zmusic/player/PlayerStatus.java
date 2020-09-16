@@ -41,6 +41,8 @@ public class PlayerStatus {
     // 歌单播放类型
     private static final Map<Object, String> playListType = new HashMap<>();
 
+    private static final Map<Object, JsonObject> jsonMap = new HashMap<>();
+
     /**
      * 获取玩家播放状态
      *
@@ -80,10 +82,26 @@ public class PlayerStatus {
     public static void setPlayerMusicName(Object player, String musicName) {
         musicNameMap.put(player, musicName);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("name", musicName);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
+    }
+
+    private static JsonObject getJson(Object player) {
+        JsonObject json = jsonMap.get(player);
+        if (json == null) {
+            json = new JsonObject();
+            json.addProperty("name", "");
+            json.addProperty("singer", "");
+            json.addProperty("lyric", "");
+            json.addProperty("currentTime", "");
+            json.addProperty("maxTime", "");
+            json.addProperty("platform", "");
+            json.addProperty("src", "");
+        }
+        return json;
     }
 
     /**
@@ -105,8 +123,9 @@ public class PlayerStatus {
     public static void setPlayerMusicSinger(Object player, String singerName) {
         musicSingerMap.put(player, singerName);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("singer", singerName);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
     }
@@ -130,8 +149,9 @@ public class PlayerStatus {
     public static void setPlayerPlatform(Object player, String platform) {
         platformMap.put(player, platform);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("platform", platform);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
     }
@@ -155,8 +175,9 @@ public class PlayerStatus {
     public static void setPlayerPlaySource(Object player, String src) {
         playSourceMap.put(player, src);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("src", src);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
     }
@@ -220,7 +241,7 @@ public class PlayerStatus {
     public static void setPlayerCurrentTime(Object player, Long time) {
         currentTimeMap.put(player, time);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("currentTime", time);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
@@ -245,8 +266,9 @@ public class PlayerStatus {
     public static void setPlayerMaxTime(Object player, Long time) {
         maxTimeMap.put(player, time);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("maxTime", time);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
     }
@@ -270,8 +292,9 @@ public class PlayerStatus {
     public static void setPlayerLyric(Object player, String lyric) {
         lyricMap.put(player, lyric);
         if (ZMusic.isBC) {
-            JsonObject json = new JsonObject();
+            JsonObject json = getJson(player);
             json.addProperty("lyric", lyric);
+            jsonMap.put(player, json);
             ZMusic.send.sendZMPapi(player, json.toString());
         }
     }
