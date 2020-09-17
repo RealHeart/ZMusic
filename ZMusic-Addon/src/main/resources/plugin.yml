@@ -1,0 +1,9 @@
+name: ZMusic-Addon
+main: cn.iqianye.mc.zmusic.papi.Addon
+version: ${pom.version}
+api-version: '1.13'
+author: 真心
+description: 真心音乐系统-扩展插件
+softdepend:
+  - ZMusic
+  - PlaceholderAPI

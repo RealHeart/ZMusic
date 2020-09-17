@@ -15,12 +15,18 @@
 * 个人歌单
 * 全服歌单
 * 歌单播放(QQ/网易云)
-* 音量调节(AllMusic支持)
+* 音量调节(1.12及以上支持)
+* 支持BungeeCord
 
 ## 客户端Mod说明
 本插件需要客户端安装配套Mod才能正常播放  
 * 对于1.7.10-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
 * 对于1.12.2-1.16.2的客户端 请安装[`AllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
+
+## BungeeCord说明
+* BungeeCord 目前仅支持1.9-1.16的服务端
+* BungeeCord 暂不支持经济系统
+* 对于子服显示Papi变量 进度提示等功能 需要安装ZMusic-Addon插件
 
 ## 视频
 
@@ -47,18 +53,9 @@
 
 ### 命令
 
-`/zm play`
+`/zm play [搜索源] [歌名]`
 
-### 参数
-`搜索源` 要搜索音乐的平台  
-目前支持以下平台  
-* qq - QQ音乐  
-* netease/163 - 网易云音乐  
-* kugou - 酷狗音乐  
-* kuwo - 酷我音乐  
-* bilibili - 哔哩哔哩音乐  
-
-`歌名` 要播放的歌名
+[搜索源说明](#搜索源说明)
 
 ### 示例
 `/zm play qq 你的猫咪`
@@ -69,18 +66,9 @@
 
 ### 命令
 
-`/zm music`
+`/zm music [搜索源] [歌名]`  
 
-### 参数
-`搜索源` 要搜索音乐的平台  
-目前支持以下平台  
-* qq - QQ音乐  
-* netease/163 - 网易云音乐  
-* kugou - 酷狗音乐  
-* kuwo - 酷我音乐  
-* bilibili - 哔哩哔哩音乐  
-
-`歌名` 要点播的歌名
+[搜索源说明](#搜索源说明) [歌名ID化说明](#歌名ID化说明)
 
 ### 示例
 `/zm music qq 你的猫咪`
@@ -91,19 +79,9 @@
 
 ### 命令
 
-`/zm search`
+`/zm search [搜索源] [歌名]`
 
-### 参数
-`搜索源` 要搜索音乐的平台  
-目前支持以下平台  
-* qq - QQ音乐  
-* netease/163 - 网易云音乐  
-* kugou - 酷狗音乐  
-* kuwo - 酷我音乐  
-* bilibili - 哔哩哔哩音乐  
-
-`歌名` 要搜索的歌名  
-`:au号` 哔哩哔哩专用
+[搜索源说明](#搜索源说明) [歌名ID化说明](#歌名ID化说明)
 
 ### 示例
 `/zm search qq 你的猫咪`
@@ -114,11 +92,8 @@
 
 ### 命令
 
-`/zm playlist`
+`/zm playlist [平台] [子命令]`
 
-### 参数
-
-`平台/type` 要搜索音乐的平台  
 目前支持以下平台  
 * qq - QQ音乐  
 * netease/163 - 网易云音乐
@@ -160,29 +135,16 @@
 ## 管理员
 管理员相关操作，全服强制播放，重载配置等
 
-### 主命令
+### 命令
+`/zm palyall [搜索源] [歌名]` 强制全服播放
+`/zm stopAll` 强制停止全服播放  
+`/zm reload` 重载配置文件
 
-`/zm`
+[搜索源说明](#搜索源说明) [歌名ID化说明](#歌名ID化说明)
 
-### 子命令
-
-`playAll` 强制全服播放
-* 参数
-   * `搜索源` 要搜索音乐的平台  
-   目前支持以下平台  
-     * qq - QQ音乐  
-     * netease/163 - 网易云音乐  
-     * kugou - 酷狗音乐  
-     * kuwo - 酷我音乐  
-     * bilibili - 哔哩哔哩音乐 
-   * `歌名` 要播放的歌名
-
-* 示例
+### 示例
 
 `/zm playAll qq 你的猫咪`
-
-`stopAll` 强制停止全服播放  
-`reload` 重载配置文件  
 
 # 权限
 
@@ -196,99 +158,118 @@
 
 # 配置文件
 
-```yaml
-# 配置文件版本(请勿修改)
-version: 6
-# 是否自动下载插件更新
-update: false
-# 插件提示信息显示前缀
-prefix: '&bZMusic &e>>> &r'
-
-# 是否开启调试模式
-debug: false
-
-# API设置
-api:
-  # 网易云音乐API地址
-  #
-  # 使用开源项目NeteaseCloudMusicApi
-  # 推荐自行部署，需Node.js环境
-  # 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
-  netease: 'https://netease.api.zhenxin.xyz/'
-  # QQ音乐API地址
-  # 
-  # 使用开源项目QQMusicApi
-  # 推荐自行部署，需Node.js环境
-  # 地址: https://github.com/jsososo/QQMusicApi
-  qq: 'https://qqmusic.api.zhenxin.xyz/'
-
-# 账号设置
-account:
-  # 网易云音乐
-  netease:
-    # 登录方式
-    #
-    # email - 邮箱登录(密码处填写邮箱密码)
-    # phone - 手机号登录(密码处填写网易云密码)
-    loginType: phone
-    # 账号
-    #
-    # 邮箱登录填写邮箱
-    # 手机号登录填写手机号
-    account: 18888888888
-    # 密码
-    #
-    # 邮箱登录填写邮箱密码
-    # 手机号登录填写网易云密码
-    password: a123456
-    # 密码方式
-    #
-    # normal = 纯密码 由插件通过md5加密上传到服务器验证
-    # md5 = 纯md5 由用户通过md5加密设置在配置文件 插件读取上传到服务器验证
-    passwordType: normal
-    # 是否关注作者的网易云音乐账号
-    follow: true
-  # 哔哩哔哩
-  bilibili:
-    # 由于哔哩哔哩为m4a音频格式
-    # 需要服务器用来转换
-    # 因此哔哩哔哩播放功能收费5元/永久
-    # 联系作者获取授权
-    #
-    # 授权QQ
-    qq: 1307993674
-    # 授权Key
-    key: none
-
-# 点歌设置
-music:
-  # 点歌扣除的金币(设置为0则不扣除)
-  # 拥有zmusic.bypass的玩家无视扣除
-  money: 10
-  # 点歌的冷却时间(设置为0则无冷却)
-  # 拥有zmusic.bypass的玩家无视冷却
-  cooldown: 5
-
-# 歌词设置
-lyric:
-  # 是否启用歌词
-  enable: true
-  # 是否显示歌词翻译
-  showLyricTr: true
-  # 以下为显示方式设置，可同时启用
-  # 是否使用BossBar显示歌词(不支持1.8及以下)
-  bossBar: true
-  # 是否使用ActionBar显示歌词
-  actionBar: false
-  # 是否使用Title显示歌词
-  subTitle: false
-  # 是否使用聊天信息显示歌词
-  chatMessage: false
+```json
+{
+  /// 配置文件版本(请勿修改)
+  "version": 9,
+  /// 是否自动下载插件更新
+  "update": false,
+  /// 插件提示信息显示前缀
+  "prefix": "&bZMusic &e>>> &r",
+  /// 是否开启调试模式
+  "debug": false,
+  /// API设置
+  "api": {
+    /// 网易云音乐API地址
+    ///
+    /// 使用开源项目NeteaseCloudMusicApi
+    /// 推荐自行部署，需Node.js环境
+    /// 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
+    "netease": "https://netease.api.zhenxin.xyz/",
+    /// QQ音乐API地址
+    ///
+    /// 使用开源项目QQMusicApi
+    /// 推荐自行部署，需Node.js环境
+    /// 地址: https://github.com/jsososo/QQMusicApi
+    "qq": "https://qqmusic.api.zhenxin.xyz/"
+  },
+  /// 账号设置
+  "account": {
+    /// 网易云音乐
+    "netease": {
+      /// 登录方式
+      ///
+      /// email - 邮箱登录(密码处填写邮箱密码)
+      /// phone - 手机号登录(密码处填写网易云密码)
+      "loginType": "phone",
+      /// 账号
+      ///
+      /// 邮箱登录填写邮箱
+      /// 手机号登录填写手机号
+      "account": "18888888888",
+      /// 密码
+      ///
+      /// 邮箱登录填写邮箱密码
+      /// 手机号登录填写网易云密码
+      "password": "a123456",
+      /// 密码方式
+      ///
+      /// normal = 纯密码 由插件通过md5加密上传到服务器验证
+      /// md5 = 纯md5 由用户通过md5加密设置在配置文件 插件读取上传到服务器验证
+      "passwordType": "normal",
+      /// 是否关注作者的网易云音乐账号
+      "follow": true
+    },
+    /// 哔哩哔哩
+    "bilibili": {
+      /// 由于哔哩哔哩为m4a音频格式
+      /// 需要服务器用来转换
+      /// 因此哔哩哔哩播放功能收费5元/永久
+      /// 联系作者获取授权
+      ///
+      /// 授权QQ
+      "qq": "1307993674",
+      /// 授权Key
+      "key": "none"
+    }
+  },
+  /// 点歌设置
+  "music": {
+    /// 点歌扣除的金币(设置为0则不扣除)
+    /// 拥有zmusic.bypass的玩家无视扣除
+    "money": 10,
+    /// 点歌的冷却时间(设置为0则无冷却)
+    /// 拥有zmusic.bypass的玩家无视冷却
+    "cooldown": 5
+  },
+  /// 歌词设置
+  "lyric": {
+    /// 是否启用歌词
+    "enable": true,
+    /// 是否显示歌词翻译
+    "showLyricTr": true,
+    /// 歌词颜色
+    "color": "&b",
+    /// 以下为显示方式设置，可同时启用
+    /// 是否使用BossBar显示歌词(不支持1.8及以下)
+    "bossBar": true,
+    /// 是否使用ActionBar显示歌词
+    "actionBar": false,
+    /// 是否使用Title显示歌词
+    "subTitle": false,
+    /// 是否使用聊天信息显示歌词
+    "chatMessage": false,
+    /// Hud 设置(仅支持1.12及以上)
+    "hud": {
+      /// 是否启用Hud
+      "enable": true,
+      /// 信息的X坐标
+      "infoX": 2,
+      /// 信息的Y坐标
+      "infoY": 12,
+      /// 歌词的X坐标
+      "lyricX": 2,
+      /// 歌词的Y坐标
+      "lyricY": 72
+    }
+  }
+}
 ```
 
 # 变量
 
-`%zmusic_playing_name%` 获取当前播放的音乐名称  
+`%zmusic_playing_name%` 获取当前播放的音乐歌名  
+`%zmusic_playing_singer%` 获取当前播放的音乐歌手  
 `%zmusic_playing_lyric%` 获取当前时间显示的歌词  
 `%zmusic_time_current%` 获取当前播放的音乐的时间  
 `%zmusic_time_max%` 获取当前播放的音乐的最大时间  
@@ -311,3 +292,17 @@ lyric:
 ~~[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装~~  
 ~~[```BossBarAPI```](https://www.mcbbs.net/thread-729531-1-1.html) [可选] 如需使用BossBar显示歌词 请安装~~  
 ~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~  
+
+## 搜索源说明
+`搜索源` 为你要搜索音乐的平台  
+目前支持以下平台  
+* qq - QQ音乐  
+* netease/163 - 网易云音乐  
+* kugou - 酷狗音乐  
+* kuwo - 酷我音乐  
+* bilibili - 哔哩哔哩音乐  
+
+## 歌名ID化说明
+将歌名替换为 `-id:音乐ID` 即可
+目前支持 QQ 网易云 哔哩哔哩音乐
+示例: `/zm play bilibili -id:374305`
