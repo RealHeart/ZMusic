@@ -5,7 +5,6 @@ import cn.iqianye.mc.zmusic.papi.data.PlayerData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -19,7 +18,6 @@ public class PluginMessage implements PluginMessageListener {
         String message = new String(bytes, StandardCharsets.UTF_8).substring(1);
         Gson gson = new GsonBuilder().create();
         JsonObject json = gson.fromJson(message, JsonObject.class);
-        Bukkit.getServer().getLogger().info(message);
         if (Addon.isSupportAdv) {
             try {
                 boolean isAdv = json.get("isAdv").getAsBoolean();
