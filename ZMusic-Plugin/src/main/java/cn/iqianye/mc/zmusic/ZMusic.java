@@ -25,7 +25,7 @@ public class ZMusic {
 
     public static File dataFolder;
     public static String thisVer;
-    public static int thisVerCode = 202009170;
+    public static int thisVerCode = 202009190;
     public static boolean bilibiliIsVIP = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;

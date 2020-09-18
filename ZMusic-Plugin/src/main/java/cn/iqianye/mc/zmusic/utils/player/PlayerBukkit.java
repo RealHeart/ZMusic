@@ -26,7 +26,7 @@ public class PlayerBukkit implements Player {
 
     @Override
     public boolean isPlayer(Object sender) {
-        return sender instanceof Player;
+        return sender instanceof org.bukkit.entity.Player;
     }
 
 }
