@@ -4,20 +4,21 @@ import cn.iqianye.mc.zmusic.config.Config;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class MessageBukkit implements Message {
 
     @Override
     public void sendNormalMessage(String message, Object playerObj) {
-        Player player = (Player) playerObj;
-        player.sendMessage(Config.prefix + ChatColor.GREEN + message);
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(Config.prefix + ChatColor.GREEN + message);
     }
 
     @Override
     public void sendErrorMessage(String message, Object playerObj) {
-        Player player = (Player) playerObj;
-        player.sendMessage(Config.prefix + ChatColor.RED + message);
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(Config.prefix + ChatColor.RED + message);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class MessageBukkit implements Message {
 
     @Override
     public void sendNull(Object playerObj) {
-        Player player = (Player) playerObj;
-        player.sendMessage(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助.");
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助.");
     }
 }

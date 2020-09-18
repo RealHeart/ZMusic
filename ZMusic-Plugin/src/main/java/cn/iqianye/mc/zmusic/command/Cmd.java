@@ -119,6 +119,7 @@ public class Cmd {
                             } else {
                                 ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                             }
+                            break;
                         case "stop":
                             if (ZMusic.player.isPlayer(sender)) {
                                 PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(sender);
@@ -133,6 +134,7 @@ public class Cmd {
                             } else {
                                 ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                             }
+                            break;
                         case "loop":
                             if (ZMusic.player.isPlayer(sender)) {
                                 if (PlayerData.getPlayerLoopPlay(sender) != null && PlayerData.getPlayerLoopPlay(sender)) {
@@ -288,7 +290,6 @@ public class Cmd {
                             "loop",
                             "search",
                             "url",
-                            "admin",
                             "playAll",
                             "stopAll",
                             "163hot",

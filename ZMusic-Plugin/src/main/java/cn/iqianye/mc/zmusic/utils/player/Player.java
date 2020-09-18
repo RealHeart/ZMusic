@@ -11,4 +11,6 @@ public interface Player {
     boolean isOnline(Object playerObj);
 
     boolean isPlayer(Object sender);
+
+    String getName(Object sender);
 }

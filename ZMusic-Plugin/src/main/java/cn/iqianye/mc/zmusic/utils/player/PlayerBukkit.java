@@ -1,6 +1,7 @@
 package cn.iqianye.mc.zmusic.utils.player;
 
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,11 @@ public class PlayerBukkit implements Player {
     @Override
     public boolean isPlayer(Object sender) {
         return sender instanceof org.bukkit.entity.Player;
+    }
+
+    @Override
+    public String getName(Object sender) {
+        return ((CommandSender) sender).getName();
     }
 
 }

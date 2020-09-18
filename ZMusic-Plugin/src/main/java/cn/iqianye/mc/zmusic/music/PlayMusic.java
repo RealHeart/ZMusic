@@ -99,14 +99,14 @@ public class PlayMusic {
             }
             switch (type) {
                 case "all":
-                    play(null, players, "管理员<" + player + ">强制播放");
+                    play(null, players, "管理员<" + ZMusic.player.getName(player) + ">强制播放");
                     ZMusic.message.sendNormalMessage("强制全部玩家播放音乐§r[§e" + musicFullName + "§r]§a成功!", player);
                     break;
                 case "self":
                     play(player, new ArrayList<>(), "搜索");
                     break;
                 case "music":
-                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + player + "§a在" + searchSourceName + "点了一首§r[");
+                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + ZMusic.player.getName(player) + "§a在" + searchSourceName + "点了一首§r[");
                     TextComponent music = new TextComponent(musicFullName);
                     music.setColor(ChatColor.YELLOW);
                     if (supportId) {

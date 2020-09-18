@@ -1,6 +1,7 @@
 package cn.iqianye.mc.zmusic.utils.player;
 
 import cn.iqianye.mc.zmusic.ZMusicBC;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
@@ -28,5 +29,10 @@ public class PlayerBC implements Player {
     @Override
     public boolean isPlayer(Object sender) {
         return sender instanceof ProxiedPlayer;
+    }
+
+    @Override
+    public String getName(Object sender) {
+        return ((CommandSender) sender).getName();
     }
 }

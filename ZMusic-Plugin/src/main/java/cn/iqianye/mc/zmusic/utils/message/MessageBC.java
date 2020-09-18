@@ -13,24 +13,14 @@ public class MessageBC implements Message {
 
     @Override
     public void sendNormalMessage(String message, Object playerObj) {
-        if (playerObj instanceof ProxiedPlayer) {
-            ProxiedPlayer player = (ProxiedPlayer) playerObj;
-            player.sendMessage(Config.prefix + ChatColor.GREEN + message);
-        } else if (playerObj instanceof CommandSender) {
-            CommandSender sender = (CommandSender) playerObj;
-            sender.sendMessage(Config.prefix + ChatColor.GREEN + message);
-        }
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(new TextComponent(Config.prefix + ChatColor.GREEN + message));
     }
 
     @Override
     public void sendErrorMessage(String message, Object playerObj) {
-        if (playerObj instanceof ProxiedPlayer) {
-            ProxiedPlayer player = (ProxiedPlayer) playerObj;
-            player.sendMessage(Config.prefix + ChatColor.RED + message);
-        } else if (playerObj instanceof CommandSender) {
-            CommandSender sender = (CommandSender) playerObj;
-            sender.sendMessage(Config.prefix + ChatColor.RED + message);
-        }
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(new TextComponent(Config.prefix + ChatColor.RED + message));
     }
 
     @Override
@@ -59,12 +49,7 @@ public class MessageBC implements Message {
 
     @Override
     public void sendNull(Object playerObj) {
-        if (playerObj instanceof ProxiedPlayer) {
-            ProxiedPlayer player = (ProxiedPlayer) playerObj;
-            player.sendMessage(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助.");
-        } else if (playerObj instanceof CommandSender) {
-            CommandSender sender = (CommandSender) playerObj;
-            sender.sendMessage(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助.");
-        }
+        CommandSender sender = (CommandSender) playerObj;
+        sender.sendMessage(new TextComponent(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助."));
     }
 }
