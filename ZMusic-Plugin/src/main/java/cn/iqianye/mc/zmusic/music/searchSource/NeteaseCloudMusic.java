@@ -1,6 +1,5 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
-import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
@@ -63,12 +62,6 @@ public class NeteaseCloudMusic {
                 } catch (Exception ignored) {
                 }
                 StringBuilder sb = new StringBuilder();
-                if (lyric.isEmpty()) {
-                    sb.append("未找到歌词信息\n");
-                }
-                if (lyricTr.isEmpty()) {
-                    sb.append("未找到歌词翻译\n");
-                }
                 JsonObject returnJson = new JsonObject();
                 returnJson.addProperty("id", musicID);
                 returnJson.addProperty("url", musicUrl);
@@ -166,7 +159,6 @@ public class NeteaseCloudMusic {
                 int songTime = jsonElement.getAsJsonObject().get("dt").getAsInt();
                 songTime = songTime / 1000;
                 JsonArray ar = jsonElement.getAsJsonObject().get("ar").getAsJsonArray();
-                ZMusic.log.sendDebugMessage(ar.toString());
                 StringBuilder singer = new StringBuilder();
                 for (JsonElement j : ar) {
                     try {

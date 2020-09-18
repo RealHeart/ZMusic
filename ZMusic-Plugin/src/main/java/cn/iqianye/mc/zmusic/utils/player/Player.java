@@ -9,4 +9,6 @@ public interface Player {
     List<Object> getOnlinePlayerList();
 
     boolean isOnline(Object playerObj);
+
+    boolean isPlayer(Object sender);
 }

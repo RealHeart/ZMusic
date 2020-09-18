@@ -24,4 +24,9 @@ public class PlayerBC implements Player {
         ProxiedPlayer player = (ProxiedPlayer) playerObj;
         return player.isConnected();
     }
+
+    @Override
+    public boolean isPlayer(Object sender) {
+        return sender instanceof ProxiedPlayer;
+    }
 }

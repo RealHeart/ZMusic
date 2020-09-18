@@ -5,8 +5,7 @@ import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.config.LoadConfig;
-import cn.iqianye.mc.zmusic.data.PlayerData;
-import cn.iqianye.mc.zmusic.music.PlayListPlayer;
+import cn.iqianye.mc.zmusic.event.EventBukkit;
 import cn.iqianye.mc.zmusic.papi.PApiHook;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
@@ -16,40 +15,34 @@ import cn.iqianye.mc.zmusic.utils.music.MusicBukkit;
 import cn.iqianye.mc.zmusic.utils.player.PlayerBukkit;
 import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBukkit;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ZMusicBukkit extends JavaPlugin implements Listener {
+public class ZMusicBukkit extends JavaPlugin {
 
     public static JavaPlugin plugin;
 
     @Override
     public void onEnable() {
+        ZMusic.log = new LogBukkit(getServer().getConsoleSender());
+        ZMusic.log.sendNormalMessage("正在加载中....");
+        CookieManager manager = new CookieManager();
+        CookieHandler.setDefault(manager);
         plugin = this;
         ZMusic.isBC = false;
-        ZMusic.log = new LogBukkit(getServer().getConsoleSender());
         ZMusic.runTask = new RunTaskBukkit();
         ZMusic.message = new MessageBukkit();
         ZMusic.music = new MusicBukkit();
         ZMusic.send = new SendBukkit();
         ZMusic.player = new PlayerBukkit();
         ZMusic.dataFolder = getDataFolder();
-        CookieManager manager = new CookieManager();
-        CookieHandler.setDefault(manager);
+        if (!ZMusic.dataFolder.exists())
+            ZMusic.dataFolder.mkdir();
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
         Version version = new Version();
-        ZMusic.log.sendNormalMessage("正在加载中....");
         //注册bStats
         MetricsBukkit bStats = new MetricsBukkit(this, 7291);
         //注册命令对应的执行器
@@ -75,8 +68,8 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
             ZMusic.log.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.12，频道注册取消.");
         }
         //注册事件监听器
-        getServer().getPluginManager().registerEvents(this, this);
-        OtherUtils.checkUpdate();
+        getServer().getPluginManager().registerEvents(new EventBukkit(), this);
+        OtherUtils.checkUpdate(getServer().getConsoleSender());
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             ZMusic.log.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
             boolean success = new PApiHook().register();
@@ -124,7 +117,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
             Config.realSupportAdvancement = false;
         }
         new LoadConfig().load();
-        OtherUtils.loginNetease();
+        OtherUtils.loginNetease(getServer().getConsoleSender());
         ZMusic.log.sendNormalMessage("成功加载配置文件!");
         ZMusic.log.sendNormalMessage("插件作者: 真心");
         ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
@@ -135,43 +128,7 @@ public class ZMusicBukkit extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        ZMusic.log.sendNormalMessage("正在卸载中....");
-        List<Player> players = new ArrayList<>(getServer().getOnlinePlayers());
-        if (!players.isEmpty()) {
-            for (Player player : players) {
-                OtherUtils.resetPlayerStatus(player);
-                PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(player);
-                if (plp != null) {
-                    plp.isStop = true;
-                    PlayerData.setPlayerPlayListPlayer(player, null);
-                    OtherUtils.resetPlayerStatus(player);
-                }
-            }
-        }
-        ZMusic.log.sendNormalMessage("插件作者: 真心");
-        ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
-        ZMusic.log.sendNormalMessage("QQ：1307993674");
-        ZMusic.log.sendNormalMessage("插件交流群：1032722724");
-        ZMusic.log.sendNormalMessage("插件已卸载完成!");
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        ZMusic.runTask.runAsync(() -> {
-            Player player = event.getPlayer();
-            if (ZMusic.player.hasPermission(player, "zmusic.admin") || player.isOp()) {
-                OtherUtils.checkUpdate();
-                if (!ZMusic.isLatest) {
-                    ZMusic.message.sendNormalMessage("发现新版本 V" + ZMusic.latestVer, player);
-                    ZMusic.message.sendNormalMessage("更新日志:", player);
-                    String[] updateLog = ZMusic.updateLog.split("\\n");
-                    for (String s : updateLog) {
-                        ZMusic.message.sendNormalMessage(s, player);
-                    }
-                    ZMusic.message.sendNormalMessage("下载地址: " + ChatColor.YELLOW + ChatColor.UNDERLINE + ZMusic.downloadUrl, player);
-                }
-            }
-        });
+        ZMusic.disable();
     }
 
 }

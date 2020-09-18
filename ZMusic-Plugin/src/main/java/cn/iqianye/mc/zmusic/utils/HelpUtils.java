@@ -11,6 +11,10 @@ public class HelpUtils {
      * @param playerObj 玩家
      */
     public static void sendHelp(String type, Object playerObj) {
+        boolean isAdmin;
+        if (ZMusic.player.isPlayer(playerObj))
+            isAdmin = ZMusic.player.hasPermission(playerObj, "zmusic.admin");
+        else isAdmin = true;
         switch (type) {
             case "main":
                 ZMusic.message.sendNormalMessage("§6========= §r[§bZMusic§r] §d帮助 By 真心 §6=========", playerObj);
@@ -19,7 +23,7 @@ public class HelpUtils {
                 ZMusic.message.sendNormalMessage("/zm help music - 查看点歌帮助.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm help search - 查看搜索帮助.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm help playlist - 查看歌单帮助.", playerObj);
-                if (ZMusic.player.hasPermission(playerObj, "zmusic.admin")) {
+                if (isAdmin) {
                     ZMusic.message.sendNormalMessage("/zm help admin - 查看管理员帮助.", playerObj);
                 }
                 ZMusic.message.sendNormalMessage("=========================================", playerObj);
@@ -33,6 +37,7 @@ public class HelpUtils {
                 ZMusic.message.sendNormalMessage("§6========= §r[§bZMusic§r] §d管理员帮助 By 真心 §6=========", playerObj);
                 ZMusic.message.sendNormalMessage("/zm playAll [搜索源] [歌名] - 强制为所有玩家播放音乐.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm stopAll - 强制为所有玩家停止播放音乐.", playerObj);
+                ZMusic.message.sendNormalMessage("/zm update - 检查更新.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm reload - 重载配置文件.", playerObj);
                 ZMusic.message.sendNormalMessage("§6=========================================", playerObj);
                 break;
@@ -56,7 +61,7 @@ public class HelpUtils {
                 ZMusic.message.sendNormalMessage("/zm playlist prev - 切换到下一首歌曲§a.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm playlist next - 切换到下一首歌曲§a.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm playlist jump [ID] - 跳转到指定歌曲§a.", playerObj);
-                if (ZMusic.player.hasPermission(playerObj, "zmusic.admin")) {
+                if (isAdmin) {
                     ZMusic.message.sendNormalMessage("§6=========================================", playerObj);
                     ZMusic.message.sendNormalMessage("/zm playlist global [qq/163/netease] import <歌单链接> - 导入全服歌单§a.", playerObj);
                     ZMusic.message.sendNormalMessage("/zm playlist global [qq/163/netease] list - 查看已导入的全服歌单列表§a.", playerObj);

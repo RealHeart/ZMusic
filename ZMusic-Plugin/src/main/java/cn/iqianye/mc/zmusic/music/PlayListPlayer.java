@@ -198,12 +198,6 @@ public class PlayListPlayer extends Thread {
                         } catch (Exception ignored) {
                         }
                         lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
-                        if (lyricText.isEmpty()) {
-                            ZMusic.message.sendErrorMessage("未找到歌词信息", player);
-                        }
-                        if (lyricTrText.isEmpty()) {
-                            ZMusic.message.sendErrorMessage("未找到歌词翻译", player);
-                        }
                     }
                     OtherUtils.resetPlayerStatus(player);
                     LyricSender lyricSender = PlayerData.getPlayerLyricSender(player);
@@ -251,7 +245,7 @@ public class PlayListPlayer extends Thread {
                 break;
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -13,6 +13,14 @@ import java.nio.file.Files;
 
 public class LoadConfig {
     public void load() {
+        File oldConfig = new File(ZMusic.dataFolder.getPath(), "config.yml");
+        if (oldConfig.exists()) {
+            File reToOld = new File(ZMusic.dataFolder.getPath(), "config.yml.old");
+            if (!oldConfig.renameTo(reToOld)) {
+                reToOld.delete();
+                oldConfig.renameTo(reToOld);
+            }
+        }
         File config = new File(ZMusic.dataFolder.getPath(), "config.json");
         if (!config.exists()) {
             ZMusic.log.sendErrorMessage("无法找到配置文件,正在创建!");
@@ -49,7 +57,6 @@ public class LoadConfig {
     }
 
     private void init(JsonObject config) {
-        ZMusic.log.sendDebugMessage(config.toString());
         // Version
         Config.version = config.get("version").getAsInt();
         // Debug
@@ -125,7 +132,8 @@ public class LoadConfig {
         }
     }
 
-    public void reload() {
+    public void reload(Object sender) {
         load();
+        ZMusic.message.sendNormalMessage("配置文件重载完毕!", sender);
     }
 }

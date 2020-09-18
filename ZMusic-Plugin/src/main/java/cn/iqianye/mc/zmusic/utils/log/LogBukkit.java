@@ -28,4 +28,9 @@ public class LogBukkit implements Log {
     public void sendErrorMessage(String message) {
         sender.sendMessage(Config.prefix + ChatColor.RED + message);
     }
+
+    @Override
+    public Object getSender() {
+        return sender;
+    }
 }

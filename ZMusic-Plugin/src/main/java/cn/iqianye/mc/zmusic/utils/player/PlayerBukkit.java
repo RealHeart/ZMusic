@@ -24,4 +24,9 @@ public class PlayerBukkit implements Player {
         return player.isOnline();
     }
 
+    @Override
+    public boolean isPlayer(Object sender) {
+        return sender instanceof Player;
+    }
+
 }

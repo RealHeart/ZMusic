@@ -59,9 +59,6 @@ public class KuGouMusic {
                 String lyric = new String(bytes, StandardCharsets.UTF_8);
                 lyric = lyric.replaceAll("\r", "");
                 StringBuilder sb = new StringBuilder();
-                if (lyric.isEmpty()) {
-                    sb.append("未找到歌词信息\n");
-                }
                 sb.append("酷狗音乐暂不支持翻译显示\n");
                 JsonObject returnObject = new JsonObject();
                 returnObject.addProperty("name", songName);

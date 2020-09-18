@@ -21,4 +21,6 @@ public interface Log {
      * @param message 消息
      */
     void sendErrorMessage(String message);
+
+    Object getSender();
 }

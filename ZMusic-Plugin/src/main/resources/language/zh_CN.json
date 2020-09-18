@@ -1,0 +1,11 @@
+/// 施工现场 XD
+{
+  "info": {
+    "local": "zh_CN",
+    "Author": "真心"
+  },
+  "language": {
+    "enabling": "正在加载中...",
+    "disabling": "正在卸载中..."
+  }
+}

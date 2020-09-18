@@ -58,7 +58,6 @@ public class OtherUtils {
 
     public static void resetPlayerStatus(Object player) {
         ZMusic.music.stop(player);
-        PlayerData.setPlayerPlayStatus(player, false);
         if (Config.supportBossBar) {
             BossBar bossBar = PlayerData.getPlayerBoosBar(player);
             if (bossBar != null) {
@@ -72,6 +71,7 @@ public class OtherUtils {
             ZMusic.send.sendAM(player, "[Lyric]");
             ZMusic.send.sendAM(player, "[Info]");
         }
+        PlayerData.setPlayerPlayStatus(player, false);
         PlayerData.setPlayerMusicName(player, null);
         PlayerData.setPlayerMusicSinger(player, null);
         PlayerData.setPlayerCurrentTime(player, null);
@@ -81,8 +81,9 @@ public class OtherUtils {
         PlayerData.setPlayerPlaySource(player, null);
     }
 
-    public static void checkUpdate() {
+    public static void checkUpdate(Object sender) {
         ZMusic.runTask.runAsync(() -> {
+            ZMusic.message.sendNormalMessage("正在检查更新...", sender);
             String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
             if (jsonText != null) {
                 Gson gson = new Gson();
@@ -94,26 +95,20 @@ public class OtherUtils {
                 String updateUrl = json.get("updateUrl").getAsString();
                 String updateMD5 = json.get("updateMD5").getAsString();
                 if (ZMusic.thisVerCode < latestVerCode) {
-                    ZMusic.isLatest = false;
-                    ZMusic.latestVer = latestVer;
-                    ZMusic.updateLog = updateLog;
-                    ZMusic.downloadUrl = downloadUrl;
-                    ZMusic.updateUrl = updateUrl;
-                    ZMusic.log.sendNormalMessage("发现新版本 V" + ZMusic.latestVer);
-                    ZMusic.log.sendNormalMessage("更新日志:");
-                    String[] log = ZMusic.updateLog.split("\\n");
+                    ZMusic.message.sendNormalMessage("发现新版本 V" + latestVer, sender);
+                    ZMusic.message.sendNormalMessage("更新日志:", sender);
+                    String[] log = updateLog.split("\\n");
                     for (String s : log) {
-                        ZMusic.log.sendNormalMessage(s);
+                        ZMusic.message.sendNormalMessage(s, sender);
                     }
                     if (Config.update) {
-                        ZMusic.log.sendNormalMessage("已开启自动更新，正在下载最新版本中....");
+                        ZMusic.message.sendNormalMessage("已开启自动更新，正在下载最新版本中....", sender);
                         File file = ZMusic.dataFolder;
                         file = new File(file, "ZMusic-" + latestVer + ".jar");
                         String md5 = "";
                         try {
                             md5 = getMD5Three(file.getAbsolutePath());
-                        } catch (IOException | NoSuchAlgorithmException e) {
-                            ZMusic.log.sendDebugMessage(e.getMessage());
+                        } catch (Exception ignored) {
                         }
                         if (!md5.equals(updateMD5)) {
                             try {
@@ -122,17 +117,15 @@ public class OtherUtils {
                                 e.printStackTrace();
                             }
                         }
-                        ZMusic.log.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.");
+                        ZMusic.message.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.", sender);
                     } else {
-                        ZMusic.log.sendNormalMessage("下载地址: §e§n" + ZMusic.downloadUrl);
+                        ZMusic.message.sendNormalMessage("下载地址: §e§n" + downloadUrl, sender);
                     }
                 } else {
-                    ZMusic.log.sendNormalMessage("已是最新版本!");
-                    ZMusic.isLatest = true;
+                    ZMusic.message.sendNormalMessage("已是最新版本!", sender);
                 }
             } else {
-                ZMusic.log.sendErrorMessage("检查更新失败!");
-                ZMusic.isLatest = true;
+                ZMusic.message.sendErrorMessage("检查更新失败!", sender);
             }
         });
     }
@@ -140,11 +133,11 @@ public class OtherUtils {
     /**
      * 登录网易云音乐
      */
-    public static void loginNetease() {
+    public static void loginNetease(Object sender) {
         ZMusic.runTask.runAsync(() -> {
             try {
                 if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
-                    ZMusic.log.sendNormalMessage("正在尝试登录网易云音乐...");
+                    ZMusic.message.sendNormalMessage("正在尝试登录网易云音乐...", sender);
                     String s = null;
                     if (Config.neteaseloginType.equalsIgnoreCase("phone")) {
                         s = Config.neteaseApiRoot + "login/cellphone?phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
@@ -155,16 +148,16 @@ public class OtherUtils {
                     Gson gson = new GsonBuilder().create();
                     JsonObject json = gson.fromJson(jsonText, JsonObject.class);
                     if (jsonText != null) {
-                        ZMusic.log.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString());
+                        ZMusic.message.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), sender);
                         if (Config.neteaseFollow) {
                             // 关注“QG真心”的网易云账号
-                            ZMusic.log.sendDebugMessage(NetUtils.getNetString(Config.neteaseApiRoot + "follow?id=265857414&t=1", null));
+                            NetUtils.getNetString(Config.neteaseApiRoot + "follow?id=265857414&t=1", null);
                         }
                     } else {
-                        ZMusic.log.sendErrorMessage("登录失败: 请检查账号密码是否正确。");
+                        ZMusic.message.sendErrorMessage("登录失败: 请检查账号密码是否正确。", sender);
                     }
                 } else {
-                    ZMusic.log.sendErrorMessage("登录失败：请在配置文件设置账号密码。");
+                    ZMusic.message.sendErrorMessage("登录失败：请在配置文件设置账号密码。", sender);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

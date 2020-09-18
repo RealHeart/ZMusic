@@ -300,9 +300,9 @@
 * netease/163 - 网易云音乐  
 * kugou - 酷狗音乐  
 * kuwo - 酷我音乐  
-* bilibili - 哔哩哔哩音乐  
+* bilibili - 哔哩哔哩音乐
 
 ## 歌名ID化说明
-将歌名替换为 `-id:音乐ID` 即可
-目前支持 QQ 网易云 哔哩哔哩音乐
+将歌名替换为 `-id:音乐ID` 即可  
+目前支持 QQ 网易云 哔哩哔哩音乐  
 示例: `/zm play bilibili -id:374305`
