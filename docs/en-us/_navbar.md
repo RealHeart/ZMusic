@@ -1,6 +1,6 @@
 * Language
-  * [:cn: 中文 (中国)](/zh-cn/?fsl=true)
-  * [:us: English (United States)](/en-us/?fsl=true)
+  * [:cn: 中文 (中国)](/zh-cn/)
+  * [:us: English (United States)](/en-us/)
 
 * [Blog](https://www.zhenxin.xyz)
 * [Telegram](https://t.me/ZMusicChannel)
