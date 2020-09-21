@@ -25,7 +25,7 @@
 
 # 使用文档
 
-[docs/README.md](docs/README.md)
+[点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
 # 本地化
 

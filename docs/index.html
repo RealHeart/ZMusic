@@ -10,6 +10,7 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <link href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css" rel="stylesheet">
     <script>
         (function () {
             const hm = document.createElement("script");
@@ -22,19 +23,94 @@
 </head>
 <body>
 <div id="app"></div>
+<div id="gitalk-container"></div>
 <script>
+    function getQueryVariable(variable) {
+        let query;
+        try {
+            query = location.href.split('?')[1];
+            query = query.split('&');
+        } catch (e) {
+            query = new Array('');
+        }
+        for (let i = 0; i < query.length; i++) {
+            const pair = query[i].split('=');
+            if (pair[0] === variable) {
+                return pair[1];
+            }
+        }
+        return false;
+    }
+
     window.$docsify = {
+        // 名称
         name: 'ZMusic 使用文档',
+        // 仓库链接
         repo: '//github.com/RealHeart/ZMusic',
-        coverpage: true,
+        // 打开首页的路径
+        coverpage: [
+            '/zh-cn/',
+            '/en-us/'
+        ],
+        // 加载导航栏
         loadNavbar: true,
+        // 主题色 千叶蓝
         themeColor: '#0088FF',
-        ga: 'UA-178490729-1'
+        // 谷歌统计ID
+        ga: 'UA-178490729-1',
+        // 自定义插件
+        plugins: [
+            function (hook) {
+                hook.afterEach(function (html) {
+                    var footer = [
+                        '<hr/>',
+                        '<footer>',
+                        '<span>&copy;2016-2020 <a href="https://www.zhenxin.xyz">真心</a> & <a href="https://github.com/RealHeart/ZMusic">ZMusic</a> All Rights Reserved.</span>',
+                        '&nbsp;',
+                        '<span><a href="http://www.beian.miit.gov.cn/" target="_blank">辽ICP备19016520号</a></span>',
+                        '</footer>'
+                    ].join('');
+                    return html + footer;
+                });
+                hook.init(function () {
+                    // 支持的语言
+                    const langs = ['zh-cn', 'en-us'];
+                    // 获取浏览器语言
+                    let lang = navigator.language.toLowerCase() || navigator.userLanguage.toLowerCase();
+                    let isSupportLang = false;
+                    for (let i = 0; i < langs.length; i++) {
+                        if (lang === langs[i]) {
+                            const isFSL = getQueryVariable('fsl');
+                            isSupportLang = true;
+                            if (!isFSL) {
+                                window.location = '#/' + lang + '/';
+                            }
+                            break;
+                        }
+                    }
+                    if (!isSupportLang) {
+                        window.location = '#/en-us/';
+                    }
+                });
+            }
+        ]
     }
 </script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/ga.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-json.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/gitalk.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: 'cbdc4ea59cab095d1b5d',
+        clientSecret: '43b4ba78c141ba1d553271215f4f44bb4e37d60b',
+        repo: 'ZMusic-Comment',
+        owner: 'RealHeart',
+        admin: 'RealHeart',
+        distractionFreeMode: false
+    })
+</script>
 </body>
 </html>
