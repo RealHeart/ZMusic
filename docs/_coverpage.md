@@ -4,3 +4,5 @@
 
 [Github](https://github.com/RealHeart/ZMusic)
 [查看文档](#介绍)
+
+![](https://api.mmcee.cn/acgimg/acgurl.php)

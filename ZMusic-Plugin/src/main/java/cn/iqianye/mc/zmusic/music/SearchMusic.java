@@ -2,6 +2,7 @@ package cn.iqianye.mc.zmusic.music;
 
 import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.language.Lang;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -48,7 +49,6 @@ public class SearchMusic {
         }
         if (json != null) {
             ZMusic.message.sendNormalMessage("§6=========================================", player);
-            ZMusic.message.sendNormalMessage("在" + searchSourceName + "搜索到以下结果", player);
             int i = 1;
             for (JsonElement j : json) {
 
@@ -57,8 +57,8 @@ public class SearchMusic {
                 musicFullName = musicName + " - " + musicSinger;
                 TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + musicFullName);
                 i++;
-                TextComponent play = new TextComponent("§r[§e播放§r]§r");
-                TextComponent music = new TextComponent("§r[§e点歌§r]§r");
+                TextComponent play = new TextComponent("§r[§e" + Lang.clickPlay + "§r]§r");
+                TextComponent music = new TextComponent("§r[§e" + Lang.clickMusic + "§r]§r");
                 if (source.equalsIgnoreCase("163") ||
                         source.equalsIgnoreCase("netease") ||
                         source.equalsIgnoreCase("qq") ||
@@ -70,8 +70,8 @@ public class SearchMusic {
                     play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
                     music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm music " + source + " " + musicName));
                 }
-                play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
-                music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击点歌").create()));
+                play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b" + Lang.clickPlayText).create()));
+                music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b" + Lang.clickMusicText).create()));
                 message.addExtra(" ");
                 message.addExtra(play);
                 message.addExtra(" ");
@@ -80,11 +80,7 @@ public class SearchMusic {
             }
             ZMusic.message.sendNormalMessage("§6=========================================", player);
         } else {
-            ZMusic.message.sendErrorMessage("搜索§r[§e" + searchKey + "§r]§c失败，可能为以下问题.", player);
-            ZMusic.message.sendErrorMessage("1.搜索的音乐不存在或已下架", player);
-            ZMusic.message.sendErrorMessage("2.搜索的音乐为付费音乐", player);
-            ZMusic.message.sendErrorMessage("3.搜索的音乐为试听音乐", player);
-            ZMusic.message.sendErrorMessage("4.服务器网络异常", player);
+            ZMusic.message.sendPlayError(player, musicName);
         }
     }
 }

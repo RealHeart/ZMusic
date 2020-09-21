@@ -100,8 +100,8 @@ public class PlayMusic {
             }
             switch (type) {
                 case "all":
-                    play(null, players, "管理员<" + ZMusic.player.getName(player) + ">强制播放");
-                    ZMusic.message.sendNormalMessage("强制全部玩家播放音乐§r[§e" + musicFullName + "§r]§a成功!", player);
+                    play(null, players, Lang.playAllSource
+                            .replaceAll("%player%", ZMusic.player.getName(player)));
                     break;
                 case "self":
                     play(player, new ArrayList<>(), "搜索");
@@ -119,7 +119,7 @@ public class PlayMusic {
                     } else {
                         music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " " + musicName));
                     }
-                    music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
+                    music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b" + Lang.clickPlayText).create()));
                     message.addExtra(music);
                     String suffix = s.split("%fullName%")[1];
                     message.addExtra(suffix);

@@ -78,6 +78,22 @@ public class LoadLang {
         Lang.playing = lang.get("playing").getAsString();
         Lang.musicMessage = lang.get("musicMessage").getAsString();
         Lang.playSuccess = lang.get("playSuccess").getAsString();
+        Lang.playAllSource = lang.get("playAllSource").getAsString();
+        JsonObject click = lang.get("click").getAsJsonObject();
+        Lang.clickPlay = click.get("play").getAsString();
+        Lang.clickPlayText = click.get("playText").getAsString();
+        Lang.clickMusic = click.get("music").getAsString();
+        Lang.clickMusicText = click.get("musicText").getAsString();
+        Lang.clickPlayAll = click.get("playAll").getAsString();
+        Lang.clickPlayAllText = click.get("playAllText").getAsString();
+        Lang.clickPrev = click.get("prev").getAsString();
+        Lang.clickPrevText = click.get("prevText").getAsString();
+        Lang.clickNext = click.get("next").getAsString();
+        Lang.clickNextText = click.get("nextText").getAsString();
+        Lang.clickJump = click.get("jump").getAsString();
+        Lang.clickJumpText = click.get("jumpText").getAsString();
+        Lang.clickUpdatePlaylist = click.get("updatePlaylist").getAsString();
+        Lang.clickUpdatePlaylistText = click.get("updatePlaylistText").getAsString();
         JsonArray playError = lang.get("playError").getAsJsonArray();
         for (JsonElement j : playError) {
             Lang.playError.add(j.getAsString());

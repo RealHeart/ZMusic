@@ -29,9 +29,11 @@
 
 # 本地化
 
-你可以通过翻译语言文件来达到插件本地化的意图  
-操作步骤：
+你可以通过翻译语言文件来达到插件本地化的意图
+
+#### 操作步骤：
 1. Fork本仓库
 2. 本地修改/添加语言文件
 3. 提交Pull Request
-语言文件修改,添加请参考 [示例文件](ZMusic-Plugin/src/main/resources/language/zh_CN.json)
+
+语言文件修改/添加请参考 [示例文件](ZMusic-Plugin/src/main/resources/language/zh_CN.json)
