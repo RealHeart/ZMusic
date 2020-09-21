@@ -3,6 +3,7 @@ package cn.iqianye.mc.zmusic.music;
 import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
+import cn.iqianye.mc.zmusic.language.Lang;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.Gson;
@@ -224,7 +225,10 @@ public class PlayListPlayer extends Thread {
                     singleIsPlayEd = false;
                     successTime = System.currentTimeMillis() - successTime;
                     ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")为[" + player + "]播放歌单<" + playListName + ">中的" + fullName);
-                    TextComponent message = new TextComponent(Config.prefix + "§a播放§r[§e" + fullName + "§r]§a成功,耗时" + successTime + "毫秒!");
+                    TextComponent message = new TextComponent(Config.prefix + "§a" + Lang.playSuccess
+                            .replaceAll("%source%", searchSourceName)
+                            .replaceAll("%fullName%", fullName)
+                            .replaceAll("%time%", String.valueOf(successTime)));
                     TextComponent prev = new TextComponent("§r[§e上一首§r]§r");
                     prev.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist prev"));
                     prev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击切换到上一首").create()));
@@ -236,7 +240,7 @@ public class PlayListPlayer extends Thread {
                     message.addExtra(" ");
                     message.addExtra(next);
                     ZMusic.message.sendJsonMessage(message, player);
-                    String title = "§a正在播放\n§e" + fullName;
+                    String title = "§a" + Lang.playing + "\n§e" + fullName;
                     OtherUtils.sendAdv(player, title);
                     songs++;
                 }

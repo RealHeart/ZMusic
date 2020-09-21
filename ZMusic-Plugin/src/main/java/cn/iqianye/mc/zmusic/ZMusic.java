@@ -13,7 +13,7 @@ import cn.iqianye.mc.zmusic.utils.runtask.RunTask;
 import java.io.File;
 import java.util.List;
 
-public class ZMusic {
+public final class ZMusic {
     public static boolean isBC;
 
     public static Log log;

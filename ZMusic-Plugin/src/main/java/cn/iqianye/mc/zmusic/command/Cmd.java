@@ -54,10 +54,7 @@ public class Cmd {
                                         if (!ZMusic.isBC) {
                                             if (Config.realSupportVault) {
                                                 if (Config.money > 0) {
-                                                    boolean s = Vault.take(sender);
-                                                    if (!s) {
-
-                                                    }
+                                                    Vault.take(sender);
                                                 }
                                             }
                                         }

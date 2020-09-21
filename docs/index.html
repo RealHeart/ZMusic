@@ -11,17 +11,34 @@
           name="viewport">
     <link href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" rel="stylesheet">
 </head>
+
 <body>
 <div id="app"></div>
 <script>
     window.$docsify = {
         name: 'ZMusic 使用文档',
-        repo: 'https://github.com/RealHeart/ZMusic',
+        repo: '//github.com/RealHeart/ZMusic',
         coverpage: true,
-        loadNavbar: true
+        loadNavbar: true,
+        ga: 'UA-178490729-1',
+        copyCode: {
+            buttonText: '点击复制',
+            errorText: '复制失败',
+            successText: '已复制到剪贴板'
+        }
     }
+</script>
+<script>
+    (function () {
+        const hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?56f1d253d768cc51d1665c3f3acf4966";
+        const s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
 <script src="//cdn.zhenxin.xyz/static/js/autoGray.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/ga.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-json.js"></script>
 </body>
 </html>

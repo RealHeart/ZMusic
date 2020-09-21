@@ -333,21 +333,47 @@ public class OtherUtils {
     }
 
     public static String readFileToString(File file) {
+        String s = "";
         try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader br = new BufferedReader(fileReader);
-            StringBuilder sb = new StringBuilder();
-            String temp = "";
-            while ((temp = br.readLine()) != null) {
-                // 拼接换行符
-                sb.append(temp).append("\n");
-            }
-            br.close();
-            return sb.toString();
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+            s = readFileToString(isr);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return s;
+    }
+
+    public static String readFileToString(InputStreamReader isr) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append("\r\n"); // 补上换行符
+            }
+            isr.close();
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 将文本写入本地文件
+     *
+     * @param file 文件路径
+     * @param text 文本
+     * @throws IOException IOException
+     */
+    public static void saveStringToLocal(File file, String text) throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        osw.write(text);
+        osw.flush();
+        osw.close();
     }
 
     /**
@@ -367,11 +393,10 @@ public class OtherUtils {
         }
         input.close();
         downloadFile.close();
-
     }
 
     public static String getMD5Three(String path) throws IOException, NoSuchAlgorithmException {
-        BigInteger bi = null;
+        BigInteger bi;
         byte[] buffer = new byte[8192];
         int len = 0;
         MessageDigest md = MessageDigest.getInstance("MD5");

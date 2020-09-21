@@ -3,6 +3,7 @@ package cn.iqianye.mc.zmusic.music;
 import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
+import cn.iqianye.mc.zmusic.language.Lang;
 import cn.iqianye.mc.zmusic.music.searchSource.*;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
@@ -42,7 +43,7 @@ public class PlayMusic {
      */
     public static void play(String searchKey, String source, Object player, String type, List<Object> players) {
         try {
-            ZMusic.message.sendNormalMessage("正在搜索中...", player);
+            ZMusic.message.sendNormalMessage(Lang.searching, player);
             time = System.currentTimeMillis();
             switch (source) {
                 case "163":
@@ -106,8 +107,12 @@ public class PlayMusic {
                     play(player, new ArrayList<>(), "搜索");
                     break;
                 case "music":
-                    TextComponent message = new TextComponent(Config.prefix + "§a玩家§d" + ZMusic.player.getName(player) + "§a在" + searchSourceName + "点了一首§r[");
-                    TextComponent music = new TextComponent(musicFullName);
+                    String s = Lang.musicMessage;
+                    String prefix = "§a" + s.split("%fullName%")[0];
+                    TextComponent message = new TextComponent(Config.prefix + prefix
+                            .replaceAll("%player%", ZMusic.player.getName(player))
+                            .replaceAll("%source%", searchSourceName));
+                    TextComponent music = new TextComponent("§r[§e" + musicFullName + "§r]");
                     music.setColor(ChatColor.YELLOW);
                     if (supportId) {
                         music.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm play " + source + " -id:" + musicID));
@@ -116,7 +121,8 @@ public class PlayMusic {
                     }
                     music.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放").create()));
                     message.addExtra(music);
-                    message.addExtra("§r]§a点击歌名播放!");
+                    String suffix = s.split("%fullName%")[1];
+                    message.addExtra(suffix);
                     for (Object p : players) {
                         ZMusic.message.sendJsonMessage(message, p);
                     }
@@ -163,8 +169,11 @@ public class PlayMusic {
             }
             ZMusic.music.play(musicUrl, p);
             time = System.currentTimeMillis() - time;
-            ZMusic.message.sendNormalMessage("在" + searchSourceName + "播放§r[§e" + musicFullName + "§r]§a成功,耗时" + time + "毫秒!", p);
-            String title = "§a正在播放\n§e" + musicFullName;
+            ZMusic.message.sendNormalMessage(Lang.playSuccess
+                    .replaceAll("%source%", searchSourceName)
+                    .replaceAll("%fullName%", musicFullName)
+                    .replaceAll("%time%", String.valueOf(time)), p);
+            String title = "§a" + Lang.playing + "\n§e" + musicFullName;
             OtherUtils.sendAdv(p, title);
         }
     }

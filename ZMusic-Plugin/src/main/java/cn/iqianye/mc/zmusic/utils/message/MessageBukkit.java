@@ -1,6 +1,7 @@
 package cn.iqianye.mc.zmusic.utils.message;
 
 import cn.iqianye.mc.zmusic.config.Config;
+import cn.iqianye.mc.zmusic.language.Lang;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -46,6 +47,6 @@ public class MessageBukkit implements Message {
     @Override
     public void sendNull(Object playerObj) {
         CommandSender sender = (CommandSender) playerObj;
-        sender.sendMessage(Config.prefix + ChatColor.GREEN + "输入 /zm help 查看帮助.");
+        sender.sendMessage(Config.prefix + ChatColor.GREEN + Lang.helpHelp);
     }
 }

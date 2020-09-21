@@ -27,7 +27,6 @@ public class LoadConfig {
             saveDefaultConfig();
         }
         String json = OtherUtils.readFileToString(config);
-        json = json.replaceAll("(///.*)", "");
         JsonObject configJson;
         try {
             configJson = new Gson().fromJson(json, JsonObject.class);

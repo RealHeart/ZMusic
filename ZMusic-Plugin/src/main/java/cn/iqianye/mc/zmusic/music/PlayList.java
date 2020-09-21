@@ -14,7 +14,6 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,6 +210,7 @@ public class PlayList {
     }
 
     private static void importPlayList(String url, String platform, Object player, boolean isGlobal) {
+        ZMusic.message.sendNormalMessage("正在导入歌单，可能时间较长，请耐心等待...", player);
         try {
             JsonObject json;
             String id;
@@ -222,7 +222,7 @@ public class PlayList {
                     platformName = "网易云音乐";
                     break;
                 case "qq":
-                    id = url.split("playlist/")[1].split(".html")[0];
+                    id = url.split("playlist/")[1].split("\\.html")[0];
                     json = QQMusic.getMusicSongList(id);
                     platformName = "QQ音乐";
                     break;
@@ -233,8 +233,8 @@ public class PlayList {
             String name = json.get("name").getAsString();
             int songs = json.get("songs").getAsInt();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            byte[] data = gson.toJson(json).getBytes();
-            String filePath = "";
+            String data = gson.toJson(json);
+            String filePath;
             if (isGlobal) {
                 filePath = ZMusic.dataFolder
                         + "/playlist/global/" + platform;
@@ -247,14 +247,8 @@ public class PlayList {
                 path.mkdirs();
             }
             File file = new File(filePath, id + ".json");
-            file = file.getAbsoluteFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            fileOutputStream.write(data);
-            fileOutputStream.flush();
-            fileOutputStream.close();
+            OtherUtils.saveStringToLocal(file, data);
+            ZMusic.log.sendDebugMessage(file.getAbsolutePath());
             ZMusic.message.sendNormalMessage("成功在" + platformName + "导入(§e" + name + "§a)共计§e" + songs + "§a首。", player);
             ZMusic.message.sendNormalMessage("其中可能包含无版权或VIP音乐。", player);
         } catch (Exception e) {
@@ -276,46 +270,60 @@ public class PlayList {
                     + "/playlist/" + platform + "/" + player;
         }
         files = OtherUtils.queryFileNames(filePath);
-        ZMusic.message.sendNormalMessage("§6=========================================", player);
-        if (files != null) {
-            int i = 0;
-            for (String s : files) {
-                i++;
-                Gson gson = new GsonBuilder().create();
-                File file = new File(filePath, s);
-                String id = s.split(".json")[0];
-                JsonObject j = gson.fromJson(OtherUtils.readFileToString(file), JsonObject.class);
-                String name = j.get("name").getAsString();
-                String songs = j.get("songs").getAsString();
-                TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + id + " : " + name + "(§e共" + songs + "首§a)");
-                TextComponent play = new TextComponent("§r[§e播放§r]§r");
-                TextComponent show = new TextComponent("§r[§e查看§r]§r");
-                if (isGlobal) {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " play " + id));
-                    show.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " show " + id));
-                } else {
-                    play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist " + platform + " play " + id));
-                    show.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist " + platform + " show " + id));
-                }
-                play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放此歌单").create()));
-                show.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击查看此歌单").create()));
-                message.addExtra(" ");
-                message.addExtra(play);
-                message.addExtra(" ");
-                message.addExtra(show);
-                if (ZMusic.player.hasPermission(player, "zmusic.admin")) {
-                    TextComponent playAll = new TextComponent("§r[§e全服播放§r]§r");
+        try {
+            ZMusic.message.sendNormalMessage("§6=========================================", player);
+            if (files != null) {
+                int i = 0;
+                for (String s : files) {
+                    i++;
+                    Gson gson = new GsonBuilder().create();
+                    File file = new File(filePath, s);
+                    String id = s.split(".json")[0];
+                    JsonObject j = gson.fromJson(OtherUtils.readFileToString(file), JsonObject.class);
+                    String name = j.get("name").getAsString();
+                    String songs = j.get("songs").getAsString();
+                    TextComponent message = new TextComponent(Config.prefix + "§a" + i + "." + id + " : " + name + "(§e共" + songs + "首§a)");
+                    TextComponent play = new TextComponent("§r[§e播放§r]§r");
+                    TextComponent show = new TextComponent("§r[§e查看§r]§r");
                     if (isGlobal) {
-                        playAll.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " playall " + id));
-                        playAll.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击为全体玩家播放此歌单").create()));
-                        message.addExtra(" ");
-                        message.addExtra(playAll);
+                        play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " play " + id));
+                        show.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " show " + id));
+                    } else {
+                        play.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist " + platform + " play " + id));
+                        show.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist " + platform + " show " + id));
                     }
+                    play.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击播放此歌单").create()));
+                    show.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击查看此歌单").create()));
+                    message.addExtra(" ");
+                    message.addExtra(play);
+                    message.addExtra(" ");
+                    message.addExtra(show);
+                    if (ZMusic.player.hasPermission(player, "zmusic.admin")) {
+                        TextComponent playAll = new TextComponent("§r[§e全服播放§r]§r");
+                        if (isGlobal) {
+                            playAll.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " playall " + id));
+                            playAll.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击为全体玩家播放此歌单").create()));
+                            message.addExtra(" ");
+                            message.addExtra(playAll);
+                        }
+                    }
+                    ZMusic.message.sendJsonMessage(message, player);
                 }
-                ZMusic.message.sendJsonMessage(message, player);
+            } else {
+                ZMusic.message.sendErrorMessage("错误: 在当前平台未导入过任何歌单", player);
             }
-        } else {
-            ZMusic.message.sendErrorMessage("错误: 在当前平台未导入过任何歌单", player);
+        } catch (Exception e) {
+            e.printStackTrace();
+            TextComponent message = new TextComponent(Config.prefix + "§c错误: 读取文件错误,请尝试");
+            TextComponent update = new TextComponent("§r[§e更新歌单§r]§r");
+            if (isGlobal) {
+                update.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist global " + platform + " update"));
+            } else {
+                update.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist " + platform + " update"));
+            }
+            update.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击更新此平台的全部歌单").create()));
+            message.addExtra(update);
+            ZMusic.message.sendJsonMessage(message, player);
         }
         ZMusic.message.sendNormalMessage("§6=========================================", player);
     }
@@ -448,7 +456,7 @@ public class PlayList {
     private static void updatePlayListInfo(String platform, Object player, boolean isGlobal) {
         String filePath = "";
         if (isGlobal) {
-            filePath = ZMusic.dataFolder + "/playlist/global" + platform + "/";
+            filePath = ZMusic.dataFolder + "/playlist/global/" + platform;
         } else {
             filePath = ZMusic.dataFolder + "/playlist/" + platform + "/" + player;
         }
@@ -456,7 +464,16 @@ public class PlayList {
         if (files != null) {
             for (String s : files) {
                 ZMusic.message.sendNormalMessage("§6=========================================", player);
-                PlayList.importPlayList("playlist?id=" + s.split(".json")[0], platform, player, false);
+                switch (platform) {
+                    case "qq":
+                        importPlayList("playlist/" + s.split("\\.json")[0] + ".html", platform, player, isGlobal);
+                        break;
+                    case "netease":
+                        importPlayList("playlist?id=" + s.split("\\.json")[0], platform, player, isGlobal);
+                        break;
+                    default:
+                        break;
+                }
             }
             ZMusic.message.sendNormalMessage("§6=========================================", player);
         } else {

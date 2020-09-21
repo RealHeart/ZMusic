@@ -5,6 +5,7 @@ import cn.iqianye.mc.zmusic.command.CmdBC;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.event.EventBC;
+import cn.iqianye.mc.zmusic.language.LoadLang;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBC;
 import cn.iqianye.mc.zmusic.utils.message.MessageBC;
@@ -23,7 +24,6 @@ public class ZMusicBC extends Plugin {
     @Override
     public void onEnable() {
         ZMusic.log = new LogBC(getProxy().getConsole());
-        ZMusic.log.sendNormalMessage("正在加载中....");
         CookieManager manager = new CookieManager();
         CookieHandler.setDefault(manager);
         plugin = this;
@@ -38,6 +38,8 @@ public class ZMusicBC extends Plugin {
             ZMusic.dataFolder.mkdir();
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
+        new LoadLang().load();
+        ZMusic.log.sendNormalMessage("正在加载中....");
         MetricsBC bStats = new MetricsBC(this, 8864);
         getProxy().registerChannel("zmusic:channel");
         getProxy().registerChannel("allmusic:channel");

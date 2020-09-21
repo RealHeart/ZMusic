@@ -1,11 +1,69 @@
-/// 施工现场 XD
+// 语言文件编辑规范
+// 1.文件内可以使用注释(//,/**/)
+// 2.修改文件请修改info的相关信息并将versions.json版本+1
+// 3.如新增翻译，请在versions.json新增新的语言代码
+// 4.请严格遵守JSON规范填写
 {
+  // 翻译信息
   "info": {
+    // 语言代码
+    // 如: zh_CN, en_US, ja_JP
     "local": "zh_CN",
-    "Author": "真心"
+    // 语言名称
+    // 如: 中文 (中国), English (United States), 日本語 (日本)
+    // 请使用半角括号
+    "name": "中文 (中国)",
+    // 翻译文件作者
+    "author": "真心",
+    // 翻译文件版本
+    "version": 1
   },
+  // 语言翻译内容
   "language": {
-    "enabling": "正在加载中...",
-    "disabling": "正在卸载中..."
+    // 搜索中的提示信息
+    "searching": "正在搜索中...",
+    // 正在播放的提示信息
+    "playing": "正在播放",
+    // 点歌的提示信息
+    // %player% - 玩家名称
+    // %fullName% - 歌曲全名
+    // %source% - 搜索源
+    "musicMessage": "玩家&d%player%&a在%source%点了一首%fullName%&a点击歌名播放!",
+    // 播放成功的提示信息
+    // %source% - 搜索源
+    // %fullName% - 歌曲全名
+    // %time% - 请求耗时
+    "playSuccess": "在%source%播放&r[&e%fullName%&r]&a成功,耗时%time%毫秒!",
+    // 播放成功的提示信息
+    // %source% - 搜索源
+    // %fullName% - 歌曲全名
+    "playSuccess": "强制全部玩家在%source%播放&r[&e%fullName%&r]&a成功]!",
+    // 播放失败的提示信息
+    // %musicName% - 搜索词
+    "playError": [
+      "搜索&r[&e%musicName%&r]&c失败，可能为以下问题.",
+      "1.搜索的音乐不存在或已下架",
+      "2.搜索的音乐为付费音乐",
+      "3.搜索的音乐为试听音乐",
+      "4.服务器网络异常"
+    ],
+    // 帮助信息
+    "help": {
+      "help": "输入 /zm help 查看帮助.",
+      "main": [
+        "/zm help - 查看主帮助(当前).",
+        "/zm help play - 查看播放帮助.",
+        "/zm help music - 查看点歌帮助.",
+        "/zm help search - 查看搜索帮助.",
+        "/zm help playlist - 查看歌单帮助.",
+        "[admin]/zm help admin - 查看管理员帮助.",
+        "&6=========================================",
+        "/zm stop - 停止播放",
+        "/zm loop - 开/关循环播放",
+        "/zm url [MP3地址] - 播放网络音乐",
+        "/zm 163hot [歌名] - 获取网易云音乐热评(前三)",
+        "&6========================================="
+      ]
+    }
   }
 }

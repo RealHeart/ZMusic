@@ -1,6 +1,7 @@
 package cn.iqianye.mc.zmusic.utils;
 
 import cn.iqianye.mc.zmusic.ZMusic;
+import cn.iqianye.mc.zmusic.language.Lang;
 
 public class HelpUtils {
 
@@ -18,20 +19,13 @@ public class HelpUtils {
         switch (type) {
             case "main":
                 ZMusic.message.sendNormalMessage("§6========= §r[§bZMusic§r] §d帮助 By 真心 §6=========", playerObj);
-                ZMusic.message.sendNormalMessage("/zm help - 查看主帮助(当前).", playerObj);
-                ZMusic.message.sendNormalMessage("/zm help play - 查看播放帮助.", playerObj);
-                ZMusic.message.sendNormalMessage("/zm help music - 查看点歌帮助.", playerObj);
-                ZMusic.message.sendNormalMessage("/zm help search - 查看搜索帮助.", playerObj);
-                ZMusic.message.sendNormalMessage("/zm help playlist - 查看歌单帮助.", playerObj);
-                if (isAdmin) {
-                    ZMusic.message.sendNormalMessage("/zm help admin - 查看管理员帮助.", playerObj);
+                for (String s : Lang.mainHelp) {
+                    if (s.contains("[admin]")) {
+                        ZMusic.message.sendNormalMessage(s.split("\\[admin]")[1], playerObj);
+                    } else {
+                        ZMusic.message.sendNormalMessage(s, playerObj);
+                    }
                 }
-                ZMusic.message.sendNormalMessage("=========================================", playerObj);
-                ZMusic.message.sendNormalMessage("/zm stop - 停止播放", playerObj);
-                ZMusic.message.sendNormalMessage("/zm loop - 开/关循环播放", playerObj);
-                ZMusic.message.sendNormalMessage("/zm url [MP3地址] - 播放网络音乐", playerObj);
-                ZMusic.message.sendNormalMessage("/zm 163hot [歌名] - 获取网易云音乐热评(前三)", playerObj);
-                ZMusic.message.sendNormalMessage("§6=========================================", playerObj);
                 break;
             case "admin":
                 ZMusic.message.sendNormalMessage("§6========= §r[§bZMusic§r] §d管理员帮助 By 真心 §6=========", playerObj);
