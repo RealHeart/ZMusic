@@ -90,7 +90,12 @@ public class NetUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        };
     }
 
     /**
