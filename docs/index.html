@@ -20,10 +20,22 @@
         })();
     </script>
     <script src="//cdn.zhenxin.xyz/static/js/autoGray.js"></script>
+    <style>
+        body:before {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.3;
+            z-index: -1;
+            content: "";
+            position: fixed;
+            background: url(https://api.mmcee.cn/acgimg/acgurl.php) center/cover;
+        }
+    </style>
 </head>
 <body>
 <div id="app"></div>
-<div id="gitalk-container"></div>
 <script>
     window.$docsify = {
         // 名称
@@ -48,7 +60,7 @@
                     var footer = [
                         '<hr/>',
                         '<footer>',
-                        '<span>&copy;2016-2020 <a href="https://www.zhenxin.xyz">真心</a> & <a href="https://github.com/RealHeart/ZMusic">ZMusic</a> All Rights Reserved.</span>',
+                        '<span>&copy;2020 <a href="https://www.zhenxin.xyz">真心</a> & <a href="https://github.com/RealHeart/ZMusic">ZMusic</a> All Rights Reserved.</span>',
                         '&nbsp;',
                         '<span><a href="http://www.beian.miit.gov.cn/" target="_blank">辽ICP备19016520号</a></span>',
                         '</footer>'
@@ -59,7 +71,8 @@
                     // 支持的语言
                     const langs = ['zh-cn', 'en-us'];
                     // 获取浏览器语言
-                    let lang = navigator.language.toLowerCase() || navigator.userLanguage.toLowerCase();
+                    let lang = navigator.language || navigator.userLanguage;
+                    lang = lang.toLowerCase();
                     let isSupportLang = false;
                     for (let i = 0; i < langs.length; i++) {
                         if (lang === langs[i]) {

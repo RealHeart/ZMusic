@@ -6,6 +6,7 @@ import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.event.EventBukkit;
+import cn.iqianye.mc.zmusic.language.LoadLang;
 import cn.iqianye.mc.zmusic.papi.PApiHook;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
@@ -116,6 +117,7 @@ public class ZMusicBukkit extends JavaPlugin {
             ZMusic.log.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度");
             Config.realSupportAdvancement = false;
         }
+        new LoadLang().load();
         new LoadConfig().load();
         OtherUtils.loginNetease(getServer().getConsoleSender());
         ZMusic.log.sendNormalMessage("成功加载配置文件!");

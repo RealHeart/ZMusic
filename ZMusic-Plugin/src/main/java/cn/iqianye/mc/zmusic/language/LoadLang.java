@@ -19,6 +19,7 @@ public class LoadLang {
     public LoadLang() {
         Locale locale = Locale.getDefault();
         String lang = locale.getLanguage() + "_" + locale.getCountry();
+        //lang = "en_US";
         ZMusic.log.sendDebugMessage(lang);
         is = getClass().getResourceAsStream("/language/" + lang + ".json");
         if (is == null) {
@@ -74,11 +75,18 @@ public class LoadLang {
         }
         JsonObject info = json.get("info").getAsJsonObject();
         JsonObject lang = json.get("language").getAsJsonObject();
-        Lang.searching = lang.get("searching").getAsString();
-        Lang.playing = lang.get("playing").getAsString();
-        Lang.musicMessage = lang.get("musicMessage").getAsString();
-        Lang.playSuccess = lang.get("playSuccess").getAsString();
-        Lang.playAllSource = lang.get("playAllSource").getAsString();
+        JsonObject play = lang.get("play").getAsJsonObject();
+        // 全部播放提示
+        Lang.searching = play.get("searching").getAsString();
+        Lang.playing = play.get("playing").getAsString();
+        Lang.musicMessage = play.get("musicMessage").getAsString();
+        Lang.playSuccess = play.get("playSuccess").getAsString();
+        Lang.playAllSource = play.get("playAllSource").getAsString();
+        JsonArray playError = play.get("playError").getAsJsonArray();
+        for (JsonElement j : playError) {
+            Lang.playError.add(j.getAsString());
+        }
+        // 全部点击事件
         JsonObject click = lang.get("click").getAsJsonObject();
         Lang.clickPlay = click.get("play").getAsString();
         Lang.clickPlayText = click.get("playText").getAsString();
@@ -92,12 +100,18 @@ public class LoadLang {
         Lang.clickNextText = click.get("nextText").getAsString();
         Lang.clickJump = click.get("jump").getAsString();
         Lang.clickJumpText = click.get("jumpText").getAsString();
+        Lang.clickView = click.get("view").getAsString();
+        Lang.clickViewText = click.get("viewText").getAsString();
         Lang.clickUpdatePlaylist = click.get("updatePlaylist").getAsString();
         Lang.clickUpdatePlaylistText = click.get("updatePlaylistText").getAsString();
-        JsonArray playError = lang.get("playError").getAsJsonArray();
-        for (JsonElement j : playError) {
-            Lang.playError.add(j.getAsString());
+
+        // 全部歌单提示
+        JsonObject playList = lang.get("playList").getAsJsonObject();
+        JsonArray playListPlayError = playList.get("playListPlayError").getAsJsonArray();
+        for (JsonElement j : playListPlayError) {
+            Lang.playListPlayError.add(j.getAsString());
         }
+        // 全部帮助信息
         Lang.helpHelp = lang.get("help").getAsJsonObject().get("help").getAsString();
         JsonArray helpMain = lang.get("help").getAsJsonObject().get("main").getAsJsonArray();
         for (JsonElement j : helpMain) {

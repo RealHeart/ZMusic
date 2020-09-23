@@ -72,6 +72,7 @@ public class PlayListPlayer extends Thread {
                         prevMusic = false;
                     } else {
                         ZMusic.message.sendErrorMessage("切换失败: 已经是第一首歌曲了", player);
+                        prevMusic = false;
                     }
                 }
                 if (jumpMusic) {
@@ -87,7 +88,7 @@ public class PlayListPlayer extends Thread {
                 if (singleIsPlayEd) {
                     long successTime = System.currentTimeMillis();
                     if (!ZMusic.player.isOnline(player)) {
-                        ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")检测到玩家[" + player + "] 离线,停止线程。");
+                        ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")检测到玩家[" + ZMusic.player.getName(player) + "] 离线,停止线程。");
                         break;
                     }
                     switch (type) {
@@ -182,8 +183,9 @@ public class PlayListPlayer extends Thread {
                         try {
                             url = getMp3Json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
                         } catch (Exception e) {
-                            ZMusic.message.sendErrorMessage("播放[§e" + fullName + "§c]失败.", player);
-                            ZMusic.message.sendErrorMessage("无法获取播放链接, 可能无版权或为VIP音乐.", player);
+                            for (String s : Lang.playListPlayError) {
+                                ZMusic.message.sendErrorMessage(s, player);
+                            }
                             songs++;
                             continue;
                         }
@@ -224,17 +226,17 @@ public class PlayListPlayer extends Thread {
                     ZMusic.music.play(url, player);
                     singleIsPlayEd = false;
                     successTime = System.currentTimeMillis() - successTime;
-                    ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")为[" + player + "]播放歌单<" + playListName + ">中的" + fullName);
+                    ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")为[" + ZMusic.player.getName(player) + "]播放歌单<" + playListName + ">中的" + fullName);
                     TextComponent message = new TextComponent(Config.prefix + "§a" + Lang.playSuccess
                             .replaceAll("%source%", searchSourceName)
                             .replaceAll("%fullName%", fullName)
                             .replaceAll("%time%", String.valueOf(successTime)));
-                    TextComponent prev = new TextComponent("§r[§e上一首§r]§r");
+                    TextComponent prev = new TextComponent("§r[§e" + Lang.clickPrev + "§r]§r");
                     prev.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist prev"));
-                    prev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击切换到上一首").create()));
-                    TextComponent next = new TextComponent("§r[§e下一首§r]§r");
+                    prev.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b" + Lang.clickPrevText).create()));
+                    TextComponent next = new TextComponent("§r[§e" + Lang.clickNext + "§r]§r");
                     next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zm playlist next"));
-                    next.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b点击切换到下一首").create()));
+                    next.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§b" + Lang.clickNextText).create()));
                     message.addExtra(" ");
                     message.addExtra(prev);
                     message.addExtra(" ");
@@ -245,7 +247,7 @@ public class PlayListPlayer extends Thread {
                     songs++;
                 }
             } else {
-                ZMusic.log.sendDebugMessage("[歌单]玩家离线 歌单播放器(ID:" + getId() + ")[" + player + "]<" + playListName + ">线程已停止。");
+                ZMusic.log.sendDebugMessage("[歌单]玩家离线 歌单播放器(ID:" + getId() + ")[" + ZMusic.player.getName(player) + "]<" + playListName + ">线程已停止。");
                 break;
             }
             try {

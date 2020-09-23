@@ -38,7 +38,6 @@ public class ZMusicBC extends Plugin {
             ZMusic.dataFolder.mkdir();
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
-        new LoadLang().load();
         ZMusic.log.sendNormalMessage("正在加载中....");
         MetricsBC bStats = new MetricsBC(this, 8864);
         getProxy().registerChannel("zmusic:channel");
@@ -47,6 +46,7 @@ public class ZMusicBC extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new CmdBC());
         getProxy().getPluginManager().registerListener(this, new EventBC());
         new LoadConfig().load();
+        new LoadLang().load();
         OtherUtils.loginNetease(getProxy().getConsole());
         OtherUtils.checkUpdate(getProxy().getConsole());
         ZMusic.log.sendNormalMessage("成功加载配置文件!");

@@ -21,10 +21,13 @@ public class Lang {
     public static String clickNextText;
     public static String clickJump;
     public static String clickJumpText;
+    public static String clickView;
+    public static String clickViewText;
     public static String clickUpdatePlaylist;
     public static String clickUpdatePlaylistText;
 
     public static List<String> playError = new ArrayList<>();
+    public static List<String> playListPlayError = new ArrayList<>();
 
     // Help
     public static String helpHelp;

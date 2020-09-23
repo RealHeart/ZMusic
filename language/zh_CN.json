@@ -20,23 +20,43 @@
   },
   // 语言翻译内容
   "language": {
-    // 搜索中的提示信息
-    "searching": "正在搜索中...",
-    // 正在播放的提示信息
-    "playing": "正在播放",
-    // 点歌的提示信息
-    // %player% - 玩家名称
-    // %fullName% - 歌曲全名
-    // %source% - 搜索源
-    "musicMessage": "玩家&d%player%&a在%source%点了一首%fullName%&a点击歌名播放!",
-    // 播放成功的提示信息
-    // %source% - 搜索源
-    // %fullName% - 歌曲全名
-    // %time% - 请求耗时
-    "playSuccess": "在%source%播放&r[&e%fullName%&r]&a成功,耗时%time%毫秒!",
-    // 管理员强制播放的来源
-    // %player% - 强制播放的管理员名称
-    "playAllSource": "管理员<%player%>强制播放",
+    // 全部播放提示
+    "play": {
+      // 搜索中的提示信息
+      "searching": "正在搜索中...",
+      // 正在播放的提示信息
+      "playing": "正在播放",
+      // 点歌的提示信息
+      // %player% - 玩家名称
+      // %fullName% - 歌曲全名
+      // %source% - 搜索源
+      "musicMessage": "玩家&d%player%&a在%source%点了一首%fullName%&a点击歌名播放!",
+      // 播放成功的提示信息
+      // %source% - 搜索源
+      // %fullName% - 歌曲全名
+      // %time% - 请求耗时
+      "playSuccess": "在%source%播放&r[&e%fullName%&r]&a成功,耗时%time%毫秒!",
+      // 管理员强制播放的来源
+      // %player% - 强制播放的管理员名称
+      "playAllSource": "管理员<%player%>强制播放",
+      // 播放失败的提示信息
+      // %musicName% - 搜索词
+      "playError": [
+        "搜索&r[&e%musicName%&r]&c失败，可能为以下问题.",
+        "1.搜索的音乐不存在或已下架",
+        "2.搜索的音乐为付费音乐",
+        "3.搜索的音乐为试听音乐",
+        "4.服务器网络异常"
+      ]
+    },
+    // 全部歌单提示
+    "playList": {
+      // 歌单播放失败的提示信息
+      "playListPlayError": [
+        "播放[&e%musicName%&c]失败.",
+        "无法获取播放链接, 可能无版权或为VIP音乐."
+      ]
+    },
     // 全部点击事件
     "click": {
       // 播放
@@ -63,20 +83,15 @@
       "jump": "跳转",
       // 跳转-悬浮字
       "jumpText": "点击跳转",
+      // 查看
+      "view": "查看",
+      // 查看-悬浮字
+      "viewText": "点击查看此歌单",
       // 更新歌单
       "updatePlaylist": "更新歌单",
       // 更新歌单-悬浮字
       "updatePlaylistText": "点击更新当前平台全部歌单"
     },
-    // 播放失败的提示信息
-    // %musicName% - 搜索词
-    "playError": [
-      "搜索&r[&e%musicName%&r]&c失败，可能为以下问题.",
-      "1.搜索的音乐不存在或已下架",
-      "2.搜索的音乐为付费音乐",
-      "3.搜索的音乐为试听音乐",
-      "4.服务器网络异常"
-    ],
     // 帮助信息
     "help": {
       "help": "输入 /zm help 查看帮助.",
