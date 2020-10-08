@@ -3,10 +3,7 @@ package cn.iqianye.mc.zmusic;
 import cn.iqianye.mc.zmusic.bstats.MetricsBC;
 import cn.iqianye.mc.zmusic.command.CmdBC;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.event.EventBC;
-import cn.iqianye.mc.zmusic.language.LoadLang;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBC;
 import cn.iqianye.mc.zmusic.utils.message.MessageBC;
 import cn.iqianye.mc.zmusic.utils.mod.SendBC;
@@ -45,16 +42,7 @@ public class ZMusicBC extends Plugin {
         getProxy().registerChannel("AudioBuffer");
         getProxy().getPluginManager().registerCommand(this, new CmdBC());
         getProxy().getPluginManager().registerListener(this, new EventBC());
-        new LoadConfig().load();
-        new LoadLang().load();
-        OtherUtils.loginNetease(getProxy().getConsole());
-        OtherUtils.checkUpdate(getProxy().getConsole());
-        ZMusic.log.sendNormalMessage("成功加载配置文件!");
-        ZMusic.log.sendNormalMessage("插件作者: 真心");
-        ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
-        ZMusic.log.sendNormalMessage("QQ：1307993674");
-        ZMusic.log.sendNormalMessage("插件交流群：1032722724");
-        ZMusic.log.sendNormalMessage("插件已加载完成!");
+        ZMusic.loadEnd(getProxy().getConsole());
     }
 
     @Override

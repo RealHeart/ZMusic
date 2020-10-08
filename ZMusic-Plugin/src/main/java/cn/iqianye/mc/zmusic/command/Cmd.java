@@ -5,6 +5,7 @@ import cn.iqianye.mc.zmusic.api.ProgressBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.data.PlayerData;
+import cn.iqianye.mc.zmusic.language.LoadLang;
 import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
@@ -213,14 +214,15 @@ public class Cmd {
                         case "reload":
                             if (isAdmin) {
                                 new LoadConfig().reload(sender);
-                                OtherUtils.loginNetease(sender);
+                                ZMusic.runTask.runAsync(() -> new LoadLang().load());
+                                OtherUtils.loginNetease(sender, true);
                             } else {
                                 ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                             }
                             break;
                         case "update":
                             if (isAdmin) {
-                                OtherUtils.checkUpdate(sender);
+                                OtherUtils.checkUpdate(sender, true);
                             } else {
                                 ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                             }

@@ -81,8 +81,8 @@ public class OtherUtils {
         PlayerData.setPlayerPlaySource(player, null);
     }
 
-    public static void checkUpdate(Object sender) {
-        ZMusic.runTask.runAsync(() -> {
+    public static void checkUpdate(Object sender, boolean aSync) {
+        Runnable r = () -> {
             ZMusic.message.sendNormalMessage("正在检查更新...", sender);
             String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
             if (jsonText != null) {
@@ -127,14 +127,17 @@ public class OtherUtils {
             } else {
                 ZMusic.message.sendErrorMessage("检查更新失败!", sender);
             }
-        });
+        };
+        if (aSync) {
+            ZMusic.runTask.runAsync(r);
+        } else r.run();
     }
 
     /**
      * 登录网易云音乐
      */
-    public static void loginNetease(Object sender) {
-        ZMusic.runTask.runAsync(() -> {
+    public static void loginNetease(Object sender, boolean aSync) {
+        Runnable r = () -> {
             try {
                 if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
                     ZMusic.message.sendNormalMessage("正在尝试登录网易云音乐...", sender);
@@ -162,7 +165,10 @@ public class OtherUtils {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        };
+        if (aSync) {
+            ZMusic.runTask.runAsync(r);
+        } else r.run();
     }
 
     public static void neteaseHotComments(Object player, String musicName) {

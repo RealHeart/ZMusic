@@ -4,11 +4,8 @@ import cn.iqianye.mc.zmusic.api.Version;
 import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
-import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.event.EventBukkit;
-import cn.iqianye.mc.zmusic.language.LoadLang;
 import cn.iqianye.mc.zmusic.papi.PApiHook;
-import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
 import cn.iqianye.mc.zmusic.utils.message.MessageBukkit;
 import cn.iqianye.mc.zmusic.utils.mod.SendBukkit;
@@ -70,7 +67,6 @@ public class ZMusicBukkit extends JavaPlugin {
         }
         //注册事件监听器
         getServer().getPluginManager().registerEvents(new EventBukkit(), this);
-        OtherUtils.checkUpdate(getServer().getConsoleSender());
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             ZMusic.log.sendNormalMessage("已检测到§ePlaceholderAPI§a, 正在注册...");
             boolean success = new PApiHook().register();
@@ -117,15 +113,7 @@ public class ZMusicBukkit extends JavaPlugin {
             ZMusic.log.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度");
             Config.realSupportAdvancement = false;
         }
-        new LoadLang().load();
-        new LoadConfig().load();
-        OtherUtils.loginNetease(getServer().getConsoleSender());
-        ZMusic.log.sendNormalMessage("成功加载配置文件!");
-        ZMusic.log.sendNormalMessage("插件作者: 真心");
-        ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
-        ZMusic.log.sendNormalMessage("QQ：1307993674");
-        ZMusic.log.sendNormalMessage("插件交流群：1032722724");
-        ZMusic.log.sendNormalMessage("插件已加载完成!");
+        ZMusic.loadEnd(getServer().getConsoleSender());
     }
 
     @Override
