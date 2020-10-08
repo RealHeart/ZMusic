@@ -31,6 +31,7 @@ public final class ZMusic {
     public static boolean bilibiliIsVIP = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;
+    public static boolean isEnableEd = false;
 
     public static void disable() {
         ZMusic.log.sendNormalMessage("正在卸载中....");
@@ -65,6 +66,7 @@ public final class ZMusic {
             ZMusic.log.sendNormalMessage("QQ：1307993674");
             ZMusic.log.sendNormalMessage("插件交流群：1032722724");
             ZMusic.log.sendNormalMessage("插件已加载完成!");
+            isEnableEd = true;
         });
     }
 }

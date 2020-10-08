@@ -24,247 +24,251 @@ public class Cmd {
     static List<Object> cooldownStats = new ArrayList<>();
 
     public static boolean cmd(Object sender, String[] args) { //指令输出
-        if (ZMusic.isEnable) {
-            boolean isUse;
-            boolean isAdmin;
-            if (ZMusic.player.isPlayer(sender)) {
-                isUse = ZMusic.player.hasPermission(sender, "zmusic.use");
-                isAdmin = ZMusic.player.hasPermission(sender, "zmusic.admin");
-            } else {
-                isUse = true;
-                isAdmin = true;
-            }
-            if (isUse) {
-                if (args.length == 0) {
-                    ZMusic.message.sendNull(sender);
+        if (ZMusic.isEnableEd) {
+            if (ZMusic.isEnable) {
+                boolean isUse;
+                boolean isAdmin;
+                if (ZMusic.player.isPlayer(sender)) {
+                    isUse = ZMusic.player.hasPermission(sender, "zmusic.use");
+                    isAdmin = ZMusic.player.hasPermission(sender, "zmusic.admin");
                 } else {
-                    switch (args[0].toLowerCase()) {
-                        case "music":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                int cooldownSec = Config.cooldown;
-                                Runnable startPlay = () -> {
-                                    if (args.length >= 2) {
-                                        List<Object> players = ZMusic.player.getOnlinePlayerList();
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "music", players);
-                                    } else {
-                                        HelpUtils.sendHelp("music", sender);
-                                    }
-                                };
-                                if (!ZMusic.player.hasPermission(sender, "zmusic.bypass")) {
-                                    if (!cooldownStats.contains(sender)) {
-                                        if (!ZMusic.isBC) {
-                                            if (Config.realSupportVault) {
-                                                if (Config.money > 0) {
-                                                    Vault.take(sender);
-                                                }
-                                            }
+                    isUse = true;
+                    isAdmin = true;
+                }
+                if (isUse) {
+                    if (args.length == 0) {
+                        ZMusic.message.sendNull(sender);
+                    } else {
+                        switch (args[0].toLowerCase()) {
+                            case "music":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    int cooldownSec = Config.cooldown;
+                                    Runnable startPlay = () -> {
+                                        if (args.length >= 2) {
+                                            List<Object> players = ZMusic.player.getOnlinePlayerList();
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "music", players);
+                                        } else {
+                                            HelpUtils.sendHelp("music", sender);
                                         }
-                                        ZMusic.runTask.runAsync(startPlay);
-                                        if (cooldownSec > 0) {
-                                            cooldownStats.add(sender);
-                                            cooldown.put(sender, cooldownSec);
-                                            Timer timer = new Timer();
-                                            TimerTask timerTask = new TimerTask() {
-                                                @Override
-                                                public void run() {
-                                                    int sec = cooldown.get(sender);
-                                                    if (sec != 1) {
-                                                        sec--;
-                                                        cooldown.put(sender, sec);
-                                                    } else {
-                                                        cooldownStats.remove(sender);
-                                                        cancel();
+                                    };
+                                    if (!ZMusic.player.hasPermission(sender, "zmusic.bypass")) {
+                                        if (!cooldownStats.contains(sender)) {
+                                            if (!ZMusic.isBC) {
+                                                if (Config.realSupportVault) {
+                                                    if (Config.money > 0) {
+                                                        Vault.take(sender);
                                                     }
                                                 }
-                                            };
-                                            timer.schedule(timerTask, 1000L, 1000L);
+                                            }
+                                            ZMusic.runTask.runAsync(startPlay);
+                                            if (cooldownSec > 0) {
+                                                cooldownStats.add(sender);
+                                                cooldown.put(sender, cooldownSec);
+                                                Timer timer = new Timer();
+                                                TimerTask timerTask = new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        int sec = cooldown.get(sender);
+                                                        if (sec != 1) {
+                                                            sec--;
+                                                            cooldown.put(sender, sec);
+                                                        } else {
+                                                            cooldownStats.remove(sender);
+                                                            cancel();
+                                                        }
+                                                    }
+                                                };
+                                                timer.schedule(timerTask, 1000L, 1000L);
+                                            } else {
+                                                break;
+                                            }
                                         } else {
-                                            break;
+                                            ZMusic.message.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
                                         }
                                     } else {
-                                        ZMusic.message.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
+                                        ZMusic.runTask.runAsync(startPlay);
                                     }
                                 } else {
-                                    ZMusic.runTask.runAsync(startPlay);
-                                }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "play":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                if (args.length >= 2) {
-                                    ZMusic.runTask.runAsync(() -> {
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "self", null);
-                                    });
-                                } else {
-                                    HelpUtils.sendHelp("play", sender);
-                                }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "search":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                if (args.length >= 2) {
-                                    ZMusic.runTask.runAsync(() -> {
-                                        SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], sender);
-                                    });
-                                } else {
-                                    HelpUtils.sendHelp("search", sender);
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                                 }
                                 break;
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "stop":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(sender);
-                                if (plp != null) {
-                                    plp.isStop = true;
-                                    PlayerData.setPlayerPlayListPlayer(sender, null);
+                            case "play":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (args.length >= 2) {
+                                        ZMusic.runTask.runAsync(() -> {
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "self", null);
+                                        });
+                                    } else {
+                                        HelpUtils.sendHelp("play", sender);
+                                    }
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                }
+                                break;
+                            case "search":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (args.length >= 2) {
+                                        ZMusic.runTask.runAsync(() -> {
+                                            SearchMusic.sendList(OtherUtils.argsXin1(args), args[1], sender);
+                                        });
+                                    } else {
+                                        HelpUtils.sendHelp("search", sender);
+                                    }
+                                    break;
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                }
+                                break;
+                            case "stop":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(sender);
+                                    if (plp != null) {
+                                        plp.isStop = true;
+                                        PlayerData.setPlayerPlayListPlayer(sender, null);
+                                        OtherUtils.resetPlayerStatus(sender);
+                                    }
                                     OtherUtils.resetPlayerStatus(sender);
+                                    ZMusic.message.sendNormalMessage("停止播放音乐成功!", sender);
+                                    break;
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                                 }
-                                OtherUtils.resetPlayerStatus(sender);
-                                ZMusic.message.sendNormalMessage("停止播放音乐成功!", sender);
                                 break;
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "loop":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                if (PlayerData.getPlayerLoopPlay(sender) != null && PlayerData.getPlayerLoopPlay(sender)) {
-                                    PlayerData.setPlayerLoopPlay(sender, false);
-                                    ZMusic.message.sendNormalMessage("循环播放已关闭!", sender);
+                            case "loop":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (PlayerData.getPlayerLoopPlay(sender) != null && PlayerData.getPlayerLoopPlay(sender)) {
+                                        PlayerData.setPlayerLoopPlay(sender, false);
+                                        ZMusic.message.sendNormalMessage("循环播放已关闭!", sender);
+                                    } else {
+                                        PlayerData.setPlayerLoopPlay(sender, true);
+                                        ZMusic.message.sendNormalMessage("循环播放已开启!", sender);
+                                    }
                                 } else {
-                                    PlayerData.setPlayerLoopPlay(sender, true);
-                                    ZMusic.message.sendNormalMessage("循环播放已开启!", sender);
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                                 }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "playlist":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                if (args.length >= 2) {
-                                    ZMusic.runTask.runAsync(() -> {
-                                        PlayList.subCommand(args, sender);
-                                    });
+                                break;
+                            case "playlist":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (args.length >= 2) {
+                                        ZMusic.runTask.runAsync(() -> {
+                                            PlayList.subCommand(args, sender);
+                                        });
+                                    } else {
+                                        HelpUtils.sendHelp("playlist", sender);
+                                    }
                                 } else {
-                                    HelpUtils.sendHelp("playlist", sender);
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
                                 }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "url":
-                            if (ZMusic.player.isPlayer(sender)) {
+                                break;
+                            case "url":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (args.length == 2) {
+                                        ZMusic.runTask.runAsync(() -> {
+                                            ZMusic.music.stop(sender);
+                                            try {
+                                                Thread.sleep(10);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                            ZMusic.music.play(args[1], sender);
+                                            ZMusic.message.sendNormalMessage("播放成功!", sender);
+                                        });
+                                    } else {
+                                        HelpUtils.sendHelp("url", sender);
+                                    }
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                }
+                                break;
+                            case "playall":
+                                if (isAdmin) {
+                                    List<Object> players = ZMusic.player.getOnlinePlayerList();
+                                    if (args.length >= 2) {
+                                        ZMusic.runTask.runAsync(() -> {
+                                            PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "all", players);
+                                        });
+                                    } else {
+                                        HelpUtils.sendHelp("admin", sender);
+                                    }
+                                } else {
+                                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                }
+                                break;
+                            case "stopall":
+                                if (isAdmin) {
+                                    List<Object> players = ZMusic.player.getOnlinePlayerList();
+                                    for (Object player : players) {
+                                        OtherUtils.resetPlayerStatus(player);
+                                    }
+                                    ZMusic.message.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
+                                } else {
+                                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                }
+                                break;
+                            case "help":
                                 if (args.length == 2) {
-                                    ZMusic.runTask.runAsync(() -> {
-                                        ZMusic.music.stop(sender);
-                                        try {
-                                            Thread.sleep(10);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        ZMusic.music.play(args[1], sender);
-                                        ZMusic.message.sendNormalMessage("播放成功!", sender);
-                                    });
-                                } else {
-                                    HelpUtils.sendHelp("url", sender);
-                                }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "playall":
-                            if (isAdmin) {
-                                List<Object> players = ZMusic.player.getOnlinePlayerList();
-                                if (args.length >= 2) {
-                                    ZMusic.runTask.runAsync(() -> {
-                                        PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "all", players);
-                                    });
-                                } else {
-                                    HelpUtils.sendHelp("admin", sender);
-                                }
-                            } else {
-                                ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
-                            }
-                            break;
-                        case "stopall":
-                            if (isAdmin) {
-                                List<Object> players = ZMusic.player.getOnlinePlayerList();
-                                for (Object player : players) {
-                                    OtherUtils.resetPlayerStatus(player);
-                                }
-                                ZMusic.message.sendNormalMessage("强制全部玩家停止播放音乐成功!", sender);
-                            } else {
-                                ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
-                            }
-                            break;
-                        case "help":
-                            if (args.length == 2) {
-                                HelpUtils.sendHelp(args[1], sender);
-                            } else {
-                                HelpUtils.sendHelp("main", sender);
-                            }
-                            break;
-                        case "reload":
-                            if (isAdmin) {
-                                new LoadConfig().reload(sender);
-                                ZMusic.runTask.runAsync(() -> new LoadLang().load());
-                                OtherUtils.loginNetease(sender, true);
-                            } else {
-                                ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
-                            }
-                            break;
-                        case "update":
-                            if (isAdmin) {
-                                OtherUtils.checkUpdate(sender, true);
-                            } else {
-                                ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
-                            }
-                            break;
-                        case "163hot":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                if (args.length == 2) {
-                                    OtherUtils.neteaseHotComments(sender, OtherUtils.argsXin1(args, ""));
+                                    HelpUtils.sendHelp(args[1], sender);
                                 } else {
                                     HelpUtils.sendHelp("main", sender);
                                 }
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        case "test":
-                            if (ZMusic.player.isPlayer(sender)) {
-                                ZMusic.runTask.runAsync(() -> {
-                                    ProgressBar progressBar = new ProgressBar('■', '□', 100 - 1);
-                                    for (int i = 0; i < 100; i++) {
-                                        progressBar.setProgress(i);
-                                        try {
-                                            ZMusic.message.sendActionBarMessage(new TextComponent(progressBar.getString()), sender);
-                                            Thread.sleep(10);
-                                        } catch (Exception ignored) {
-                                        }
+                                break;
+                            case "reload":
+                                if (isAdmin) {
+                                    new LoadConfig().reload(sender);
+                                    ZMusic.runTask.runAsync(() -> new LoadLang().load());
+                                    OtherUtils.loginNetease(sender, true);
+                                } else {
+                                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                }
+                                break;
+                            case "update":
+                                if (isAdmin) {
+                                    OtherUtils.checkUpdate(sender, true);
+                                } else {
+                                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                }
+                                break;
+                            case "163hot":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    if (args.length == 2) {
+                                        OtherUtils.neteaseHotComments(sender, OtherUtils.argsXin1(args, ""));
+                                    } else {
+                                        HelpUtils.sendHelp("main", sender);
                                     }
-                                });
-                            } else {
-                                ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
-                            }
-                            break;
-                        default:
-                            ZMusic.message.sendNull(sender);
-                            break;
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                }
+                                break;
+                            case "test":
+                                if (ZMusic.player.isPlayer(sender)) {
+                                    ZMusic.runTask.runAsync(() -> {
+                                        ProgressBar progressBar = new ProgressBar('■', '□', 100 - 1);
+                                        for (int i = 0; i < 100; i++) {
+                                            progressBar.setProgress(i);
+                                            try {
+                                                ZMusic.message.sendActionBarMessage(new TextComponent(progressBar.getString()), sender);
+                                                Thread.sleep(10);
+                                            } catch (Exception ignored) {
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                }
+                                break;
+                            default:
+                                ZMusic.message.sendNull(sender);
+                                break;
+                        }
                     }
+                } else {
+                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.use 权限此使用命令.", sender);
                 }
             } else {
-                ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.use 权限此使用命令.", sender);
+                ZMusic.message.sendErrorMessage("错误: 请删除AudioBuffer/AllMusic插件.", sender);
             }
         } else {
-            ZMusic.message.sendErrorMessage("错误: 请删除AudioBuffer/AllMusic插件.", sender);
+            ZMusic.message.sendErrorMessage("错误: 请等待插件加载完毕.", sender);
         }
         return true;
     }

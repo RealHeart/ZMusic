@@ -110,6 +110,7 @@ public class LyricSender extends Thread {
                         if (Config.supportHud) {
                             ZMusic.send.sendAM(player, "[Lyric]");
                             ZMusic.send.sendAM(player, "[Info]");
+                            hudInfo = new StringBuilder();
                         }
                         if (!isPlayList) {
                             ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 非歌单模式 检测循环播放状态");
@@ -117,11 +118,8 @@ public class LyricSender extends Thread {
                             if (loop != null && loop) {
                                 ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放开启 重新播放当前音乐");
                                 time = -1;
-                                PlayerData.setPlayerPlayStatus(player, true);
                                 ZMusic.music.play(url, player);
-                                if (Config.supportBossBar) {
-                                    initBossBar();
-                                }
+                                init();
                             } else {
                                 ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放关闭 线程停止");
                                 stopThis();
