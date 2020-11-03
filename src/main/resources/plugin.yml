@@ -1,0 +1,30 @@
+name: ZMusic
+main: me.zhenxin.zmusic.ZMusicBukkit
+version: '3.1'
+api-version: '1.13'
+author: 真心
+description: 真心音乐系统
+softdepend:
+  - Kotlin
+  - ViaVersion
+  - PlaceholderAPI
+  - Vault
+  - Yum
+  - CMI
+commands:
+  zm:
+    usage: /zm help
+    description: 主命令
+    aliases:
+      - zmusic
+      - Music
+permissions:
+  zmusic.use:
+    default: true
+    description: 普通玩家使用权限
+  zmusic.bypass:
+    default: op
+    description: 绕过冷却和扣钱权限
+  zmusic.admin:
+    default: op
+    description: 管理员权限
