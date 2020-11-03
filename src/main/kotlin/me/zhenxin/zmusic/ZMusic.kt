@@ -27,10 +27,23 @@ object ZMusic {
     var isEnabled: Boolean = false
 
     fun enable() {
-        logger?.normal(Lang.Loading.loading)
+        val logo = ("\n" +
+                "  ______  __  __                 _        \n" +
+                " |___  / |  \\/  |               (_)       \n" +
+                "    / /  | \\  / |  _   _   ___   _    ___ \n" +
+                "   / /   | |\\/| | | | | | / __| | |  / __|\n" +
+                "  / /__  | |  | | | |_| | \\__ \\ | | | (__ \n" +
+                " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n" +
+                "                                          \n").split("\n")
+        logo.forEach {
+            logger?.log("§b$it")
+        }
+        logger?.log("\t§6v$thisVer($thisVerCode)\tby ZhenXin")
+        logger?.log("")
+        logger?.log(Lang.Loading.loading)
         val manager = CookieManager()
         CookieHandler.setDefault(manager)
         Config.load()
-        logger?.normal(Lang.Loading.loaded)
+        logger?.log(Lang.Loading.loaded + "\n\n")
     }
 }

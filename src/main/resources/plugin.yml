@@ -1,7 +1,7 @@
 name: ZMusic
 main: me.zhenxin.zmusic.ZMusicBukkit
-version: '3.1'
-api-version: '1.13'
+version: %version%
+api-version: 1.13
 author: 真心
 description: 真心音乐系统
 softdepend:

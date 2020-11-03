@@ -101,6 +101,6 @@ object Config {
         Lyric.Hud.lyricX = temp["lyricX"] as Int
         Lyric.Hud.lyricY = temp["lyricY"] as Int
 
-        ZMusic.logger?.normal(Lang.Loading.configLoaded)
+        ZMusic.logger?.log(Lang.Loading.configLoaded)
     }
 }

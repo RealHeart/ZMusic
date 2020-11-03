@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 class LoggerBukkit(private val sender: CommandSender) : Logger {
 
 
-    override fun normal(msg: String) {
+    override fun log(msg: String) {
         sender.sendMessage(Config.prefix + ChatColor.GREEN + msg)
     }
 

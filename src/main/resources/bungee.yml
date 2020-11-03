@@ -1,6 +1,6 @@
 name: ZMusic
 main: me.zhenxin.zmusic.ZMusicBC
-version: '3.1'
+version: %version%
 author: 真心
 description: 真心音乐系统
 softdepends:

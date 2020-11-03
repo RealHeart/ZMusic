@@ -6,6 +6,6 @@ import me.zhenxin.zmusic.ZMusic
 object EventEx {
     fun onJoin(player: Any) {
         // 检查更新
-        ZMusic.logger?.normal(player.toString())
+        ZMusic.logger?.log(player.toString())
     }
 }

@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.10"
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    kotlin("jvm") version "1.4.10" // Kotlin JVM
+    id("com.github.johnrengelman.shadow") version "6.1.0" // 全量打包插件
 }
 group = "me.zhenxin"
 version = "3.0"
@@ -37,9 +37,13 @@ repositories {
     jcenter()
 }
 dependencies {
-    // Kotlin
-    compileOnly("org.spigotmc", "spigot-api", "1.16.3-R0.1-SNAPSHOT")
-    compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT")
+    implementation("com.alibaba", "fastjson", "1.2.73") // fastjson
+    testImplementation("com.alibaba", "fastjson", "1.2.73") // fastjson - 测试环境
+
+    compileOnly("org.spigotmc", "spigot-api", "1.16.3-R0.1-SNAPSHOT") // Spigot API
+    compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT") // BC API
+
+    // NMS
     compileOnly("org.bukkit.nms", "v1_8_R3", "1")
     compileOnly("org.bukkit.nms", "v1_12_R1", "1")
     compileOnly("org.bukkit.nms", "v1_13_R2", "1")
@@ -47,19 +51,34 @@ dependencies {
     compileOnly("org.bukkit.nms", "v1_15_R1", "1")
     compileOnly("org.bukkit.nms", "v1_16_R1", "1")
     compileOnly("org.bukkit.nms", "v1_16_R2", "1")
-    compileOnly("me.clip", "placeholderapi", "2.9.2")
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7")
-    compileOnly("us.myles", "viaversion", "3.1.0")
-    compileOnly("io.netty", "netty-buffer", "4.1.51.Final")
-    testImplementation(kotlin("test-junit"))
+
+    compileOnly("me.clip", "placeholderapi", "2.9.2") // PAPI
+    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") // Vault
+    compileOnly("us.myles", "viaversion", "3.1.0") // ViaVersion
+    compileOnly("io.netty", "netty-buffer", "4.1.51.Final") // netty-buffer
+    testImplementation(kotlin("test-junit")) // 测试环境
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 tasks.build {
+    // build时执行shadowJar任务
     dependsOn(tasks.shadowJar)
+}
+
+
+tasks.processResources {
+    // 替换版本
+    from("src/main/resources/bungee.yml") {
+        // BC插件版本
+        filter { return@filter it.replace("%version%", version.toString()) }
+    }
+
+    from("src/main/resources/plugin.yml") {
+        // Bukkit插件版本
+        filter { return@filter it.replace("%version%", version.toString()) }
+    }
 }
 

@@ -9,12 +9,12 @@ import net.md_5.bungee.api.chat.TextComponent
 class LoggerBC(private val sender: CommandSender) : Logger {
 
 
-    override fun normal(msg: String) {
+    override fun log(msg: String) {
         sender.sendMessage(TextComponent(Config.prefix + ChatColor.GREEN + msg))
     }
 
     override fun debug(msg: String) {
-        normal(Config.debug.toString())
+        log(Config.debug.toString())
         if (Config.debug) {
             sender.sendMessage(TextComponent(Config.prefix + ChatColor.YELLOW + "[Debug] " + msg))
         }

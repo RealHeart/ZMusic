@@ -9,6 +9,7 @@ class ZMusicBC : Plugin() {
         ZMusic.isBC = true
         ZMusic.plugin = this
         ZMusic.logger = LoggerBC(proxy.console)
+        ZMusic.thisVer = description.version
 //        ZMusic.tasker = RunTaskBC()
 //        ZMusic.msg = MessageBC()
 //        ZMusic.sender = SendBC()
