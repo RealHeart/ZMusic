@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module
 
-interface Logger {
+internal interface Logger {
 
     fun log(msg: String)
     fun debug(msg: String)

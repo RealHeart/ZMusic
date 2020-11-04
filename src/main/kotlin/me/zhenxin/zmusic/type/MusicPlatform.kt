@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.type
 
-enum class MusicPlatform {
+internal enum class MusicPlatform {
     QQ,
     NETEASE,
     KUGOU,

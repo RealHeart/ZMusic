@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.config
 
 
-object Lang {
+internal object Lang {
 
     object Plugin {
         val author = "真心"
@@ -21,7 +21,7 @@ object Lang {
     }
 
     object Help {
-        var tip = ""
+        var tip = "输入 /zm help 查看帮助."
         var main = arrayOf(
             "/zm help - 查看主帮助(当前).",
             "/zm help play - 查看播放帮助.",

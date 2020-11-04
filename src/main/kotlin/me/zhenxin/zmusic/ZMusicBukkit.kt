@@ -1,18 +1,35 @@
 package me.zhenxin.zmusic
 
+import me.zhenxin.zmusic.command.CmdBukkit
+import me.zhenxin.zmusic.module.logger.LoggerBukkit
+import me.zhenxin.zmusic.module.tasker.TaskerBukkit
+import me.zhenxin.zmusic.module.version.VersionBukkit
 import org.bukkit.plugin.java.JavaPlugin
 
-class ZMusicBukkit : JavaPlugin() {
+
+internal class ZMusicBukkit : JavaPlugin() {
     var plugin: JavaPlugin? = this
 
     override fun onEnable() {
-        if (server.pluginManager.isPluginEnabled("AudioBuffer")) {
-            ZMusic.logger?.error("请勿安装AudioBuffer插件.")
-            ZMusic.isEnable = false;
+        getCommand("zm")?.setExecutor(CmdBukkit())
+        getCommand("zm")?.tabCompleter = CmdBukkit()
+        val version = VersionBukkit()
+        server.messenger.registerOutgoingPluginChannel(this, "allmusic:channel")
+        if (!version.isHigherThan("1.12")) {
+            server.messenger.registerOutgoingPluginChannel(this, "AudioBuffer")
         }
-        if (server.pluginManager.isPluginEnabled("AllMusic")) {
-            ZMusic.logger?.error("请勿安装AllMusic插件.")
+        ZMusic.isBC = true
+        ZMusic.plugin = this
+        ZMusic.logger = LoggerBukkit(server.consoleSender)
+        ZMusic.thisVer = description.version
+        ZMusic.tasker = TaskerBukkit()
+        ZMusic.dataFolder = dataFolder
+        if (server.pluginManager.isPluginEnabled("AudioBuffer")) {
             ZMusic.isEnable = false
         }
+        if (server.pluginManager.isPluginEnabled("AllMusic")) {
+            ZMusic.isEnable = false
+        }
+        ZMusic.enable()
     }
 }

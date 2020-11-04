@@ -1,24 +1,25 @@
 package me.zhenxin.zmusic
 
-import com.alibaba.fastjson.JSONObject
-import me.zhenxin.zmusic.api.netease.NeteaseApi
+import com.google.gson.JsonObject
+import me.zhenxin.zmusic.module.api.NeteaseApi
 import org.junit.Test
 
 
-class ZMusicTest {
+internal class ZMusicTest {
 
     @Test
     fun test() {
-        val api = NeteaseApi()
-        val data = api.search("初音未来的消失").getJSONArray("data")
-        data.forEach {
-            it as JSONObject
-            println("==============")
-            println(it["id"])
-            println(it["name"])
-            println(it["singer"])
-            println(it["time"])
-            println(it["url"])
-        }
+//        val api = NeteaseApi()
+//        val data = api.search("lemon")["data"].asJsonArray
+//        data.forEach {
+//            it as JsonObject
+//            println("==============")
+//            println(it["id"].asString)
+//            println(it["name"].asString)
+//            println(it["singer"].asString)
+//            println(it["time"].asInt)
+//            println(it["url"].asString)
+//            api.api
+//        }
     }
 }

@@ -6,22 +6,18 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.TextComponent
 
-class LoggerBC(private val sender: CommandSender) : Logger {
+internal class LoggerBC(private val sender: CommandSender) : Logger {
 
 
-    override fun log(msg: String) {
+    override fun log(msg: String) =
         sender.sendMessage(TextComponent(Config.prefix + ChatColor.GREEN + msg))
-    }
 
     override fun debug(msg: String) {
-        log(Config.debug.toString())
-        if (Config.debug) {
+        if (Config.debug)
             sender.sendMessage(TextComponent(Config.prefix + ChatColor.YELLOW + "[Debug] " + msg))
-        }
     }
 
-    override fun error(msg: String) {
+    override fun error(msg: String) =
         sender.sendMessage(TextComponent(Config.prefix + ChatColor.RED + msg))
-    }
 
 }

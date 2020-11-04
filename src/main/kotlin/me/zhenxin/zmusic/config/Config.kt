@@ -3,7 +3,7 @@ package me.zhenxin.zmusic.config
 import me.zhenxin.zmusic.ZMusic
 import org.yaml.snakeyaml.Yaml
 
-object Config {
+internal object Config {
 
     var version: Int = 0
     var update: Boolean = false

@@ -37,10 +37,9 @@ repositories {
     jcenter()
 }
 dependencies {
-    implementation("com.alibaba", "fastjson", "1.2.73") // fastjson
-    testImplementation("com.alibaba", "fastjson", "1.2.73") // fastjson - 测试环境
 
-    compileOnly("org.spigotmc", "spigot-api", "1.16.3-R0.1-SNAPSHOT") // Spigot API
+    compileOnly("org.spigotmc", "spigot-api", "1.16.4-R0.1-SNAPSHOT") // Spigot API
+    testImplementation("org.spigotmc", "spigot-api", "1.16.4-R0.1-SNAPSHOT") // Spigot API - 测试环境
     compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT") // BC API
 
     // NMS
