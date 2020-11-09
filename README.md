@@ -2,7 +2,7 @@
 
 ![][java] ![][kotlin] [![][release]](../../releases) [![][build-status]][build-link]
 
-kotlin版本开发中 java版请查看[master](../tree/master/)分支
+kotlin版本开发中 java版请查看[master](../../tree/master/)分支
 
 ## 简介
 
@@ -17,6 +17,7 @@ kotlin版本开发中 java版请查看[master](../tree/master/)分支
 * 全服歌单
 * 歌单播放(QQ音乐/网易云)
 * 音量调节(AllMusic支持)
+* 支持BungeeCord
 
 ## 视频
 
