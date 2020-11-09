@@ -3,6 +3,6 @@
 > 全功能Minecraft点歌插件
 
 [Github](https://github.com/RealHeart/ZMusic)
-[查看文档](#介绍)
+[查看文档](#ZMusic)
 
 ![](http://api.zhenxin.xyz/acg/url)
