@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.Api
 
-internal class XimaApi : Api {
+class XimaApi : Api {
     override val api = Config.Api.xima
     override fun search(key: String, page: Int, count: Int): JsonObject {
         TODO("Not yet implemented")

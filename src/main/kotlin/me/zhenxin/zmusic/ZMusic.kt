@@ -8,41 +8,37 @@ import java.io.File
 import java.net.CookieHandler
 import java.net.CookieManager
 
-internal object ZMusic {
-    var plugin: Any? = null
-
+object ZMusic {
     var isBC = false
     var isVIP = false
     var isEnable: Boolean = true
     var isEnabled: Boolean = false
 
-    var logger: Logger? = null
-    var tasker: Tasker? = null
+    lateinit var logger: Logger
+    lateinit var tasker: Tasker
 
-    var dataFolder: File? = null
+    lateinit var dataFolder: File
 
-    var thisVer: String? = null
+    lateinit var thisVer: String
     var thisVerCode = 202009190
 
     fun enable() {
-        val logo = ("\n" +
-                "  ______  __  __                 _        \n" +
+        val logo = ("  ______  __  __                 _        \n" +
                 " |___  / |  \\/  |               (_)       \n" +
                 "    / /  | \\  / |  _   _   ___   _    ___ \n" +
                 "   / /   | |\\/| | | | | | / __| | |  / __|\n" +
                 "  / /__  | |  | | | |_| | \\__ \\ | | | (__ \n" +
-                " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n" +
-                "                                          \n").split("\n")
+                " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n").split("\n")
         logo.forEach {
-            logger?.log("§b$it")
+            logger.log("§b$it")
         }
-        logger?.log("\t§6v$thisVer($thisVerCode)\tby ZhenXin")
-        logger?.log("")
-        logger?.log(Lang.Loading.loading)
+        logger.log("\t§6v$thisVer($thisVerCode)\tby ZhenXin")
+        logger.log("")
+        logger.log(Lang.Loading.loading)
         val manager = CookieManager()
         CookieHandler.setDefault(manager)
         Config.load()
-        logger?.log(Lang.Loading.loaded + "\n\n")
+        logger.log(Lang.Loading.loaded)
         isEnabled = true
     }
 }

@@ -9,17 +9,17 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer
 
 
-internal class SenderBC(private val sender: Any) : Sender {
+class SenderBC(private val sender: Any) : Sender {
     override fun sendPMsgToABF(data: String) {
         try {
-            ZMusic.tasker?.async {
+            ZMusic.tasker.async {
                 (sender as ProxiedPlayer).server.info.sendData(
                     "AudioBuffer",
                     data.toByteArray()
                 )
             }
         } catch (e: Exception) {
-            ZMusic.logger?.debug("[Mod通信] 数据发送发生错误")
+            ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }
     }
 
@@ -29,14 +29,14 @@ internal class SenderBC(private val sender: Any) : Sender {
             val buf = Unpooled.buffer(bytes.size + 1)
             buf.writeByte(1024)
             buf.writeBytes(bytes)
-            ZMusic.tasker?.async {
+            ZMusic.tasker.async {
                 (sender as ProxiedPlayer).server.info.sendData(
                     channel,
                     buf.array()
                 )
             }
         } catch (e: Exception) {
-            ZMusic.logger?.debug("[Mod通信] 数据发送发生错误")
+            ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }
     }
 

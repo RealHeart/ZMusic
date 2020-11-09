@@ -5,7 +5,7 @@ import me.zhenxin.zmusic.module.Logger
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 
-internal class LoggerBukkit(private val sender: CommandSender) : Logger {
+class LoggerBukkit(private val sender: CommandSender) : Logger {
 
 
     override fun log(msg: String) =

@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.config
 
 
-internal object Lang {
+object Lang {
 
     object Plugin {
         val author = "真心"

@@ -1,6 +1,8 @@
 # ZMusic
 
-![][java] ![][kotlin] [![][release]](../../releases) ![][stars] [![][build-status]][build-link]
+![][java] ![][kotlin] [![][release]](../../releases) [![][build-status]][build-link]
+
+kotlin版本开发中 java版请查看[master](../tree/master/)分支
 
 ## 简介
 
@@ -8,12 +10,12 @@
 * 全服点歌
 * 单独播放
 * 歌词显示
-* 歌词翻译显示(目前仅支持QQ音乐)
-* 多搜索源(QQ/网易云/酷狗/酷我)
+* 歌词翻译显示
+* 多搜索源(QQ/网易云/酷狗/酷我/哔哩哔哩)
 * 关键词搜索
 * 个人歌单
 * 全服歌单
-* 歌单播放(QQ/网易云)
+* 歌单播放(QQ音乐/网易云)
 * 音量调节(AllMusic支持)
 
 ## 视频
@@ -55,21 +57,9 @@
 
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
-## 本地化
-
-你可以通过翻译语言文件来达到插件本地化的意图
-
-#### 操作步骤：
-1. Fork本仓库
-2. 本地修改/添加语言文件
-3. 提交Pull Request
-
-语言文件修改/添加请参考 [示例文件](ZMusic-Plugin/src/main/resources/language/zh_CN.json)
-
 
 [java]: https://badgen.net/badge/Java/1.8/green
 [kotlin]: https://badgen.net/badge/Kotlin/1.4.10/green
 [release]: https://badgen.net/github/release/RealHeart/ZMusic
-[stars]: https://badgen.net/github/stars/RealHeart/ZMusic
 [build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
 [build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/

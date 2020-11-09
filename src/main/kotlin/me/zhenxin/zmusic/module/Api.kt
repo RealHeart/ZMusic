@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import me.zhenxin.zmusic.util.ext.URLExt.readText
 import java.net.URL
 
-internal interface Api {
+interface Api {
     val api: String
 
     fun get(url: String): String = URL(api + url).readText()

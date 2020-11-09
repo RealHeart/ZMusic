@@ -3,7 +3,7 @@ package me.zhenxin.zmusic.config
 import me.zhenxin.zmusic.ZMusic
 import org.yaml.snakeyaml.Yaml
 
-internal object Config {
+object Config {
 
     var version: Int = 0
     var update: Boolean = false
@@ -101,6 +101,6 @@ internal object Config {
         Lyric.Hud.lyricX = temp["lyricX"] as Int
         Lyric.Hud.lyricY = temp["lyricY"] as Int
 
-        ZMusic.logger?.log(Lang.Loading.configLoaded)
+        ZMusic.logger.log(Lang.Loading.configLoaded)
     }
 }

@@ -1,11 +1,12 @@
 package me.zhenxin.zmusic.module.api
 
 import com.google.gson.JsonObject
-import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.Api
 
-class QQApi : Api {
-    override val api = Config.Api.qq
+class BiliBiliApi : Api {
+    override val api: String
+        get() = TODO("Not yet implemented")
+
     override fun search(key: String, page: Int, count: Int): JsonObject {
         TODO("Not yet implemented")
     }

@@ -7,7 +7,7 @@ import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.Api
 import java.net.URLEncoder
 
-internal class NeteaseApi : Api {
+class NeteaseApi : Api {
     override val api: String = Config.Api.netease
     private val gson = GsonBuilder().create()
     override fun search(key: String, page: Int, count: Int): JsonObject {

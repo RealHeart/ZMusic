@@ -4,7 +4,7 @@ import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.Sender
 
-internal object CmdEx {
+object CmdEx {
 
     fun tab(sender: Sender, args: Array<String>): MutableList<String> {
         return mutableListOf()
@@ -22,10 +22,17 @@ internal object CmdEx {
             }
             when (args[0].toLowerCase()) {
                 "help" -> Lang.Help.main.forEach {
-                    if (it.contains("[admin]"))
+                    if (it.contains("[admin]")) {
                         sender.sendMsg(it.split("[admin]")[1])
-                    else
+                    } else {
                         sender.sendMsg(it)
+                    }
+                }
+                "play" -> {
+
+                }
+                else -> {
+                    sender.sendMsg(Lang.Help.tip)
                 }
             }
         } else {

@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic
 
+import me.zhenxin.zmusic.bstats.MetricsBC
 import me.zhenxin.zmusic.command.CmdBC
 import me.zhenxin.zmusic.event.EventBC
 import me.zhenxin.zmusic.module.logger.LoggerBC
@@ -7,7 +8,7 @@ import me.zhenxin.zmusic.module.tasker.TaskerBC
 import net.md_5.bungee.api.plugin.Plugin
 
 
-internal class ZMusicBC : Plugin() {
+class ZMusicBC : Plugin() {
 
     override fun onEnable() {
         proxy.registerChannel("zmusic:channel")
@@ -16,8 +17,9 @@ internal class ZMusicBC : Plugin() {
         proxy.pluginManager.registerCommand(this, CmdBC())
         proxy.pluginManager.registerListener(this, EventBC())
 
+        MetricsBC(this,8864)
+
         ZMusic.isBC = true
-        ZMusic.plugin = this
         ZMusic.logger = LoggerBC(proxy.console)
         ZMusic.thisVer = description.version
         ZMusic.tasker = TaskerBC()

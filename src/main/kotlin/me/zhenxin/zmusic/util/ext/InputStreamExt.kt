@@ -3,7 +3,7 @@ package me.zhenxin.zmusic.util.ext
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
-internal object InputStreamExt {
+object InputStreamExt {
     fun InputStream.readText(): String {
         val bytes = this.readBytes()
         this.close()

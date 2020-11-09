@@ -6,7 +6,7 @@ import java.io.DataOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-internal object URLExt {
+object URLExt {
     fun URL.readText(
         header: MutableMap<String, String> = mutableMapOf()
     ): String {

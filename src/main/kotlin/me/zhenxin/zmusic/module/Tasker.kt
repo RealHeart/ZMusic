@@ -1,5 +1,5 @@
 package me.zhenxin.zmusic.module
 
-internal interface Tasker {
+interface Tasker {
     fun async(runnable: Runnable)
 }

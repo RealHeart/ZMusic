@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.resolver.fetchKotlinBuildScriptModelFor
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,9 +12,8 @@ repositories {
     mavenLocal()
     maven {
         name = "AliyunJCenter"
-        setUrl("https://maven.aliyun.com/repository/public")
+        setUrl("https://maven.aliyun.com/repository/public/")
     }
-
     maven {
         name = "Spigot"
         setUrl("https://hub.spigotmc.org/nexus/content/groups/public/")
@@ -24,32 +24,32 @@ repositories {
     }
     maven {
         name = "jitpack.io"
-        setUrl("https://jitpack.io")
+        setUrl("https://jitpack.io/")
     }
     maven {
         name = "ZhenXin"
-        setUrl("https://code.aliyun.com/zhenxin/Maven/raw/master/")
+        setUrl("https://repo.zhenxin.me/")
     }
     maven {
         name = "ViaVersion"
         setUrl("https://repo.viaversion.com/")
     }
-    jcenter()
 }
 dependencies {
 
     compileOnly("org.spigotmc", "spigot-api", "1.16.4-R0.1-SNAPSHOT") // Spigot API
-    testImplementation("org.spigotmc", "spigot-api", "1.16.4-R0.1-SNAPSHOT") // Spigot API - 测试环境
+    testImplementation("com.google.code.gson", "gson", "2.8.0") // Gson - 测试环境
     compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT") // BC API
 
     // NMS
-    compileOnly("org.bukkit.nms", "v1_8_R3", "1")
-    compileOnly("org.bukkit.nms", "v1_12_R1", "1")
-    compileOnly("org.bukkit.nms", "v1_13_R2", "1")
-    compileOnly("org.bukkit.nms", "v1_14_R1", "1")
-    compileOnly("org.bukkit.nms", "v1_15_R1", "1")
-    compileOnly("org.bukkit.nms", "v1_16_R1", "1")
-    compileOnly("org.bukkit.nms", "v1_16_R2", "1")
+    val nms = "1.0"
+    compileOnly("me.zhenxin.mc", "nms-1.8-R3", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.12-R1", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.13-R2", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.14-R1", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.15-R1", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.16-R1", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.16-R2", nms)
 
     compileOnly("me.clip", "placeholderapi", "2.9.2") // PAPI
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") // Vault
@@ -62,22 +62,25 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 tasks.build {
     // build时执行shadowJar任务
     dependsOn(tasks.shadowJar)
 }
 
-
 tasks.processResources {
     // 替换版本
     from("src/main/resources/bungee.yml") {
         // BC插件版本
-        filter { return@filter it.replace("%version%", version.toString()) }
+        filter { return@filter it.replace("\${version}", version.toString()) }
     }
 
     from("src/main/resources/plugin.yml") {
         // Bukkit插件版本
-        filter { return@filter it.replace("%version%", version.toString()) }
+        filter { return@filter it.replace("\${version}", version.toString()) }
     }
 }
 

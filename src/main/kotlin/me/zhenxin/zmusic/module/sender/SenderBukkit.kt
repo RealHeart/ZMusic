@@ -12,18 +12,18 @@ import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 
 
-internal class SenderBukkit(private val sender: CommandSender) : Sender {
+class SenderBukkit(private val sender: CommandSender) : Sender {
     override fun sendPMsgToABF(data: String) {
         try {
-            ZMusic.tasker?.async {
+            ZMusic.tasker.async {
                 (sender as org.bukkit.entity.Player).sendPluginMessage(
-                    ZMusic.plugin as ZMusicBukkit,
+                    ZMusicBukkit(),
                     "AudioBuffer",
                     data.toByteArray()
                 )
             }
         } catch (e: Exception) {
-            ZMusic.logger?.debug("[Mod通信] 数据发送发生错误")
+            ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }
     }
 
@@ -33,15 +33,15 @@ internal class SenderBukkit(private val sender: CommandSender) : Sender {
             val buf = Unpooled.buffer(bytes.size + 1)
             buf.writeByte(666)
             buf.writeBytes(bytes)
-            ZMusic.tasker?.async {
+            ZMusic.tasker.async {
                 (sender as org.bukkit.entity.Player).sendPluginMessage(
-                    ZMusic.plugin as ZMusicBukkit,
+                    ZMusicBukkit(),
                     channel,
                     buf.array()
                 )
             }
         } catch (e: Exception) {
-            ZMusic.logger?.debug("[Mod通信] 数据发送发生错误")
+            ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }
     }
 
@@ -70,7 +70,7 @@ internal class SenderBukkit(private val sender: CommandSender) : Sender {
 
     override val isPlayer: Boolean = sender is org.bukkit.entity.Player
     override val onlinePlayerList: List<Any> = listOf(Bukkit.getServer().onlinePlayers)
-    override val online: Boolean = (sender as org.bukkit.entity.Player).isOnline
+    override val online: Boolean = if (sender is org.bukkit.entity.Player) sender.isOnline else false
     override val name: String = sender.name
 
 }

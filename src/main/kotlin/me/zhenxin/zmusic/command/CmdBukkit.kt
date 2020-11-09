@@ -5,7 +5,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 
-internal class CmdBukkit : TabExecutor {
+class CmdBukkit : TabExecutor {
     override fun onTabComplete(
         sender: CommandSender,
         command: Command,

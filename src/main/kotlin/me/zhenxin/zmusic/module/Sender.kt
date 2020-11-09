@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import me.zhenxin.zmusic.config.Lang
 import net.md_5.bungee.api.chat.TextComponent
 
-internal interface Sender {
+interface Sender {
 
     fun sendPMsgToABF(data: String)
 
