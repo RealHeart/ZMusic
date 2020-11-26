@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.resolver.fetchKotlinBuildScriptModelFor
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.10" // Kotlin JVM
+    kotlin("jvm") version "1.4.20" // Kotlin JVM
     id("com.github.johnrengelman.shadow") version "6.1.0" // 全量打包插件
 }
 group = "me.zhenxin"
@@ -28,7 +28,7 @@ repositories {
     }
     maven {
         name = "ZhenXin"
-        setUrl("https://repo.zhenxin.me/")
+        setUrl("https://realheart.gitee.io/maven/")
     }
     maven {
         name = "ViaVersion"
@@ -50,6 +50,7 @@ dependencies {
     compileOnly("me.zhenxin.mc", "nms-1.15-R1", nms)
     compileOnly("me.zhenxin.mc", "nms-1.16-R1", nms)
     compileOnly("me.zhenxin.mc", "nms-1.16-R2", nms)
+    compileOnly("me.zhenxin.mc", "nms-1.16-R3", nms)
 
     compileOnly("me.clip", "placeholderapi", "2.9.2") // PAPI
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") // Vault

@@ -60,7 +60,7 @@ kotlin版本开发中 java版请查看[master](../../tree/master/)分支
 
 
 [java]: https://badgen.net/badge/Java/1.8/green
-[kotlin]: https://badgen.net/badge/Kotlin/1.4.10/green
+[kotlin]: https://badgen.net/badge/Kotlin/1.4.20/green
 [release]: https://badgen.net/github/release/RealHeart/ZMusic
 [build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
 [build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/

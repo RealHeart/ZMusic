@@ -1,6 +1,6 @@
 # ZMusic
 
-![][java] ![][kotlin] [![][release]](../../releases) [![][build-status]][build-link]
+![][java] ![][kotlin] [![][release]](https://gitee.com/RealHeart/ZMusic/releases) [![][build-status]][build-link]
 
 ## 简介
 
