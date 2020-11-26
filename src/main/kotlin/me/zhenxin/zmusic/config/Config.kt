@@ -62,8 +62,7 @@ object Config {
         val config: Map<String, Any> = yaml.load(inputStream)
         version = config["version"] as Int
         update = config["update"] as Boolean
-        prefix = config["prefix"] as String
-        prefix = prefix.replace("&", "§")
+        prefix = (config["prefix"] as String).replace("&", "§")
         debug = config["debug"] as Boolean
 
         temp = config["api"] as Map<*, *>
@@ -88,8 +87,7 @@ object Config {
 
         temp = config["lyric"] as Map<*, *>
         Lyric.enable = temp["enable"] as Boolean
-        Lyric.color = temp["color"] as String
-        Lyric.color = Lyric.color.replace("&", "§")
+        Lyric.color = (temp["color"] as String).replace("&", "§")
         Lyric.bossBar = temp["bossBar"] as Boolean
         Lyric.actionBar = temp["actionBar"] as Boolean
         Lyric.subTitle = temp["subTitle"] as Boolean

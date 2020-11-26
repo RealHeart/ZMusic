@@ -23,15 +23,13 @@ object ZMusic {
     var thisVerCode = 202009190
 
     fun enable() {
-        val logo = ("  ______  __  __                 _        \n" +
+        ("  ______  __  __                 _        \n" +
                 " |___  / |  \\/  |               (_)       \n" +
                 "    / /  | \\  / |  _   _   ___   _    ___ \n" +
                 "   / /   | |\\/| | | | | | / __| | |  / __|\n" +
                 "  / /__  | |  | | | |_| | \\__ \\ | | | (__ \n" +
                 " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n").split("\n")
-        logo.forEach {
-            logger.log("§b$it")
-        }
+            .forEach { logger.log("§b$it") }
         logger.log("\t§6v$thisVer($thisVerCode)\tby ZhenXin")
         logger.log("")
         logger.log(Lang.Loading.loading)
