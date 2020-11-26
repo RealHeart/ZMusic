@@ -310,7 +310,7 @@ Example: `/zm play bilibili -id:374305`
 
 
 [java]: https://badgen.net/badge/Java/1.8/green
-[kotlin]: https://badgen.net/badge/Kotlin/1.4.10/green
+[kotlin]: https://badgen.net/badge/Kotlin/1.4.20/green
 [release]: https://badgen.net/github/release/RealHeart/ZMusic
 [build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
 [build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
