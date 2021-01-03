@@ -22,7 +22,7 @@ This is a powerful music system that supports the following functions.
 ## Client Mod Description
 This plug-in requires the client to install the supporting Mod to play normally
 * For clients from 1.7.10-1.11, please install [ʻAudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* For 1.12.2-1.16.2 clients, please install [ʻAllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
+* For 1.12.2-1.16.4 clients, please install [ʻAllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
 
 ## BungeeCord description
 * BungeeCord currently only supports 1.9-1.16 server

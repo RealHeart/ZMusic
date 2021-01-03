@@ -20,7 +20,7 @@
 ## 客户端Mod说明
 本插件需要客户端安装配套Mod才能正常播放  
 * 对于1.7.10-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.12.2-1.16.2的客户端 请安装[`AllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
+* 对于1.12.2-1.16.4的客户端 请安装[`AllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
 
 ## BungeeCord说明
 * BungeeCord 目前仅支持1.9-1.16的服务端

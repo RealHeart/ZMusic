@@ -1,9 +1,7 @@
-import org.gradle.kotlin.dsl.resolver.fetchKotlinBuildScriptModelFor
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.20" // Kotlin JVM
-    id("com.github.johnrengelman.shadow") version "6.1.0" // 全量打包插件
 }
 group = "me.zhenxin"
 version = "3.0"
@@ -41,6 +39,8 @@ dependencies {
     testImplementation("com.google.code.gson", "gson", "2.8.0") // Gson - 测试环境
     compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT") // BC API
 
+    compileOnly("me.zhenxin.mc", "zlib", "1.1") // ZLib
+
     // NMS
     val nms = "1.0"
     compileOnly("me.zhenxin.mc", "nms-1.8-R3", nms)
@@ -65,11 +65,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-}
-
-tasks.build {
-    // build时执行shadowJar任务
-    dependsOn(tasks.shadowJar)
 }
 
 tasks.processResources {

@@ -4,4 +4,4 @@ version: ${version}
 author: 真心
 description: 真心音乐系统
 softdepends:
-  - Kotlin
+  - ZLib
