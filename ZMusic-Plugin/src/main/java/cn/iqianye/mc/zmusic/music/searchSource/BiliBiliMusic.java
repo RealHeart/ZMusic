@@ -1,5 +1,6 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
+import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;
@@ -33,11 +34,12 @@ public class BiliBiliMusic {
             if (!lyric.isEmpty()) {
                 lyric = NetUtils.getNetString(lyric, null);
             }
-            String getUrl = "https://www.bilibili.com/audio/music-service-c/web/url?sid=" + musicId;
-            String urlJsonText = NetUtils.getNetStringBiliBiliGZip(getUrl, null);
-            urlJsonText = urlJsonText.trim();
-            JsonObject urlJson = gson.fromJson(urlJsonText, JsonObject.class);
-            String musicUrl = urlJson.get("data").getAsJsonObject().get("cdns").getAsJsonArray().get(0).getAsString();
+            String getUrl = "https://m.bilibili.com/audio/au" + musicId;
+            String urlHtml = NetUtils.getNetString(getUrl, null);
+            String musicUrl = urlHtml
+                    .split("<audio preload=\"auto\" src=\"")[1]
+                    .split("\"")[0];
+            musicUrl = musicUrl.replaceAll("&amp;", "&");
             musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php", null,
                     "qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"));
             JsonObject returnJSON = new JsonObject();

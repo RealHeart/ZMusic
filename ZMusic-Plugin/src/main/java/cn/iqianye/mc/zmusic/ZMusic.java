@@ -55,6 +55,10 @@ public final class ZMusic {
     }
 
     public static void loadEnd(Object sender) {
+        File langDir = new File(ZMusic.dataFolder + "/language/");
+        if (!langDir.exists()) {
+            langDir.mkdir();
+        }
         new LoadConfig().load();
         ZMusic.log.sendNormalMessage("成功加载配置文件!");
         ZMusic.runTask.runAsync(() -> {

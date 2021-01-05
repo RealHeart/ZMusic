@@ -15,6 +15,7 @@ import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
@@ -36,8 +37,9 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusic.send = new SendBukkit();
         ZMusic.player = new PlayerBukkit();
         ZMusic.dataFolder = getDataFolder();
-        if (!ZMusic.dataFolder.exists())
+        if (!ZMusic.dataFolder.exists()) {
             ZMusic.dataFolder.mkdir();
+        }
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
         Version version = new Version();

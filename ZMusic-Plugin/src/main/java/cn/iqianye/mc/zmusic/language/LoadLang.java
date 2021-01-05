@@ -26,26 +26,25 @@ public class LoadLang {
                 if (!file.exists()) {
                     ZMusic.log.sendNormalMessage("正在下载语言文件[" + entry.getKey() + "]");
                     downLang(entry.getKey(), file.getPath());
-                } else {
-                    JsonObject json;
-                    try {
-                        json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                    } catch (Exception e) {
-                        ZMusic.log.sendErrorMessage("错误: 语言文件读取出错,正在重置...");
-                        file.delete();
-                        ZMusic.log.sendNormalMessage("正在下载语言文件[" + entry.getKey() + "]");
-                        downLang(entry.getKey(), file.getPath());
-                        json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                        return;
-                    }
-                    if (json.get("info").getAsJsonObject().get("version").getAsInt() != ver) {
-                        ZMusic.log.sendNormalMessage("正在更新语言文件[" + entry.getKey() + "]");
-                        file.delete();
-                        downLang(entry.getKey(), file.getPath());
-                        json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                    }
-                    this.json = json;
                 }
+                JsonObject json;
+                try {
+                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
+                } catch (Exception e) {
+                    ZMusic.log.sendErrorMessage("错误: 语言文件读取出错,正在重置...");
+                    file.delete();
+                    ZMusic.log.sendNormalMessage("正在下载语言文件[" + entry.getKey() + "]");
+                    downLang(entry.getKey(), file.getPath());
+                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
+                    return;
+                }
+                if (json.get("info").getAsJsonObject().get("version").getAsInt() != ver) {
+                    ZMusic.log.sendNormalMessage("正在更新语言文件[" + entry.getKey() + "]");
+                    file.delete();
+                    downLang(entry.getKey(), file.getPath());
+                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
+                }
+                this.json = json;
             }
         }
         ZMusic.log.sendDebugMessage(lang);

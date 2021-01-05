@@ -12,6 +12,7 @@ import cn.iqianye.mc.zmusic.utils.player.PlayerBC;
 import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBC;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.io.File;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
@@ -31,8 +32,9 @@ public class ZMusicBC extends Plugin {
         ZMusic.send = new SendBC();
         ZMusic.player = new PlayerBC();
         ZMusic.dataFolder = getDataFolder();
-        if (!ZMusic.dataFolder.exists())
+        if (!ZMusic.dataFolder.exists()) {
             ZMusic.dataFolder.mkdir();
+        }
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
         ZMusic.log.sendNormalMessage("正在加载中....");
