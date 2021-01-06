@@ -39,7 +39,7 @@ dependencies {
     testImplementation("com.google.code.gson", "gson", "2.8.0") // Gson - 测试环境
     compileOnly("net.md-5", "bungeecord-api", "1.16-R0.4-SNAPSHOT") // BC API
 
-    compileOnly("me.zhenxin.mc", "zlib", "1.1") // ZLib
+    compileOnly("com.alibaba", "fastjson", "1.2.73") // fastjson
 
     // NMS
     val nms = "1.0"
@@ -56,7 +56,6 @@ dependencies {
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7") // Vault
     compileOnly("us.myles", "viaversion", "3.1.0") // ViaVersion
     compileOnly("io.netty", "netty-buffer", "4.1.51.Final") // netty-buffer
-    testImplementation(kotlin("test-junit")) // 测试环境
 }
 
 tasks.withType<KotlinCompile> {

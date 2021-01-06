@@ -4,8 +4,9 @@ version: ${version}
 api-version: 1.13
 author: 真心
 description: 真心音乐系统
-softdepend:
+depend:
   - ZLib
+softdepend:
   - ViaVersion
   - PlaceholderAPI
   - Vault

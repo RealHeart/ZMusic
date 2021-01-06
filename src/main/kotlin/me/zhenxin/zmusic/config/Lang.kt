@@ -10,7 +10,12 @@ object Lang {
         val group = "1032722724"
     }
 
+    object Tips {
+        var error = "错误: "
+    }
+
     object Loading {
+        var zLibNoOK = "ZLib插件版本过低，请使用%version%及以上版本!"
         var loading = "正在加载中...."
         var configLoaded = "成功加载配置文件!"
         var pluginAuthor = "插件作者: "

@@ -2,7 +2,7 @@
 
 package me.zhenxin.zmusic.module
 
-import com.google.gson.JsonObject
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.util.ext.URLExt.readText
 import java.net.URL
 
@@ -13,13 +13,13 @@ interface Api {
 
     fun post(url: String, data: String = ""): String = URL(api + url).readText(data)
 
-    fun search(key: String, page: Int = 1, count: Int = 30): JsonObject
-    fun info(id: String): JsonObject
-    fun url(id: String): JsonObject
-    fun lyric(id: String): JsonObject
+    fun search(key: String, page: Int = 1, count: Int = 30): JSONObject
+    fun info(id: String): JSONObject
+    fun url(id: String): JSONObject
+    fun lyric(id: String): JSONObject
 
-    fun formatLyric(lyric: String, lyricTr: String): JsonObject {
-        val json = JsonObject()
+    fun formatLyric(lyric: String, lyricTr: String): JSONObject {
+        val json = JSONObject()
         val lrcMap = formatLyric(lyric)
         val lrcTrMap = formatLyric(lyricTr)
         lrcMap.forEach { (key, value) ->
@@ -27,10 +27,10 @@ interface Api {
             if (lrcTrMap[key] != null) {
                 lrcTr = lrcTrMap[key].toString()
             }
-            val j = JsonObject()
-            j.addProperty("lrc", value)
-            j.addProperty("lrcTr", lrcTr)
-            json.add(key.toString(), j)
+            val j = JSONObject()
+            j["lrc"] = value
+            j["lrcTr"] = lrcTr
+            json[key.toString()] = j
         }
         return json
     }

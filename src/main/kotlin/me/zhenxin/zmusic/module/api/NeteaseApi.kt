@@ -1,63 +1,69 @@
 package me.zhenxin.zmusic.module.api
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.Api
 import java.net.URLEncoder
 
 class NeteaseApi : Api {
     override val api: String = Config.Api.netease
-    private val gson = GsonBuilder().create()
-    override fun search(key: String, page: Int, count: Int): JsonObject {
-        val json = JsonObject()
-        val array = JsonArray()
-        val data = gson.fromJson(get("/search?keywords=${URLEncoder.encode(key, "UTF-8")}"), JsonObject::class.java)
-        val result = data["result"] as JsonObject
-        val songs = result["songs"] as JsonArray
+    override fun search(key: String, page: Int, count: Int): JSONObject {
+        val json = JSONObject()
+        val array = JSONArray()
+        val data = JSON.parseObject(get("/search?keywords=${URLEncoder.encode(key, "UTF-8")}"))
+        val result = data.getJSONObject("result")
+        val songs = result.getJSONArray("songs")
         songs.forEach { song ->
-            song as JsonObject
-            val id = song["id"].asString
-            val name = song["name"].asString
-            val singers = song["artists"].asJsonArray
+            song as JSONObject
+            val id = song.getString("id")
+            val name = song.getString("name")
+            val singers = song.getJSONArray("artists")
             var singer = ""
             singers.forEach {
-                it as JsonObject
-                singer += it["name"].asString + "/"
+                it as JSONObject
+                singer += it.getString("name") + "/"
             }
             singer = singer.substring(0, singer.length - 1)
-            val time = song.get("duration").asLong
-            val url = gson.fromJson(get("/song/url?id=$id"), JsonObject::class.java)
-                .get("data").asJsonArray[0].asJsonObject
-                .get("url").asString
-            val resultJson = JsonObject()
-            resultJson.addProperty("id", id)
-            resultJson.addProperty("name", name)
-            resultJson.addProperty("singer", singer)
-            resultJson.addProperty("time", time)
-            resultJson.addProperty("url", url)
+            val time = song.getInteger("duration")
+
+            val resultJson = JSONObject()
+            resultJson["id"] = id
+            resultJson["name"] = name
+            resultJson["singer"] = singer
+            resultJson["time"] = time
             array.add(resultJson)
         }
-        json.addProperty("code", 200)
-        json.add("data", array)
+        json["code"] = 200
+        json["data"] = array
         return json
     }
 
-    override fun info(id: String): JsonObject {
+    override fun info(id: String): JSONObject {
         TODO("Not yet implemented")
     }
 
-    override fun url(id: String): JsonObject {
-        TODO("Not yet implemented")
+    override fun url(id: String): JSONObject {
+        val result = JSONObject()
+        val json = JSONObject()
+        val data = JSON.parseObject(get("/song/url?id=$id&&br=320000"))
+        result["code"] = 200
+        json["id"] = id
+        val info = data.getJSONArray("data").getJSONObject(0)
+        json["type"] = info.getString("type")
+        json["url"] = info.getString("url")
+        json["br"] = info.getString("br")
+        result["data"] = json
+        return result
     }
 
-    override fun lyric(id: String): JsonObject {
-        val data = gson.fromJson(get("/lyric?id=$id"), JsonObject::class.java)
-        val lyric: JsonObject? = data["lrc"]?.asJsonObject
-        val lyricTr: JsonObject? = data["tlyric"]?.asJsonObject
-        val lrc: String = lyric?.get("lyric")?.asString.toString()
-        val lrcTr: String = lyricTr?.get("lyric")?.asString.toString()
+    override fun lyric(id: String): JSONObject {
+        val data = JSON.parseObject(get("/lyric?id=$id"))
+        val lyric = data.getJSONObject("lrc")
+        val lyricTr = data.getJSONObject("tlyric")
+        val lrc: String = lyric.getString("lyric")
+        val lrcTr: String = lyricTr.getString("lyric")
         return formatLyric(lrc, lrcTr)
     }
 

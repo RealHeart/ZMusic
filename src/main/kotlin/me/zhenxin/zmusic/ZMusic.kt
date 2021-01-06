@@ -14,13 +14,16 @@ object ZMusic {
     var isEnable: Boolean = true
     var isEnabled: Boolean = false
 
+    var zLibIsOK: Boolean = true
+    val zLibVer = "1.0"
+
     lateinit var logger: Logger
     lateinit var tasker: Tasker
 
     lateinit var dataFolder: File
 
     lateinit var thisVer: String
-    var thisVerCode = 202009190
+    var thisVerCode = 202101060
 
     fun enable() {
         ("  ______  __  __                 _        \n" +
