@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.Sender
-import me.zhenxin.zmusic.type.Platform
+import me.zhenxin.zmusic.type.ApiType
 
 object CmdEx {
 
@@ -38,11 +38,30 @@ object CmdEx {
 
                 }
                 "test" -> {
-                    val api = Platform.NETEASE.getApi()
-                    api.search("lemon").getJSONArray("data").forEach {
-                        it as JSONObject
-                        val data = api.url(it.getString("id"))
-                        sender.sendMsg(data.toJSONString())
+                    when (args[1].toLowerCase()) {
+                        "qq" -> {
+                            val api = ApiType.QQ.getApi()
+                            val data = api.search("璃月", count = 8)
+                            sender.sendMsg(data.toJSONString())
+                        }
+                        "163" -> {
+                            val api = ApiType.NETEASE.getApi()
+                            val data = api.search("璃月", count = 8)
+                            sender.sendMsg(data.toJSONString())
+                            data.getJSONArray("data").forEach {
+                                it as JSONObject
+                                sender.sendMsg(api.url(it.getString("id")).toJSONString())
+                            }
+                        }
+                        "bili" -> {
+                            val api = ApiType.BILIBILI.getApi()
+                            val data = api.search("璃月", count = 8)
+                            sender.sendMsg(data.toJSONString())
+                            data.getJSONArray("data").forEach {
+                                it as JSONObject
+                                sender.sendMsg(api.url(it.getString("id")).toJSONString())
+                            }
+                        }
                     }
                 }
                 else -> {

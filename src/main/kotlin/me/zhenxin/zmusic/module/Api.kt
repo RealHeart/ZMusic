@@ -9,9 +9,9 @@ import java.net.URL
 interface Api {
     val api: String
 
-    fun get(url: String): String = URL(api + url).readText()
+    fun get(url: String, gz: Boolean = false): String = URL(api + url).readText(gzip = gz)
 
-    fun post(url: String, data: String = ""): String = URL(api + url).readText(data)
+    fun post(url: String, data: String = "", gz: Boolean = false): String = URL(api + url).readText(data, gzip = gz)
 
     fun search(key: String, page: Int = 1, count: Int = 30): JSONObject
     fun info(id: String): JSONObject

@@ -3,13 +3,12 @@ package me.zhenxin.zmusic.type
 import me.zhenxin.zmusic.module.Api
 import me.zhenxin.zmusic.module.api.*
 
-enum class Platform {
+enum class ApiType {
     QQ,
     NETEASE,
     KUGOU,
     KUWO,
-    BILIBILI,
-    XIMA;
+    BILIBILI;
 
     fun getApi(): Api = when (this) {
         QQ -> QQApi()
@@ -17,6 +16,5 @@ enum class Platform {
         KUGOU -> KugouApi()
         KUWO -> KuwoApi()
         BILIBILI -> BiliBiliApi()
-        XIMA -> XimaApi()
     }
 }
