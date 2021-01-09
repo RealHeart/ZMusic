@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.command
 
-import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.Sender
@@ -38,31 +37,19 @@ object CmdEx {
 
                 }
                 "test" -> {
-                    when (args[1].toLowerCase()) {
-                        "qq" -> {
-                            val api = ApiType.QQ.getApi()
-                            val data = api.search("璃月", count = 8)
-                            sender.sendMsg(data.toJSONString())
-                        }
-                        "163" -> {
-                            val api = ApiType.NETEASE.getApi()
-                            val data = api.search("璃月", count = 8)
-                            sender.sendMsg(data.toJSONString())
-                            data.getJSONArray("data").forEach {
-                                it as JSONObject
-                                sender.sendMsg(api.url(it.getString("id")).toJSONString())
-                            }
-                        }
-                        "bili" -> {
-                            val api = ApiType.BILIBILI.getApi()
-                            val data = api.search("璃月", count = 8)
-                            sender.sendMsg(data.toJSONString())
-                            data.getJSONArray("data").forEach {
-                                it as JSONObject
-                                sender.sendMsg(api.url(it.getString("id")).toJSONString())
-                            }
-                        }
+                    val type = when (args[1].toLowerCase()) {
+                        "qq" -> ApiType.QQ
+                        "163" -> ApiType.NETEASE
+                        "bili" -> ApiType.BILIBILI
+                        else -> ApiType.NETEASE
                     }
+                    val api = type.getApi()
+                    val data = api.search(args[2], count = 1)
+                    val list = data.getJSONArray("data")
+                    sender.sendMsg(data.toJSONString())
+                    val url = api.url(list.getJSONObject(0).getString("id")).getJSONObject("data").getString("url")
+                    sender.sendMsg(url)
+                    sender.sendPMsgToAM("[Play]$url")
                 }
                 else -> {
                     sender.sendMsg(Lang.Help.tip)

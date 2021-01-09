@@ -5,7 +5,6 @@ import me.zhenxin.zmusic.command.CmdBukkit
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.logger.LoggerBukkit
 import me.zhenxin.zmusic.module.tasker.TaskerBukkit
-import me.zhenxin.zmusic.module.version.VersionBukkit
 import me.zhenxin.zmusic.util.VersionCheck
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -13,16 +12,12 @@ import org.bukkit.plugin.java.JavaPlugin
 class ZMusicBukkit : JavaPlugin() {
 
     override fun onEnable() {
+        ZMusic.plugin = this
         getCommand("zm")?.setExecutor(CmdBukkit())
         getCommand("zm")?.tabCompleter = CmdBukkit()
 
         MetricsBukkit(this, 7291)
 
-        val version = VersionBukkit()
-        server.messenger.registerOutgoingPluginChannel(this, "allmusic:channel")
-        if (!version.high("1.12")) {
-            server.messenger.registerOutgoingPluginChannel(this, "AudioBuffer")
-        }
         ZMusic.isBC = true
         ZMusic.logger = LoggerBukkit(server.consoleSender)
         ZMusic.thisVer = description.version
@@ -38,6 +33,10 @@ class ZMusicBukkit : JavaPlugin() {
         if (VersionCheck(ZMusic.zLibVer, zLibVer).isLowerThan()) {
             ZMusic.logger.error(Lang.Loading.zLibNoOK.replace("%version%", ZMusic.zLibVer))
             ZMusic.zLibIsOK = false
+        }
+        server.messenger.registerOutgoingPluginChannel(this, "allmusic:channel")
+        if (!VersionCheck("1.12", server.bukkitVersion).isHigherThan()) {
+            server.messenger.registerOutgoingPluginChannel(this, "AudioBuffer")
         }
         ZMusic.enable()
     }

@@ -29,12 +29,10 @@ class SenderBC(private val sender: Any) : Sender {
             val buf = Unpooled.buffer(bytes.size + 1)
             buf.writeByte(1024)
             buf.writeBytes(bytes)
-            ZMusic.tasker.async {
-                (sender as ProxiedPlayer).server.info.sendData(
-                    channel,
-                    buf.array()
-                )
-            }
+            (sender as ProxiedPlayer).server.info.sendData(
+                channel,
+                buf.array()
+            )
         } catch (e: Exception) {
             ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }

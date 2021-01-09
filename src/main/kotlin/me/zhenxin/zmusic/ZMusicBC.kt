@@ -13,6 +13,7 @@ import net.md_5.bungee.api.plugin.Plugin
 class ZMusicBC : Plugin() {
 
     override fun onEnable() {
+        ZMusic.plugin = this
         proxy.registerChannel("zmusic:channel")
         proxy.registerChannel("allmusic:channel")
         proxy.registerChannel("AudioBuffer")

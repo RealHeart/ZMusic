@@ -67,7 +67,7 @@ class BiliBiliApi : Api {
         )
         json["code"] = 200
         val obj = JSONObject()
-        obj["url"] = url
+        obj["url"] = mp3Url
         json["data"] = obj
         return json
     }

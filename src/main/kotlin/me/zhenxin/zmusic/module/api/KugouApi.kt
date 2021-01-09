@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.api
 
 import com.alibaba.fastjson.JSONObject
-import com.google.gson.JsonObject
 import me.zhenxin.zmusic.module.Api
 
 class KugouApi : Api {

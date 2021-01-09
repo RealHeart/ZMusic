@@ -9,6 +9,9 @@ import java.net.CookieHandler
 import java.net.CookieManager
 
 object ZMusic {
+
+    var plugin = Any()
+
     var isBC = false
     var isVIP = false
     var isEnable: Boolean = true
@@ -26,6 +29,9 @@ object ZMusic {
     var thisVerCode = 202101060
 
     fun enable() {
+        if (!dataFolder.exists()) dataFolder.mkdir()
+        val lang = File(dataFolder, "/language/")
+        if (!lang.exists()) lang.mkdir()
         ("  ______  __  __                 _        \n" +
                 " |___  / |  \\/  |               (_)       \n" +
                 "    / /  | \\  / |  _   _   ___   _    ___ \n" +

@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
+import org.bukkit.plugin.java.JavaPlugin
 
 
 class SenderBukkit(private val sender: CommandSender) : Sender {
@@ -33,13 +34,11 @@ class SenderBukkit(private val sender: CommandSender) : Sender {
             val buf = Unpooled.buffer(bytes.size + 1)
             buf.writeByte(666)
             buf.writeBytes(bytes)
-            ZMusic.tasker.async {
-                (sender as org.bukkit.entity.Player).sendPluginMessage(
-                    ZMusicBukkit(),
-                    channel,
-                    buf.array()
-                )
-            }
+            (sender as org.bukkit.entity.Player).sendPluginMessage(
+                ZMusic.plugin as JavaPlugin,
+                channel,
+                buf.array()
+            )
         } catch (e: Exception) {
             ZMusic.logger.debug("[Mod通信] 数据发送发生错误")
         }

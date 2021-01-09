@@ -12,7 +12,7 @@ class NeteaseApi : Api {
     override fun search(key: String, page: Int, count: Int): JSONObject {
         val json = JSONObject()
         val array = JSONArray()
-        val data = JSON.parseObject(get("/search?keywords=${URLEncoder.encode(key, "UTF-8")}"))
+        val data = JSON.parseObject(get("/search?keywords=${URLEncoder.encode(key, "UTF-8")}&limit=$count"))
         val result = data.getJSONObject("result")
         val songs = result.getJSONArray("songs")
         songs.forEach { song ->

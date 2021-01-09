@@ -1,7 +1,9 @@
 package me.zhenxin.zmusic.config
 
 import me.zhenxin.zmusic.ZMusic
+import me.zhenxin.zmusic.util.ext.InputStreamExt.saveData
 import org.yaml.snakeyaml.Yaml
+import java.io.File
 
 object Config {
 
@@ -57,9 +59,13 @@ object Config {
     fun load() {
         var temp: Any
         val yaml = Yaml()
-        val inputStream = this.javaClass.classLoader
-            .getResourceAsStream("config.yml")
-        val config: Map<String, Any> = yaml.load(inputStream)
+        var file = File(ZMusic.dataFolder, "/config.yml")
+        if (!file.exists()) {
+            val tmp = this.javaClass.classLoader.getResourceAsStream("config.yml")
+            tmp.saveData(file.absolutePath)
+            file = File(ZMusic.dataFolder, "/config.yml")
+        }
+        val config: Map<String, Any> = yaml.load(file.inputStream())
         version = config["version"] as Int
         update = config["update"] as Boolean
         prefix = (config["prefix"] as String).replace("&", "§")
