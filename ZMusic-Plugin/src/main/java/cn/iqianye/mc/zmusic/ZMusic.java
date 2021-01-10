@@ -27,7 +27,7 @@ public final class ZMusic {
 
     public static File dataFolder;
     public static String thisVer;
-    public static int thisVerCode = 202009190;
+    public static int thisVerCode = 202101100;
     public static boolean bilibiliIsVIP = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;
@@ -55,10 +55,6 @@ public final class ZMusic {
     }
 
     public static void loadEnd(Object sender) {
-        File langDir = new File(ZMusic.dataFolder + "/language/");
-        if (!langDir.exists()) {
-            langDir.mkdir();
-        }
         new LoadConfig().load();
         ZMusic.log.sendNormalMessage("成功加载配置文件!");
         ZMusic.runTask.runAsync(() -> {

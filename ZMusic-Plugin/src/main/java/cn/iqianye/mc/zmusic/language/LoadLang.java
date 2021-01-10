@@ -1,53 +1,24 @@
 package cn.iqianye.mc.zmusic.language;
 
 import cn.iqianye.mc.zmusic.ZMusic;
-import cn.iqianye.mc.zmusic.utils.NetUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Map;
+import java.io.InputStream;
 
 public class LoadLang {
     JsonObject json;
-    String resRoot = "https://cdn.jsdelivr.net/gh/RealHeart/ZMusic@master/language/";
 
     public LoadLang() {
-        Locale locale = Locale.getDefault();
-        String lang = locale.getLanguage() + "_" + locale.getCountry();
+        json = new JsonObject();
         ZMusic.log.sendNormalMessage("初始化语言系统...");
-        JsonObject versions = new Gson().fromJson(NetUtils.getNetString(resRoot + "versions.json", null), JsonObject.class);
-        for (Map.Entry<String, JsonElement> entry : versions.entrySet()) {
-            if (entry.getKey().equals(lang)) {
-                File file = new File(ZMusic.dataFolder.getPath() + "/language/", lang + ".json");
-                int ver = entry.getValue().getAsInt();
-                if (!file.exists()) {
-                    ZMusic.log.sendNormalMessage("正在下载语言文件[" + entry.getKey() + "]");
-                    downLang(entry.getKey(), file.getPath());
-                }
-                JsonObject json;
-                try {
-                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                } catch (Exception e) {
-                    ZMusic.log.sendErrorMessage("错误: 语言文件读取出错,正在重置...");
-                    file.delete();
-                    ZMusic.log.sendNormalMessage("正在下载语言文件[" + entry.getKey() + "]");
-                    downLang(entry.getKey(), file.getPath());
-                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                    return;
-                }
-                if (json.get("info").getAsJsonObject().get("version").getAsInt() != ver) {
-                    ZMusic.log.sendNormalMessage("正在更新语言文件[" + entry.getKey() + "]");
-                    file.delete();
-                    downLang(entry.getKey(), file.getPath());
-                    json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
-                }
-                this.json = json;
-            }
+        InputStream lang = ZMusic.class.getResourceAsStream("/language/zh_CN.json");
+        try {
+            json = new Gson().fromJson(OtherUtils.readInputStream(lang).replaceAll("&", "§"), JsonObject.class);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        ZMusic.log.sendDebugMessage(lang);
     }
 
     public void load() {
@@ -98,13 +69,5 @@ public class LoadLang {
         }
         ZMusic.log.sendNormalMessage("语言文件" + info.get("local").getAsString() + "[" + info.get("name").getAsString() + "]加载完成");
         ZMusic.log.sendNormalMessage("语言文件作者: " + info.get("author").getAsString());
-    }
-
-    private void downLang(String lang, String path) {
-        try {
-            OtherUtils.writeToLocal(path, NetUtils.getNetInputStream(resRoot + lang + ".json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

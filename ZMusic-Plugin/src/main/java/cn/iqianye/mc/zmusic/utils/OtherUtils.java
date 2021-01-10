@@ -149,8 +149,14 @@ public class OtherUtils {
                     }
                     String jsonText = NetUtils.getNetString(s, null);
                     Gson gson = new GsonBuilder().create();
-                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
                     if (jsonText != null) {
+                        JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                        int code = json.get("code").getAsInt();
+                        if (code != 200) {
+                            ZMusic.message.sendErrorMessage("登录失败: " + code, sender);
+                            ZMusic.message.sendErrorMessage(json.get("msg").getAsString(), sender);
+                            return;
+                        }
                         ZMusic.message.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), sender);
                         if (Config.neteaseFollow) {
                             // 关注“QG真心”的网易云账号
@@ -309,18 +315,18 @@ public class OtherUtils {
 
     public static String getMD5String(String str) {
         try {
-            // 生成一个MD5加密计算摘要
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            // 计算md5函数
-            md.update(str.getBytes());
-            // digest()最后确定返回md5 hash值，返回值为8位字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
-            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
-            //一个byte是八位二进制，也就是2位十六进制字符（2的8次方等于16的2次方）
-            return new BigInteger(1, md.digest()).toString(16);
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(str.getBytes("UTF8"));
+            byte s[] = m.digest();
+            String result = "";
+            for (int i = 0; i < s.length; i++) {
+                result += Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6);
+            }
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return "";
     }
 
     public static ArrayList<String> queryFileNames(String filePath) {
