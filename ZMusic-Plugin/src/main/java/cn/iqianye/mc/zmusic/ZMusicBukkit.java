@@ -15,7 +15,6 @@ import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
@@ -113,6 +112,11 @@ public class ZMusicBukkit extends JavaPlugin {
             ZMusic.log.sendErrorMessage("检测到当前服务端版本低于1.12，不支持Hud显示");
             Config.realSupportHud = false;
             ZMusic.log.sendErrorMessage("检测到当前服务端版本低于1.12，不支持进度");
+            Config.realSupportAdvancement = false;
+        }
+
+        if (version.isEquals("1.17")) {
+            ZMusic.log.sendErrorMessage("检测到当前服务端版本为1.17，暂不支持进度");
             Config.realSupportAdvancement = false;
         }
         ZMusic.loadEnd(getServer().getConsoleSender());

@@ -29,8 +29,6 @@ public class PlayMusic {
     static String searchSourceName;
     static JsonObject json;
 
-    static long time;
-
 
     /**
      * 播放音乐
@@ -43,8 +41,8 @@ public class PlayMusic {
      */
     public static void play(String searchKey, String source, Object player, String type, List<Object> players) {
         try {
+            long time = System.currentTimeMillis();
             ZMusic.message.sendNormalMessage(Lang.searching, player);
-            time = System.currentTimeMillis();
             switch (source) {
                 case "163":
                 case "netease":
@@ -101,10 +99,10 @@ public class PlayMusic {
             switch (type) {
                 case "all":
                     play(null, players, Lang.playAllSource
-                            .replaceAll("%player%", ZMusic.player.getName(player)));
+                            .replaceAll("%player%", ZMusic.player.getName(player)), time);
                     break;
                 case "self":
-                    play(player, new ArrayList<>(), "搜索");
+                    play(player, new ArrayList<>(), "搜索", time);
                     break;
                 case "music":
                     String s = Lang.musicMessage;
@@ -127,6 +125,8 @@ public class PlayMusic {
                         ZMusic.message.sendJsonMessage(message, p);
                     }
                     break;
+                default:
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +134,7 @@ public class PlayMusic {
         }
     }
 
-    private static void play(Object player, List<Object> players, String src) {
+    private static void play(Object player, List<Object> players, String src, long time) {
         if (player != null) {
             players.add(player);
         }

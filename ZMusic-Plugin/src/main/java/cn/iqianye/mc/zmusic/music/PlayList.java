@@ -240,7 +240,7 @@ public class PlayList {
                         + "/playlist/global/" + platform;
             } else {
                 filePath = ZMusic.dataFolder
-                        + "/playlist/" + platform + "/" + player;
+                        + "/playlist/" + platform + "/" + ZMusic.player.getName(player);
             }
             File path = new File(filePath);
             if (!path.exists()) {
@@ -267,7 +267,7 @@ public class PlayList {
                     + "/playlist/global/" + platform;
         } else {
             filePath = ZMusic.dataFolder
-                    + "/playlist/" + platform + "/" + player;
+                    + "/playlist/" + platform + "/" + ZMusic.player.getName(player);
         }
         files = OtherUtils.queryFileNames(filePath);
         try {
@@ -338,7 +338,7 @@ public class PlayList {
                     + "/playlist/global/" + platform + "/" + id + ".json";
         } else {
             filePath = ZMusic.dataFolder
-                    + "/playlist/" + platform + "/" + player + "/" + id + ".json";
+                    + "/playlist/" + platform + "/" + ZMusic.player.getName(player) + "/" + id + ".json";
         }
         file = new File(filePath);
         json = gson.fromJson(OtherUtils.readFileToString(file), JsonObject.class);
@@ -414,7 +414,7 @@ public class PlayList {
             if (isGlobal) {
                 filePath = ZMusic.dataFolder + "/playlist/global/" + platform;
             } else {
-                filePath = ZMusic.dataFolder + "/playlist/" + platform + "/" + player;
+                filePath = ZMusic.dataFolder + "/playlist/" + platform + "/" + ZMusic.player.getName(player);
             }
             File file = new File(filePath, id + ".json");
             Gson gson = new GsonBuilder().create();
@@ -458,7 +458,7 @@ public class PlayList {
         if (isGlobal) {
             filePath = ZMusic.dataFolder + "/playlist/global/" + platform;
         } else {
-            filePath = ZMusic.dataFolder + "/playlist/" + platform + "/" + player;
+            filePath = ZMusic.dataFolder + "/playlist/" + platform + "/" + ZMusic.player.getName(player);
         }
         ArrayList<String> files = OtherUtils.queryFileNames(filePath);
         if (files != null) {

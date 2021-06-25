@@ -1,5 +1,6 @@
 package cn.iqianye.mc.zmusic.utils.message;
 
+import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.language.Lang;
 import net.md_5.bungee.api.ChatMessageType;
@@ -39,6 +40,7 @@ public class MessageBukkit implements Message {
         Player player = (Player) playerObj;
         try {
             player.sendTitle(title, subTitle, 0, 200, 20);
+            ZMusic.log.sendDebugMessage(title + " " + subTitle);
         } catch (NoSuchMethodError e) {
             player.sendTitle(title, subTitle);
         }

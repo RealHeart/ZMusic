@@ -28,12 +28,15 @@ public class Cmd {
             if (ZMusic.isEnable) {
                 boolean isUse;
                 boolean isAdmin;
+                boolean isPlayAll;
                 if (ZMusic.player.isPlayer(sender)) {
                     isUse = ZMusic.player.hasPermission(sender, "zmusic.use");
                     isAdmin = ZMusic.player.hasPermission(sender, "zmusic.admin");
+                    isPlayAll =  ZMusic.player.hasPermission(sender, "zmusic.playall");
                 } else {
                     isUse = true;
                     isAdmin = true;
+                    isPlayAll = true;
                 }
                 if (isUse) {
                     if (args.length == 0) {
@@ -181,7 +184,7 @@ public class Cmd {
                                 }
                                 break;
                             case "playall":
-                                if (isAdmin) {
+                                if (isPlayAll || isAdmin) {
                                     List<Object> players = ZMusic.player.getOnlinePlayerList();
                                     if (args.length >= 2) {
                                         ZMusic.runTask.runAsync(() -> {

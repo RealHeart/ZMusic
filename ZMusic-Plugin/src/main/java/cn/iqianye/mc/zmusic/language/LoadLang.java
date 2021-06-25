@@ -4,6 +4,7 @@ import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,11 +14,22 @@ public class LoadLang {
     public LoadLang() {
         json = new JsonObject();
         ZMusic.log.sendNormalMessage("初始化语言系统...");
-        InputStream lang = ZMusic.class.getResourceAsStream("/language/zh_CN.json");
-        try {
-            json = new Gson().fromJson(OtherUtils.readInputStream(lang).replaceAll("&", "§"), JsonObject.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        File dir = new File(ZMusic.dataFolder + "/language");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        File file = new File(ZMusic.dataFolder + "/language", "zh_CN.json");
+        if (file.exists()) {
+            json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
+        } else {
+            InputStream lang = LoadLang.class.getResourceAsStream("/language/zh_CN.json");
+            try {
+                OtherUtils.saveStringToLocal(file, OtherUtils.readInputStream(lang));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            json = new Gson().fromJson(OtherUtils.readFileToString(file).replaceAll("&", "§"), JsonObject.class);
         }
     }
 

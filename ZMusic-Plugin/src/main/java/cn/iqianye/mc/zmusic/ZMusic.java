@@ -67,6 +67,8 @@ public final class ZMusic {
             ZMusic.log.sendNormalMessage("插件交流群：1032722724");
             ZMusic.log.sendNormalMessage("插件已加载完成!");
             isEnableEd = true;
+
+            ZMusic.log.sendDebugMessage(System.getProperty("file.encoding"));
         });
     }
 }

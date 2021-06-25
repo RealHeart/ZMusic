@@ -184,7 +184,7 @@ public class PlayListPlayer extends Thread {
                             url = getMp3Json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
                         } catch (Exception e) {
                             for (String s : Lang.playListPlayError) {
-                                ZMusic.message.sendErrorMessage(s, player);
+                                ZMusic.message.sendErrorMessage(s.replaceAll("%musicName%", fullName), player);
                             }
                             songs++;
                             continue;

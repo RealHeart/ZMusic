@@ -19,6 +19,7 @@ public class NetUtils {
      * @return 获取的文本
      */
     public static String getNetStringBiliBiliGZip(String url, String Referer) {
+        ZMusic.log.sendDebugMessage(url);
         try {
             URL getUrl = new URL(url);
             HttpURLConnection con = (HttpURLConnection) getUrl.openConnection();
@@ -57,6 +58,7 @@ public class NetUtils {
      * @return 获取的文本
      */
     public static String getNetStringBiliBili(String url, String Referer) {
+        ZMusic.log.sendDebugMessage(url);
         try {
             String ua = "ZMusic/" + ZMusic.thisVer + " (service@iqianye.cn)";
             return getString(url, Referer, ua);
@@ -73,6 +75,7 @@ public class NetUtils {
      * @return 获取的InputStream
      */
     public static InputStream getNetInputStream(String url) {
+        ZMusic.log.sendDebugMessage(url);
         try {
             URL getUrl = new URL(url);
             HttpURLConnection con = (HttpURLConnection) getUrl.openConnection();
@@ -105,6 +108,7 @@ public class NetUtils {
      * @return 获取的文本
      */
     public static String getNetString(String url, String Referer) {
+        ZMusic.log.sendDebugMessage(url);
         try {
             String ua = "Mozilla/5.0 (Linux; Android 11; Mi 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + ZMusic.thisVer;
             return getString(url, Referer, ua);
@@ -123,6 +127,15 @@ public class NetUtils {
     public static String getNetString(String url, String Referer, String content) {
         try {
             String ua = "Mozilla/5.0 (Linux; Android 11; Mi 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + ZMusic.thisVer;
+
+            if (!url.contains("?")) {
+                url = url + "?timestamp=" + System.currentTimeMillis();
+            } else {
+                url = url + "&timestamp=" + System.currentTimeMillis();
+            }
+
+            ZMusic.log.sendDebugMessage(url);
+
             URL getUrl = new URL(url);
             HttpURLConnection con = (HttpURLConnection) getUrl.openConnection();
             con.setReadTimeout(20000);
@@ -171,6 +184,7 @@ public class NetUtils {
             InputStream is = con.getErrorStream();
             String s = OtherUtils.readInputStream(is);
             is.close();
+            ZMusic.log.sendDebugMessage(s);
             return s;
         }
     }

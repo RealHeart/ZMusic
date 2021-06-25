@@ -24,6 +24,9 @@ permissions:
   zmusic.bypass:
     default: op
     description: 绕过冷却和扣钱权限
+  zmusic.playall:
+    default: op
+    description: 全服点歌权限
   zmusic.admin:
     default: op
     description: 管理员权限
