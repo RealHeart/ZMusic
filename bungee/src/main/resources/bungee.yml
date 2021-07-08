@@ -1,0 +1,5 @@
+name: ZMusic
+main: me.zhenxin.zmusic.ZMusicBC
+version: ${version}
+author: 真心
+description: 真心音乐系统
