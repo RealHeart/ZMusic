@@ -6,9 +6,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.Advancements;
+import net.minecraft.advancements.critereon.LootDeserializationContext;
+import net.minecraft.resources.MinecraftKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.util.ChatDeserializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_17_R1.util.CraftNamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -123,6 +131,9 @@ public class AdvancementAPI {
             case "1_16_R2":
                 loadAdvancement_1_16_R2(id, getJson());
                 break;
+            case "1_17_R1":
+                loadAdvancement_1_17_R1(id, getJson());
+                break;
         }
     }
 
@@ -145,6 +156,9 @@ public class AdvancementAPI {
                 break;
             case "1_16_R2":
                 removeAdvancement_1_16_R2(getAdvancement());
+                break;
+            case "1_17_R1":
+                removeAdvancement_1_17_R1(getAdvancement());
                 break;
         }
     }
@@ -298,6 +312,33 @@ public class AdvancementAPI {
             }
         } catch (Exception | Error e) {
             e.printStackTrace();
+        }
+    }
+
+    public void loadAdvancement_1_17_R1(NamespacedKey key, String json) {
+        if (Bukkit.getAdvancement(key) != null)
+            return;
+        MinecraftKey minecraftKey = CraftNamespacedKey.toMinecraft(key);
+        JsonElement jsonElement = (JsonElement)net.minecraft.server.AdvancementDataWorld.b.fromJson(json, JsonElement.class);
+        JsonObject jsonObject = ChatDeserializer.m(jsonElement, "advancement");
+        net.minecraft.advancements.Advancement.SerializedAdvancement serializedAdvancement = net.minecraft.advancements.Advancement.SerializedAdvancement.a(jsonObject, new LootDeserializationContext(minecraftKey, MinecraftServer.getServer().getLootPredicateManager()));
+        if (serializedAdvancement != null)
+            (MinecraftServer.getServer().getAdvancementData()).c.a(Maps.newHashMap(Collections.singletonMap(minecraftKey, serializedAdvancement)));
+    }
+
+    public void removeAdvancement_1_17_R1(Advancement advancement) {
+        Bukkit.getUnsafe().removeAdvancement(advancement.getKey());
+        try {
+            DedicatedServer dedicatedServer = ((CraftServer)Bukkit.getServer()).getServer();
+            Advancements advancements = (dedicatedServer.getAdvancementData()).c;
+            for (Map.Entry entry : advancements.b.entrySet()) {
+                if (((net.minecraft.advancements.Advancement)entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
+                    advancements.b.remove(entry.getKey());
+                    break;
+                }
+            }
+        } catch (Exception|Error exception) {
+            exception.printStackTrace();
         }
     }
 

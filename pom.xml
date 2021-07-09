@@ -33,6 +33,11 @@
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com/</url>
         </repository>
+        <!--临时使用CodeMC仓库-->
+        <repository>
+            <id>codemc-nms</id>
+            <url>https://repo.codemc.io/repository/nms-local/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -97,6 +102,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.17-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.9.2</version>
@@ -127,10 +138,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>16</source>
+                    <target>16</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
