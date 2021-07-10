@@ -1,7 +1,7 @@
-package cn.iqianye.mc.zmusic.papi;
+package cn.iqianye.mc.zmusic.addon;
 
-import cn.iqianye.mc.zmusic.papi.api.PApiHook;
-import cn.iqianye.mc.zmusic.papi.api.Version;
+import cn.iqianye.mc.zmusic.addon.api.PApiHook;
+import cn.iqianye.mc.zmusic.addon.api.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,6 +30,7 @@ public class Addon extends JavaPlugin {
             }
             getServer().getMessenger().registerIncomingPluginChannel(this, "zmusic:channel", new PluginMessage());
             if (version.isLowerThan("1.12")) {
+                getLogger().warning(ChatColor.RED + "版本低于1.12,进度提示不生效");
                 isSupportAdv = false;
             }
         } else {

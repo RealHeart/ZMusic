@@ -1,7 +1,7 @@
-package cn.iqianye.mc.zmusic.papi;
+package cn.iqianye.mc.zmusic.addon;
 
-import cn.iqianye.mc.zmusic.papi.api.AdvancementAPI;
-import cn.iqianye.mc.zmusic.papi.data.PlayerData;
+import cn.iqianye.mc.zmusic.addon.api.AdvancementAPI;
+import cn.iqianye.mc.zmusic.addon.data.PlayerData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -25,7 +25,7 @@ public class PluginMessage implements PluginMessageListener {
                     String title = json.get("title").getAsString();
                     new AdvancementAPI(title).sendAdvancement(player);
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
         if (Addon.isPapi) {

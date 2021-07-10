@@ -5,7 +5,7 @@ import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.event.EventBukkit;
-import cn.iqianye.mc.zmusic.papi.PApiHook;
+import cn.iqianye.mc.zmusic.addon.PApiHook;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
 import cn.iqianye.mc.zmusic.utils.message.MessageBukkit;
 import cn.iqianye.mc.zmusic.utils.mod.SendBukkit;
@@ -115,10 +115,6 @@ public class ZMusicBukkit extends JavaPlugin {
             Config.realSupportAdvancement = false;
         }
 
-        if (version.isEquals("1.17")) {
-            ZMusic.log.sendErrorMessage("检测到当前服务端版本为1.17，暂不支持进度");
-            Config.realSupportAdvancement = false;
-        }
         ZMusic.loadEnd(getServer().getConsoleSender());
     }
 

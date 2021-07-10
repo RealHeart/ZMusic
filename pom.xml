@@ -15,7 +15,7 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <url>https://hub.spigotmc.org/nexus/content/groups/snapshots/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.17-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -121,8 +121,8 @@
         </dependency>
         <dependency>
             <groupId>us.myles</groupId>
-            <artifactId>viaversion</artifactId>
-            <version>3.1.0</version>
+            <artifactId>viaversion-api</artifactId>
+            <version>4.0.0-21w16a</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

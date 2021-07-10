@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.papi.api;
+package cn.iqianye.mc.zmusic.addon.api;
 
 import org.bukkit.Bukkit;
 

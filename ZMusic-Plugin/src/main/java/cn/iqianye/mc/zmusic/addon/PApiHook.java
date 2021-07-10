@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.papi;
+package cn.iqianye.mc.zmusic.addon;
 
 import cn.iqianye.mc.zmusic.ZMusicBukkit;
 import cn.iqianye.mc.zmusic.data.PlayerData;

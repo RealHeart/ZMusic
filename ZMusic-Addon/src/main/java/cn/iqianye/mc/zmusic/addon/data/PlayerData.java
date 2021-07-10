@@ -1,4 +1,4 @@
-package cn.iqianye.mc.zmusic.papi.data;
+package cn.iqianye.mc.zmusic.addon.data;
 
 import java.util.HashMap;
 import java.util.Map;

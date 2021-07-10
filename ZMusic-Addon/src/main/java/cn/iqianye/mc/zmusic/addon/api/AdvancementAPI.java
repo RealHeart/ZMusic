@@ -1,6 +1,6 @@
-package cn.iqianye.mc.zmusic.papi.api;
+package cn.iqianye.mc.zmusic.addon.api;
 
-import cn.iqianye.mc.zmusic.papi.Addon;
+import cn.iqianye.mc.zmusic.addon.Addon;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -131,6 +131,9 @@ public class AdvancementAPI {
             case "1_16_R2":
                 loadAdvancement_1_16_R2(id, getJson());
                 break;
+            case "1_16_R3":
+                loadAdvancement_1_16_R3(id, getJson());
+                break;
             case "1_17_R1":
                 loadAdvancement_1_17_R1(id, getJson());
                 break;
@@ -156,6 +159,9 @@ public class AdvancementAPI {
                 break;
             case "1_16_R2":
                 removeAdvancement_1_16_R2(getAdvancement());
+                break;
+            case "1_16_R3":
+                removeAdvancement_1_16_R3(getAdvancement());
                 break;
             case "1_17_R1":
                 removeAdvancement_1_17_R1(getAdvancement());
@@ -312,6 +318,34 @@ public class AdvancementAPI {
             }
         } catch (Exception | Error e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void loadAdvancement_1_16_R3(NamespacedKey key, String json) {
+        if (Bukkit.getAdvancement(key) != null)
+            return;
+        net.minecraft.server.v1_16_R3.MinecraftKey minecraftKey = org.bukkit.craftbukkit.v1_16_R3.util.CraftNamespacedKey.toMinecraft(key);
+        JsonElement jsonElement = (JsonElement)net.minecraft.server.v1_16_R3.AdvancementDataWorld.DESERIALIZER.fromJson(json, JsonElement.class);
+        JsonObject jsonObject = net.minecraft.server.v1_16_R3.ChatDeserializer.m(jsonElement, "advancement");
+        net.minecraft.server.v1_16_R3.Advancement.SerializedAdvancement serializedAdvancement = net.minecraft.server.v1_16_R3.Advancement.SerializedAdvancement.a(jsonObject, new net.minecraft.server.v1_16_R3.LootDeserializationContext(minecraftKey, net.minecraft.server.v1_16_R3.MinecraftServer.getServer().getLootPredicateManager()));
+        if (serializedAdvancement != null)
+            (net.minecraft.server.v1_16_R3.MinecraftServer.getServer().getAdvancementData()).REGISTRY.a(Maps.newHashMap(Collections.singletonMap(minecraftKey, serializedAdvancement)));
+    }
+
+    public void removeAdvancement_1_16_R3(Advancement advancement) {
+        Bukkit.getUnsafe().removeAdvancement(advancement.getKey());
+        try {
+            net.minecraft.server.v1_16_R3.DedicatedServer dedicatedServer = ((org.bukkit.craftbukkit.v1_16_R3.CraftServer)Bukkit.getServer()).getServer();
+            net.minecraft.server.v1_16_R3.Advancements advancements = (dedicatedServer.getAdvancementData()).REGISTRY;
+            for (Map.Entry entry : advancements.advancements.entrySet()) {
+                if (((net.minecraft.server.v1_16_R3.Advancement)entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
+                    advancements.advancements.remove(entry.getKey());
+                    break;
+                }
+            }
+        } catch (Exception|Error exception) {
+            exception.printStackTrace();
         }
     }
 

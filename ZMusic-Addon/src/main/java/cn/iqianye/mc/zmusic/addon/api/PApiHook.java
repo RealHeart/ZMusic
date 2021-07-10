@@ -1,7 +1,7 @@
-package cn.iqianye.mc.zmusic.papi.api;
+package cn.iqianye.mc.zmusic.addon.api;
 
-import cn.iqianye.mc.zmusic.papi.data.PlayerData;
-import cn.iqianye.mc.zmusic.papi.data.StaticData;
+import cn.iqianye.mc.zmusic.addon.data.PlayerData;
+import cn.iqianye.mc.zmusic.addon.data.StaticData;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
