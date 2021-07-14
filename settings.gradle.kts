@@ -8,3 +8,4 @@ include(
     "sponge",
     "merge"
 )
+include("database")

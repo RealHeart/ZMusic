@@ -1,12 +1,20 @@
 # ZMusic
 
-![][java] ![][kotlin] [![][release]](../../releases) [![][build-status]][build-link]
+![][java]
+![][kotlin]
+[![][license]](LICENSE)
+![][release]
+[![][downloads]](../../releases)
+![][players]
+![][servers]
+![][tested-versions]
 
 3.0版本正在开发中 2.0版本请查看[master](../../tree/master/)分支
 
 ## 简介
 
 这是一个功能强大的音乐系统，支持以下功能。
+
 * 全服点歌
 * 单独播放
 * 歌词显示
@@ -33,6 +41,7 @@
 | 名称 | 说明 |
 | --- | --- |
 | common | 公共文件 |
+| database | 数据库支持插件(可选安装) |
 | bukkit | Bukkit/Spigot/Paper 插件 |
 | bungee | Bungeecord/Waterfall 插件 |
 | merge | 全部平台合并插件 |
@@ -68,8 +77,18 @@
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
 
-[java]: https://badgen.net/badge/Java/16/green
-[kotlin]: https://badgen.net/badge/Kotlin/1.5.20/green
-[release]: https://badgen.net/github/release/RealHeart/ZMusic
-[build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
-[build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
+[java]: https://img.shields.io/badge/Java-16-blue
+
+[kotlin]: https://img.shields.io/badge/Kotlin-1.5.20-blue
+
+[license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
+
+[players]: https://img.shields.io/bstats/players/7291
+
+[servers]: https://img.shields.io/bstats/servers/7291
+
+[tested-versions]: https://img.shields.io/spiget/tested-versions/83027
+
+[release]: https://img.shields.io/github/v/release/RealHeart/ZMusic
+
+[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?color=blue
