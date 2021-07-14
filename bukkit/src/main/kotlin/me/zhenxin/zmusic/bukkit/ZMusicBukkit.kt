@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.bukkit
 
+import me.zhenxin.zmusic.common.ZMusic
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -11,6 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class ZMusicBukkit : JavaPlugin() {
     override fun onEnable() {
-
+        ZMusic.onEnable(dataFolder)
     }
 }
