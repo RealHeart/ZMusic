@@ -58,16 +58,12 @@ object Config {
      * @param dataDir 数据目录
      */
     fun load(dataFolder: File) {
-        if (!dataFolder.exists()) {
-            dataFolder.mkdir()
-        }
         var temp: Any
         val yaml = Yaml()
-        var file = File(dataFolder, "/config.yml")
+        val file = File(dataFolder, "/config.yml")
         if (!file.exists()) {
             val tmp = this.javaClass.classLoader.getResourceAsStream("config.yml")
             tmp?.saveData(file.absolutePath)
-            file = File(dataFolder, "/config.yml")
         }
         val config: LinkedHashMap<String, Any> = yaml.load(file.inputStream())
 

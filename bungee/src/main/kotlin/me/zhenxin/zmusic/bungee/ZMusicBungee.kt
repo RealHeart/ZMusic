@@ -12,6 +12,7 @@ import net.md_5.bungee.api.plugin.Plugin
  */
 class ZMusicBungee : Plugin() {
     override fun onEnable() {
+        MetricsBC(this, 8864)
         ZMusic.onEnable(dataFolder)
     }
 }

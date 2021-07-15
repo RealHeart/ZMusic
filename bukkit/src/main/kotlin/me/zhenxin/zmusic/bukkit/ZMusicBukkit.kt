@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class ZMusicBukkit : JavaPlugin() {
     override fun onEnable() {
+        MetricsBukkit(this, 7291)
         ZMusic.onEnable(dataFolder)
     }
 }

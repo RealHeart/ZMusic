@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.common
 
 import me.zhenxin.zmusic.common.config.Config
+import me.zhenxin.zmusic.common.i18n.I18n
 import java.io.File
 
 /**
@@ -12,7 +13,11 @@ import java.io.File
  */
 object ZMusic {
     fun onEnable(dataFolder: File) {
+        if (!dataFolder.exists()) {
+            dataFolder.mkdir()
+        }
         Config.load(dataFolder)
+        I18n.load(dataFolder)
         if (Config.Debug) {
             println("Version: ${Config.Version}")
             println("CheckUpdate: ${Config.CheckUpdate}")
