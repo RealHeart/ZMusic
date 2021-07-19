@@ -2,6 +2,7 @@ package me.zhenxin.zmusic.common
 
 import me.zhenxin.zmusic.common.config.Config
 import me.zhenxin.zmusic.common.i18n.I18n
+import me.zhenxin.zmusic.common.modules.logger.Logger
 import java.io.File
 
 /**
@@ -13,44 +14,17 @@ import java.io.File
  */
 object ZMusic {
     fun onEnable(dataFolder: File) {
+        logger.info("&bZMusic &e>>> &aLoading...")
         if (!dataFolder.exists()) {
             dataFolder.mkdir()
         }
+        logger.info("&aConfiguration file loading...")
         Config.load(dataFolder)
+        logger.info("&aConfiguration file loaded.")
+        logger.info("&aLanguage system loading...")
         I18n.load(dataFolder)
-        if (Config.Debug) {
-            println("Version: ${Config.Version}")
-            println("CheckUpdate: ${Config.CheckUpdate}")
-            println("Prefix: ${Config.Prefix}")
-            println("Language: ${Config.Language}")
-            println("Debug: ${Config.Debug}")
-
-            println("ApiLinkNetease: ${Config.ApiLinkNetease}")
-            println("ApiLinkQQ: ${Config.ApiLinkQQ}")
-            println("ApiAccountNeteaseAccount: ${Config.ApiAccountNeteaseAccount}")
-            println("ApiAccountNeteasePassword: ${Config.ApiAccountNeteasePassword}")
-            println("ApiAccountQQCookie: ${Config.ApiAccountQQCookie}")
-
-            println("VipQQ: ${Config.VipQQ}")
-            println("VipKey: ${Config.VipKey}")
-
-            println("MusicCommands: ${Config.MusicCommands}")
-            println("MusicCoolDown: ${Config.MusicCoolDown}")
-
-            println("LyricEnabled: ${Config.LyricEnabled}")
-            println("LyricShowLyricTranslation${Config.LyricShowLyricTranslation}")
-            println("LyricBossBar: ${Config.LyricBossBar}")
-            println("LyricActionBar: ${Config.LyricActionBar}")
-            println("LyricTitle${Config.LyricTitle}")
-            println("LyricChat: ${Config.LyricChat}")
-
-            println("HudEnabled: ${Config.HudEnabled}")
-            println("HudInfoEnabled: ${Config.HudInfoEnabled}")
-            println("HudInfoX: ${Config.HudInfoX}")
-            println("HudInfoY: ${Config.HudInfoY}")
-            println("HudLyricEnabled: ${Config.HudLyricEnabled}")
-            println("HudLyricX: ${Config.HudLyricX}")
-            println("HudLyricY: ${Config.HudLyricY}")
-        }
+        logger.info("&aLanguage system loaded.")
     }
 }
+
+lateinit var logger: Logger

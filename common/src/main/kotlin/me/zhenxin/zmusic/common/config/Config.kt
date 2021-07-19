@@ -13,41 +13,71 @@ import java.io.File
  */
 object Config {
     // 基本设置
+
+    // 版本
     var Version = 0
+    // 是否检查更新
     var CheckUpdate = true
-    var Prefix = ""
+    // 语言
     var Language = ""
+    // 是否开启调试模式
     var Debug = false
 
     // API设置
+
+    // 网易云接口地址
     var ApiLinkNetease = ""
+    // QQ音乐接口地址
     var ApiLinkQQ = ""
+    // 网易云账号
     var ApiAccountNeteaseAccount = ""
+    // 网易云密码
     var ApiAccountNeteasePassword = ""
+    // QQ音乐 Cookie
     var ApiAccountQQCookie = ""
 
     // VIP 设置
+
+    // 授权QQ
     var VipQQ = ""
+    // 授权Key
     var VipKey = ""
 
     // 点歌设置
+
+    // 点歌后执行命令
     var MusicCommands = mutableListOf<String>()
+    // 点歌冷却
     var MusicCoolDown = 0
 
     // 歌词设置
+
+    // 是否启用歌词
     var LyricEnabled = true
+    // 是否显示歌词翻译
     var LyricShowLyricTranslation = true
+    // 歌词颜色
     var LyricColor = ""
+    // 是否使用BossBar显示歌词
     var LyricBossBar = true
+    // 是否使用ActionBar显示歌词
     var LyricActionBar = false
+    // 是否使用Title显示歌词
     var LyricTitle = false
+    // 是否使用聊天信息显示歌词
     var LyricChat = false
 
     // Hud设置
+
+    // 是否启用Hud
     var HudEnabled = true
+    // 是否显示信息
     var HudInfoEnabled = true
+    // 信息X坐标
     var HudInfoX = 0
+    // 信息Y坐标
     var HudInfoY = 0
+    // 以下同上 对应歌词
     var HudLyricEnabled = true
     var HudLyricX = 0
     var HudLyricY = 0
@@ -55,7 +85,7 @@ object Config {
     /**
      * 加载配置文件
      *
-     * @param dataDir 数据目录
+     * @param dataFolder 数据目录
      */
     fun load(dataFolder: File) {
         var temp: Any
@@ -70,8 +100,6 @@ object Config {
         // 基本设置
         Version = config["version"] as Int
         CheckUpdate = config["check-update"] as Boolean
-        Prefix = config["prefix"] as String
-        Prefix = Prefix.replace("&", "§")
         Language = config["language"] as String
         Debug = config["debug"] as Boolean
 
@@ -107,7 +135,6 @@ object Config {
         LyricEnabled = temp["enabled"] as Boolean
         LyricShowLyricTranslation = temp["show-lyric-translation"] as Boolean
         LyricColor = temp["color"] as String
-        LyricColor = LyricColor.replace("&", "§")
         LyricBossBar = temp["boss-bar"] as Boolean
         LyricActionBar = temp["action-bar"] as Boolean
         LyricTitle = temp["title"] as Boolean

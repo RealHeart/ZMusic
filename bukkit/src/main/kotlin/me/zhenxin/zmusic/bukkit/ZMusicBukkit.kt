@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.bukkit
 
 import me.zhenxin.zmusic.common.ZMusic
+import me.zhenxin.zmusic.common.modules.logger.Logger
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -12,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class ZMusicBukkit : JavaPlugin() {
     override fun onEnable() {
+        me.zhenxin.zmusic.common.logger = Logger(logger)
         MetricsBukkit(this, 7291)
         ZMusic.onEnable(dataFolder)
     }

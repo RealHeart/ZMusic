@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.bungee
 
 import me.zhenxin.zmusic.common.ZMusic
+import me.zhenxin.zmusic.common.modules.logger.Logger
 import net.md_5.bungee.api.plugin.Plugin
 
 /**
@@ -12,6 +13,7 @@ import net.md_5.bungee.api.plugin.Plugin
  */
 class ZMusicBungee : Plugin() {
     override fun onEnable() {
+        me.zhenxin.zmusic.common.logger = Logger(logger)
         MetricsBC(this, 8864)
         ZMusic.onEnable(dataFolder)
     }

@@ -2,8 +2,6 @@
 version: 10
 # 是否检查更新
 check-update: true
-# 插件提示信息显示前缀
-prefix: '&bZMusic &e>>> &r'
 # 插件使用的语言
 language: 'zh-CN'
 # 是否开启调试模式
