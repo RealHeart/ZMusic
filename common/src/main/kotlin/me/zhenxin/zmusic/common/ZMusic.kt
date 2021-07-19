@@ -14,16 +14,15 @@ import java.io.File
  */
 object ZMusic {
     fun onEnable(dataFolder: File) {
-        logger.info("&bZMusic &e>>> &aLoading...")
+        logger.info("&aLoading...")
+        Config.load(dataFolder)
+        logger.info("&aLanguage system loading...")
+        I18n.load(dataFolder)
+        logger.info(I18n.Init_I18nLoaded)
         if (!dataFolder.exists()) {
             dataFolder.mkdir()
         }
-        logger.info("&aConfiguration file loading...")
-        Config.load(dataFolder)
-        logger.info("&aConfiguration file loaded.")
-        logger.info("&aLanguage system loading...")
-        I18n.load(dataFolder)
-        logger.info("&aLanguage system loaded.")
+
     }
 }
 

@@ -13,7 +13,12 @@ import java.io.File
  * @email qgzhenxin@qq.com
  */
 object I18n {
-    var INIT_LOADING = ""
+    var Author = ""
+    var Prefix = ""
+
+    var Init_I18nLoaded = ""
+    var Init_ConfigLoading = ""
+    var Init_ConfigLoaded = ""
 
     fun load(dataFolder: File) {
         val dir = File(dataFolder, "/i18n")
@@ -30,8 +35,11 @@ object I18n {
         val yaml = Yaml()
         val lang: LinkedHashMap<String, Any> = yaml.load(file.inputStream())
 
-        println(lang)
+        Author = lang["author"] as String
+        Prefix = lang["prefix"] as String
 
-        INIT_LOADING = (lang["init"] as LinkedHashMap<*, *>)["loading"] as String
+        Init_I18nLoaded = (lang["init"] as LinkedHashMap<*, *>)["i18n-loaded"] as String
+        Init_ConfigLoading = (lang["init"] as LinkedHashMap<*, *>)["config-loading"] as String
+        Init_ConfigLoaded = (lang["init"] as LinkedHashMap<*, *>)["config-loaded"] as String
     }
 }

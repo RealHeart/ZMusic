@@ -110,7 +110,7 @@ object HttpUtil {
             res.close()
             return result
         } else {
-            throw ZMusicException("下载失败,${res.code}!")
+            throw ZMusicException("下载失败! ${res.code} $url")
         }
     }
 
