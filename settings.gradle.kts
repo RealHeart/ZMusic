@@ -4,8 +4,5 @@ include(
     "common",
     "bukkit",
     "bungee",
-    "velocity",
-    "sponge",
     "merge"
 )
-include("database")
