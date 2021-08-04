@@ -26,6 +26,16 @@ interface Sender {
     /**
      * 是否为玩家
      */
-    fun isPlayer(): Boolean
+    val isPlayer: Boolean
+
+    /**
+     * 获取名称
+     */
+    val name: String
+
+    /**
+     * 获取玩家UUID
+     */
+    val playerUniqueId: String
 
 }

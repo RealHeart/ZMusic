@@ -15,6 +15,8 @@ class ZMusicBukkit : JavaPlugin() {
     override fun onEnable() {
         me.zhenxin.zmusic.common.logger = Logger(logger)
         MetricsBukkit(this, 7291)
+        getCommand("zm")?.setExecutor(CmdExec())
+        getCommand("zm")?.tabCompleter = CmdExec()
         ZMusic.onEnable(dataFolder)
     }
 }

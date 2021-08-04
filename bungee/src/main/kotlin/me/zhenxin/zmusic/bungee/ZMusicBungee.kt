@@ -15,6 +15,7 @@ class ZMusicBungee : Plugin() {
     override fun onEnable() {
         me.zhenxin.zmusic.common.logger = Logger(logger)
         MetricsBC(this, 8864)
+        proxy.pluginManager.registerCommand(this, CmdExec())
         ZMusic.onEnable(dataFolder)
     }
 }
