@@ -1,5 +1,7 @@
 package me.zhenxin.zmusic.common.modules.api
 
+import me.zhenxin.zmusic.common.modules.api.data.MusicInfo
+
 /**
  * 音乐统一接口
  *
@@ -14,7 +16,7 @@ interface MusicApi {
      *
      * @param keyword 关键词
      */
-    fun searchSingle(keyword: String)
+    fun searchSingle(keyword: String): MusicInfo
 
     /**
      * 分页搜索
@@ -23,7 +25,7 @@ interface MusicApi {
      * @param page 页数
      * @param count 每页返回数量
      */
-    fun searchPage(keyword: String, page: Int, count: Int)
+    fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo>
 
     /**
      * 获取歌单
@@ -38,4 +40,12 @@ interface MusicApi {
      * @param id 专辑ID
      */
     fun getAlbum(id: String)
+
+
+    /**
+     * 获取音乐播放链接
+     *
+     * @param id 音乐ID
+     */
+    fun getPlayUrl(id: String)
 }
