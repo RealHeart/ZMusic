@@ -9,7 +9,9 @@
 ![][servers]
 ![][tested-versions]
 
-3.0版本正在开发中 2.0版本请查看[master](../../tree/master/)分支
+3.0版本正在开发中 基于TabooLib 6
+
+2.0版本请查看[master](../../tree/master/)分支
 
 ## 简介
 
@@ -77,9 +79,9 @@
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
 
-[java]: https://img.shields.io/badge/Java-16-blue
+[java]: https://img.shields.io/badge/java-16-blue
 
-[kotlin]: https://img.shields.io/badge/Kotlin-1.5.20-blue
+[kotlin]: https://img.shields.io/badge/kotlin-1.5.21-blue
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
 
