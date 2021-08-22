@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.module.command
+package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyPlayer

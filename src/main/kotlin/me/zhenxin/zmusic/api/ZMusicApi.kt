@@ -10,5 +10,6 @@ import me.zhenxin.zmusic.ZMusic
  * @email qgzhenxin@qq.com
  */
 object ZMusicApi {
+    @JvmStatic
     val VERSION: String = ZMusic.VERSION
 }

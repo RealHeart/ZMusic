@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.module.command
 
 import me.zhenxin.zmusic.module.Lang
+import me.zhenxin.zmusic.module.command.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
@@ -14,9 +15,14 @@ import taboolib.common.platform.command.mainCommand
  * @since 2021/8/14 20:41
  * @email qgzhenxin@qq.com
  */
-@CommandHeader(name = "zm", aliases = ["zmusic", "music"], permission = "zmusic.use")
-object CommandHander {
-    @CommandBody(permission = "zmusic.test", optional = true)
+@Suppress("unused")
+@CommandHeader(
+    name = "zm",
+    aliases = ["zmusic", "music"],
+    permission = "zmusic.use"
+)
+object CommandHandler {
+    @CommandBody(optional = true, permission = "zmusic.developer")
     val test = testCommand
 
     @CommandBody
@@ -29,9 +35,18 @@ object CommandHander {
         }
     }
 
-    @CommandBody(permission = "zmusic.help", optional = true)
+    @CommandBody(optional = true, permission = "zmusic.user.help")
     val help = helpCommand
 
-    @CommandBody(permission = "zmusic.play", optional = true)
+    @CommandBody(optional = true, permission = "zmusic.user.play")
     val play = playCommand
+
+    @CommandBody(optional = true, permission = "zmusic.admin")
+    val music = musicCommand
+
+    @CommandBody(optional = true, permission = "zmusic.admin")
+    val queue = queueCommand
+
+    @CommandBody(optional = true, permission = "zmusic.admin")
+    val admin = adminCommand
 }

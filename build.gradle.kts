@@ -63,7 +63,7 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-pre56"
+    version = "6.0.0-pre57"
 }
 
 tasks.withType<KotlinCompile> {
