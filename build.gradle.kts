@@ -2,12 +2,39 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "1.18"
-    id("org.jetbrains.kotlin.jvm") version "1.5.21"
+    id("io.izzel.taboolib") version "1.22"
+    kotlin("jvm") version "1.5.21"
+    kotlin("plugin.serialization") version "1.5.21"
 }
 
 group = "me.zhenxin.zmusic"
 version = "3.0-21w32a"
+
+repositories {
+    // 阿里云
+    maven("https://maven.aliyun.com/repository/public/")
+    // SpigotMC
+    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+    // Velocity
+    maven("https://nexus.velocitypowered.com/repository/maven-public/")
+    mavenLocal()
+}
+
+@Suppress("SpellCheckingInspection")
+dependencies {
+    compileOnly("ink.ptms.core:v11701:11701:mapped")
+    compileOnly("ink.ptms.core:v11701:11701:universal")
+
+    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:3.0.0")
+    compileOnly("org.spongepowered:spongeapi:7.2.0")
+
+    compileOnly("com.alibaba:fastjson:1.2.76")
+    compileOnly("cn.hutool:hutool-http:5.7.9")
+
+    compileOnly(kotlin("stdlib"))
+}
 
 taboolib {
     description {
@@ -36,27 +63,7 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-pre51"
-}
-
-repositories {
-    // 阿里云
-    maven("https://maven.aliyun.com/repository/public/")
-    // SpigotMC
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-    mavenLocal()
-}
-
-dependencies {
-    compileOnly("ink.ptms.core:v11701:11701:mapped")
-    compileOnly("ink.ptms.core:v11701:11701:universal")
-
-    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
-
-    compileOnly("com.alibaba:fastjson:1.2.76")
-    compileOnly("com.squareup.okhttp3:okhttp:4.9.1")
-
-    compileOnly(kotlin("stdlib"))
+    version = "6.0.0-pre56"
 }
 
 tasks.withType<KotlinCompile> {

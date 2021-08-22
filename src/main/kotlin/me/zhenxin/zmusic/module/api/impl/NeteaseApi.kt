@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.module.api.impl
 
+import cn.hutool.core.util.StrUtil
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.module.Config
@@ -37,6 +38,7 @@ class NeteaseApi : MusicApi {
         val songs = result.getJSONArray("songs")
         songs.forEach {
             it as JSONObject
+
             val id = it.getString("id")
             val name = it.getString("name")
             val singer = it.getJSONArray("ar")
@@ -45,7 +47,7 @@ class NeteaseApi : MusicApi {
                 ar as JSONObject
                 singers = "$singers${ar.getString("name")}/"
             }
-            singers = singers.trimEnd('/')
+            singers = StrUtil.removeSuffix(singers, "/")
             val album = it.getJSONObject("al")
             val albumName = album.getString("name")
             val albumImage = album.getString("picUrl")
@@ -73,7 +75,10 @@ class NeteaseApi : MusicApi {
         TODO("Not yet implemented")
     }
 
-    override fun getPlayUrl(id: String) {
-        TODO("Not yet implemented")
+    override fun getPlayUrl(id: String): String {
+        val result = HttpUtil.get("$api/song/url?id=$id")
+        val json = JSON.parseObject(result.data as String)
+        val data = json.getJSONArray("data")[0] as JSONObject
+        return data.getString("url")
     }
 }

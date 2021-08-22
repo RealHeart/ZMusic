@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.module.taboolib
 
+import io.netty.buffer.Unpooled
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.implementations
@@ -16,6 +17,13 @@ interface PluginMessage {
     fun registerChannel(channel: String)
 
     fun sendMessage(sender: ProxyPlayer, channel: String, data: ByteArray)
+
+    fun encodeBytes(bytes: ByteArray): ByteArray {
+        val buf = Unpooled.buffer(bytes.size + 1)
+        buf.writeByte(666)
+        buf.writeBytes(bytes)
+        return buf.array()
+    }
 }
 
 fun ProxyCommandSender.registerChannel(channel: String) {

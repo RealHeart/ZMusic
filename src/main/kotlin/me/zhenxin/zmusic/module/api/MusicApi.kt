@@ -47,5 +47,5 @@ interface MusicApi {
      *
      * @param id 音乐ID
      */
-    fun getPlayUrl(id: String)
+    fun getPlayUrl(id: String): String
 }

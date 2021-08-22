@@ -16,8 +16,8 @@ import taboolib.common.env.RuntimeDependency
         test = "!com.alibaba.fastjson.JSON"
     ),
     RuntimeDependency(
-        value = "!com.squareup.okhttp3:okhttp:4.9.1",
-        test = "!okhttp3.OkHttp"
+        value = "!cn.hutool:hutool-http:5.7.9",
+        test = "!cn.hutool.http.HttpUtil"
     )
 )
 class RuntimeEnv

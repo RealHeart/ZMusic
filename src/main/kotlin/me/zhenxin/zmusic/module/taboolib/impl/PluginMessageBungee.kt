@@ -16,8 +16,9 @@ import taboolib.platform.BungeePlugin
  * @email qgzhenxin@qq.com
  */
 
+@Suppress("unused")
 @PlatformImplementation(Platform.BUNGEE)
-class PluginMessageBungeeImpl : PluginMessage {
+class PluginMessageBungee : PluginMessage {
     private val plugin by lazy { BungeePlugin.getInstance() }
     override fun registerChannel(channel: String) {
         plugin.proxy.registerChannel(channel)
@@ -25,6 +26,6 @@ class PluginMessageBungeeImpl : PluginMessage {
 
     override fun sendMessage(sender: ProxyPlayer, channel: String, data: ByteArray) {
         val player by lazy { sender.cast<ProxiedPlayer>() }
-        player.sendData(channel, data)
+        player.sendData(channel, encodeBytes(data))
     }
 }
