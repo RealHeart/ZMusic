@@ -1,9 +1,7 @@
-package me.zhenxin.zmusic.module.taboolib
+package me.zhenxin.zmusic.module.taboolib.pluginmessage
 
 import io.netty.buffer.Unpooled
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.function.implementations
 
 /**
  * 插件消息多平台实现
@@ -24,12 +22,4 @@ interface PluginMessage {
         buf.writeBytes(bytes)
         return buf.array()
     }
-}
-
-fun ProxyCommandSender.registerChannel(channel: String) {
-    return implementations<PluginMessage>().registerChannel(channel)
-}
-
-fun ProxyPlayer.sendPluginMessage(channel: String, data: ByteArray) {
-    return implementations<PluginMessage>().sendMessage(this, channel, data)
 }

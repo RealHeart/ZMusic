@@ -1,38 +1,48 @@
+@file:Suppress("SpellCheckingInspection")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "1.22"
-    kotlin("jvm") version "1.5.21"
-    kotlin("plugin.serialization") version "1.5.21"
+    id("io.izzel.taboolib") version "1.26"
+    kotlin("jvm") version "1.5.30"
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w32a"
+version = "3.0-21w34a"
 
 repositories {
     // 阿里云
     maven("https://maven.aliyun.com/repository/public/")
-    // SpigotMC
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+    // sonatype
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
     // Velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     mavenLocal()
 }
 
-@Suppress("SpellCheckingInspection")
 dependencies {
+    // TabooLib
     compileOnly("ink.ptms.core:v11701:11701:mapped")
     compileOnly("ink.ptms.core:v11701:11701:universal")
 
-    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    // Kyori Adventure
+    taboo("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
+    taboo("net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT")
+    taboo("net.kyori:adventure-platform-bungeecord:4.0.0-SNAPSHOT")
+    taboo("net.kyori:adventure-platform-spongeapi:4.0.0-SNAPSHOT")
+
+    // Platform API
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
     compileOnly("com.velocitypowered:velocity-api:3.0.0")
     compileOnly("org.spongepowered:spongeapi:7.2.0")
 
+    // Runtime
     compileOnly("com.alibaba:fastjson:1.2.76")
     compileOnly("cn.hutool:hutool-http:5.7.9")
+    compileOnly("cn.hutool:hutool-crypto:5.7.9")
 
+    // Kotlin
     compileOnly(kotlin("stdlib"))
 }
 
@@ -58,12 +68,11 @@ taboolib {
         "platform-sponge-api7"
     )
     install(
-        "module-chat",
         "module-configuration",
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-pre57"
+    version = "6.0.0-7"
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module
 
+import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.module.chat.colored
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
 
@@ -22,10 +22,10 @@ object Lang {
     var COMMAND_NOT_PERMISSION = ""
 
     fun init(sender: ProxyCommandSender) {
-        INIT_LOADING = sender.asLangText("init-loading")
-        INIT_LOADED = sender.asLangTextList("init-loaded")
-        HELP_TIPS = sender.asLangText("help-tips")
-        HELP_MAIN = sender.asLangTextList("help-main")
-        COMMAND_NOT_PERMISSION = sender.asLangText("command-not-permission")
+        INIT_LOADING = sender.asLangText("init-loading").colored()
+        INIT_LOADED = sender.asLangTextList("init-loaded").colored()
+        HELP_TIPS = sender.asLangText("help-tips").colored()
+        HELP_MAIN = sender.asLangTextList("help-main").colored()
+        COMMAND_NOT_PERMISSION = sender.asLangText("command-not-permission").colored()
     }
 }

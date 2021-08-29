@@ -5,7 +5,9 @@ import me.zhenxin.zmusic.module.command.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
+import taboolib.common.platform.command.CommandBuilder
 import taboolib.common.platform.command.CommandHeader
+import taboolib.common.platform.command.PermissionDefault.*
 import taboolib.common.platform.command.mainCommand
 
 /**
@@ -19,7 +21,8 @@ import taboolib.common.platform.command.mainCommand
 @CommandHeader(
     name = "zm",
     aliases = ["zmusic", "music"],
-    permission = "zmusic.use"
+    permission = "zmusic.use",
+    permissionDefault = TRUE
 )
 object CommandHandler {
     @CommandBody(optional = true, permission = "zmusic.developer")
@@ -27,6 +30,12 @@ object CommandHandler {
 
     @CommandBody
     val main = mainCommand {
+        incorrectCommand { sender, context, _, _ ->
+            sender.sendMsg(
+                Lang.HELP_TIPS
+                    .replace("{0}", context.name)
+            )
+        }
         execute<ProxyCommandSender> { sender, context, _ ->
             sender.sendMsg(
                 Lang.HELP_TIPS

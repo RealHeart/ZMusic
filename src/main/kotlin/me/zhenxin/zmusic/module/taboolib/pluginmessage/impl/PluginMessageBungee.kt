@@ -1,10 +1,9 @@
-package me.zhenxin.zmusic.module.taboolib.impl
+package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
-import me.zhenxin.zmusic.module.taboolib.PluginMessage
+import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.platform.BungeePlugin
 

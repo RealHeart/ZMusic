@@ -1,8 +1,7 @@
-package me.zhenxin.zmusic.module.taboolib.impl
+package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
 import com.velocitypowered.api.proxy.Player
-import com.velocitypowered.api.proxy.messages.ChannelIdentifier
-import me.zhenxin.zmusic.module.taboolib.PluginMessage
+import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyPlayer

@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module
 
+import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.function.disablePlugin
-import taboolib.module.chat.colored
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 

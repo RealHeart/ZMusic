@@ -18,6 +18,10 @@ import taboolib.common.env.RuntimeDependency
     RuntimeDependency(
         value = "!cn.hutool:hutool-http:5.7.9",
         test = "!cn.hutool.http.HttpUtil"
+    ),
+    RuntimeDependency(
+        value = "!cn.hutool:hutool-crypto:5.7.9",
+        test = "!cn.hutool.crypto.SecureUtil"
     )
 )
 class RuntimeEnv

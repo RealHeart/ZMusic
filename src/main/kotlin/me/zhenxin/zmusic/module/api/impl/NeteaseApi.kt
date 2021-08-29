@@ -30,7 +30,7 @@ class NeteaseApi : MusicApi {
         val search =
             HttpUtil.get(
                 "$api/cloudsearch?keywords=${
-                    URLEncoder.encode(keyword, StandardCharsets.UTF_8)
+                    URLEncoder.encode(keyword,"UTF-8")
                 }&limit=$count&offset=$offset"
             )
         val data = JSON.parseObject(search.data as String)

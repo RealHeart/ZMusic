@@ -1,6 +1,6 @@
-package me.zhenxin.zmusic.module.taboolib.impl
+package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
-import me.zhenxin.zmusic.module.taboolib.PluginMessage
+import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.text.Text
@@ -19,7 +19,7 @@ import taboolib.platform.Sponge7Plugin
 
 @Suppress("unused")
 @PlatformImplementation(Platform.SPONGE_API_7)
-class PluginMessageSponge : PluginMessage {
+class PluginMessageSponge7 : PluginMessage {
     private val plugin by lazy { Sponge7Plugin.getInstance() }
     override fun registerChannel(channel: String) {
         Sponge.getChannelRegistrar().createChannel(plugin, channel)
