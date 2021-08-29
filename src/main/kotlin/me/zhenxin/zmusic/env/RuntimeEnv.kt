@@ -22,6 +22,11 @@ import taboolib.common.env.RuntimeDependency
     RuntimeDependency(
         value = "!cn.hutool:hutool-crypto:5.7.9",
         test = "!cn.hutool.crypto.SecureUtil"
-    )
+    ),
+    RuntimeDependency(
+        value = "!me.zhenxin:adventure-text-minimessage:4.1.0-SNAPSHOT",
+        test = "!net.kyori.adventure.text.minimessage.MiniMessage",
+        repository = "https://gitee.com/RealHeart/Maven/raw/master"
+    ),
 )
 class RuntimeEnv

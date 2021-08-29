@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w34a"
+version = "3.0-21w34b"
 
 repositories {
     // 阿里云
@@ -18,6 +18,8 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     // Velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
+    // ZhenXin
+    maven("https://gitee.com/RealHeart/Maven/raw/master")
     mavenLocal()
 }
 
@@ -27,10 +29,7 @@ dependencies {
     compileOnly("ink.ptms.core:v11701:11701:universal")
 
     // Kyori Adventure
-    taboo("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
-    taboo("net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT")
-    taboo("net.kyori:adventure-platform-bungeecord:4.0.0-SNAPSHOT")
-    taboo("net.kyori:adventure-platform-spongeapi:4.0.0-SNAPSHOT")
+    compileOnly("me.zhenxin:adventure-text-minimessage:4.1.0-SNAPSHOT")
 
     // Platform API
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
@@ -72,7 +71,7 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-7"
+    version = "6.0.0-34"
 }
 
 tasks.withType<KotlinCompile> {
