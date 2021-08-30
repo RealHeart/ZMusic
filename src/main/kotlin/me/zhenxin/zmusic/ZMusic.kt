@@ -9,7 +9,6 @@ import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
-import taboolib.common.platform.function.submit
 import taboolib.module.metrics.Metrics
 
 
@@ -33,9 +32,6 @@ object ZMusic : Plugin() {
         Config.init() // 加载配置
         Lang.init(console()) // 初始化语言系统
         logger.log(Lang.INIT_LOADING)
-        submit {
-            logger.log("跨平台任务接口测试")
-        }
         // 注册bStats
         Metrics(7291, VERSION, BUKKIT)
         Metrics(8864, VERSION, BUNGEE)
@@ -46,7 +42,6 @@ object ZMusic : Plugin() {
         console().registerChannel("zmusic:channel")
         console().registerChannel("allmusic:channel")
 
-        logger.debug(runningPlatform.name)
         Lang.INIT_LOADED.forEach {
             logger.log(
                 it.replace("{0}", VERSION)

@@ -8,7 +8,6 @@ import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.data.MusicInfo
 import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 /**
  * 网易云音乐接口实现

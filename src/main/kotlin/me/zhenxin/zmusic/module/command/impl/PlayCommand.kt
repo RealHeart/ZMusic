@@ -5,7 +5,6 @@ import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.NeteaseApi
 import me.zhenxin.zmusic.module.taboolib.playMusic
 import me.zhenxin.zmusic.module.taboolib.sendMsg
-import me.zhenxin.zmusic.module.taboolib.sendPluginMessage
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 
@@ -35,6 +34,7 @@ val playCommand = subCommand {
                     "netease" -> api = NeteaseApi()
                 }
                 val result = api.searchSingle(argument)
+                logger.debug(result)
                 val url = api.getPlayUrl(result.id)
                 sender.playMusic(url)
             }

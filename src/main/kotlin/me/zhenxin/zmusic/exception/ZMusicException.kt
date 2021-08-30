@@ -8,5 +8,5 @@ package me.zhenxin.zmusic.exception
  * @email qgzhenxin@qq.com
  */
 class ZMusicException(
-    override val message: String = "未知错误"
+    override val message: String = "ZMusic Internal Exception"
 ) : RuntimeException()

@@ -20,7 +20,7 @@ import taboolib.platform.VelocityPlugin
 class PluginMessageVelocity : PluginMessage {
     private val plugin by lazy { VelocityPlugin.getInstance() }
     override fun registerChannel(channel: String) {
-        plugin.server.channelRegistrar.register({ channel })
+        // Velocity 无需注册频道
     }
 
     override fun sendMessage(sender: ProxyPlayer, channel: String, data: ByteArray) {

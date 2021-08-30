@@ -7,7 +7,7 @@ import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyCommandSender
 
 @Suppress("unused")
-@PlatformImplementation(Platform.SPONGE_API_7)
+@PlatformImplementation(Platform.VELOCITY)
 class ComponentVelocity : Component {
 
     override fun sendMsg(sender: ProxyCommandSender, component: net.kyori.adventure.text.Component) {

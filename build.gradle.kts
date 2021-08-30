@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w34b"
+version = "3.0-21w35a"
 
 repositories {
     // 阿里云
@@ -71,7 +71,7 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-34"
+    version = "6.0.0-44"
 }
 
 tasks.withType<KotlinCompile> {
