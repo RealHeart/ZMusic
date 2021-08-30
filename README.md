@@ -38,18 +38,6 @@
 * 提交 [Issues](../../issues)
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
-## 模块
-
-| 名称 | 说明 |
-| --- | --- |
-| common | 公共文件 |
-| database | 数据库支持插件(可选安装) |
-| bukkit | Bukkit/Spigot/Paper 插件 |
-| bungee | Bungeecord/Waterfall 插件 |
-| merge | 全部平台合并插件 |
-
-## 构建
-
 1. 克隆
 
    > ```shell
@@ -68,7 +56,7 @@
 
 ## 使用
 
-1. 在[release](../../releases)页或[CI构建][build-link]下载最新版本
+1. 在[release](../../releases)页下载最新版本
 
 2. 放入服务端插件目录
 
@@ -81,7 +69,7 @@
 
 [java]: https://img.shields.io/badge/java-16-blue
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.5.21-blue
+[kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
 

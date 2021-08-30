@@ -12,6 +12,11 @@ import me.zhenxin.zmusic.module.api.data.MusicInfo
 interface MusicApi {
 
     /**
+     * 平台名称
+     */
+    val name: String
+
+    /**
      * 根据关键词搜索音乐
      *
      * @param keyword 关键词

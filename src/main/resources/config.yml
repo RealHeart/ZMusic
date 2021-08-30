@@ -3,7 +3,7 @@ check-update: true
 # 插件使用的语言
 language: 'zh-CN'
 # 消息前缀
-prefix: '&bZMusic &e>>> &r'
+prefix: '<gradient:#66CCFF:#0088FF>ZMusic</gradient> <yellow>>>></yellow> <reset>'
 # 是否开启调试模式
 debug: false
 

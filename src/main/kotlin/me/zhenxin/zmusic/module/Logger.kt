@@ -1,5 +1,7 @@
 package me.zhenxin.zmusic.module
 
+import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyCommandSender
 
 /**
@@ -11,12 +13,12 @@ import taboolib.common.platform.ProxyCommandSender
  */
 class Logger(private val sender: ProxyCommandSender) {
     fun log(msg: Any) {
-        sender.sendMessage(Config.PREFIX + msg)
+        sender.sendMsg("$msg")
     }
 
     fun debug(msg: Any) {
         if (Config.DEBUG) {
-            sender.sendMessage(Config.PREFIX + "§e[Debug] $msg")
+            sender.sendMsg("&e[Debug] $msg".colored())
         }
     }
 }

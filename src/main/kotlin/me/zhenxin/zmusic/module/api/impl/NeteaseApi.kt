@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.module.Config
+import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.data.MusicInfo
 import me.zhenxin.zmusic.utils.HttpUtil
@@ -18,6 +19,7 @@ import java.net.URLEncoder
  */
 class NeteaseApi : MusicApi {
     private val api = Config.API_NETEASE_LINK
+    override val name: String = Lang.PLATFORM_NETEASE
     override fun searchSingle(keyword: String): MusicInfo {
         val data = searchPage(keyword, 1, 1)
         return data[0]
@@ -29,7 +31,7 @@ class NeteaseApi : MusicApi {
         val search =
             HttpUtil.get(
                 "$api/cloudsearch?keywords=${
-                    URLEncoder.encode(keyword,"UTF-8")
+                    URLEncoder.encode(keyword, "UTF-8")
                 }&limit=$count&offset=$offset"
             )
         val data = JSON.parseObject(search.data as String)

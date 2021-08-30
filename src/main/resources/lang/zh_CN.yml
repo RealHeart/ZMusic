@@ -1,3 +1,9 @@
+platform-netease: '网易云音乐'
+platform-qq: 'QQ音乐'
+platform-bili: '哔哩哔哩音乐'
+platform-kugou: '酷狗音乐'
+platform-xima: '喜马拉雅'
+
 init-loading: '&a正在加载中...'
 init-loaded:
   - '&a插件加载完毕!'
@@ -5,6 +11,7 @@ init-loaded:
   - '&a当前平台: &b{1}'
   - '&a使用文档: &bm.zplu.cc'
   - '&a插件作者: &b真心'
+
 help-tips: '&a输入 &a/&e{0} &bhelp &a查看帮助.'
 help-main:
   - '&a/&e{0} &bhelp &c- &a查看主帮助(当前).'
@@ -19,4 +26,7 @@ help-main:
   - '&a/&e{0} &burl [MP3地址] &c- &a播放网络音乐'
   - '&a/&e{0} &b163hot [歌名] &c- &a获取网易云音乐热评(前三)'
   - '&6========================================'
+
 command-not-permission: '&c权限不足,你需要 &e{0} &c权限以使用此命令.'
+command-play-searching: '&a正在搜索中...'
+command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'

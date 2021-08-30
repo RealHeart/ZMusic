@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w35a"
+version = "3.0-21w35b"
 
 repositories {
     // 阿里云
@@ -63,8 +63,7 @@ taboolib {
     install(
         "platform-bukkit",
         "platform-bungee",
-        "platform-velocity",
-        "platform-sponge-api7"
+        "platform-velocity"
     )
     install(
         "module-configuration",
