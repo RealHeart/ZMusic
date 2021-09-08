@@ -31,12 +31,14 @@ object Lang {
     var COMMAND_PLAY_SEARCHING = ""
     var COMMAND_PLAY_SUCCESS = ""
 
+    var COMMAND_SUGGESTION_SONG = ""
+
     fun init(sender: ProxyCommandSender) {
-        PLATFORM_NETEASE = sender.asLangText("platform-netease").colored()
-        PLATFORM_QQ = sender.asLangText("platform-qq").colored()
-        PLATFORM_BILI = sender.asLangText("platform-bili").colored()
-        PLATFORM_KUGOU = sender.asLangText("platform-kugou").colored()
-        PLATFORM_XIMA = sender.asLangText("platform-xima").colored()
+        PLATFORM_NETEASE = sender.asLangText("platform-netease")
+        PLATFORM_QQ = sender.asLangText("platform-qq")
+        PLATFORM_BILI = sender.asLangText("platform-bili")
+        PLATFORM_KUGOU = sender.asLangText("platform-kugou")
+        PLATFORM_XIMA = sender.asLangText("platform-xima")
 
         INIT_LOADING = sender.asLangText("init-loading").colored()
         INIT_LOADED = sender.asLangTextList("init-loaded").colored()
@@ -47,5 +49,6 @@ object Lang {
         COMMAND_NOT_PERMISSION = sender.asLangText("command-not-permission").colored()
         COMMAND_PLAY_SEARCHING = sender.asLangText("command-play-searching").colored()
         COMMAND_PLAY_SUCCESS = sender.asLangText("command-play-success").colored()
+        COMMAND_SUGGESTION_SONG = sender.asLangText("command-suggestion-song")
     }
 }

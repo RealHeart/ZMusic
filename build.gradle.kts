@@ -9,7 +9,13 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w35b"
+version = "3.0-21w36a"
+
+val taboolib = "6.0.1-7"
+val minimessage = "4.1.0-SNAPSHOT"
+val bungeecord = "1.17-R0.1-SNAPSHOT"
+val velocity = "3.0.0"
+val hutool = "5.7.10"
 
 repositories {
     // 阿里云
@@ -29,17 +35,16 @@ dependencies {
     compileOnly("ink.ptms.core:v11701:11701:universal")
 
     // Kyori Adventure
-    compileOnly("me.zhenxin:adventure-text-minimessage:4.1.0-SNAPSHOT")
+    compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
 
     // Platform API
-    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
-    compileOnly("com.velocitypowered:velocity-api:3.0.0")
-    compileOnly("org.spongepowered:spongeapi:7.2.0")
+    compileOnly("net.md-5:bungeecord-api:$bungeecord")
+    compileOnly("com.velocitypowered:velocity-api:$velocity")
 
-    // Runtime
-    compileOnly("com.alibaba:fastjson:1.2.76")
-    compileOnly("cn.hutool:hutool-http:5.7.9")
-    compileOnly("cn.hutool:hutool-crypto:5.7.9")
+    // hutool
+    compileOnly("cn.hutool:hutool-json:$hutool")
+    compileOnly("cn.hutool:hutool-http:$hutool")
+    compileOnly("cn.hutool:hutool-crypto:$hutool")
 
     // Kotlin
     compileOnly(kotlin("stdlib"))
@@ -70,7 +75,7 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    version = "6.0.0-44"
+    version = taboolib
 }
 
 tasks.withType<KotlinCompile> {

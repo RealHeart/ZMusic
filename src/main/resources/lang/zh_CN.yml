@@ -30,3 +30,5 @@ help-main:
 command-not-permission: '&c权限不足,你需要 &e{0} &c权限以使用此命令.'
 command-play-searching: '&a正在搜索中...'
 command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
+
+command-suggestion-song: '歌名'

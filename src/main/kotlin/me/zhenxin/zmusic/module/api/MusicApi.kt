@@ -1,7 +1,5 @@
 package me.zhenxin.zmusic.module.api
 
-import me.zhenxin.zmusic.module.api.data.MusicInfo
-
 /**
  * 音乐统一接口
  *
@@ -21,7 +19,10 @@ interface MusicApi {
      *
      * @param keyword 关键词
      */
-    fun searchSingle(keyword: String): MusicInfo
+    fun searchSingle(keyword: String): MusicInfo {
+        val data = searchPage(keyword, 1, 1)
+        return data[0]
+    }
 
     /**
      * 分页搜索

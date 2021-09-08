@@ -4,8 +4,9 @@ import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
 import me.zhenxin.zmusic.module.taboolib.registerChannel
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
-import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
@@ -19,19 +20,29 @@ import taboolib.module.metrics.Metrics
  * @since 2021/8/14 14:33
  * @email qgzhenxin@qq.com
  */
-object ZMusic : Plugin() {
+@Suppress("unused")
+object ZMusic {
     lateinit var VERSION: String
     const val logo = ""
-    override fun onEnable() {
+
+    @Awake(LifeCycle.LOAD)
+    fun onLoad() {
         // 初始化变量
         VERSION = pluginVersion
 
         // 初始化日志模块
         logger = Logger(console())
+    }
 
+    @Awake(LifeCycle.ENABLE)
+    fun onEnable() {
         Config.init() // 加载配置
+
+//        val lang = Config.LANGUAGE.split("_")
+//        Locale.setDefault(Locale(lang[0], lang[1]))
+
         Lang.init(console()) // 初始化语言系统
-        logger.log(Lang.INIT_LOADING)
+        logger.info(Lang.INIT_LOADING)
         // 注册bStats
         Metrics(7291, VERSION, BUKKIT)
         Metrics(8864, VERSION, BUNGEE)
@@ -39,11 +50,11 @@ object ZMusic : Plugin() {
         Metrics(12457, VERSION, SPONGE_API_7)
 
         // 注册通信频道
-        console().registerChannel("zmusic:channel")
-        console().registerChannel("allmusic:channel")
+        registerChannel("zmusic:channel")
+        registerChannel("allmusic:channel")
 
         Lang.INIT_LOADED.forEach {
-            logger.log(
+            logger.info(
                 it.replace("{0}", VERSION)
                     .replace("{1}", runningPlatform.name.lowercase())
             )

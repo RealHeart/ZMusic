@@ -67,7 +67,7 @@
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
 
-[java]: https://img.shields.io/badge/java-16-blue
+[java]: https://img.shields.io/badge/java-1.8-blue
 
 [kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
 

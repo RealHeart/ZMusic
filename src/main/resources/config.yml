@@ -1,7 +1,7 @@
 # 是否开启检查更新
 check-update: true
 # 插件使用的语言
-language: 'zh-CN'
+language: 'zh_CN'
 # 消息前缀
 prefix: '<gradient:#66CCFF:#0088FF>ZMusic</gradient> <yellow>>>></yellow> <reset>'
 # 是否开启调试模式

@@ -12,7 +12,7 @@ import taboolib.common.platform.ProxyCommandSender
  * @email qgzhenxin@qq.com
  */
 class Logger(private val sender: ProxyCommandSender) {
-    fun log(msg: Any) {
+    fun info(msg: Any) {
         sender.sendMsg("$msg")
     }
 

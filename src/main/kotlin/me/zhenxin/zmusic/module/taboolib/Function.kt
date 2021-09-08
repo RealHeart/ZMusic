@@ -42,7 +42,7 @@ fun ProxyCommandSender.sendMessage(component: net.kyori.adventure.text.Component
  * 注册通信频道
  * @param channel 频道ID
  */
-fun ProxyCommandSender.registerChannel(channel: String) {
+fun registerChannel(channel: String) {
     return implementations<PluginMessage>().registerChannel(channel)
 }
 
@@ -53,15 +53,6 @@ fun ProxyCommandSender.registerChannel(channel: String) {
  */
 fun ProxyPlayer.sendPluginMessage(channel: String, data: ByteArray) {
     return implementations<PluginMessage>().sendMessage(this, channel, data)
-}
-
-/**
- * 播放音乐
- * @param url 播放链接
- */
-fun ProxyPlayer.playMusic(url: String) {
-    sendPluginMessage("allmusic:channel", "[Play]$url".toByteArray())
-    sendPluginMessage("zmusic:channel", "[Play]$url".toByteArray())
 }
 
 /**

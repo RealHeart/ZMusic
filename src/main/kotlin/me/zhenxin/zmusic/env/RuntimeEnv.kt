@@ -10,23 +10,24 @@ import taboolib.common.env.RuntimeDependency
  * @since 2021/8/17 14:48
  * @email qgzhenxin@qq.com
  */
+@Suppress("unused", "SpellCheckingInspection")
 @RuntimeDependencies(
     RuntimeDependency(
-        value = "!com.alibaba:fastjson:1.2.76",
-        test = "!com.alibaba.fastjson.JSON"
+        value = "!cn.hutool:hutool-json:${Versions.hutool}",
+        test = "!cn.hutool.json.JSONUtil"
     ),
     RuntimeDependency(
-        value = "!cn.hutool:hutool-http:5.7.9",
+        value = "!cn.hutool:hutool-http:${Versions.hutool}",
         test = "!cn.hutool.http.HttpUtil"
     ),
     RuntimeDependency(
-        value = "!cn.hutool:hutool-crypto:5.7.9",
+        value = "!cn.hutool:hutool-crypto:${Versions.hutool}",
         test = "!cn.hutool.crypto.SecureUtil"
     ),
     RuntimeDependency(
         value = "!me.zhenxin:adventure-text-minimessage:4.1.0-SNAPSHOT",
         test = "!net.kyori.adventure.text.minimessage.MiniMessage",
         repository = "https://gitee.com/RealHeart/Maven/raw/master"
-    ),
+    )
 )
 class RuntimeEnv

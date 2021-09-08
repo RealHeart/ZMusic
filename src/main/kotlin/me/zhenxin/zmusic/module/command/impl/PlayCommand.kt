@@ -1,12 +1,13 @@
+@file:Suppress("SpellCheckingInspection")
+
 package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
-import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.NeteaseApi
 import me.zhenxin.zmusic.module.api.impl.QQMusicApi
-import me.zhenxin.zmusic.module.taboolib.playMusic
 import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 
@@ -21,26 +22,26 @@ import taboolib.common.platform.command.subCommand
 val playCommand = subCommand {
     dynamic {
         suggestion<ProxyPlayer> { _, _ ->
-            listOf("netease", "qq", "kugou", "bilibili", "xima")
+            listOf(
+                "netease",
+                "qq",
+                "bilibili",
+                "kugou",
+                "xima"
+            )
         }
         execute<ProxyPlayer> { sender, _, argument ->
             sender.sendMsg(argument)
         }
         dynamic {
             suggestion<ProxyPlayer>(true) { _, _ ->
-                listOf("<歌名>")
+                listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
-                val platform = context.argument(-1)
-                val api: MusicApi
-                when (platform) {
-                    "netease" -> {
-                        api = NeteaseApi()
-                    }
-                    "qq" -> {
-                        api = QQMusicApi()
-                    }
+                val api = when (context.argument(-1)) {
+                    "netease" -> NeteaseApi()
+                    "qq" -> QQMusicApi()
                     else -> return@execute
                 }
                 val result = api.searchSingle(argument)
