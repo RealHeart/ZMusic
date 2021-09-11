@@ -9,13 +9,13 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w36a"
+version = "3.0-21w36b"
 
-val taboolib = "6.0.1-7"
-val minimessage = "4.1.0-SNAPSHOT"
+val taboolib = "6.0.2-1"
+val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
-val hutool = "5.7.10"
+val hutool = "5.7.12"
 
 repositories {
     // 阿里云
@@ -74,6 +74,10 @@ taboolib {
         "module-configuration",
         "module-lang",
         "module-metrics"
+    )
+    // 实验性
+    install(
+        "expansion-command-helper"
     )
     version = taboolib
 }

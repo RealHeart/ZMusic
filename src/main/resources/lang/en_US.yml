@@ -26,8 +26,12 @@ help-main:
   - '&a/&e{0} &burl [MP3 Url] &c- &aPlay Netease Music.'
   - '&6========================================'
 
-command-not-permission: '&cPermission denied, You need &e{0} &cpermission use this command.'
+command-incorrect-command:
+  - '&cCommand format error:'
+  - '&7/{0} {1}&c<-- Here.'
+command-incorrect-sender: '&cThis command only support player usage.'
 command-play-searching: '&aSearching...'
 command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
 
+command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'

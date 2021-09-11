@@ -27,8 +27,12 @@ help-main:
   - '&a/&e{0} &b163hot [歌名] &c- &a获取网易云音乐热评(前三)'
   - '&6========================================'
 
-command-not-permission: '&c权限不足,你需要 &e{0} &c权限以使用此命令.'
+command-incorrect-command:
+  - '&c命令格式错误:'
+  - '&7/{0} {1}&c<-- 位于此处'
+command-incorrect-sender: '&c此命令只能由玩家使用.'
 command-play-searching: '&a正在搜索中...'
 command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
 
+command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'

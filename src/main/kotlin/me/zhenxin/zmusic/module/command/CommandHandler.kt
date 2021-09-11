@@ -3,11 +3,11 @@ package me.zhenxin.zmusic.module.command
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.command.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.PermissionDefault.*
 import taboolib.common.platform.command.mainCommand
+import taboolib.expansion.createHelper
 
 /**
  * 命令处理器
@@ -33,17 +33,22 @@ object CommandHandler {
 
     @CommandBody
     val main = mainCommand {
-        incorrectCommand { sender, context, _, _ ->
-            sender.sendMsg(
-                Lang.HELP_TIPS
-                    .replace("{0}", context.name)
-            )
+        createHelper()
+        incorrectCommand { sender, context, index, _ ->
+            var args = ""
+            for (i in (1 - index)..0) {
+                args = "${context.argument(i).toString()} "
+            }
+            args = args.trimEnd(' ')
+            Lang.COMMAND_INCORRECT_COMMAND.forEach {
+                sender.sendMsg(
+                    it.replace("{0}", context.name)
+                        .replace("{1}", args)
+                )
+            }
         }
-        execute<ProxyCommandSender> { sender, context, _ ->
-            sender.sendMsg(
-                Lang.HELP_TIPS
-                    .replace("{0}", context.name)
-            )
+        incorrectSender { sender, _ ->
+            sender.sendMsg(Lang.COMMAND_INCORRECT_SENDER)
         }
     }
 

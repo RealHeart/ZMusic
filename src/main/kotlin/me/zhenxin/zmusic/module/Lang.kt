@@ -27,10 +27,12 @@ object Lang {
     var HELP_TIPS = ""
     var HELP_MAIN = emptyList<String>()
 
-    var COMMAND_NOT_PERMISSION = ""
+    var COMMAND_INCORRECT_COMMAND = emptyList<String>()
+    var COMMAND_INCORRECT_SENDER = ""
     var COMMAND_PLAY_SEARCHING = ""
     var COMMAND_PLAY_SUCCESS = ""
 
+    var COMMAND_SUGGESTION_PLATFORM = ""
     var COMMAND_SUGGESTION_SONG = ""
 
     fun init(sender: ProxyCommandSender) {
@@ -46,9 +48,11 @@ object Lang {
         HELP_TIPS = sender.asLangText("help-tips").colored()
         HELP_MAIN = sender.asLangTextList("help-main").colored()
 
-        COMMAND_NOT_PERMISSION = sender.asLangText("command-not-permission").colored()
+        COMMAND_INCORRECT_COMMAND = sender.asLangTextList("command-incorrect-command").colored()
+        COMMAND_INCORRECT_SENDER = sender.asLangText("command-incorrect-sender").colored()
         COMMAND_PLAY_SEARCHING = sender.asLangText("command-play-searching").colored()
         COMMAND_PLAY_SUCCESS = sender.asLangText("command-play-success").colored()
+        COMMAND_SUGGESTION_PLATFORM = sender.asLangText("command-suggestion-platform")
         COMMAND_SUGGESTION_SONG = sender.asLangText("command-suggestion-song")
     }
 }

@@ -9,5 +9,5 @@ package me.zhenxin.zmusic.env
  */
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val hutool = "5.7.10"
+    const val hutool = "5.7.12"
 }

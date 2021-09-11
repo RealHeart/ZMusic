@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.module.api.impl
 
-import cn.hutool.core.util.StrUtil
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
@@ -43,7 +42,7 @@ class NeteaseApi : MusicApi {
                 ar as JSONObject
                 singers = "$singers${ar.getStr("name")}/"
             }
-            singers = StrUtil.removeSuffix(singers, "/")
+            singers = singers.trimEnd('/')
             val album = it.getJSONObject("al")
             val albumName = album.getStr("name")
             val albumImage = album.getStr("picUrl")

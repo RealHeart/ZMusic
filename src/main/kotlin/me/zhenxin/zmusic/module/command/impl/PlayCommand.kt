@@ -4,8 +4,7 @@ package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
-import me.zhenxin.zmusic.module.api.impl.NeteaseApi
-import me.zhenxin.zmusic.module.api.impl.QQMusicApi
+import me.zhenxin.zmusic.module.api.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
@@ -25,7 +24,7 @@ val playCommand = subCommand {
             listOf(
                 "netease",
                 "qq",
-                "bilibili",
+                "bilibili           ",
                 "kugou",
                 "xima"
             )
@@ -40,9 +39,12 @@ val playCommand = subCommand {
             execute<ProxyPlayer> { sender, context, argument ->
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val api = when (context.argument(-1)) {
-                    "netease" -> NeteaseApi()
-                    "qq" -> QQMusicApi()
-                    else -> return@execute
+                    "netease" -> NeteaseApi() // 网易云音乐
+                    "qq" -> QQMusicApi() // QQ音乐
+                    "bilibili" -> BiliBiliApi() // 哔哩哔哩
+                    "kugou" -> KuGouApi() // 酷狗
+                    "xima" -> XimaApi() // 喜马拉雅
+                    else -> return@execute // 理论上永远不会执行
                 }
                 val result = api.searchSingle(argument)
                 logger.debug(result)

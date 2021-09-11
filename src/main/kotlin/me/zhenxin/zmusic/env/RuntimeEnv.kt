@@ -25,8 +25,8 @@ import taboolib.common.env.RuntimeDependency
         test = "!cn.hutool.crypto.SecureUtil"
     ),
     RuntimeDependency(
-        value = "!me.zhenxin:adventure-text-minimessage:4.1.0-SNAPSHOT",
-        test = "!net.kyori.adventure.text.minimessage.MiniMessage",
+        value = "!me.zhenxin:adventure-text-minimessage:4.2.0-SNAPSHOT",
+        test = "!me.zhenxin.adventure.text.minimessage.MiniMessage",
         repository = "https://gitee.com/RealHeart/Maven/raw/master"
     )
 )

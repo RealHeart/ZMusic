@@ -1,8 +1,8 @@
 package me.zhenxin.zmusic.utils
 
 import cn.hutool.crypto.SecureUtil
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.MiniMessage
+import me.zhenxin.adventure.text.Component
+import me.zhenxin.adventure.text.minimessage.MiniMessage
 
 
 /**
