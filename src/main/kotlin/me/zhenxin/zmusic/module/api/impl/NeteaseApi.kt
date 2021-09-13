@@ -36,13 +36,8 @@ class NeteaseApi : MusicApi {
 
             val id = it.getStr("id")
             val name = it.getStr("name")
-            val singer = it.getJSONArray("ar")
-            var singers = ""
-            singer.forEach { ar ->
-                ar as JSONObject
-                singers = "$singers${ar.getStr("name")}/"
-            }
-            singers = singers.trimEnd('/')
+            val singers = it.getJSONArray("ar")
+            val singer = mergeSingers(singers)
             val album = it.getJSONObject("al")
             val albumName = album.getStr("name")
             val albumImage = album.getStr("picUrl")
@@ -52,7 +47,7 @@ class NeteaseApi : MusicApi {
                 MusicInfo(
                     id,
                     name,
-                    singers,
+                    singer,
                     albumName,
                     albumImage,
                     duration

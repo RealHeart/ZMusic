@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.module.api.impl
 
-import cn.hutool.core.util.StrUtil
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
@@ -38,13 +37,8 @@ class QQMusicApi : MusicApi {
             val info = JSONObject(songInfo.data)
             val track = info.getJSONObject("data").getJSONObject("track_info")
             val name = track.getStr("name")
-            val singer = track.getJSONArray("singer")
-            var singers = ""
-            singer.forEach { ar ->
-                ar as JSONObject
-                singers = "$singers${ar.getStr("name")}/"
-            }
-            singers = StrUtil.removeSuffix(singers, "/")
+            val singers = track.getJSONArray("singer")
+            val singer = mergeSingers(singers)
             val album = track.getJSONObject("album")
             val albumName = album.getStr("name")
             val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
@@ -55,7 +49,7 @@ class QQMusicApi : MusicApi {
                 MusicInfo(
                     id,
                     name,
-                    singers,
+                    singer,
                     albumName,
                     albumImage,
                     duration

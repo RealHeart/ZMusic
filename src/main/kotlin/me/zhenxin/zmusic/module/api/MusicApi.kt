@@ -1,5 +1,8 @@
 package me.zhenxin.zmusic.module.api
 
+import cn.hutool.json.JSONArray
+import cn.hutool.json.JSONObject
+
 /**
  * 音乐统一接口
  *
@@ -54,4 +57,14 @@ interface MusicApi {
      * @param id 音乐ID
      */
     fun getPlayUrl(id: String): String
+
+    fun mergeSingers(singers: JSONArray): String {
+        var singer = ""
+        singers.forEach { ar ->
+            ar as JSONObject
+            singer = "$singer${ar.getStr("name")}/"
+        }
+        singer = singer.trimEnd('/')
+        return singer
+    }
 }

@@ -49,6 +49,7 @@ val playCommand = subCommand {
                 val result = api.searchSingle(argument)
                 logger.debug(result)
                 val url = api.getPlayUrl(result.id)
+                logger.debug(url)
                 sender.playMusic(url)
                 sender.sendMsg(
                     Lang.COMMAND_PLAY_SUCCESS
