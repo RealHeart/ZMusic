@@ -1,8 +1,8 @@
-platform-netease: 'Netease'
-platform-qq: 'QQ'
-platform-bili: 'BiliBili'
-platform-kugou: 'KuGou'
-platform-xima: 'Ximalaya'
+platform-netease: 'Netease CloudMusic'
+platform-qq: 'QQ Music'
+platform-bili: 'BiliBili Music'
+platform-kugou: 'KuGou Music'
+platform-xima: 'Ximalaya FM'
 
 init-loading: '&aLoading...'
 init-loaded:

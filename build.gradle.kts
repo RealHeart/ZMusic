@@ -53,10 +53,15 @@ dependencies {
 taboolib {
     description {
         contributors {
-            name("真心")
+            name("zhen_xin")
+            name("BlackNeko")
+            name("KanKe")
         }
         description {
             desc("全功能Minecraft点歌插件")
+        }
+        links {
+            name("homepage").url("https://m.zplu.cc")
         }
         dependencies {
             name("PlaceholderAPI")
