@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "1.26"
+    id("io.izzel.taboolib") version "1.27"
     kotlin("jvm") version "1.5.30"
 }
 
