@@ -11,6 +11,7 @@ import taboolib.common.platform.function.console
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
 import taboolib.module.metrics.Metrics
+import java.util.*
 
 
 /**
@@ -38,8 +39,11 @@ object ZMusic {
     fun onEnable() {
         Config.init() // 加载配置
 
-//        val lang = Config.LANGUAGE.split("_")
-//        Locale.setDefault(Locale(lang[0], lang[1]))
+        try {
+            val lang = Config.LANGUAGE.split("_")
+            Locale.setDefault(Locale(lang[0], lang[1]))
+        } catch (e: Exception) {
+        }
 
         Lang.init(console()) // 初始化语言系统
         logger.info(Lang.INIT_LOADING)
