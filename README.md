@@ -83,6 +83,12 @@
 
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
+## 鸣谢
+
+* [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
+* [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
+* [hutool](https://hutool.cn/) 功能齐全的工具类库
+
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 
