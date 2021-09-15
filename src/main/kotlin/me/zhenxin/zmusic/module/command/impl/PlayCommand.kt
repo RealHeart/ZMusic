@@ -24,7 +24,7 @@ val playCommand = subCommand {
             listOf(
                 "netease",
                 "qq",
-                "bilibili           ",
+                "bilibili",
                 "kugou",
                 "xima"
             )
