@@ -65,6 +65,7 @@ object ZMusic {
         }
         logger.info("\t§6v$VERSION\tby ZhenXin")
         Lang.init(console()) // 初始化语言系统
+        
         logger.info(Lang.INIT_LOADING)
         // 注册bStats
         Metrics(7291, VERSION, BUKKIT)
