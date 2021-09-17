@@ -33,7 +33,13 @@ object ZMusic {
         "xima",
         "soundcloud"
     )
-    private const val logo = ""
+    private const val logo = "" +
+            "  ______  __  __                 _        \n" +
+            " |___  / |  \\/  |               (_)       \n" +
+            "    / /  | \\  / |  _   _   ___   _    ___ \n" +
+            "   / /   | |\\/| | | | | | / __| | |  / __|\n" +
+            "  / /__  | |  | | | |_| | \\__ \\ | | | (__ \n" +
+            " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n"
 
     @Awake(LifeCycle.LOAD)
     fun onLoad() {
@@ -53,7 +59,10 @@ object ZMusic {
             Locale.setDefault(Locale(lang[0], lang[1]))
         } catch (e: Exception) {
         }
-
+        logo.split("\n").forEach {
+            logger.info("§b$it")
+        }
+        logger.info("\t§6v$VERSION\tby ZhenXin")
         Lang.init(console()) // 初始化语言系统
         logger.info(Lang.INIT_LOADING)
         // 注册bStats
