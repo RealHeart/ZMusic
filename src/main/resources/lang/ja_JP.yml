@@ -1,0 +1,38 @@
+platform-netease: 'NetEase Music'
+platform-qq: 'QQ Music'
+platform-bili: 'ビリビリ音楽'
+platform-kugou: 'Kugou Music'
+platform-xima: 'ヒマラヤ'
+
+init-loading: '&aロード中...'
+init-loaded:
+  - '&aプラグインロード完了しました。'
+  - '&aプラグインバージョン: &b{0}'
+  - '&aサーバープラットフォーム: &b{1}'
+  - '&aWiki: &bm.zplu.cc'
+  - '&a製作者: &bRealHeart'
+
+help-tips: '&a/&e{0} &bhelp &aと入力して、ヘルプを表示します。'
+help-main:
+  - '&a/&e{0} &bhelp &c- &aメインヘルプを表示(現在)'
+  - '&a/&e{0} &bhelp play &c- &a再生ヘルプを表示'
+  - '&a/&e{0} &bhelp music &c- &a曲の選ぶヘルプを表示'
+  - '&a/&e{0} &bhelp search &c- &a検索ヘルプを表示'
+  - '&a/&e{0} &bhelp playlist &c- &aプレイリストのヘルプを表示'
+  - '[admin]&a/&e{0} &bhelp admin &c- &aAdminヘルプを表示'
+  - '&6========================================'
+  - '&a/&e{0} &bstop &c- &a再生を停止'
+  - '&a/&e{0} &bloop &c- &aON/OFFループ再生'
+  - '&a/&e{0} &burl [MP3地址] &c- &aネット音楽を再生'
+  - '&a/&e{0} &b163hot [歌名] &c- &aNetEase Musicの音楽の人気がある評論を獲得。'
+  - '&6========================================'
+
+command-incorrect-command:
+  - '&c不明または不完全なコマンドです。以下のエラーをご覧ください。'
+  - '&7/{0} {1}&c<-- [問題箇所]'
+command-incorrect-sender: '&cこのコマンドはプレイヤーのみが使用できます。'
+command-play-searching: '&a検索中...'
+command-play-success: '&r[&e{0}&r]&aで&r[&e{1}&r]&a再生に成功しました。'
+
+command-suggestion-platform: 'プラットフォーム'
+command-suggestion-song: '曲名'
