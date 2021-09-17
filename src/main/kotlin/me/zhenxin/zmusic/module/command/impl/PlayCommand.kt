@@ -26,7 +26,8 @@ val playCommand = subCommand {
                 "qq",
                 "bilibili",
                 "kugou",
-                "xima"
+                "xima",
+                "soundcloud"
             )
         }
         execute<ProxyPlayer> { sender, _, argument ->
@@ -44,6 +45,7 @@ val playCommand = subCommand {
                     "bilibili" -> BiliBiliApi() // 哔哩哔哩
                     "kugou" -> KuGouApi() // 酷狗
                     "xima" -> XimaApi() // 喜马拉雅
+                    "soundcloud" -> SoundCloudApi() // SoundCloud
                     else -> return@execute // 理论上永远不会执行
                 }
                 val result = api.searchSingle(argument)
