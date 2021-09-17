@@ -24,7 +24,16 @@ import java.util.*
 @Suppress("unused")
 object ZMusic {
     lateinit var VERSION: String
-    const val logo = ""
+
+    val PLATFORMS = listOf(
+        "netease",
+        "qq",
+        "bilibili",
+        "kugou",
+        "xima",
+        "soundcloud"
+    )
+    private const val logo = ""
 
     @Awake(LifeCycle.LOAD)
     fun onLoad() {

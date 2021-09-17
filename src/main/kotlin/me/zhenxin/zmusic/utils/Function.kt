@@ -3,6 +3,8 @@ package me.zhenxin.zmusic.utils
 import cn.hutool.crypto.SecureUtil
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
+import me.zhenxin.zmusic.module.api.MusicApi
+import me.zhenxin.zmusic.module.api.impl.*
 
 
 /**
@@ -32,3 +34,18 @@ fun List<String>.colored(): List<String> = map { it.replace("&", "§") }
  * 通过 MiniMessage 生成 Component
  */
 fun String.component(): Component = MiniMessage.get().parse(this)
+
+/**
+ * 通过代号获取相应API实例
+ */
+fun String.asMusicApi(): MusicApi {
+    return when (this) {
+        "netease" -> NeteaseApi() // 网易云音乐
+        "qq" -> QQMusicApi() // QQ音乐
+        "bilibili" -> BiliBiliApi() // 哔哩哔哩
+        "kugou" -> KuGouApi() // 酷狗
+        "xima" -> XimaApi() // 喜马拉雅
+        "soundcloud" -> SoundCloudApi() // SoundCloud
+        else -> NeteaseApi() // 理论上永远不会执行
+    }
+}

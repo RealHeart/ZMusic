@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection")
-
 package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.ZMusic
@@ -7,19 +5,17 @@ import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
-import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 
 /**
- * 播放命令
+ * 搜索命令
  *
  * @author 真心
- * @since 2021/8/22 16:34
+ * @since 2021/9/17 11:54
  * @email qgzhenxin@qq.com
  */
-
-val playCommand = subCommand {
+val searchCommand = subCommand {
     dynamic(commit = Lang.COMMAND_SUGGESTION_PLATFORM) {
         suggestion<ProxyPlayer> { _, _ ->
             ZMusic.PLATFORMS
@@ -32,16 +28,9 @@ val playCommand = subCommand {
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)!!
                 val api = platform.asMusicApi()
-                val result = api.searchSingle(argument)
+                val result = api.searchPage(argument, 1, 10)
                 logger.debug(result)
-                val url = api.getPlayUrl(result.id)
-                logger.debug(url)
-                sender.playMusic(url)
-                sender.sendMsg(
-                    Lang.COMMAND_PLAY_SUCCESS
-                        .replace("{0}", api.name)
-                        .replace("{1}", "${result.singer} - ${result.name}")
-                )
+                sender.sendMsg(result.toString())
             }
         }
     }

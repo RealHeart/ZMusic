@@ -11,7 +11,7 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0-21w37a"
 
-val taboolib = "6.0.2-5"
+val taboolib = "6.0.2-7"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
@@ -26,13 +26,13 @@ repositories {
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     // ZhenXin
     maven("https://gitee.com/RealHeart/Maven/raw/master")
-    mavenLocal()
 }
 
 dependencies {
-    // TabooLib
+    // NMS
     compileOnly("ink.ptms.core:v11701:11701:mapped")
     compileOnly("ink.ptms.core:v11701:11701:universal")
+    compileOnly("ink.ptms:nms-all:1.0.0")
 
     // Kyori Adventure
     compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
