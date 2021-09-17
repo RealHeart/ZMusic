@@ -25,7 +25,7 @@ class SoundCloudApi : MusicApi {
         val musics = mutableListOf<MusicInfo>()
         val offset = (page - 1) * count
         val result = HttpUtil.get(
-            "$api/search?q=${
+            "$api/search/tracks?q=${
                 URLEncoder.encode(
                     keyword,
                     "UTF-8"

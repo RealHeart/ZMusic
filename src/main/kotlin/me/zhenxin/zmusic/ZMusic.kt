@@ -58,6 +58,7 @@ object ZMusic {
             val lang = Config.LANGUAGE.split("_")
             Locale.setDefault(Locale(lang[0], lang[1]))
         } catch (e: Exception) {
+            if(Config.DEBUG) e.printStackTrace()
         }
         logo.split("\n").forEach {
             logger.info("§b$it")
