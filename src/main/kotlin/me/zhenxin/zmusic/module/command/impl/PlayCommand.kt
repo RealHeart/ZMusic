@@ -10,6 +10,7 @@ import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submit
 
 /**
  * 播放命令
@@ -32,16 +33,18 @@ val playCommand = subCommand {
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)!!
                 val api = platform.asMusicApi()
-                val result = api.searchSingle(argument)
-                logger.debug(result)
-                val url = api.getPlayUrl(result.id)
-                logger.debug(url)
-                sender.playMusic(url)
-                sender.sendMsg(
-                    Lang.COMMAND_PLAY_SUCCESS
-                        .replace("{0}", api.name)
-                        .replace("{1}", "${result.singer} - ${result.name}")
-                )
+                submit {
+                    val result = api.searchSingle(argument)
+                    logger.debug(result)
+                    val url = api.getPlayUrl(result.id)
+                    logger.debug(url)
+                    sender.playMusic(url)
+                    sender.sendMsg(
+                        Lang.COMMAND_PLAY_SUCCESS
+                            .replace("{0}", api.name)
+                            .replace("{1}", "${result.singer} - ${result.name}")
+                    )
+                }
             }
         }
     }
