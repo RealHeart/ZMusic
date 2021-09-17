@@ -41,9 +41,10 @@ class SoundCloudApi : MusicApi {
             val name = it.getStr("title")
             val singer = it.getJSONObject("user").getStr("username")
             val albumName = it.getStr("tag_list")
-            val albumImage = it.getStr("artwork_url")
+            var albumImage = it.getStr("artwork_url")
             val duration = it.getLong("duration")
 
+            if (albumImage == null) albumImage = ""
             musics.add(
                 MusicInfo(
                     id,
