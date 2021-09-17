@@ -33,7 +33,7 @@ val playCommand = subCommand {
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)!!
                 val api = platform.asMusicApi()
-                submit {
+                submit(async = true) {
                     val result = api.searchSingle(argument)
                     logger.debug(result)
                     val url = api.getPlayUrl(result.id)
