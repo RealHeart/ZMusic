@@ -18,3 +18,7 @@ import taboolib.common.platform.ProxyPlayer
 fun ProxyPlayer.playMusic(url: String) {
     sendPluginMessage("[Play]$url")
 }
+
+fun ProxyPlayer.stopMusic() {
+    sendPluginMessage("[Stop]")
+}

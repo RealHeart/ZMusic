@@ -86,4 +86,11 @@ object CommandHandler {
         permissionDefault = OP
     )
     val admin = adminCommand
+
+    @CommandBody(
+        optional = true,
+        permission = "zmusic.user.stop",
+        permissionDefault = TRUE
+    )
+    val stop = stopCommand
 }
