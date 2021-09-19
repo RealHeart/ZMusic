@@ -78,7 +78,9 @@ taboolib {
     install(
         "module-configuration",
         "module-lang",
-        "module-metrics"
+        "module-metrics",
+        "module-nms",
+        "module-nms-util"
     )
     // 实验性
     install(

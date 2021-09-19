@@ -16,7 +16,7 @@ import taboolib.expansion.createHelper
  * @since 2021/8/14 20:41
  * @email qgzhenxin@qq.com
  */
-@Suppress("unused")
+@Suppress("unused", "SpellCheckingInspection")
 @CommandHeader(
     name = "zm",
     aliases = ["zmusic", "music"],
