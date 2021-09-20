@@ -4,7 +4,6 @@ import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
 import me.zhenxin.zmusic.module.taboolib.registerChannel
-import me.zhenxin.zmusic.utils.Toast
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
@@ -77,8 +76,6 @@ object ZMusic {
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
-
-        Toast()
 
         Lang.INIT_LOADED.forEach {
             logger.info(

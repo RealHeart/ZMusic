@@ -2,7 +2,8 @@ package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.module.api.impl.NeteaseApi
 import me.zhenxin.zmusic.module.taboolib.sendPluginMessage
-import me.zhenxin.zmusic.utils.Toast
+import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.utils.toastIcon
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
@@ -33,8 +34,7 @@ val testCommand = subCommand {
     execute<ProxyPlayer> { sender, _, _ ->
         if (runningPlatform == Platform.BUKKIT) {
             val player = sender.cast<Player>()
-            val icon = Toast().icons[(0 until Toast().icons.size).random()]
-            player.sendToast(icon, "&a正在播放\n&e让风告诉你")
+            player.sendToast(toastIcon, "&a正在播放\n&e让风告诉你".colored())
         }
     }
 }
