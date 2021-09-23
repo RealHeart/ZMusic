@@ -44,6 +44,9 @@ object Lang {
         get() = console().asLangText("command-play-searching").colored()
     val COMMAND_PLAY_SUCCESS
         get() = console().asLangText("command-play-success").colored()
+    val COMMAND_RELOAD_SUCCESS
+        get() = console().asLangText("command-reload-success").colored()
+
 
     val COMMAND_SUGGESTION_PLATFORM
         get() = console().asLangText("command-suggestion-platform")

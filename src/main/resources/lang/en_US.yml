@@ -32,6 +32,7 @@ command-incorrect-command:
 command-incorrect-sender: '&cThis command only support player usage.'
 command-play-searching: '&aSearching...'
 command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
+command-reload-success: '&aConfiguration and language files have been reloaded!'
 
 command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'

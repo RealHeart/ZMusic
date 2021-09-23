@@ -68,6 +68,13 @@ object CommandHandler {
 
     @CommandBody(
         optional = true,
+        permission = "zmusic.user.stop",
+        permissionDefault = TRUE
+    )
+    val stop = stopCommand
+
+    @CommandBody(
+        optional = true,
         permission = "zmusic.user.music",
         permissionDefault = TRUE
     )
@@ -89,8 +96,8 @@ object CommandHandler {
 
     @CommandBody(
         optional = true,
-        permission = "zmusic.user.stop",
-        permissionDefault = TRUE
+        permission = "zmusic.admin.reload",
+        permissionDefault = OP
     )
-    val stop = stopCommand
+    val reload = reloadCommand
 }

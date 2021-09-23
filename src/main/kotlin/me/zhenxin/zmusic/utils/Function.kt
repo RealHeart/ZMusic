@@ -3,8 +3,10 @@ package me.zhenxin.zmusic.utils
 import cn.hutool.crypto.SecureUtil
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
+import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.*
+import java.util.*
 
 
 /**
@@ -47,5 +49,14 @@ fun String.asMusicApi(): MusicApi {
         "xima" -> XimaApi() // 喜马拉雅
         "soundcloud" -> SoundCloudApi() // SoundCloud
         else -> NeteaseApi() // 理论上永远不会执行
+    }
+}
+
+fun setLocale() {
+    try {
+        val lang = Config.LANGUAGE.split("_")
+        Locale.setDefault(Locale(lang[0], lang[1]))
+    } catch (e: Exception) {
+        if (Config.DEBUG) e.printStackTrace()
     }
 }

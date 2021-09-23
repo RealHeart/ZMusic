@@ -126,7 +126,7 @@ object Config {
         get() = config.getInt("hud.lyric.y")
 
 
-    private fun reload() {
+    fun reload() {
         config.reload()
     }
 }

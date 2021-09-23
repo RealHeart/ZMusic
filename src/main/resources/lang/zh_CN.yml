@@ -33,6 +33,7 @@ command-incorrect-command:
 command-incorrect-sender: '&c此命令只能由玩家使用.'
 command-play-searching: '&a正在搜索中...'
 command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
+command-reload-success: '&a配置和语言文件已重载完毕!'
 
 command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'

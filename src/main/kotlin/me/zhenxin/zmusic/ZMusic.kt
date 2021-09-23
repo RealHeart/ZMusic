@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic
 
-import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
 import me.zhenxin.zmusic.module.taboolib.registerChannel
+import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
@@ -11,7 +11,6 @@ import taboolib.common.platform.function.console
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
 import taboolib.module.metrics.Metrics
-import java.util.*
 
 
 /**
@@ -52,12 +51,7 @@ object ZMusic {
 
     @Awake(LifeCycle.ENABLE)
     fun onEnable() {
-        try {
-            val lang = Config.LANGUAGE.split("_")
-            Locale.setDefault(Locale(lang[0], lang[1]))
-        } catch (e: Exception) {
-            if (Config.DEBUG) e.printStackTrace()
-        }
+        setLocale()
         logo.split("\n").forEach {
             logger.info("§b$it")
         }
