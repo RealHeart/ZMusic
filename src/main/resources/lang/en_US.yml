@@ -35,3 +35,5 @@ command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
 
 command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'
+
+toast-playing: '&aPlaying\n&e{0}'

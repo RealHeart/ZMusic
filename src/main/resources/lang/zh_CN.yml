@@ -36,3 +36,5 @@ command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
 
 command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'
+
+toast-playing: '&a正在播放\n&e{0}'

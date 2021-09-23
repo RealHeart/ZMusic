@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module
 
 import me.zhenxin.zmusic.utils.colored
-import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.function.console
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
 
@@ -15,44 +15,25 @@ import taboolib.module.lang.asLangTextList
  */
 @Suppress("SpellCheckingInspection")
 object Lang {
-    var PLATFORM_NETEASE = ""
-    var PLATFORM_QQ = ""
-    var PLATFORM_BILI = ""
-    var PLATFORM_KUGOU = ""
-    var PLATFORM_XIMA = ""
+    val PLATFORM_NETEASE = console().asLangText("platform-netease")
+    val PLATFORM_QQ = console().asLangText("platform-qq")
+    val PLATFORM_BILI = console().asLangText("platform-bili")
+    val PLATFORM_KUGOU = console().asLangText("platform-kugou")
+    val PLATFORM_XIMA = console().asLangText("platform-xima")
 
-    var INIT_LOADING = ""
-    var INIT_LOADED = emptyList<String>()
+    val INIT_LOADING = console().asLangText("init-loading").colored()
+    val INIT_LOADED = console().asLangTextList("init-loaded").colored()
 
-    var HELP_TIPS = ""
-    var HELP_MAIN = emptyList<String>()
+    val HELP_TIPS = console().asLangText("help-tips").colored()
+    val HELP_MAIN = console().asLangTextList("help-main").colored()
 
-    var COMMAND_INCORRECT_COMMAND = emptyList<String>()
-    var COMMAND_INCORRECT_SENDER = ""
-    var COMMAND_PLAY_SEARCHING = ""
-    var COMMAND_PLAY_SUCCESS = ""
+    val COMMAND_INCORRECT_COMMAND = console().asLangTextList("command-incorrect-command").colored()
+    val COMMAND_INCORRECT_SENDER = console().asLangText("command-incorrect-sender").colored()
+    val COMMAND_PLAY_SEARCHING = console().asLangText("command-play-searching").colored()
+    val COMMAND_PLAY_SUCCESS = console().asLangText("command-play-success").colored()
 
-    var COMMAND_SUGGESTION_PLATFORM = ""
-    var COMMAND_SUGGESTION_SONG = ""
+    val COMMAND_SUGGESTION_PLATFORM = console().asLangText("command-suggestion-platform")
+    val COMMAND_SUGGESTION_SONG = console().asLangText("command-suggestion-song")
 
-    fun init(sender: ProxyCommandSender) {
-        PLATFORM_NETEASE = sender.asLangText("platform-netease")
-        PLATFORM_QQ = sender.asLangText("platform-qq")
-        PLATFORM_BILI = sender.asLangText("platform-bili")
-        PLATFORM_KUGOU = sender.asLangText("platform-kugou")
-        PLATFORM_XIMA = sender.asLangText("platform-xima")
-
-        INIT_LOADING = sender.asLangText("init-loading").colored()
-        INIT_LOADED = sender.asLangTextList("init-loaded").colored()
-
-        HELP_TIPS = sender.asLangText("help-tips").colored()
-        HELP_MAIN = sender.asLangTextList("help-main").colored()
-
-        COMMAND_INCORRECT_COMMAND = sender.asLangTextList("command-incorrect-command").colored()
-        COMMAND_INCORRECT_SENDER = sender.asLangText("command-incorrect-sender").colored()
-        COMMAND_PLAY_SEARCHING = sender.asLangText("command-play-searching").colored()
-        COMMAND_PLAY_SUCCESS = sender.asLangText("command-play-success").colored()
-        COMMAND_SUGGESTION_PLATFORM = sender.asLangText("command-suggestion-platform")
-        COMMAND_SUGGESTION_SONG = sender.asLangText("command-suggestion-song")
-    }
+    val TOAST_PLAYING = console().asLangText("toast-playing").colored().replace("\\n", "\n")
 }

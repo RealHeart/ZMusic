@@ -3,14 +3,12 @@ package me.zhenxin.zmusic.module.command.impl
 import me.zhenxin.zmusic.module.api.impl.NeteaseApi
 import me.zhenxin.zmusic.module.taboolib.sendPluginMessage
 import me.zhenxin.zmusic.utils.colored
-import me.zhenxin.zmusic.utils.toastIcon
-import org.bukkit.entity.Player
+import me.zhenxin.zmusic.utils.sendToast
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.runningPlatform
 import taboolib.common.platform.function.submit
-import taboolib.module.nms.sendToast
 
 /**
  * 测试命令
@@ -33,8 +31,7 @@ val testCommand = subCommand {
     }
     execute<ProxyPlayer> { sender, _, _ ->
         if (runningPlatform == Platform.BUKKIT) {
-            val player = sender.cast<Player>()
-            player.sendToast(toastIcon, "&a正在播放\n&e让风告诉你".colored())
+            sender.sendToast("&a正在播放\n&e让风告诉你".colored())
         }
     }
 }

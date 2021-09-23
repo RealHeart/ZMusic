@@ -36,3 +36,5 @@ command-play-success: '&r[&e{0}&r]&aで&r[&e{1}&r]&a再生に成功しました�
 
 command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
+
+toast-playing: '&anull\n&e{0}'

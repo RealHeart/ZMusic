@@ -1,9 +1,11 @@
 package me.zhenxin.zmusic.utils
 
-import me.zhenxin.zmusic.logger
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
+import taboolib.module.nms.sendToast
 
 
 /**
@@ -14,25 +16,27 @@ import taboolib.common.platform.function.runningPlatform
  * @email whksoft@gmail.com
  */
 
+
 /**
- * 随机获取一个Toast图标
+ * 发送Toast
+ * @param msg 信息
  */
-val toastIcon: Material
-    get() {
-        logger.debug("随机Toast图标")
-        return if (runningPlatform == Platform.BUKKIT) {
-            val list = listOf(
-                Material.MUSIC_DISC_11,
-                Material.MUSIC_DISC_CAT,
-                Material.MUSIC_DISC_BLOCKS,
-                Material.MUSIC_DISC_CHIRP,
-                Material.MUSIC_DISC_FAR,
-                Material.MUSIC_DISC_MALL,
-                Material.MUSIC_DISC_MELLOHI,
-                Material.MUSIC_DISC_STRAD,
-                Material.MUSIC_DISC_WARD,
-                Material.MUSIC_DISC_WAIT,
-            )
-            list[(list.indices).random()]
-        } else Material.AIR
+fun ProxyPlayer.sendToast(msg: String) {
+    if (runningPlatform == Platform.BUKKIT) {
+        val player = cast<Player>()
+        val list = listOf(
+            Material.MUSIC_DISC_11,
+            Material.MUSIC_DISC_CAT,
+            Material.MUSIC_DISC_BLOCKS,
+            Material.MUSIC_DISC_CHIRP,
+            Material.MUSIC_DISC_FAR,
+            Material.MUSIC_DISC_MALL,
+            Material.MUSIC_DISC_MELLOHI,
+            Material.MUSIC_DISC_STRAD,
+            Material.MUSIC_DISC_WARD,
+            Material.MUSIC_DISC_WAIT,
+        )
+        val icon = list[(list.indices).random()]
+        player.sendToast(icon, msg)
     }
+}

@@ -8,6 +8,7 @@ import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.playMusic
+import me.zhenxin.zmusic.utils.sendToast
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -39,6 +40,7 @@ val playCommand = subCommand {
                     val url = api.getPlayUrl(result.id)
                     logger.debug(url)
                     sender.playMusic(url)
+                    sender.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name))
                     sender.sendMsg(
                         Lang.COMMAND_PLAY_SUCCESS
                             .replace("{0}", api.name)
