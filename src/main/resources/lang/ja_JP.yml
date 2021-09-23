@@ -33,7 +33,7 @@ command-incorrect-command:
 command-incorrect-sender: '&cこのコマンドはプレイヤーのみが使用できます。'
 command-play-searching: '&a検索中...'
 command-play-success: '&r[&e{0}&r]&aで&r[&e{1}&r]&a再生に成功しました。'
-command-reload-success: '&anull'
+command-reload-success: '&aプラグインリロード成功しました。'
 
 command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
