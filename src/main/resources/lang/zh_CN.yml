@@ -38,4 +38,4 @@ command-reload-success: '&a配置和语言文件已重载完毕!'
 command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'
 
-toast-playing: '&a再生中\n&e{0}'
+toast-playing: '&a正在播放\n&e{0}'
