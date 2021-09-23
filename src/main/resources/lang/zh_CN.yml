@@ -39,3 +39,5 @@ command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'
 
 toast-playing: '&a正在播放\n&e{0}'
+
+nosupported-region: '&c当前服务器所在的国家/地区不支持此功能.'

@@ -38,3 +38,5 @@ command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'
 
 toast-playing: '&aPlaying\n&e{0}'
+
+nosupported-region: '&cnull.'

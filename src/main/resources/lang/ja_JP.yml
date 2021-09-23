@@ -39,3 +39,5 @@ command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
 
 toast-playing: '&a再生中\n&e{0}'
+
+nosupported-region: '&cnull.'

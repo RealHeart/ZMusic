@@ -1,8 +1,10 @@
 package me.zhenxin.zmusic.utils
 
 import cn.hutool.crypto.SecureUtil
+import cn.hutool.json.JSONObject
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
+import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.*
@@ -52,6 +54,9 @@ fun String.asMusicApi(): MusicApi {
     }
 }
 
+/**
+ * 设置语言
+ */
 fun setLocale() {
     try {
         val lang = Config.LANGUAGE.split("_")
@@ -59,4 +64,14 @@ fun setLocale() {
     } catch (e: Exception) {
         if (Config.DEBUG) e.printStackTrace()
     }
+}
+
+/**
+ * 检测服务器IP是否为中国大陆地区
+ */
+fun isChina(): Boolean {
+    val result = HttpUtil.get("http://ip-api.com/json/")
+    logger.debug(result)
+    val data = JSONObject(result.data)
+    return data.getStr("country") == "China"
 }

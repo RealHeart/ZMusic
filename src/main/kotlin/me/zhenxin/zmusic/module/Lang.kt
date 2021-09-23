@@ -55,4 +55,7 @@ object Lang {
 
     val TOAST_PLAYING
         get() = console().asLangText("toast-playing").colored().replace("\\n", "\n")
+
+    val NOSUPPORTED_REGION
+        get() = console().asLangText("nosupported-region").colored()
 }
