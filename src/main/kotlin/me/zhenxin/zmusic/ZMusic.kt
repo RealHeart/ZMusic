@@ -52,8 +52,6 @@ object ZMusic {
 
     @Awake(LifeCycle.ENABLE)
     fun onEnable() {
-        Config.init() // 加载配置
-
         try {
             val lang = Config.LANGUAGE.split("_")
             Locale.setDefault(Locale(lang[0], lang[1]))

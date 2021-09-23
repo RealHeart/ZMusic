@@ -9,9 +9,9 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w37b"
+version = "3.0-21w38a"
 
-val taboolib = "6.0.2-7"
+val taboolib = "6.0.3-2"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
