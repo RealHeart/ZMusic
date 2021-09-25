@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
+import me.zhenxin.zmusic.module.api.PlaylistInfo
 import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
@@ -59,7 +60,7 @@ class QQMusicApi : MusicApi {
         return musics
     }
 
-    override fun getPlaylist(id: String) {
+    override fun getPlaylist(id: String): PlaylistInfo {
         TODO("Not yet implemented")
     }
 

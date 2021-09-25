@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
+import me.zhenxin.zmusic.module.api.PlaylistInfo
 import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
@@ -15,6 +16,7 @@ import java.net.URLEncoder
  * @since 2021/7/14 21:37
  * @email qgzhenxin@qq.com
  */
+@Suppress("DuplicatedCode")
 class NeteaseApi : MusicApi {
     private val api = Config.API_NETEASE_LINK
     override val name: String = Lang.PLATFORM_NETEASE
@@ -57,8 +59,38 @@ class NeteaseApi : MusicApi {
         return musics
     }
 
-    override fun getPlaylist(id: String) {
-        TODO("Not yet implemented")
+    override fun getPlaylist(id: String): PlaylistInfo {
+        val musics = mutableListOf<MusicInfo>()
+        val info = HttpUtil.get("$api/playlist/detail?id=$id")
+        val data = JSONObject(info.data)
+        val playlist = data.getJSONObject("playlist")
+        val listId = playlist.getStr("id")
+        val listName = playlist.getStr("name")
+        val tracks = playlist.getJSONArray("tracks")
+        tracks.forEach {
+            it as JSONObject
+            val name = it.getStr("name")
+            val songId = it.getStr("id")
+            val singers = it.getJSONArray("ar")
+            val singer = mergeSingers(singers)
+            val album = it.getJSONObject("al")
+            val albumName = album.getStr("name")
+            val albumImage = album.getStr("picUrl")
+            val duration = it.getLong("dt")
+
+            musics.add(
+                MusicInfo(
+                    songId,
+                    name,
+                    singer,
+                    albumName,
+                    albumImage,
+                    duration
+                )
+            )
+        }
+
+        return PlaylistInfo(listId, listName, musics)
     }
 
     override fun getAlbum(id: String) {

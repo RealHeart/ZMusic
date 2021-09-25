@@ -41,7 +41,7 @@ interface MusicApi {
      *
      * @param id 歌单ID
      */
-    fun getPlaylist(id: String)
+    fun getPlaylist(id: String): PlaylistInfo
 
     /**
      * 获取专辑

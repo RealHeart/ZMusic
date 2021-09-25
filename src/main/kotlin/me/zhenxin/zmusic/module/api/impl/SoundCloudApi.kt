@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
+import me.zhenxin.zmusic.module.api.PlaylistInfo
 import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
@@ -59,7 +60,7 @@ class SoundCloudApi : MusicApi {
         return musics
     }
 
-    override fun getPlaylist(id: String) {
+    override fun getPlaylist(id: String): PlaylistInfo {
         TODO("Not yet implemented")
     }
 

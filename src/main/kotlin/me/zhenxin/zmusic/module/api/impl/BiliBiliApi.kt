@@ -3,6 +3,7 @@ package me.zhenxin.zmusic.module.api.impl
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
+import me.zhenxin.zmusic.module.api.PlaylistInfo
 
 /**
  * 哔哩哔哩音乐实现
@@ -18,7 +19,7 @@ class BiliBiliApi : MusicApi {
         TODO("Not yet implemented")
     }
 
-    override fun getPlaylist(id: String) {
+    override fun getPlaylist(id: String): PlaylistInfo {
         TODO("Not yet implemented")
     }
 
