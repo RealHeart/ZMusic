@@ -9,6 +9,8 @@
 ![][servers]
 ![][tested-versions]
 
+简体中文 | [English](README_EN.md)
+
 3.0版本正在开发中 基于TabooLib 6
 
 2.0版本请查看[master](../../tree/master/)分支
@@ -38,12 +40,12 @@
 * 单独播放
 * 歌词显示
 * 歌词翻译显示
-* 多搜索源(QQ/网易云/酷狗/酷我/哔哩哔哩)
+* 多搜索源(QQ/网易云/酷狗/喜马拉雅/哔哩哔哩/SoundCloud)
 * 关键词搜索
 * 个人歌单
 * 全服歌单
 * 歌单播放(QQ音乐/网易云)
-* 音量调节(AllMusic支持)
+* 音量调节(仅AllMusic Mod支持)
 * 支持BungeeCord
 
 ## 视频
@@ -54,6 +56,8 @@
 
 * 提交 [Issues](../../issues)
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
+
+## 开发
 
 1. 克隆
 
