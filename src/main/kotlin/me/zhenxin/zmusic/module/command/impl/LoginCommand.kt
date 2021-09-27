@@ -21,16 +21,15 @@ val loginCommand = subCommand {
             getPlatformNamesWithSupportAccount()
         }
         execute<ProxyCommandSender> { sender, _, argument ->
-            val platform = MusicPlatform.valueOf(argument.uppercase())
+            val arguments = argument.split(" ")
+            val platform = MusicPlatform.valueOf(arguments[0].uppercase())
             logger.debug(argument)
             when (platform) {
                 // 暂时实验性 后续加入语言文件
                 MusicPlatform.NETEASE -> {
                     sender.sendMsg("&a正在尝试登录网易云音乐...".colored())
                 }
-                else -> {
-                    sender.sendMsg("&c参数错误.".colored())
-                }
+                else -> return@execute
             }
         }
     }
