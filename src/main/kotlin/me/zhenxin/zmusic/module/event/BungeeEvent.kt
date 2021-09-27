@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.event
 
-import org.bukkit.event.player.PlayerJoinEvent
+import net.md_5.bungee.api.event.PostLoginEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
 
@@ -12,7 +12,7 @@ import taboolib.common.platform.function.adaptPlayer
  * @email qgzhenxin@qq.com
  */
 
-object BukkitEvent {
+object BungeeEvent {
     @SubscribeEvent
-    fun onPlayerJoin(event: PlayerJoinEvent) = EventEx.onPlayerJoin(adaptPlayer(event.player))
+    fun onPlayerJoin(event: PostLoginEvent) = EventEx.onPlayerJoin(adaptPlayer(event.player))
 }

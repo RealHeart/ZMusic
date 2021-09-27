@@ -96,6 +96,13 @@ object CommandHandler {
 
     @CommandBody(
         optional = true,
+        permission = "zmusic.admin.login",
+        permissionDefault = OP
+    )
+    val login = loginCommand
+
+    @CommandBody(
+        optional = true,
         permission = "zmusic.admin.reload",
         permissionDefault = OP
     )

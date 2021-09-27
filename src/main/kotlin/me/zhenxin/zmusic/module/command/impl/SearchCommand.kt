@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.type.getPlatformNames
 import me.zhenxin.zmusic.utils.asMusicApi
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
@@ -18,7 +18,7 @@ import taboolib.common.platform.command.subCommand
 val searchCommand = subCommand {
     dynamic(commit = Lang.COMMAND_SUGGESTION_PLATFORM) {
         suggestion<ProxyPlayer> { _, _ ->
-            ZMusic.PLATFORMS
+            getPlatformNames()
         }
         dynamic(commit = Lang.COMMAND_SUGGESTION_SONG) {
             suggestion<ProxyPlayer>(true) { _, _ ->

@@ -2,10 +2,10 @@
 
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.type.getPlatformNames
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.isChina
 import me.zhenxin.zmusic.utils.playMusic
@@ -25,7 +25,7 @@ import taboolib.common.platform.function.submit
 val playCommand = subCommand {
     dynamic(commit = Lang.COMMAND_SUGGESTION_PLATFORM) {
         suggestion<ProxyPlayer> { _, _ ->
-            ZMusic.PLATFORMS
+            getPlatformNames()
         }
         dynamic(commit = Lang.COMMAND_SUGGESTION_SONG) {
             suggestion<ProxyPlayer>(true) { _, _ ->

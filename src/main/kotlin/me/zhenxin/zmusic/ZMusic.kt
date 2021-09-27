@@ -24,14 +24,6 @@ import taboolib.module.metrics.Metrics
 object ZMusic {
     lateinit var VERSION: String
 
-    val PLATFORMS = listOf(
-        "netease",
-        "qq",
-        "bilibili",
-        "kugou",
-        "xima",
-        "soundcloud"
-    )
     private const val logo = "" +
             "  ______  __  __                 _        \n" +
             " |___  / |  \\/  |               (_)       \n" +
