@@ -16,6 +16,7 @@ import java.net.URLEncoder
  * @since 2021/8/30 13:26
  * @email qgzhenxin@qq.com
  */
+@Suppress("DuplicatedCode")
 class QQMusicApi : MusicApi {
     private val api = Config.API_QQ_LINK
     override val name: String = Lang.PLATFORM_QQ
@@ -61,7 +62,41 @@ class QQMusicApi : MusicApi {
     }
 
     override fun getPlaylist(id: String): PlaylistInfo {
-        TODO("Not yet implemented")
+        val musics = mutableListOf<MusicInfo>()
+        val search =
+            HttpUtil.get("$api/songlist?id=$id")
+        val data = JSONObject(search.data)
+        val result = data.getJSONObject("data")
+        val listId = data.getStr("disstid")
+        val listName = data.getStr("dissname")
+        val songs = result.getJSONArray("songlist")
+        songs.forEach {
+            it as JSONObject
+            val id = it.getStr("songmid")
+            val songInfo = HttpUtil.get("$api/song?songmid=${id}")
+            val info = JSONObject(songInfo.data)
+            val track = info.getJSONObject("data").getJSONObject("track_info")
+            val name = track.getStr("name")
+            val singers = track.getJSONArray("singer")
+            val singer = mergeSingers(singers)
+            val album = track.getJSONObject("album")
+            val albumName = album.getStr("name")
+            val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
+            val duration = track.getLong("interval") * 1000
+
+
+            musics.add(
+                MusicInfo(
+                    id,
+                    name,
+                    singer,
+                    albumName,
+                    albumImage,
+                    duration
+                )
+            )
+        }
+        return PlaylistInfo(listId, listName, musics)
     }
 
     override fun getAlbum(id: String) {
