@@ -5,10 +5,10 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
 
 /**
- * Bukkit 事件监听
+ * Velocity 事件监听
  *
  * @author 真心
- * @since 2021/8/16 18:01
+ * @since 2021/9/27 21:14
  * @email qgzhenxin@qq.com
  */
 
