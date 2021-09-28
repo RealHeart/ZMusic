@@ -25,6 +25,21 @@ import taboolib.common.env.RuntimeDependency
         test = "!cn.hutool.crypto.SecureUtil"
     ),
     RuntimeDependency(
+        value = "!org.ktorm:ktorm-core:${Versions.ktorm}",
+        test = "org.ktorm.database.Database",
+        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
+    ),
+    RuntimeDependency(
+        value = "!org.ktorm:ktorm-support-sqlite:${Versions.ktorm}",
+        test = "org.ktorm.support.sqlite.SQLiteDialect",
+        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
+    ),
+    RuntimeDependency(
+        value = "!org.ktorm:ktorm-support-mysql:${Versions.ktorm}",
+        test = "org.ktorm.support.mysql.MySqlDialect",
+        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
+    ),
+    RuntimeDependency(
         value = "!me.zhenxin:adventure-text-minimessage:4.2.0-SNAPSHOT",
         test = "!me.zhenxin.adventure.text.minimessage.MiniMessage",
         repository = "https://gitee.com/RealHeart/Maven/raw/master"

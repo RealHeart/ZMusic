@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     java
     id("io.izzel.taboolib") version "1.27"
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.5.31"
 }
 
 group = "me.zhenxin.zmusic"
@@ -16,6 +16,7 @@ val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
 val hutool = "5.7.13"
+val ktorm = "3.4.1"
 
 repositories {
     // 阿里云
@@ -45,6 +46,11 @@ dependencies {
     compileOnly("cn.hutool:hutool-json:$hutool")
     compileOnly("cn.hutool:hutool-http:$hutool")
     compileOnly("cn.hutool:hutool-crypto:$hutool")
+
+    // ktorm
+    compileOnly("org.ktorm:ktorm-core:$ktorm")
+    compileOnly("org.ktorm:ktorm-support-sqlite:$ktorm")
+    compileOnly("org.ktorm:ktorm-support-mysql:$ktorm")
 
     // Kotlin
     compileOnly(kotlin("stdlib"))

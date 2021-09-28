@@ -10,4 +10,5 @@ package me.zhenxin.zmusic.env
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val hutool = "5.7.13"
+    const val ktorm = "3.4.1"
 }

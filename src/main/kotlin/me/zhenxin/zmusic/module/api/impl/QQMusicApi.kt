@@ -72,8 +72,8 @@ class QQMusicApi : MusicApi {
         val songs = result.getJSONArray("songlist")
         songs.forEach {
             it as JSONObject
-            val id = it.getStr("songmid")
-            val songInfo = HttpUtil.get("$api/song?songmid=${id}")
+            val songId = it.getStr("songmid")
+            val songInfo = HttpUtil.get("$api/song?songmid=${songId}")
             val info = JSONObject(songInfo.data)
             val track = info.getJSONObject("data").getJSONObject("track_info")
             val name = track.getStr("name")
@@ -87,7 +87,7 @@ class QQMusicApi : MusicApi {
 
             musics.add(
                 MusicInfo(
-                    id,
+                    songId,
                     name,
                     singer,
                     albumName,
