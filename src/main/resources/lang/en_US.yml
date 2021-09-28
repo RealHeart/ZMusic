@@ -39,4 +39,4 @@ command-suggestion-song: 'Song Name'
 
 toast-playing: '&aPlaying\n&e{0}'
 
-nosupported-region: '&cnull.'
+nosupported-region: '&cThis service is not supported in the country where the current server is located.'
