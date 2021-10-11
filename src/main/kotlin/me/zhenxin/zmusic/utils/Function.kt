@@ -1,13 +1,12 @@
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.crypto.SecureUtil
 import cn.hutool.json.JSONObject
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.*
+import me.zhenxin.zmusic.module.config
 import java.util.*
 
 
@@ -19,15 +18,9 @@ import java.util.*
  */
 
 /**
- * 生成md5
- */
-fun String.md5(): String = SecureUtil.md5(this)
-
-/**
  * 替换&为§
  */
 fun String.colored(): String = replace("&", "§")
-
 
 /**
  * 替换&为§
@@ -59,10 +52,10 @@ fun String.asMusicApi(): MusicApi {
  */
 fun setLocale() {
     try {
-        val lang = Config.LANGUAGE.split("_")
+        val lang = config.LANGUAGE.split("_")
         Locale.setDefault(Locale(lang[0], lang[1]))
     } catch (e: Exception) {
-        if (Config.DEBUG) e.printStackTrace()
+        if (config.DEBUG) e.printStackTrace()
     }
 }
 

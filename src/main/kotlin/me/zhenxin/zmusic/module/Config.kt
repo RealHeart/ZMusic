@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module
 
 import me.zhenxin.zmusic.utils.colored
-import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 
 /**
@@ -12,121 +11,133 @@ import taboolib.module.configuration.SecuredFile
  * @email qgzhenxin@qq.com
  */
 @Suppress("unused")
-object Config {
-    /** 配置文件对象 */
-    @Config(migrate = true)
-    private lateinit var config: SecuredFile
+val config
+    get() = Loader.Config
+val database
+    get() = Loader.Database
 
-    /** 检查更新 */
-    val CHECK_UPDATE: Boolean
-        get() = config.getBoolean("check-update")
+object Loader {
+    object Config {
+        /** 配置文件对象 */
+        @taboolib.module.configuration.Config(migrate = true)
+        private lateinit var config: SecuredFile
 
-    /** 语言 */
-    val LANGUAGE: String
-        get() = config.getString("language")
+        /** 检查更新 */
+        val CHECK_UPDATE: Boolean
+            get() = config.getBoolean("check-update")
 
-    /** 前缀 */
-    val PREFIX: String
-        get() = config.getString("prefix").colored()
+        /** 语言 */
+        val LANGUAGE: String
+            get() = config.getString("language")
 
-    /** 调试模式 */
-    val DEBUG: Boolean
-        get() = config.getBoolean("debug")
+        /** 前缀 */
+        val PREFIX: String
+            get() = config.getString("prefix").colored()
 
-    /** 网易云音乐 API链接 */
-    val API_NETEASE_LINK: String
-        get() = config.getString("api.netease.link")
+        /** 调试模式 */
+        val DEBUG: Boolean
+            get() = config.getBoolean("debug")
 
-    /** 网易云音乐 账号 */
-    val API_NETEASE_ACCOUNT: String
-        get() = config.getString("api.netease.account")
+        /** 网易云音乐 API链接 */
+        val API_NETEASE_LINK: String
+            get() = config.getString("api.netease.link")
 
-    /** 网易云音乐 密码 */
-    val API_NETEASE_PASSWORD: String
-        get() = config.getString("api.netease.password")
+        /** 网易云音乐 账号 */
+        val API_NETEASE_ACCOUNT: String
+            get() = config.getString("api.netease.account")
 
-    /** QQ音乐 API链接  */
-    val API_QQ_LINK: String
-        get() = config.getString("api.qq.link")
+        /** 网易云音乐 密码 */
+        val API_NETEASE_PASSWORD: String
+            get() = config.getString("api.netease.password")
 
-    /** QQ音乐 Cookie */
-    val API_QQ_COOKIE: String
-        get() = config.getString("api.qq.cookie")
+        /** QQ音乐 API链接  */
+        val API_QQ_LINK: String
+            get() = config.getString("api.qq.link")
 
-    /** ZMusic VIP QQ */
-    val VIP_QQ: String
-        get() = config.getString("vip.qq")
+        /** QQ音乐 Cookie */
+        val API_QQ_COOKIE: String
+            get() = config.getString("api.qq.cookie")
 
-    /** ZMusic VIP Key */
-    val VIP_KEY: String
-        get() = config.getString("vip.key")
+        /** ZMusic VIP QQ */
+        val VIP_QQ: String
+            get() = config.getString("vip.qq")
 
-    /** 点歌执行命令 */
-    val MUSIC_COMMANDS: MutableList<String>
-        get() = config.getStringList("music.commands")
+        /** ZMusic VIP Key */
+        val VIP_KEY: String
+            get() = config.getString("vip.key")
 
-    /** 点歌冷却时间 */
-    val MUSIC_COOLDOWN: Int
-        get() = config.getInt("music.cooldown")
+        /** 点歌执行命令 */
+        val MUSIC_COMMANDS: MutableList<String>
+            get() = config.getStringList("music.commands")
 
-    /** 启用歌词 */
-    val LYRIC_ENABLE: Boolean
-        get() = config.getBoolean("lyric.enable")
+        /** 点歌冷却时间 */
+        val MUSIC_COOLDOWN: Int
+            get() = config.getInt("music.cooldown")
 
-    /** 显示歌词翻译 */
-    val LYRIC_SHOW_TRANSLATION: Boolean
-        get() = config.getBoolean("lyric.show-translation")
+        /** 启用歌词 */
+        val LYRIC_ENABLE: Boolean
+            get() = config.getBoolean("lyric.enable")
 
-    /** 歌词颜色 */
-    val LYRIC_COLOR: String
-        get() = config.getString("lyric.color").colored()
+        /** 显示歌词翻译 */
+        val LYRIC_SHOW_TRANSLATION: Boolean
+            get() = config.getBoolean("lyric.show-translation")
 
-    /** 歌词显示 BossBar */
-    val LYRIC_BOSS_BAR: Boolean
-        get() = config.getBoolean("lyric.boss-bar")
+        /** 歌词颜色 */
+        val LYRIC_COLOR: String
+            get() = config.getString("lyric.color").colored()
 
-    /** 歌词显示 ActionBar */
-    val LYRIC_ACTION_BAR: Boolean
-        get() = config.getBoolean("lyric.action-bar")
+        /** 歌词显示 BossBar */
+        val LYRIC_BOSS_BAR: Boolean
+            get() = config.getBoolean("lyric.boss-bar")
 
-    /** 歌词显示 Title */
-    val LYRIC_TITLE: Boolean
-        get() = config.getBoolean("lyric.title")
+        /** 歌词显示 ActionBar */
+        val LYRIC_ACTION_BAR: Boolean
+            get() = config.getBoolean("lyric.action-bar")
 
-    /** 歌词显示 聊天信息 */
-    val LYRIC_CHAT: Boolean
-        get() = config.getBoolean("lyric.chat")
+        /** 歌词显示 Title */
+        val LYRIC_TITLE: Boolean
+            get() = config.getBoolean("lyric.title")
 
-    /** 是否启用Hud显示 */
-    val HUD_ENABLE: Boolean
-        get() = config.getBoolean("hud.enable")
+        /** 歌词显示 聊天信息 */
+        val LYRIC_CHAT: Boolean
+            get() = config.getBoolean("lyric.chat")
 
-    /** Hud 信息 是否启用 */
-    val HUD_INFO_ENABLE: Boolean
-        get() = config.getBoolean("hud.info.enable")
+        /** 是否启用Hud显示 */
+        val HUD_ENABLE: Boolean
+            get() = config.getBoolean("hud.enable")
 
-    /** Hud 信息 X坐标 */
-    val HUD_INFO_X: Int
-        get() = config.getInt("hud.info.x")
+        /** Hud 信息 是否启用 */
+        val HUD_INFO_ENABLE: Boolean
+            get() = config.getBoolean("hud.info.enable")
 
-    /** Hud 信息 Y坐标 */
-    val HUD_INFO_Y: Int
-        get() = config.getInt("hud.info.y")
+        /** Hud 信息 X坐标 */
+        val HUD_INFO_X: Int
+            get() = config.getInt("hud.info.x")
 
-    /** Hud 歌词 是否启用 */
-    val HUD_LYRIC_ENABLE: Boolean
-        get() = config.getBoolean("hud.lyric.enable")
+        /** Hud 信息 Y坐标 */
+        val HUD_INFO_Y: Int
+            get() = config.getInt("hud.info.y")
 
-    /** Hud 歌词 X坐标 */
-    val HUD_LYRIC_X: Int
-        get() = config.getInt("hud.lyric.x")
+        /** Hud 歌词 是否启用 */
+        val HUD_LYRIC_ENABLE: Boolean
+            get() = config.getBoolean("hud.lyric.enable")
 
-    /** Hud 歌词 Y坐标 */
-    val HUD_LYRIC_Y: Int
-        get() = config.getInt("hud.lyric.y")
+        /** Hud 歌词 X坐标 */
+        val HUD_LYRIC_X: Int
+            get() = config.getInt("hud.lyric.x")
+
+        /** Hud 歌词 Y坐标 */
+        val HUD_LYRIC_Y: Int
+            get() = config.getInt("hud.lyric.y")
 
 
-    fun reload() {
-        config.reload()
+        fun reload() {
+            config.reload()
+        }
+    }
+
+    object Database {
+        @taboolib.module.configuration.Config(value = "database.yml", migrate = true)
+        private lateinit var database: SecuredFile
     }
 }

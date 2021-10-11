@@ -17,7 +17,7 @@ class Logger(private val sender: ProxyCommandSender) {
     }
 
     fun debug(msg: Any) {
-        if (Config.DEBUG) {
+        if (config.DEBUG) {
             sender.sendMsg("&e[Debug] $msg".colored())
         }
     }

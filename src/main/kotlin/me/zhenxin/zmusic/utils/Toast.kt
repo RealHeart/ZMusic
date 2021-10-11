@@ -5,7 +5,9 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
+import taboolib.common.util.Version
 import taboolib.module.nms.sendToast
+import taboolib.platform.BukkitPlugin
 
 
 /**
@@ -24,18 +26,24 @@ import taboolib.module.nms.sendToast
 fun ProxyPlayer.sendToast(msg: String) {
     if (runningPlatform == Platform.BUKKIT) {
         val player = cast<Player>()
-        val list = listOf(
-            Material.MUSIC_DISC_11,
-            Material.MUSIC_DISC_CAT,
-            Material.MUSIC_DISC_BLOCKS,
-            Material.MUSIC_DISC_CHIRP,
-            Material.MUSIC_DISC_FAR,
-            Material.MUSIC_DISC_MALL,
-            Material.MUSIC_DISC_MELLOHI,
-            Material.MUSIC_DISC_STRAD,
-            Material.MUSIC_DISC_WARD,
-            Material.MUSIC_DISC_WAIT,
-        )
+        val list = mutableListOf<Material>()
+        val thisVer = Version(BukkitPlugin.getInstance().server.bukkitVersion)
+        if (thisVer > Version("1.12")) {
+            list.addAll(
+                listOf(
+                    Material.MUSIC_DISC_11,
+                    Material.MUSIC_DISC_CAT,
+                    Material.MUSIC_DISC_BLOCKS,
+                    Material.MUSIC_DISC_CHIRP,
+                    Material.MUSIC_DISC_FAR,
+                    Material.MUSIC_DISC_MALL,
+                    Material.MUSIC_DISC_MELLOHI,
+                    Material.MUSIC_DISC_STRAD,
+                    Material.MUSIC_DISC_WARD,
+                    Material.MUSIC_DISC_WAIT,
+                )
+            )
+        }
         val icon = list[(list.indices).random()]
         player.sendToast(icon, msg)
     }

@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.taboolib
 
-import me.zhenxin.zmusic.module.Config
+import me.zhenxin.zmusic.module.config
 import me.zhenxin.zmusic.module.taboolib.component.Component
 import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import me.zhenxin.zmusic.utils.component
@@ -27,7 +27,7 @@ fun ProxyCommandSender.sendMsg(msg: String) = sendMsg(msg.component())
  * @param component Component
  */
 fun ProxyCommandSender.sendMsg(component: me.zhenxin.adventure.text.Component) {
-    sendMessage(Config.PREFIX.component().append(component))
+    sendMessage(config.PREFIX.component().append(component))
 }
 
 /**

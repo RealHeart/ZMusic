@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
+import me.zhenxin.zmusic.module.config
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.platform.ProxyCommandSender
@@ -17,7 +17,7 @@ import taboolib.module.lang.Language
  */
 val reloadCommand = subCommand {
     execute<ProxyCommandSender> { sender, _, _ ->
-        Config.reload()
+        config.reload()
         Language.reload()
         setLocale()
         sender.sendMsg(Lang.COMMAND_RELOAD_SUCCESS)

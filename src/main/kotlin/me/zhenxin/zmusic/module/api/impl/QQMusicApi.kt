@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.module.api.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
 import me.zhenxin.zmusic.module.api.PlaylistInfo
+import me.zhenxin.zmusic.module.config
 import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
@@ -18,7 +18,7 @@ import java.net.URLEncoder
  */
 @Suppress("DuplicatedCode")
 class QQMusicApi : MusicApi {
-    private val api = Config.API_QQ_LINK
+    private val api = config.API_QQ_LINK
     override val name: String = Lang.PLATFORM_QQ
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {

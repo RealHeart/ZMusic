@@ -1,0 +1,14 @@
+# 数据存储引擎 [YAML,SQLite,MySQL,MongoDB(推荐)]
+engine: 'MongoDB'
+# 数据库地址
+host: '127.0.0.1'
+# 数据库端口
+port: 27017
+# 用户名
+user: ''
+# 密码
+pwd: ''
+# 数据库名称
+name: 'minecraft'
+# 数据表前缀
+prefix: 'zm_'

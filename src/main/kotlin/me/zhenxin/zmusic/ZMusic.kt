@@ -14,6 +14,7 @@ import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
 import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
 
 /**
@@ -73,6 +74,10 @@ object ZMusic {
                 it.replace("{0}", VERSION)
                     .replace("{1}", runningPlatform.name.lowercase())
             )
+        }
+
+        if (runningPlatform == BUKKIT) {
+            logger.debug(BukkitPlugin.getInstance().server.bukkitVersion)
         }
     }
 }
