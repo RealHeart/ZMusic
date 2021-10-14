@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
 import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
+import me.zhenxin.zmusic.platform.bukkitPlugin
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyPlayer
-import taboolib.platform.BukkitPlugin
 
 
 /**
@@ -19,7 +19,7 @@ import taboolib.platform.BukkitPlugin
 @Suppress("unused")
 @PlatformImplementation(Platform.BUKKIT)
 class PluginMessageBukkit : PluginMessage {
-    private val plugin by lazy { BukkitPlugin.getInstance() }
+    private val plugin by lazy { bukkitPlugin }
     override fun registerChannel(channel: String) {
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, channel)
     }

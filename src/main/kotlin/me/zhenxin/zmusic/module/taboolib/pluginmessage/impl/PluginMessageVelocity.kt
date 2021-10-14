@@ -2,10 +2,10 @@ package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
 import com.velocitypowered.api.proxy.Player
 import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
+import me.zhenxin.zmusic.platform.velocityPlugin
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyPlayer
-import taboolib.platform.VelocityPlugin
 
 /**
  * 插件消息 Velocity 实现
@@ -18,7 +18,7 @@ import taboolib.platform.VelocityPlugin
 @Suppress("unused")
 @PlatformImplementation(Platform.VELOCITY)
 class PluginMessageVelocity : PluginMessage {
-    private val plugin by lazy { VelocityPlugin.getInstance() }
+    private val plugin by lazy { velocityPlugin }
     override fun registerChannel(channel: String) {
         // Velocity 无需注册频道
     }

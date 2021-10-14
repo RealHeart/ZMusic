@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
 import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
+import me.zhenxin.zmusic.platform.bungeePlugin
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyPlayer
-import taboolib.platform.BungeePlugin
 
 /**
  * 插件消息 Bungee 实现
@@ -18,7 +18,7 @@ import taboolib.platform.BungeePlugin
 @Suppress("unused")
 @PlatformImplementation(Platform.BUNGEE)
 class PluginMessageBungee : PluginMessage {
-    private val plugin by lazy { BungeePlugin.getInstance() }
+    private val plugin by lazy { bungeePlugin }
     override fun registerChannel(channel: String) {
         plugin.proxy.registerChannel(channel)
     }

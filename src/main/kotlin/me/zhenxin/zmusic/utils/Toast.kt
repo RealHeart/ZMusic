@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.utils
 
+import me.zhenxin.zmusic.platform.bukkitPlugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
@@ -7,7 +8,6 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
 import taboolib.common.util.Version
 import taboolib.module.nms.sendToast
-import taboolib.platform.BukkitPlugin
 
 
 /**
@@ -27,7 +27,7 @@ fun ProxyPlayer.sendToast(msg: String) {
     if (runningPlatform == Platform.BUKKIT) {
         val player = cast<Player>()
         val list = mutableListOf<Material>()
-        val thisVer = Version(BukkitPlugin.getInstance().server.bukkitVersion)
+        val thisVer = Version(bukkitPlugin.server.bukkitVersion)
         if (thisVer > Version("1.12")) {
             list.addAll(
                 listOf(
