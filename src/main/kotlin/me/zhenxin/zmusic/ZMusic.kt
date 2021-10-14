@@ -58,7 +58,6 @@ object ZMusic {
         Metrics(7291, VERSION, BUKKIT)
         Metrics(8864, VERSION, BUNGEE)
         Metrics(12426, VERSION, VELOCITY)
-        Metrics(12457, VERSION, SPONGE_API_7)
 
         // 注册通信频道
         registerChannel("zmusic:channel")
