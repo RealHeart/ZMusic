@@ -11,11 +11,11 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0-21w41a"
 
-val taboolib = "6.0.3-12"
+val taboolib = "6.0.3-15"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
-val hutool = "5.7.13"
+val hutool = "5.7.14"
 val ktorm = "3.4.1"
 
 repositories {
@@ -27,6 +27,7 @@ repositories {
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     // ZhenXin
     maven("https://gitee.com/RealHeart/Maven/raw/master")
+    mavenCentral()
 }
 
 dependencies {
@@ -72,12 +73,15 @@ taboolib {
                 .optional(true)
         }
     }
+    // 公共
     install("common")
+    // 平台
     install(
         "platform-bukkit",
         "platform-bungee",
         "platform-velocity"
     )
+    // 模块
     install(
         "module-configuration",
         "module-lang",
@@ -85,7 +89,7 @@ taboolib {
         "module-nms",
         "module-nms-util"
     )
-    // 实验性
+    // 扩展
     install(
         "expansion-command-helper"
     )
