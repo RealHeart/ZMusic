@@ -43,7 +43,7 @@ command-suggestion-song: '曲名'
 message-josn-play: '播放'
 message-josn-music: '点歌'
 message-josn-playall: '全服播放'
-message-josn-quete: '添加队列'
+message-josn-queue: '添加队列'
 message-json-tips: '&a点击执行'
 
 toast-playing: '&a再生中\n&e{0}'
