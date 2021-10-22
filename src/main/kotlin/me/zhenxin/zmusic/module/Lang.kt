@@ -56,16 +56,16 @@ object Lang {
     val COMMAND_SUGGESTION_SONG
         get() = console().asLangText("command-suggestion-song")
 
-    val MESSAGE_JOSN_PLAY
-        get() = console().asLangText("message-josn-play")
-    val MESSAGE_JOSN_MUSIC
-        get() = console().asLangText("message-josn-music")
-    val MESSAGE_JOSN_PLAYALL
-        get() = console().asLangText("message-josn-playall")
-    val MESSAGE_JOSN_QUEUE
-        get() = console().asLangText("message-josn-queue")
-    val MESSAGE_JOSN_TIPS
-        get() = console().asLangText("message-josn-tips")
+    val MESSAGE_JSON_PLAY
+        get() = console().asLangText("message-json-play")
+    val MESSAGE_JSON_MUSIC
+        get() = console().asLangText("message-json-music")
+    val MESSAGE_JSON_PLAYALL
+        get() = console().asLangText("message-json-playall")
+    val MESSAGE_JSON_QUEUE
+        get() = console().asLangText("message-json-queue")
+    val MESSAGE_JSON_TIPS
+        get() = console().asLangText("message-json-tips").colored()
 
     val TOAST_PLAYING
         get() = console().asLangText("toast-playing").colored().replace("\\n", "\n")
