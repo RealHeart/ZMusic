@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w41a"
+version = "3.0-21w42a"
 
 val taboolib = "6.0.3-18"
 val minimessage = "4.2.0-SNAPSHOT"
