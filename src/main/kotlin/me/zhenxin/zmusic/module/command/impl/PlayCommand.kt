@@ -32,6 +32,13 @@ val playCommand = subCommand {
                 listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
             execute<ProxyPlayer> { sender, context, argument ->
+                var keyword = argument
+                if (argument.contains("-id:")) {
+                    try {
+                        keyword = argument.split("-id:")[1]
+                    } catch (e: Exception) {
+                    }
+                }
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)
                 if (platform == "soundcloud") {
@@ -42,7 +49,7 @@ val playCommand = subCommand {
                 }
                 val api = platform.asMusicApi()
                 submit(async = true) {
-                    val result = api.searchSingle(argument)
+                    val result = api.searchSingle(keyword)
                     logger.debug(result)
                     val url = api.getPlayUrl(result.id)
                     logger.debug(url)

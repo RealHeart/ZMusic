@@ -8,6 +8,7 @@ import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submit
 
 /**
  * 搜索命令
@@ -38,18 +39,22 @@ val searchCommand = subCommand {
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)
                 val api = platform.asMusicApi()
-                val result = api.searchPage(args, page, 10)
-                logger.debug(result)
-                sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
-                result.forEachIndexed { i, m ->
-                    val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
-                            "<red>[<yellow><click:run_command:'/zm play $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
-                            "<red>[<yellow><click:run_command:'/zm music $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
-                    sender.sendMsg(msg.colored())
+                submit(async = true) {
+                    val result = api.searchPage(args, page, 10)
+                    logger.debug(result)
+                    sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
+                    result.forEachIndexed { i, m ->
+                        val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
+                                "<red>[<yellow><click:run_command:'/zm play $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
+                                "<red>[<yellow><click:run_command:'/zm music $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
+                        sender.sendMsg(msg.colored())
+                    }
+                    val prev =
+                        "<click:run_command:'/zm search $platform $args -page:${page - 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_PREV}'><<<</click>"
+                    val next =
+                        "<click:run_command:'/zm search $platform $args -page:${page + 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_NEXT}'>>>></click>"
+                    sender.sendMsg("<gold>======<red>$prev<gold>=====================<red>${next}<gold>=======".colored())
                 }
-                val prev = "<click:run_command:'/zm search $platform $args -page:${page - 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_PREV}'><<<</click>"
-                val next = "<click:run_command:'/zm search $platform $args -page:${page + 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_NEXT}'>>>></click>"
-                sender.sendMsg("&6======&c$prev&6=====================&c${next}&6=======".colored())
             }
         }
     }
