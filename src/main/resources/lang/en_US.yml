@@ -33,7 +33,6 @@ command-incorrect-sender: '&cThis command only support player usage.'
 command-play-searching: '&aSearching...'
 command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
 command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>Search Result</gradient> &a]&6================'
-command-search-footer: '&6========================================'
 command-reload-success: '&aConfiguration and language files have been reloaded!'
 
 command-suggestion-platform: 'Platform'
@@ -44,6 +43,8 @@ message-json-music: '点歌'
 message-json-playall: '全服播放'
 message-json-queue: '添加队列'
 message-json-tips: '&a点击执行'
+message-json-tips-prev: '上一页'
+message-json-tips-next: '下一页'
 
 toast-playing: '&aPlaying\n&e{0}'
 

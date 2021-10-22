@@ -34,7 +34,6 @@ command-incorrect-sender: '&cこのコマンドはプレイヤーのみが使用
 command-play-searching: '&a検索中...'
 command-play-success: '&r[&e{0}&r]&aで&r[&e{1}&r]&a再生に成功しました。'
 command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>検索結果</gradient> &a]&6================'
-command-search-footer: '&6========================================'
 command-reload-success: '&aプラグインリロード成功しました。'
 
 command-suggestion-platform: 'プラットフォーム'
@@ -45,6 +44,8 @@ message-json-music: '点歌'
 message-json-playall: '全服播放'
 message-json-queue: '添加队列'
 message-json-tips: '&a点击执行'
+message-json-tips-prev: '上一页'
+message-json-tips-next: '下一页'
 
 toast-playing: '&a再生中\n&e{0}'
 

@@ -26,10 +26,19 @@ val searchCommand = subCommand {
                 listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
             execute<ProxyPlayer> { sender, context, argument ->
+                var page = 1
+                var args = argument
+                if (argument.contains("-page:")) {
+                    try {
+                        page = argument.split("-page:")[1].toInt()
+                        args = argument.split(" -page:")[0]
+                    } catch (e: Exception) {
+                    }
+                }
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)
                 val api = platform.asMusicApi()
-                val result = api.searchPage(argument, 1, 10)
+                val result = api.searchPage(args, page, 10)
                 logger.debug(result)
                 sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
                 result.forEachIndexed { i, m ->
@@ -38,7 +47,9 @@ val searchCommand = subCommand {
                             "<red>[<yellow><click:run_command:'/zm music $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
                     sender.sendMsg(msg.colored())
                 }
-                sender.sendMsg(Lang.COMMAND_SEARCH_FOOTER)
+                val prev = "<click:run_command:'/zm search $platform $args -page:${page - 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_PREV}'><<<</click>"
+                val next = "<click:run_command:'/zm search $platform $args -page:${page + 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_NEXT}'>>>></click>"
+                sender.sendMsg("&6======&c$prev&6=====================&c${next}&6=======".colored())
             }
         }
     }

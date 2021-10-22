@@ -46,8 +46,6 @@ object Lang {
         get() = console().asLangText("command-play-success").colored()
     val COMMAND_SEARCH_HEADER
         get() = console().asLangText("command-search-header").colored()
-    val COMMAND_SEARCH_FOOTER
-        get() = console().asLangText("command-search-footer").colored()
     val COMMAND_RELOAD_SUCCESS
         get() = console().asLangText("command-reload-success").colored()
 
@@ -66,6 +64,10 @@ object Lang {
         get() = console().asLangText("message-json-queue")
     val MESSAGE_JSON_TIPS
         get() = console().asLangText("message-json-tips").colored()
+    val MESSAGE_JSON_TIPS_PREV
+        get() = console().asLangText("message-json-tips-prev")
+    val MESSAGE_JSON_TIPS_NEXT
+        get() = console().asLangText("message-json-tips-next")
 
     val TOAST_PLAYING
         get() = console().asLangText("toast-playing").colored().replace("\\n", "\n")
