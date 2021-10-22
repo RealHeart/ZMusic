@@ -33,10 +33,18 @@ command-incorrect-command:
 command-incorrect-sender: '&cこのコマンドはプレイヤーのみが使用できます。'
 command-play-searching: '&a検索中...'
 command-play-success: '&r[&e{0}&r]&aで&r[&e{1}&r]&a再生に成功しました。'
+command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>検索結果</gradient> &a]&6================'
+command-search-footer: '&6========================================'
 command-reload-success: '&aプラグインリロード成功しました。'
 
 command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
+
+message-josn-play: '播放'
+message-josn-music: '点歌'
+message-josn-playall: '全服播放'
+message-josn-quete: '添加队列'
+message-json-tips: '&a点击执行'
 
 toast-playing: '&a再生中\n&e{0}'
 

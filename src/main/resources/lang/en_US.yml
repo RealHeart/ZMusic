@@ -32,10 +32,18 @@ command-incorrect-command:
 command-incorrect-sender: '&cThis command only support player usage.'
 command-play-searching: '&aSearching...'
 command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
+command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>Search Result</gradient> &a]&6================'
+command-search-footer: '&6========================================'
 command-reload-success: '&aConfiguration and language files have been reloaded!'
 
 command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'
+
+message-josn-play: 'Play'
+message-josn-music: '点歌'
+message-josn-playall: '全服播放'
+message-josn-quete: '添加队列'
+message-json-tips: '&a点击执行'
 
 toast-playing: '&aPlaying\n&e{0}'
 

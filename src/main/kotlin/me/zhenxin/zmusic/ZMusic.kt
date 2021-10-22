@@ -4,7 +4,6 @@ import me.zhenxin.zmusic.database.database
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
 import me.zhenxin.zmusic.module.taboolib.registerChannel
-import me.zhenxin.zmusic.platform.bukkitPlugin
 import me.zhenxin.zmusic.utils.setLocale
 import org.ktorm.database.Database
 import taboolib.common.LifeCycle
@@ -15,6 +14,7 @@ import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
 import taboolib.module.metrics.Metrics
+import taboolib.module.nms.MinecraftVersion
 
 
 /**
@@ -76,7 +76,7 @@ object ZMusic {
         }
 
         if (runningPlatform == BUKKIT) {
-            logger.debug(bukkitPlugin.server.bukkitVersion)
+            logger.debug(MinecraftVersion.majorLegacy)
         }
     }
 }

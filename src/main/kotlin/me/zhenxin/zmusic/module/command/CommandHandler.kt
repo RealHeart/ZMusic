@@ -37,7 +37,7 @@ object CommandHandler {
         incorrectCommand { sender, context, index, _ ->
             var args = ""
             for (i in (1 - index)..0) {
-                args = "${context.argument(i).toString()} "
+                args = "${context.argument(i)} "
             }
             args = args.trimEnd(' ')
             Lang.COMMAND_INCORRECT_COMMAND.forEach {
@@ -79,6 +79,13 @@ object CommandHandler {
         permissionDefault = TRUE
     )
     val music = musicCommand
+
+    @CommandBody(
+        optional = true,
+        permission = "zmusic.user.search",
+        permissionDefault = TRUE
+    )
+    val search = searchCommand
 
     @CommandBody(
         optional = true,

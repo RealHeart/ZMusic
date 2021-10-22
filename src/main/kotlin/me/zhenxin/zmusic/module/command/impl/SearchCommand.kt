@@ -26,11 +26,14 @@ val searchCommand = subCommand {
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
-                val platform = context.argument(-1)!!
+                val platform = context.argument(-1)
                 val api = platform.asMusicApi()
                 val result = api.searchPage(argument, 1, 10)
                 logger.debug(result)
-                sender.sendMsg(result.toString())
+                sender.sendMsg("")
+                result.forEach {
+
+                }
             }
         }
     }

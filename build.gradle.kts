@@ -11,7 +11,7 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0-21w41a"
 
-val taboolib = "6.0.3-15"
+val taboolib = "6.0.3-18"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"

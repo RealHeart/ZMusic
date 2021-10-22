@@ -33,7 +33,7 @@ val playCommand = subCommand {
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
-                val platform = context.argument(-1)!!
+                val platform = context.argument(-1)
                 if (platform == "soundcloud") {
                     if (isChina()) {
                         sender.sendMsg(Lang.NOSUPPORTED_REGION)
