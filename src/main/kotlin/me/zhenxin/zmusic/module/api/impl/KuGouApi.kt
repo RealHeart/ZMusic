@@ -69,4 +69,8 @@ class KuGouApi : MusicApi {
         val info = JSONObject(infoResult.data)
         return info.getStr("url")
     }
+
+    override fun getMusicInfo(id: String): MusicInfo {
+        TODO("Not yet implemented")
+    }
 }

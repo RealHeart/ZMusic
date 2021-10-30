@@ -71,4 +71,8 @@ class XimaApi : MusicApi {
         val track = page.getJSONObject("trackInfo")
         return track.getStr("playUrl64")
     }
+
+    override fun getMusicInfo(id: String): MusicInfo {
+        TODO("Not yet implemented")
+    }
 }

@@ -6,6 +6,7 @@ import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.type.getPlatformNames
+import me.zhenxin.zmusic.type.getPlatformNamesWithSupportIdPlay
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.isChina
 import me.zhenxin.zmusic.utils.playMusic
@@ -33,14 +34,18 @@ val playCommand = subCommand {
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 var keyword = argument
+                sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
+                val platform = context.argument(-1)
                 if (argument.contains("-id:")) {
                     try {
-                        keyword = argument.split("-id:")[1]
+                        getPlatformNamesWithSupportIdPlay().forEach {
+                            if (it == platform) {
+                                keyword = argument.split("-id:")[0]
+                            }
+                        }
                     } catch (e: Exception) {
                     }
                 }
-                sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
-                val platform = context.argument(-1)
                 if (platform == "soundcloud") {
                     if (isChina()) {
                         sender.sendMsg(Lang.NOSUPPORTED_REGION)

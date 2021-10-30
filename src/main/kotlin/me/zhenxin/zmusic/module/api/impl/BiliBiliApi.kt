@@ -31,4 +31,8 @@ class BiliBiliApi : MusicApi {
         TODO("Not yet implemented")
     }
 
+    override fun getMusicInfo(id: String): MusicInfo {
+        TODO("Not yet implemented")
+    }
+
 }

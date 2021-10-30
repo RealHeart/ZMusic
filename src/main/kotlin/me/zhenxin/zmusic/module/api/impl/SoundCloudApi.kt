@@ -61,7 +61,7 @@ class SoundCloudApi : MusicApi {
     }
 
     override fun getPlaylist(id: String): PlaylistInfo {
-        TODO("Not yet implemented")
+        TODO("NoSupport")
     }
 
     override fun getAlbum(id: String) {
@@ -75,6 +75,10 @@ class SoundCloudApi : MusicApi {
         val urlLink = (data[1] as JSONObject).getStr("url")
         val urlResult = HttpUtil.get("$urlLink?client_id=$clientId")
         return JSONObject(urlResult.data).getStr("url")
+    }
+
+    override fun getMusicInfo(id: String): MusicInfo {
+        TODO("Not yet implemented")
     }
 
 

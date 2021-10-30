@@ -35,28 +35,7 @@ class QQMusicApi : MusicApi {
         songs.forEach {
             it as JSONObject
             val id = it.getStr("songmid")
-            val songInfo = HttpUtil.get("$api/song?songmid=${id}")
-            val info = JSONObject(songInfo.data)
-            val track = info.getJSONObject("data").getJSONObject("track_info")
-            val name = track.getStr("name")
-            val singers = track.getJSONArray("singer")
-            val singer = mergeSingers(singers)
-            val album = track.getJSONObject("album")
-            val albumName = album.getStr("name")
-            val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
-            val duration = track.getLong("interval") * 1000
-
-
-            musics.add(
-                MusicInfo(
-                    id,
-                    name,
-                    singer,
-                    albumName,
-                    albumImage,
-                    duration
-                )
-            )
+            musics.add(getMusicInfo(id))
         }
         return musics
     }
@@ -73,28 +52,8 @@ class QQMusicApi : MusicApi {
         songs.forEach {
             it as JSONObject
             val songId = it.getStr("songmid")
-            val songInfo = HttpUtil.get("$api/song?songmid=${songId}")
-            val info = JSONObject(songInfo.data)
-            val track = info.getJSONObject("data").getJSONObject("track_info")
-            val name = track.getStr("name")
-            val singers = track.getJSONArray("singer")
-            val singer = mergeSingers(singers)
-            val album = track.getJSONObject("album")
-            val albumName = album.getStr("name")
-            val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
-            val duration = track.getLong("interval") * 1000
+            musics.add(getMusicInfo(songId))
 
-
-            musics.add(
-                MusicInfo(
-                    songId,
-                    name,
-                    singer,
-                    albumName,
-                    albumImage,
-                    duration
-                )
-            )
         }
         return PlaylistInfo(listId, listName, musics)
     }
@@ -107,5 +66,28 @@ class QQMusicApi : MusicApi {
         val result = HttpUtil.get("$api/song/url?id=$id")
         val json = JSONObject(result.data)
         return json.getStr("data")
+    }
+
+    override fun getMusicInfo(id: String): MusicInfo {
+        val songInfo = HttpUtil.get("$api/song?songmid=${id}")
+        val info = JSONObject(songInfo.data)
+        val track = info.getJSONObject("data").getJSONObject("track_info")
+        val name = track.getStr("name")
+        val singers = track.getJSONArray("singer")
+        val singer = mergeSingers(singers)
+        val album = track.getJSONObject("album")
+        val albumName = album.getStr("name")
+        val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
+        val duration = track.getLong("interval") * 1000
+
+
+        return MusicInfo(
+            id,
+            name,
+            singer,
+            albumName,
+            albumImage,
+            duration
+        )
     }
 }

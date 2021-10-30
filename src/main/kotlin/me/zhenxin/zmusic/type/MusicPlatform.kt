@@ -10,14 +10,15 @@ package me.zhenxin.zmusic.type
 @Suppress("SpellCheckingInspection")
 enum class MusicPlatform(
     val supportPlaylist: Boolean,
-    val supportAccount: Boolean
+    val supportAccount: Boolean,
+    val supportIdPlay: Boolean
 ) {
-    NETEASE(true, true),
-    QQ(true, false),
-    BILIBILI(false, false),
-    KUGOU(false, false),
-    XIMA(false, false),
-    SOUNDCLOUD(false, false)
+    NETEASE(true, true, true),
+    QQ(true, false, true),
+    BILIBILI(false, false, true),
+    KUGOU(false, false, false),
+    XIMA(false, false, false),
+    SOUNDCLOUD(false, false, false)
 }
 
 fun getPlatformNames(): List<String> {
@@ -51,4 +52,19 @@ fun getPlatformNamesWithSupportAccount(): List<String> {
         }
         return list
     }
+}
+
+fun getPlatformNamesWithSupportIdPlay(): List<String> {
+    return getPlatformNames().map {
+        val platform = MusicPlatform.valueOf(it.uppercase())
+        val list = mutableListOf<String>()
+        if (platform.supportIdPlay) {
+            list.add(it)
+        }
+        return list
+    }
+}
+
+fun String.asMusicPlatform(): MusicPlatform {
+    return MusicPlatform.valueOf(uppercase())
 }

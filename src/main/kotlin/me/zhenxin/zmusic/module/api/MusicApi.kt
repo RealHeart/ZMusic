@@ -23,6 +23,12 @@ interface MusicApi {
      * @param keyword 关键词
      */
     fun searchSingle(keyword: String): MusicInfo {
+        if (keyword.contains("-id:")) {
+            try {
+                return getMusicInfo(keyword.split(" -id:")[1])
+            } catch (e: Exception) {
+            }
+        }
         val data = searchPage(keyword, 1, 1)
         return data[0]
     }
@@ -67,4 +73,6 @@ interface MusicApi {
         singer = singer.trimEnd('/')
         return singer
     }
+
+    fun getMusicInfo(id: String): MusicInfo
 }

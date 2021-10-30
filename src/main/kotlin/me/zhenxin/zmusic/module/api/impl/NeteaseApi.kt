@@ -103,4 +103,8 @@ class NeteaseApi : MusicApi {
         val data = json.getJSONArray("data")[0] as JSONObject
         return data.getStr("url")
     }
+
+    override fun getMusicInfo(id: String): MusicInfo {
+        TODO("Not yet implemented")
+    }
 }
