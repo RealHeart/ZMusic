@@ -6,7 +6,7 @@ import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
 import me.zhenxin.zmusic.module.api.PlaylistInfo
 import me.zhenxin.zmusic.module.config
-import me.zhenxin.zmusic.utils.HttpUtil
+import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
 
 /**
@@ -24,7 +24,7 @@ class QQMusicApi : MusicApi {
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
         val search =
-            HttpUtil.get(
+            httpGet(
                 "$api/search?key=${
                     URLEncoder.encode(keyword, "UTF-8")
                 }&pageSize=$count&pageNo=$page"
@@ -43,7 +43,7 @@ class QQMusicApi : MusicApi {
     override fun getPlaylist(id: String): PlaylistInfo {
         val musics = mutableListOf<MusicInfo>()
         val search =
-            HttpUtil.get("$api/songlist?id=$id")
+            httpGet("$api/songlist?id=$id")
         val data = JSONObject(search.data)
         val result = data.getJSONObject("data")
         val listId = data.getStr("disstid")
@@ -63,13 +63,13 @@ class QQMusicApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = HttpUtil.get("$api/song/url?id=$id")
+        val result = httpGet("$api/song/url?id=$id")
         val json = JSONObject(result.data)
         return json.getStr("data")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
-        val songInfo = HttpUtil.get("$api/song?songmid=${id}")
+        val songInfo = httpGet("$api/song?songmid=${id}")
         val info = JSONObject(songInfo.data)
         val track = info.getJSONObject("data").getJSONObject("track_info")
         val name = track.getStr("name")

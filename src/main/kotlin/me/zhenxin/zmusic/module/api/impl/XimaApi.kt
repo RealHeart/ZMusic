@@ -5,7 +5,7 @@ import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
 import me.zhenxin.zmusic.module.api.PlaylistInfo
-import me.zhenxin.zmusic.utils.HttpUtil
+import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
 
 /**
@@ -22,7 +22,7 @@ class XimaApi : MusicApi {
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
         val search =
-            HttpUtil.get(
+            httpGet(
                 "https://www.ximalaya.com/revision/search/main?kw=${
                     URLEncoder.encode(keyword, "UTF-8")
                 }&core=track&page=$page&rows=$count"
@@ -64,7 +64,7 @@ class XimaApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result =
-            HttpUtil.get("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
+            httpGet("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
         val json = JSONObject(result.data)
         val data = json.getJSONObject("data")
         val page = data.getJSONObject("playpage")

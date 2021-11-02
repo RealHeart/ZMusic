@@ -5,7 +5,7 @@ import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
 import me.zhenxin.zmusic.module.api.PlaylistInfo
-import me.zhenxin.zmusic.utils.HttpUtil
+import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
 
 /**
@@ -20,7 +20,7 @@ class KuGouApi : MusicApi {
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
-        val search = HttpUtil.get(
+        val search = httpGet(
             "https://songsearch.kugou.com/song_search_v2?keyword=${
                 URLEncoder.encode(keyword, "UTF-8")
             }&platform=WebFilter&format=json&page=$page&pagesize=$count"
@@ -36,7 +36,7 @@ class KuGouApi : MusicApi {
             val singers = it.getJSONArray("Singers")
             val singer = mergeSingers(singers)
             val albumName = it.getStr("AlbumName")
-            val infoResult = HttpUtil.get("http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=$id")
+            val infoResult = httpGet("http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=$id")
             val info = JSONObject(infoResult.data)
             val albumImage = info.getStr("album_img")
                 .replace("/{size}/", "/")
@@ -65,7 +65,7 @@ class KuGouApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val infoResult = HttpUtil.get("http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=$id")
+        val infoResult = httpGet("http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=$id")
         val info = JSONObject(infoResult.data)
         return info.getStr("url")
     }

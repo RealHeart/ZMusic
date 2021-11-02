@@ -3,16 +3,16 @@ package me.zhenxin.zmusic
 import me.zhenxin.zmusic.database.database
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
+import me.zhenxin.zmusic.module.config
 import me.zhenxin.zmusic.module.taboolib.registerChannel
+import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale
 import org.ktorm.database.Database
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
-import taboolib.common.platform.function.console
-import taboolib.common.platform.function.getDataFolder
-import taboolib.common.platform.function.pluginVersion
-import taboolib.common.platform.function.runningPlatform
+import taboolib.common.platform.function.*
 import taboolib.module.metrics.Metrics
 import taboolib.module.nms.MinecraftVersion
 
@@ -77,6 +77,14 @@ object ZMusic {
 
         if (runningPlatform == BUKKIT) {
             logger.debug(MinecraftVersion.majorLegacy)
+        }
+
+        if (config.DEBUG) {
+            submit(async = true) {
+                logger.info("&a正在尝试登录网易云音乐...".colored())
+                val result = loginNetease()
+                logger.info(result.message.colored())
+            }
         }
     }
 }

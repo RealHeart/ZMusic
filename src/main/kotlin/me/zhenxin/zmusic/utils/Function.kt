@@ -7,6 +7,7 @@ import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.*
 import me.zhenxin.zmusic.module.config
+import taboolib.common.io.digest
 import java.util.*
 
 
@@ -63,8 +64,45 @@ fun setLocale() {
  * 检测服务器IP是否为中国大陆地区
  */
 fun isChina(): Boolean {
-    val result = HttpUtil.get("http://ip-api.com/json/")
+    val result = httpGet("http://ip-api.com/json/")
     logger.debug(result)
     val data = JSONObject(result.data)
     return data.getStr("country") == "China"
+}
+
+/**
+ * 登录网易云音乐
+ */
+fun loginNetease(): LoginResult {
+    val account = config.API_NETEASE_ACCOUNT
+    val password = config.API_NETEASE_PASSWORD
+    if (account.isEmpty() || password.isEmpty()) {
+        return LoginResult(400, "&c未配置账号密码")
+    }
+    val api = config.API_NETEASE_LINK
+    val result = httpPost(
+        "$api/login", mutableMapOf(
+            "email" to account,
+            "md5_password" to password.digest("md5")
+        )
+    )
+    logger.debug(result)
+
+    val info = JSONObject(result.data)
+    val code = info.getInt("code")
+    return if (code != 200) {
+        val msg = info.getStr("msg")
+        LoginResult(code, "&c$msg")
+    } else {
+        val profile = info.getJSONObject("profile")
+        val nickname = profile.getStr("nickname")
+        LoginResult(200, "&a登录成功, 欢迎您 &b$nickname")
+    }
+}
+
+/**
+ * 登录QQ音乐
+ */
+fun loginQQ() {
+
 }

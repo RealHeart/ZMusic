@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.type.MusicPlatform
 import me.zhenxin.zmusic.type.getPlatformNamesWithSupportAccount
 import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.utils.loginNetease
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
@@ -28,6 +29,8 @@ val loginCommand = subCommand {
                 // 暂时实验性 后续加入语言文件
                 MusicPlatform.NETEASE -> {
                     sender.sendMsg("&a正在尝试登录网易云音乐...".colored())
+                    val result = loginNetease()
+                    sender.sendMsg(result.message.colored())
                 }
                 else -> return@execute
             }

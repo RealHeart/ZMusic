@@ -6,7 +6,7 @@ import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
 import me.zhenxin.zmusic.module.api.PlaylistInfo
 import me.zhenxin.zmusic.module.config
-import me.zhenxin.zmusic.utils.HttpUtil
+import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
 
 /**
@@ -25,7 +25,7 @@ class NeteaseApi : MusicApi {
         val musics = mutableListOf<MusicInfo>()
         val offset = (page - 1) * count
         val search =
-            HttpUtil.get(
+            httpGet(
                 "$api/cloudsearch?keywords=${
                     URLEncoder.encode(keyword, "UTF-8")
                 }&limit=$count&offset=$offset"
@@ -61,7 +61,7 @@ class NeteaseApi : MusicApi {
 
     override fun getPlaylist(id: String): PlaylistInfo {
         val musics = mutableListOf<MusicInfo>()
-        val info = HttpUtil.get("$api/playlist/detail?id=$id")
+        val info = httpGet("$api/playlist/detail?id=$id")
         val data = JSONObject(info.data)
         val playlist = data.getJSONObject("playlist")
         val listId = playlist.getStr("id")
@@ -98,7 +98,7 @@ class NeteaseApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = HttpUtil.get("$api/song/url?id=$id")
+        val result = httpGet("$api/song/url?id=$id")
         val json = JSONObject(result.data)
         val data = json.getJSONArray("data")[0] as JSONObject
         return data.getStr("url")
