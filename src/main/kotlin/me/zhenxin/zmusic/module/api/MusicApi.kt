@@ -25,8 +25,10 @@ interface MusicApi {
     fun searchSingle(keyword: String): MusicInfo {
         if (keyword.contains("-id:")) {
             try {
-                return getMusicInfo(keyword.split(" -id:")[1])
+                val id = keyword.split("-id:")[1]
+                return getMusicInfo(id)
             } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         val data = searchPage(keyword, 1, 1)

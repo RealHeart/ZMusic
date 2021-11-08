@@ -33,6 +33,7 @@ command-incorrect-command:
 command-incorrect-sender: '&c此命令只能由玩家使用.'
 command-play-searching: '&a正在搜索中...'
 command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
+command-play-nosupported-idplay: '&c当前平台不支持 &e-id &c模式.'
 command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>搜索结果</gradient> &a]&6================'
 command-reload-success: '&a配置和语言文件已重载完毕!'
 

@@ -35,26 +35,8 @@ class NeteaseApi : MusicApi {
         val songs = result.getJSONArray("songs")
         songs.forEach {
             it as JSONObject
-
             val id = it.getStr("id")
-            val name = it.getStr("name")
-            val singers = it.getJSONArray("ar")
-            val singer = mergeSingers(singers)
-            val album = it.getJSONObject("al")
-            val albumName = album.getStr("name")
-            val albumImage = album.getStr("picUrl")
-            val duration = it.getLong("dt")
-
-            musics.add(
-                MusicInfo(
-                    id,
-                    name,
-                    singer,
-                    albumName,
-                    albumImage,
-                    duration
-                )
-            )
+            musics.add(getMusicInfo(id))
         }
         return musics
     }
@@ -69,25 +51,8 @@ class NeteaseApi : MusicApi {
         val tracks = playlist.getJSONArray("tracks")
         tracks.forEach {
             it as JSONObject
-            val name = it.getStr("name")
             val songId = it.getStr("id")
-            val singers = it.getJSONArray("ar")
-            val singer = mergeSingers(singers)
-            val album = it.getJSONObject("al")
-            val albumName = album.getStr("name")
-            val albumImage = album.getStr("picUrl")
-            val duration = it.getLong("dt")
-
-            musics.add(
-                MusicInfo(
-                    songId,
-                    name,
-                    singer,
-                    albumName,
-                    albumImage,
-                    duration
-                )
-            )
+            musics.add(getMusicInfo(songId))
         }
 
         return PlaylistInfo(listId, listName, musics)
@@ -105,6 +70,24 @@ class NeteaseApi : MusicApi {
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
-        TODO("Not yet implemented")
+        val result = httpGet("$api/song/detail?ids=${id}")
+        val info = JSONObject(result.data)
+        val song = info.getJSONArray("songs")[0] as JSONObject
+        val name = song.getStr("name")
+        val singers = song.getJSONArray("ar")
+        val singer = mergeSingers(singers)
+        val album = song.getJSONObject("al")
+        val albumName = album.getStr("name")
+        val albumImage = album.getStr("picUrl")
+        val duration = song.getLong("dt")
+
+        return MusicInfo(
+            id,
+            name,
+            singer,
+            albumName,
+            albumImage,
+            duration
+        )
     }
 }

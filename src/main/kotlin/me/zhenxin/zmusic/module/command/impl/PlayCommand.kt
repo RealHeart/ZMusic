@@ -5,8 +5,8 @@ package me.zhenxin.zmusic.module.command.impl
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.type.asMusicPlatform
 import me.zhenxin.zmusic.type.getPlatformNames
-import me.zhenxin.zmusic.type.getPlatformNamesWithSupportIdPlay
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.isChina
 import me.zhenxin.zmusic.utils.playMusic
@@ -33,28 +33,24 @@ val playCommand = subCommand {
                 listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                var keyword = argument
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)
-                if (argument.contains("-id:")) {
-                    try {
-                        getPlatformNamesWithSupportIdPlay().forEach {
-                            if (it == platform) {
-                                keyword = argument.split("-id:")[0]
-                            }
-                        }
-                    } catch (e: Exception) {
-                    }
-                }
                 if (platform == "soundcloud") {
                     if (isChina()) {
                         sender.sendMsg(Lang.NOSUPPORTED_REGION)
                         return@execute
                     }
                 }
+                if (argument.contains("-id:")) {
+                    val p = platform.asMusicPlatform()
+                    if (!p.supportIdPlay) {
+                        sender.sendMsg(Lang.COMMAND_PLAY_NOSUPPORTED_IDPLAY)
+                        return@execute
+                    }
+                }
                 val api = platform.asMusicApi()
                 submit(async = true) {
-                    val result = api.searchSingle(keyword)
+                    val result = api.searchSingle(argument)
                     logger.debug(result)
                     val url = api.getPlayUrl(result.id)
                     logger.debug(url)

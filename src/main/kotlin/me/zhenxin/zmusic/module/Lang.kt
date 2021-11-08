@@ -44,6 +44,8 @@ object Lang {
         get() = console().asLangText("command-play-searching").colored()
     val COMMAND_PLAY_SUCCESS
         get() = console().asLangText("command-play-success").colored()
+    val COMMAND_PLAY_NOSUPPORTED_IDPLAY
+        get() = console().asLangText("command-play-nosupported-idplay")
     val COMMAND_SEARCH_HEADER
         get() = console().asLangText("command-search-header").colored()
     val COMMAND_RELOAD_SUCCESS
