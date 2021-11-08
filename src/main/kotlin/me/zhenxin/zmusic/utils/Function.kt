@@ -85,7 +85,6 @@ fun loginNetease(): LoginResult {
             "md5_password" to password.digest("md5")
         )
     )
-    logger.debug(result)
 
     val info = JSONObject(result.data)
     val code = info.getInt("code")
