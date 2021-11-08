@@ -21,8 +21,6 @@ object Lang {
         get() = console().asLangText("platform-qq")
     val PLATFORM_BILI
         get() = console().asLangText("platform-bili")
-    val PLATFORM_KUGOU
-        get() = console().asLangText("platform-kugou")
     val PLATFORM_XIMA
         get() = console().asLangText("platform-xima")
 
@@ -45,7 +43,7 @@ object Lang {
     val COMMAND_PLAY_SUCCESS
         get() = console().asLangText("command-play-success").colored()
     val COMMAND_PLAY_NOSUPPORTED_IDPLAY
-        get() = console().asLangText("command-play-nosupported-idplay")
+        get() = console().asLangText("command-play-nosupported-idplay").colored()
     val COMMAND_SEARCH_HEADER
         get() = console().asLangText("command-search-header").colored()
     val COMMAND_RELOAD_SUCCESS

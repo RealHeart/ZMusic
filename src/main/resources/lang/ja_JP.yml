@@ -1,7 +1,6 @@
 platform-netease: 'NetEase Music'
 platform-qq: 'QQ Music'
 platform-bili: 'ビリビリ音楽'
-platform-kugou: 'Kugou Music'
 platform-xima: 'ヒマラヤ'
 
 init-loading: '&aロード中...'

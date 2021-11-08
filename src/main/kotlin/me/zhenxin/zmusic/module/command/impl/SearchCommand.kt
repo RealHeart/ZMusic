@@ -3,6 +3,7 @@ package me.zhenxin.zmusic.module.command.impl
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.taboolib.sendMsg
+import me.zhenxin.zmusic.type.asMusicPlatform
 import me.zhenxin.zmusic.type.getPlatformNames
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
@@ -38,15 +39,17 @@ val searchCommand = subCommand {
                 }
                 sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
                 val platform = context.argument(-1)
+                val supportId = platform.asMusicPlatform().supportIdPlay
                 val api = platform.asMusicApi()
                 submit(async = true) {
                     val result = api.searchPage(args, page, 10)
                     logger.debug(result)
                     sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
                     result.forEachIndexed { i, m ->
+                        val keyword = if (supportId) "-id:${m.id}" else "${m.name} ${m.singer}"
                         val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
-                                "<red>[<yellow><click:run_command:'/zm play $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
-                                "<red>[<yellow><click:run_command:'/zm music $platform -id:${m.id}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
+                                "<red>[<yellow><click:run_command:'/zm play $platform $keyword'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
+                                "<red>[<yellow><click:run_command:'/zm music $platform $keyword'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
                         sender.sendMsg(msg.colored())
                     }
                     val prev =

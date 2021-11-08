@@ -44,7 +44,7 @@ class XimaApi : MusicApi {
                 MusicInfo(
                     id,
                     name,
-                    this.name,
+                    "",
                     albumName,
                     albumImage,
                     duration

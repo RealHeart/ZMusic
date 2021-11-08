@@ -1,7 +1,6 @@
 platform-netease: '网易云音乐'
 platform-qq: 'QQ音乐'
 platform-bili: '哔哩哔哩音乐'
-platform-kugou: '酷狗音乐'
 platform-xima: '喜马拉雅'
 
 init-loading: '&a正在加载中...'
