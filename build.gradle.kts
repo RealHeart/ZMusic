@@ -11,11 +11,11 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0-21w42a"
 
-val taboolib = "6.0.3-23"
+val taboolib = "6.0.4-3"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
-val hutool = "5.7.14"
+val hutool = "5.7.16"
 val ktorm = "3.4.1"
 
 repositories {
