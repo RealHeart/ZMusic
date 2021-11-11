@@ -24,8 +24,8 @@
 
 本插件需要客户端安装配套Mod才能正常播放
 
-* 对于1.7.10-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.12.2-1.17.1的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
+* 对于1.8-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
+* 对于1.7.10, 1.12.2-1.17.1的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
 
 ## BungeeCord说明
 
@@ -346,17 +346,17 @@
 
 ### 播放时没有声音
 
-如果您使用的是**诸如 Mohist, Magma 等高版本的模组服核心**，那么很抱歉，我们暂不支持此类服务器。
+如果您使用的是`KCaldron`，那么很抱歉，我们暂不支持此服务器。
 
 但如果您非要想使用模组服的话，这里有两种解决方案：
 
 * 使用 [BungeeCord](https://www.spigotmc.org/wiki/bungeecord) 或者 [WaterFall](https://papermc.io/downloads#Waterfall)
   等群组服服务端。
-* 使用 Arclight, LoliServer 等支持本插件的模组服核心。
+* 使用 Arclight, LoliServer, Mohist, Uranium 等支持本插件的模组服核心。
 
-如果您使用的是 **Spigot, Paper, Yatopia 等原版插件服核心**，那么请检查您是否满足以下条件：
+如果您使用的是 **Spigot, Paper, Yatopia, Sugarcane 等原版插件服核心**，那么请检查您是否满足以下条件：
 
-* 您的客户端已经安装了 AllMusic(1.12或以上版本) 或者 AudioBuffer(1.12及以下版本)
+* 您的客户端已经安装了 AllMusic(1.7.10, 1.12或以上版本) 或者 AudioBuffer(1.12及以下版本)
 * 您的服务端已正常安装了 ZMusic 插件
 * 您在服务器插件文件夹安装的是 ZMusic 系列插件而不是 AllMusic 模组(模组需要在客户端进行安装)
 * 您的客户端是 Fabric 或者 Forge 而**不是**纯净版，并且已经安装了 AudioBuffer **或者** AllMusic 模组
@@ -399,7 +399,7 @@
 然后通过链接的形式反馈给我们。  
 帮助手册仍在进一步完善中！
 
-## 安装 AllMusic 之后，客户端无法启动
+## 安装 AllMusic 之后，客户端无法启动(Fabric)
 
 * 请检查您安装的模组版本是否对应，如您的客户端使用的是Fabric模组加载器，但是您下载的是 `[Forge-1.16.5]-AllMusic-x.x.x.jar`
 * 如果您下载的是Fabric版本模组，请检查您是否安装了`Fabric-API`前置模组
