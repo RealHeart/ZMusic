@@ -7,6 +7,7 @@
 ## 简介
 
 这是一个功能强大的音乐系统，支持以下功能。
+
 * 全服点歌
 * 单独播放
 * 歌词显示
@@ -20,12 +21,15 @@
 * 支持BungeeCord
 
 ## 客户端Mod说明
-本插件需要客户端安装配套Mod才能正常播放  
+
+本插件需要客户端安装配套Mod才能正常播放
+
 * 对于1.7.10-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.12.2-1.16.4的客户端 请安装[`AllMusic`](https://www.mcbbs.net/thread-972589-1-1.html) Mod
+* 对于1.12.2-1.17.1的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
 
 ## BungeeCord说明
-* BungeeCord 目前仅支持1.9-1.16的服务端
+
+* BungeeCord 目前仅支持1.9-1.17的服务端
 * BungeeCord 暂不支持经济系统
 * 对于子服显示Papi变量 进度提示等功能 需要安装ZMusic-Addon插件
 
@@ -34,6 +38,7 @@
 [点击前往哔哩哔哩查看演示视频](https://www.bilibili.com/video/av92156922)
 
 ## 反馈
+
 * 前往 [码云](https://gitee.com/realheart/ZMusic) 或 [Github](https://github.com/RealHeart/ZMusic) 提交 Issues
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
@@ -46,7 +51,7 @@
 `/zm play` 播放音乐  
 `/zm music` 全服点歌  
 `/zm search` 搜索音乐  
-`/zm playlist` 歌单系统  
+`/zm playlist` 歌单系统
 
 ## 播放
 
@@ -59,6 +64,7 @@
 [搜索源说明](#搜索源说明)
 
 ### 示例
+
 `/zm play qq 你的猫咪`
 
 ## 点歌
@@ -67,11 +73,12 @@
 
 ### 命令
 
-`/zm music [搜索源] [歌名]`  
+`/zm music [搜索源] [歌名]`
 
 [搜索源说明](#搜索源说明) [歌名ID化说明](#歌名ID化说明)
 
 ### 示例
+
 `/zm music qq 你的猫咪`
 
 ## 搜索
@@ -85,6 +92,7 @@
 [搜索源说明](#搜索源说明) [歌名ID化说明](#歌名ID化说明)
 
 ### 示例
+
 `/zm search qq 你的猫咪`
 
 ## 歌单
@@ -95,12 +103,14 @@
 
 `/zm playlist [平台] [子命令]`
 
-目前支持以下平台  
-* qq - QQ音乐  
+目前支持以下平台
+
+* qq - QQ音乐
 * netease/163 - 网易云音乐
 
 如果平台为type 则为设置歌单播放方式.  
 目前支持
+
 * normal - 顺序播放
 * loop - 循环播放
 * random - 随机播放
@@ -108,7 +118,8 @@
 示例:
 `/zm playlist type random`
 
-如果平台为global 则为全局歌单模式.  
+如果平台为global 则为全局歌单模式.
+
 * 子命令与普通模式相同
 
 示例:
@@ -117,26 +128,31 @@
 `子命令` 对应平台的子命令
 
 * `import` 通过歌单链接导入歌单
-  * 参数
-    * `歌单链接` 对应平台的歌单链接
+    * 参数
+        * `歌单链接` 对应平台的歌单链接
 * `list` 检索指定平台的歌单列表
 * `play` 通过歌单ID播放歌单(可用list获取)
-  * 参数
-    * `歌单ID` 指定平台的歌单ID
+    * 参数
+        * `歌单ID` 指定平台的歌单ID
 
 ### 示例
-导入:  
-* `/zm playlist qq import https://y.qq.com/n/yqq/playlist/1937967578.html`  
-* `/zm playlist 163 import https://music.163.com/#/playlist?id=363046232`  
 
-播放:  
+导入:
+
+* `/zm playlist qq import https://y.qq.com/n/yqq/playlist/1937967578.html`
+* `/zm playlist 163 import https://music.163.com/#/playlist?id=363046232`
+
+播放:
+
 * `/zm playlist qq play 1937967578`
-* `/zm playlist 163 play 363046232`  
+* `/zm playlist 163 play 363046232`
 
 ## 管理员
+
 管理员相关操作，全服强制播放，重载配置等
 
 ### 命令
+
 `/zm palyall [搜索源] [歌名]` 强制全服播放
 `/zm stopAll` 强制停止全服播放  
 `/zm reload` 重载配置文件
@@ -275,14 +291,14 @@
 `%zmusic_time_current%` 获取当前播放的音乐的时间  
 `%zmusic_time_max%` 获取当前播放的音乐的最大时间  
 `%zmusic_playing_platform%` - 获取当前播放的音乐平台  
-`%zmusic_playing_source%` - 获取当前播放的音乐来源  
+`%zmusic_playing_source%` - 获取当前播放的音乐来源
 
 # 前置插件
 
 ## 全版本使用
- 
+
 [```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
-[```Vault```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装   
+[```Vault```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装
 
 ## 1.5,1.6版本使用
 
@@ -292,65 +308,81 @@
 
 ~~[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装~~  
 ~~[```BossBarAPI```](https://www.mcbbs.net/thread-729531-1-1.html) [可选] 如需使用BossBar显示歌词 请安装~~  
-~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~  
+~~[```ActionBarAPI```](https://www.spigotmc.org/resources/actionbarapi-1-8-1-14-2.1315/) [可选] 如需使用ActionBar显示歌词 请安装~~
 
 # 搜索源说明
+
 `搜索源` 为你要搜索音乐的平台  
-目前支持以下平台  
-* qq - QQ音乐  
-* netease/163 - 网易云音乐  
-* kugou - 酷狗音乐  
-* kuwo - 酷我音乐  
+目前支持以下平台
+
+* qq - QQ音乐
+* netease/163 - 网易云音乐
+* kugou - 酷狗音乐
+* kuwo - 酷我音乐
 * bilibili - 哔哩哔哩音乐
 
 # 歌名ID化说明
+
 将歌名替换为 `-id:音乐ID` 即可  
 目前支持 QQ 网易云 哔哩哔哩音乐  
 示例: `/zm play bilibili -id:374305`
 
 
 [java]: https://badgen.net/badge/Java/1.8/green
+
 [kotlin]: https://badgen.net/badge/Kotlin/1.4.20/green
+
 [release]: https://badgen.net/github/release/RealHeart/ZMusic
+
 [build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
+
 [build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
 
 <span id="faq"></span>
+
 # 常见问题
 
 ## 可能会遇到的问题
 
 ### 播放时没有声音
-如果您使用的是**诸如 Mohist, Arclight, Magma 等高版本的模组服核心**，那么很抱歉，我们暂不支持此类服务器。
 
-但如果您非要想使用模组服的话，我们强烈建议您使用 [BungeeCord](https://www.spigotmc.org/wiki/bungeecord) 或者 [WaterFall](https://papermc.io/downloads#Waterfall) 等群组服服务端。
+如果您使用的是**诸如 Mohist, Magma 等高版本的模组服核心**，那么很抱歉，我们暂不支持此类服务器。
 
-如果您是在面板服启动的模组服核心，请联系您的服务商购买一个可以用来跑群组服的服务器。
+但如果您非要想使用模组服的话，这里有两种解决方案：
+
+* 使用 [BungeeCord](https://www.spigotmc.org/wiki/bungeecord) 或者 [WaterFall](https://papermc.io/downloads#Waterfall)
+  等群组服服务端。
+* 使用 Arclight, LoliServer 等支持本插件的模组服核心。
 
 如果您使用的是 **Spigot, Paper, Yatopia 等原版插件服核心**，那么请检查您是否满足以下条件：
+
 * 您的客户端已经安装了 AllMusic(1.12或以上版本) 或者 AudioBuffer(1.12及以下版本)
 * 您的服务端已正常安装了 ZMusic 插件
 * 您在服务器插件文件夹安装的是 ZMusic 系列插件而不是 AllMusic 模组(模组需要在客户端进行安装)
 * 您的客户端是 Fabric 或者 Forge 而**不是**纯净版，并且已经安装了 AudioBuffer **或者** AllMusic 模组
-* 您的网络环境良好  
+* 您的网络环境良好
 
-如果你未满足以上条件中的其中一个的话，请进行进一步调整。  
+如果你未满足以上条件中的其中一个的话，请进行进一步调整。
 
-当然，如果您全部满足以上条件的话，还是无法播放音乐，我们建议您在未配置外置API的情况下使用**网易云音乐**进行播放。  
+当然，如果您全部满足以上条件的话，还是无法播放音乐，我们建议您在未配置外置API的情况下使用**网易云音乐**进行播放。
 
-实际上，我们建议您使用自己拥有的服务器开服，如果您使用的是**联机侠等第三方服务平台**的话，可能会因为网络环境而不支持 ZMusic 长时间联网
+实际上，我们建议您使用自己拥有的服务器开服，如果您使用的是**联云测等第三方服务平台**的话，可能会因为网络环境而不支持 ZMusic 长时间联网
 
 ### 服务器载入成功后，使用`/zm`相关指令时，会提示“错误：请等待插件载入完毕”
-如果您遇到本问题的话，请升级 ZMusic 插件到 `2.0.5` 版本，您可以在群文件下载到最新版本。
+
+如果您遇到本问题的话，请升级 ZMusic 插件到最新版本即可解决问题。
 
 ### 插件无法载入，提示“请卸载AllMusic/AudioBuffer插件”
+
 请在服务器插件文件夹删除AllMusic/AudioBuffer插件即可。  
 在新版本的 ZMusic 中，我们弃用了 BossBarAPI, ActionBarAPI 依赖插件与 AudioBuffer 前置插件，为了防止服务器模组通讯频道冲突，我们不得不采取本措施。
 
-### ZMusic 还会更新吗
-会的，我们目前正在对插件进行重写，敬请期待~~（真心打彩六肝原神咕咕时间除外）~~
+### ZMusic 什么时候更新？
+
+请加入测试群了解最新开发进度（群号951532728）
 
 ## 可能会遇到的后台异常
+
 ### 登录网易云音乐时，出现`java.net.UnknownHostException` 异常
 
 您的配置文件在配置外置API的时候域名配置错误，请检查域名是否有效。   
@@ -366,3 +398,11 @@
 您可以加入我们的交流群，如果有报错信息的话，请上传后台报错信息至[Ubuntu PasteBin](https://paste.ubuntu.com/)  
 然后通过链接的形式反馈给我们。  
 帮助手册仍在进一步完善中！
+
+## 安装 AllMusic 之后，客户端无法启动
+
+* 请检查您安装的模组版本是否对应，如您的客户端使用的是Fabric模组加载器，但是您下载的是 `[Forge-1.16.5]-AllMusic-x.x.x.jar`
+* 如果您下载的是Fabric版本模组，请检查您是否安装了`Fabric-API`前置模组
+* 本模组与`CardBoard`不兼容
+
+~~(所以我一个ZMusic使用文档为什么要回答AllMusic的问题)~~
