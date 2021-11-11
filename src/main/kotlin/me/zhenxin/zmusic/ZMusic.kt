@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic
 
-import me.zhenxin.zmusic.database.database
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.Logger
 import me.zhenxin.zmusic.module.config
@@ -8,11 +7,13 @@ import me.zhenxin.zmusic.module.taboolib.registerChannel
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale
-import org.ktorm.database.Database
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
-import taboolib.common.platform.function.*
+import taboolib.common.platform.function.console
+import taboolib.common.platform.function.pluginVersion
+import taboolib.common.platform.function.runningPlatform
+import taboolib.common.platform.function.submit
 import taboolib.module.metrics.Metrics
 import taboolib.module.nms.MinecraftVersion
 
@@ -62,11 +63,6 @@ object ZMusic {
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
-
-        // 数据库测试
-        database = Database.connect(
-            url = "jdbc:sqlite:${getDataFolder().absolutePath}/zmusic.db"
-        )
 
         Lang.INIT_LOADED.forEach {
             logger.info(

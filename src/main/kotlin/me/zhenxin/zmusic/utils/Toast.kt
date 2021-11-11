@@ -42,7 +42,9 @@ fun ProxyPlayer.sendToast(msg: String) {
                 )
             )
         }
-        val icon = list[(list.indices).random()]
-        player.sendToast(icon, msg)
+        if (list.isNotEmpty()) {
+            val icon = list[(list.indices).random()]
+            player.sendToast(icon, msg)
+        }
     }
 }

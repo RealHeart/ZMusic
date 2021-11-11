@@ -13,8 +13,6 @@ import taboolib.module.configuration.SecuredFile
 @Suppress("unused")
 val config
     get() = Loader.Config
-val database
-    get() = Loader.Database
 
 object Loader {
     object Config {
@@ -134,10 +132,5 @@ object Loader {
         fun reload() {
             config.reload()
         }
-    }
-
-    object Database {
-        @taboolib.module.configuration.Config(value = "database.yml", migrate = true)
-        private lateinit var database: SecuredFile
     }
 }

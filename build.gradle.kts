@@ -48,10 +48,7 @@ dependencies {
     compileOnly("cn.hutool:hutool-http:$hutool")
     compileOnly("cn.hutool:hutool-crypto:$hutool")
 
-    // ktorm
-    compileOnly("org.ktorm:ktorm-core:$ktorm")
-    compileOnly("org.ktorm:ktorm-support-sqlite:$ktorm")
-    compileOnly("org.ktorm:ktorm-support-mysql:$ktorm")
+    compileOnly("io.netty:netty-buffer:4.1.70.Final")
 
     // Kotlin
     compileOnly(kotlin("stdlib"))
