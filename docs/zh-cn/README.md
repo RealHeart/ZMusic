@@ -1,6 +1,13 @@
 # ZMusic
 
-![][java] ![][kotlin] [![][release]](https://gitee.com/RealHeart/ZMusic/releases) [![][build-status]][build-link]
+![][java]
+![][kotlin]
+![][license]
+![][release]
+![][downloads]
+![][players]
+![][servers]
+![][tested-versions]
 
 欢迎查看 ZMusic 帮助文档，这里有所有您需要的帮助，如果您需要排查无法播放声音等问题，请点[此处](#faq)。
 
@@ -328,16 +335,6 @@
 示例: `/zm play bilibili -id:374305`
 
 
-[java]: https://badgen.net/badge/Java/1.8/green
-
-[kotlin]: https://badgen.net/badge/Kotlin/1.4.20/green
-
-[release]: https://badgen.net/github/release/RealHeart/ZMusic
-
-[build-status]: https://badgen.net/jenkins/last-build/ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
-
-[build-link]: https://ci.zhenxin.xyz/job/Minecraft/job/ZMusic/
-
 <span id="faq"></span>
 
 # 常见问题
@@ -417,3 +414,20 @@
 * 除 `聊天信息` 外, 其他全部歌词显示均无效(除Uranium)
 * 使用 `Uranium` 配套模组, 可实现Title/ActonBar显示
 * 我们不接受任何 `1.7.10` 版本的问题反馈
+
+
+[java]: https://img.shields.io/badge/java-1.8-blue
+
+[kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
+
+[license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
+
+[players]: https://img.shields.io/bstats/players/7291
+
+[servers]: https://img.shields.io/bstats/servers/7291
+
+[tested-versions]: https://img.shields.io/spiget/tested-versions/83027
+
+[release]: https://img.shields.io/github/v/release/RealHeart/ZMusic
+
+[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?color=blue
