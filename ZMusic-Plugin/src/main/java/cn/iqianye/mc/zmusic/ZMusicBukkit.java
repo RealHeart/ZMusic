@@ -60,8 +60,12 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusic.log.sendNormalMessage("正在注册Mod通信频道...");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "allmusic:channel");
         ZMusic.log.sendNormalMessage("-- §r[§eAllMusic§r]§a 频道注册完毕.");
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
-        ZMusic.log.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
+        if (!version.isHigherThan("1.12")) {
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
+            ZMusic.log.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
+        } else {
+            ZMusic.log.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.12，频道注册取消.");
+        }
         //注册事件监听器
         getServer().getPluginManager().registerEvents(new EventBukkit(), this);
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
