@@ -332,7 +332,7 @@ public class AdvancementAPI {
         if (Bukkit.getAdvancement(key) != null)
             return;
         net.minecraft.server.v1_16_R3.MinecraftKey minecraftKey = org.bukkit.craftbukkit.v1_16_R3.util.CraftNamespacedKey.toMinecraft(key);
-        JsonElement jsonElement = (JsonElement)net.minecraft.server.v1_16_R3.AdvancementDataWorld.DESERIALIZER.fromJson(json, JsonElement.class);
+        JsonElement jsonElement = (JsonElement) net.minecraft.server.v1_16_R3.AdvancementDataWorld.DESERIALIZER.fromJson(json, JsonElement.class);
         JsonObject jsonObject = net.minecraft.server.v1_16_R3.ChatDeserializer.m(jsonElement, "advancement");
         net.minecraft.server.v1_16_R3.Advancement.SerializedAdvancement serializedAdvancement = net.minecraft.server.v1_16_R3.Advancement.SerializedAdvancement.a(jsonObject, new net.minecraft.server.v1_16_R3.LootDeserializationContext(minecraftKey, net.minecraft.server.v1_16_R3.MinecraftServer.getServer().getLootPredicateManager()));
         if (serializedAdvancement != null)
@@ -342,15 +342,15 @@ public class AdvancementAPI {
     public void removeAdvancement_1_16_R3(Advancement advancement) {
         Bukkit.getUnsafe().removeAdvancement(advancement.getKey());
         try {
-            net.minecraft.server.v1_16_R3.DedicatedServer dedicatedServer = ((org.bukkit.craftbukkit.v1_16_R3.CraftServer)Bukkit.getServer()).getServer();
+            net.minecraft.server.v1_16_R3.DedicatedServer dedicatedServer = ((org.bukkit.craftbukkit.v1_16_R3.CraftServer) Bukkit.getServer()).getServer();
             net.minecraft.server.v1_16_R3.Advancements advancements = (dedicatedServer.getAdvancementData()).REGISTRY;
             for (Map.Entry entry : advancements.advancements.entrySet()) {
-                if (((net.minecraft.server.v1_16_R3.Advancement)entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
+                if (((net.minecraft.server.v1_16_R3.Advancement) entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
                     advancements.advancements.remove(entry.getKey());
                     break;
                 }
             }
-        } catch (Exception|Error exception) {
+        } catch (Exception | Error exception) {
             exception.printStackTrace();
         }
     }
@@ -359,7 +359,7 @@ public class AdvancementAPI {
         if (Bukkit.getAdvancement(key) != null)
             return;
         MinecraftKey minecraftKey = CraftNamespacedKey.toMinecraft(key);
-        JsonElement jsonElement = (JsonElement)net.minecraft.server.AdvancementDataWorld.b.fromJson(json, JsonElement.class);
+        JsonElement jsonElement = (JsonElement) net.minecraft.server.AdvancementDataWorld.b.fromJson(json, JsonElement.class);
         JsonObject jsonObject = ChatDeserializer.m(jsonElement, "advancement");
         net.minecraft.advancements.Advancement.SerializedAdvancement serializedAdvancement = net.minecraft.advancements.Advancement.SerializedAdvancement.a(jsonObject, new LootDeserializationContext(minecraftKey, MinecraftServer.getServer().getLootPredicateManager()));
         if (serializedAdvancement != null)
@@ -369,15 +369,15 @@ public class AdvancementAPI {
     public void removeAdvancement_1_17_R1(Advancement advancement) {
         Bukkit.getUnsafe().removeAdvancement(advancement.getKey());
         try {
-            DedicatedServer dedicatedServer = ((CraftServer)Bukkit.getServer()).getServer();
+            DedicatedServer dedicatedServer = ((CraftServer) Bukkit.getServer()).getServer();
             Advancements advancements = (dedicatedServer.getAdvancementData()).c;
             for (Map.Entry entry : advancements.b.entrySet()) {
-                if (((net.minecraft.advancements.Advancement)entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
+                if (((net.minecraft.advancements.Advancement) entry.getValue()).getName().getKey().equals(advancement.getKey().getKey().toLowerCase())) {
                     advancements.b.remove(entry.getKey());
                     break;
                 }
             }
-        } catch (Exception|Error exception) {
+        } catch (Exception | Error exception) {
             exception.printStackTrace();
         }
     }

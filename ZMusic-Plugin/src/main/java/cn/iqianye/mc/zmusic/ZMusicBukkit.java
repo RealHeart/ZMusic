@@ -1,15 +1,15 @@
 package cn.iqianye.mc.zmusic;
 
+import cn.iqianye.mc.zmusic.addon.PApiHook;
 import cn.iqianye.mc.zmusic.api.Version;
 import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.event.EventBukkit;
-import cn.iqianye.mc.zmusic.addon.PApiHook;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
 import cn.iqianye.mc.zmusic.utils.message.MessageBukkit;
 import cn.iqianye.mc.zmusic.utils.mod.SendBukkit;
-import cn.iqianye.mc.zmusic.utils.music.MusicBukkit;
+import cn.iqianye.mc.zmusic.utils.music.Music;
 import cn.iqianye.mc.zmusic.utils.player.PlayerBukkit;
 import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBukkit;
 import org.bukkit.Bukkit;
@@ -32,7 +32,7 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusic.isBC = false;
         ZMusic.runTask = new RunTaskBukkit();
         ZMusic.message = new MessageBukkit();
-        ZMusic.music = new MusicBukkit();
+        ZMusic.music = new Music();
         ZMusic.send = new SendBukkit();
         ZMusic.player = new PlayerBukkit();
         ZMusic.dataFolder = getDataFolder();
@@ -43,7 +43,7 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusic.thisVer = getDescription().getVersion();
         Version version = new Version();
         //注册bStats
-        MetricsBukkit bStats = new MetricsBukkit(this, 7291);
+        new MetricsBukkit(this, 7291);
         //注册命令对应的执行器
         getCommand("zm").setExecutor(new CmdBukkit());
         //注册命令对应的自动补全器
@@ -60,12 +60,8 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusic.log.sendNormalMessage("正在注册Mod通信频道...");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "allmusic:channel");
         ZMusic.log.sendNormalMessage("-- §r[§eAllMusic§r]§a 频道注册完毕.");
-        if (!version.isHigherThan("1.12")) {
-            getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
-            ZMusic.log.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
-        } else {
-            ZMusic.log.sendErrorMessage("-- §r[§eAudioBuffer§r]§c 服务端大于1.12，频道注册取消.");
-        }
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "AudioBuffer");
+        ZMusic.log.sendNormalMessage("-- §r[§eAudioBuffer§r]§a 频道注册完毕.");
         //注册事件监听器
         getServer().getPluginManager().registerEvents(new EventBukkit(), this);
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {

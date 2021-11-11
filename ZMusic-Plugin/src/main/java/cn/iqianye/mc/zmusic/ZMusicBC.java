@@ -7,12 +7,11 @@ import cn.iqianye.mc.zmusic.event.EventBC;
 import cn.iqianye.mc.zmusic.utils.log.LogBC;
 import cn.iqianye.mc.zmusic.utils.message.MessageBC;
 import cn.iqianye.mc.zmusic.utils.mod.SendBC;
-import cn.iqianye.mc.zmusic.utils.music.MusicBC;
+import cn.iqianye.mc.zmusic.utils.music.Music;
 import cn.iqianye.mc.zmusic.utils.player.PlayerBC;
 import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBC;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.io.File;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
@@ -28,7 +27,7 @@ public class ZMusicBC extends Plugin {
         ZMusic.isBC = true;
         ZMusic.runTask = new RunTaskBC();
         ZMusic.message = new MessageBC();
-        ZMusic.music = new MusicBC();
+        ZMusic.music = new Music();
         ZMusic.send = new SendBC();
         ZMusic.player = new PlayerBC();
         ZMusic.dataFolder = getDataFolder();

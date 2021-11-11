@@ -1,6 +1,5 @@
 package cn.iqianye.mc.zmusic.music.searchSource;
 
-import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.utils.NetUtils;
 import com.google.gson.*;

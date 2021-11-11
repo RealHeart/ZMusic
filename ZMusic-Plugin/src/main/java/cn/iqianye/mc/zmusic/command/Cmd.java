@@ -32,7 +32,7 @@ public class Cmd {
                 if (ZMusic.player.isPlayer(sender)) {
                     isUse = ZMusic.player.hasPermission(sender, "zmusic.use");
                     isAdmin = ZMusic.player.hasPermission(sender, "zmusic.admin");
-                    isPlayAll =  ZMusic.player.hasPermission(sender, "zmusic.playall");
+                    isPlayAll = ZMusic.player.hasPermission(sender, "zmusic.playall");
                 } else {
                     isUse = true;
                     isAdmin = true;
