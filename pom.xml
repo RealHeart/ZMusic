@@ -38,6 +38,14 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>ptms-repo</id>
+            <url>https://repo2s.ptms.ink/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -54,57 +62,21 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_8_R3</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_12_R1</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_13_R2</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_14_R1</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_15_R1</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_16_R1</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit.nms</groupId>
-            <artifactId>v1_16_R2</artifactId>
-            <version>1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.zhenxin.mc</groupId>
-            <artifactId>nms-1.16-R3</artifactId>
-            <version>1.0</version>
+            <groupId>ink.ptms</groupId>
+            <artifactId>nms-all</artifactId>
+            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>1.17-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
