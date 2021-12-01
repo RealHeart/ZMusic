@@ -48,7 +48,7 @@
 
 * 前往 [码云](https://gitee.com/realheart/ZMusic) 或 [Github](https://github.com/RealHeart/ZMusic) 提交 Issues
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
-* 加入QQ频道：[千叶集团](https://api.zplu.cc/qqguild-schedule)
+* 加入QQ频道：[千叶集团](https://api.zplu.cc/qqguild)
 
 # 命令
 

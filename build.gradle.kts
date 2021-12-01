@@ -11,7 +11,7 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0-21w45a"
 
-val taboolib = "6.0.4-7"
+val taboolib = "6.0.5-6"
 val minimessage = "4.2.0-SNAPSHOT"
 val bungeecord = "1.17-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
@@ -71,7 +71,7 @@ taboolib {
         }
     }
     // 公共
-    install("common")
+    install("common", "common-5")
     // 平台
     install(
         "platform-bukkit",
