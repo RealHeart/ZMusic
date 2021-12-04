@@ -9,14 +9,13 @@ plugins {
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w45a"
+version = "3.0-21w48a"
 
-val taboolib = "6.0.5-6"
+val taboolib = "6.0.6-13"
 val minimessage = "4.2.0-SNAPSHOT"
-val bungeecord = "1.17-R0.1-SNAPSHOT"
+val bungeecord = "1.18-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
 val hutool = "5.7.16"
-val ktorm = "3.4.1"
 
 repositories {
     // 阿里云
