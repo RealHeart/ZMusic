@@ -39,8 +39,8 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>ptms-repo</id>
-            <url>https://repo2s.ptms.ink/repository/maven-releases/</url>
+            <id>taboolib-repo</id>
+            <url>https://repo.tabooproject.org/storages/public/releases</url>
         </repository>
         <repository>
             <id>dmulloy2-repo</id>
@@ -71,12 +71,6 @@
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>1.17-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
