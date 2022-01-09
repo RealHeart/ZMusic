@@ -40,7 +40,7 @@
         </repository>
         <repository>
             <id>taboolib-repo</id>
-            <url>https://repo.tabooproject.org/storages/public/releases</url>
+            <url>https://repo.tabooproject.org/repository/releases</url>
         </repository>
         <repository>
             <id>dmulloy2-repo</id>
