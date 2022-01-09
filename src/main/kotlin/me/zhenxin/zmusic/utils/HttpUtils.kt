@@ -1,7 +1,10 @@
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.http.HttpRequest
-import cn.hutool.http.HttpUtil
+import com.alibaba.fastjson.JSON.toJSONString
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 /**
@@ -10,6 +13,9 @@ import cn.hutool.http.HttpUtil
  * @since 2021/1/24 14:58
  * @email qgzhenxin@qq.com
  */
+
+private val client = OkHttpClient().newBuilder().build()
+private val mediaType = "application/json; charset=utf-8".toMediaType()
 
 /**
  * HTTP请求返回
@@ -28,13 +34,16 @@ data class HttpResult(
  * @return 字符串
  */
 fun httpGet(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): HttpResult {
-    val params = HttpUtil.toParams(paramsMap)
-    val req = HttpRequest.get("$url$params")
-    val res = req.execute()
-    return HttpResult(
-        res.status,
-        res.body()
-    )
+    val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
+    var fullUrl = url
+    if (params.isNotEmpty()) {
+        fullUrl += "?$params"
+    }
+    val req = Request.Builder()
+        .url(fullUrl)
+        .get()
+        .build()
+    return call(req)
 }
 
 /**
@@ -43,11 +52,23 @@ fun httpGet(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): 
  * @param paramsMap 参数
  */
 fun httpPost(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): HttpResult {
-    val req = HttpRequest.post(url)
-        .form(paramsMap)
-    val res = req.execute()
-    return HttpResult(
-        res.status,
-        res.body()
-    )
+    val body = toJSONString(paramsMap).toRequestBody(mediaType)
+    val req = Request.Builder()
+        .url(url)
+        .post(body)
+        .build()
+    return call(req)
+}
+
+private fun call(request: Request): HttpResult {
+    val res = client.newCall(request).execute()
+    if (res.isSuccessful) {
+        if (res.body != null) {
+            return HttpResult(
+                res.code,
+                res.body!!.string()
+            )
+        }
+    }
+    return HttpResult(400, "{}")
 }

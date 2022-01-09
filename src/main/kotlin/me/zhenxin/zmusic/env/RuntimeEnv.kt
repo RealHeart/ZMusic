@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package me.zhenxin.zmusic.env
 
 import taboolib.common.env.RuntimeDependencies
@@ -13,25 +15,26 @@ import taboolib.common.env.RuntimeDependency
 @Suppress("unused", "SpellCheckingInspection")
 @RuntimeDependencies(
     RuntimeDependency(
-        value = "!cn.hutool:hutool-json:${Versions.hutool}",
-        test = "!cn.hutool.json.JSONUtil"
+        value = "!com.squareup.okhttp3:okhttp:$okhttp",
+        test = "!okhttp3.OkHttpClient",
+        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
     ),
     RuntimeDependency(
-        value = "!cn.hutool:hutool-http:${Versions.hutool}",
-        test = "!cn.hutool.http.HttpUtil"
+        value = "!com.alibaba:fastjson:$fastjson",
+        test = "!com.alibaba.fastjson.JSON"
     ),
     RuntimeDependency(
-        value = "!cn.hutool:hutool-crypto:${Versions.hutool}",
-        test = "!cn.hutool.crypto.SecureUtil"
-    ),
-    RuntimeDependency(
-        value = "!me.zhenxin:adventure-text-minimessage:4.2.0-SNAPSHOT",
+        value = "!me.zhenxin:adventure-text-minimessage:$minimessage",
         test = "!me.zhenxin.adventure.text.minimessage.MiniMessage",
         repository = "https://gitee.com/RealHeart/Maven/raw/master"
     ),
     RuntimeDependency(
-        value = "!io.netty:netty-buffer:4.1.70.Final",
+        value = "!io.netty:netty-buffer:4.1.72.Final",
         test = "!io.netty.buffer.ByteBuf"
     )
 )
 class RuntimeEnv
+
+private const val minimessage = "4.2.0-SNAPSHOT"
+private const val okhttp = "4.9.3"
+private const val fastjson = "1.2.79"

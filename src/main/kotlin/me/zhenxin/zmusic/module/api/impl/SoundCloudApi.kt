@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.api.impl;
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
@@ -34,15 +34,15 @@ class SoundCloudApi : MusicApi {
             }&limit=$count&offset=$offset&client_id=$clientId"
         )
         logger.debug(result)
-        val data = JSONObject(result.data)
+        val data = JSONObject.parseObject(result.data as String)
         val songs = data.getJSONArray("collection")
         songs.forEach {
             it as JSONObject
-            val id = it.getStr("permalink_url")
-            val name = it.getStr("title")
-            val singer = it.getJSONObject("user").getStr("username")
-            val albumName = it.getStr("tag_list")
-            var albumImage = it.getStr("artwork_url")
+            val id = it.getString("permalink_url")
+            val name = it.getString("title")
+            val singer = it.getJSONObject("user").getString("username")
+            val albumName = it.getString("tag_list")
+            var albumImage = it.getString("artwork_url")
             val duration = it.getLong("duration")
 
             if (albumImage == null) albumImage = ""
@@ -70,11 +70,11 @@ class SoundCloudApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = httpGet("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
-        val json = JSONObject(result.data)
+        val json = JSONObject.parseObject(result.data as String)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
-        val urlLink = (data[1] as JSONObject).getStr("url")
+        val urlLink = (data[1] as JSONObject).getString("url")
         val urlResult = httpGet("$urlLink?client_id=$clientId")
-        return JSONObject(urlResult.data).getStr("url")
+        return JSONObject.parseObject(urlResult.data as String).getString("url")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {

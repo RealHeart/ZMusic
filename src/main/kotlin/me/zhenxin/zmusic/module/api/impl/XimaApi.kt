@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.api.impl
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
@@ -27,17 +27,17 @@ class XimaApi : MusicApi {
                     URLEncoder.encode(keyword, "UTF-8")
                 }&core=track&page=$page&rows=$count"
             )
-        val data = JSONObject(search.data)
+        val data = JSONObject.parseObject(search.data as String)
         val result = data.getJSONObject("data")
         val track = result.getJSONObject("track")
         val songs = track.getJSONArray("docs")
         songs.forEach {
             it as JSONObject
 
-            val id = it.getStr("id")
-            val name = it.getStr("title")
-            val albumName = it.getStr("albumTitle")
-            val albumImage = it.getStr("albumCoverPath")
+            val id = it.getString("id")
+            val name = it.getString("title")
+            val albumName = it.getString("albumTitle")
+            val albumImage = it.getString("albumCoverPath")
             val duration = it.getLong("duration") * 1000
 
             musics.add(
@@ -65,11 +65,11 @@ class XimaApi : MusicApi {
     override fun getPlayUrl(id: String): String {
         val result =
             httpGet("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
-        val json = JSONObject(result.data)
+        val json = JSONObject.parseObject(result.data as String)
         val data = json.getJSONObject("data")
         val page = data.getJSONObject("playpage")
         val track = page.getJSONObject("trackInfo")
-        return track.getStr("playUrl64")
+        return track.getString("playUrl64")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {

@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.utils
 
+import me.zhenxin.zmusic.logger
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
@@ -26,7 +27,7 @@ fun ProxyPlayer.sendToast(msg: String) {
     if (runningPlatform == Platform.BUKKIT) {
         val player = cast<Player>()
         val list = mutableListOf<Material>()
-        if (MinecraftVersion.majorLegacy > 11200) {
+        if (MinecraftVersion.majorLegacy in 11201..11699) {
             list.addAll(
                 listOf(
                     Material.MUSIC_DISC_11,
@@ -41,10 +42,10 @@ fun ProxyPlayer.sendToast(msg: String) {
                     Material.MUSIC_DISC_WAIT,
                 )
             )
-        }
-        if (list.isNotEmpty()) {
             val icon = list[(list.indices).random()]
             player.sendToast(icon, msg)
+        }else{
+            logger.debug("当前版本: ${MinecraftVersion.runningVersion}(${MinecraftVersion.majorLegacy}) 不支持Toast")
         }
     }
 }

@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.logger
@@ -65,8 +65,8 @@ fun setLocale() {
 fun isChina(): Boolean {
     val result = httpGet("http://ip-api.com/json/")
     logger.debug(result)
-    val data = JSONObject(result.data)
-    return data.getStr("country") == "China"
+    val data = JSONObject.parseObject(result.data as String)
+    return data.getString("country") == "China"
 }
 
 /**
@@ -86,14 +86,14 @@ fun loginNetease(): LoginResult {
         )
     )
 
-    val info = JSONObject(result.data)
-    val code = info.getInt("code")
+    val info = JSONObject.parseObject(result.data as String)
+    val code = info.getIntValue("code")
     return if (code != 200) {
-        val msg = info.getStr("msg")
+        val msg = info.getString("msg")
         LoginResult(code, "&c$msg")
     } else {
         val profile = info.getJSONObject("profile")
-        val nickname = profile.getStr("nickname")
+        val nickname = profile.getString("nickname")
         LoginResult(200, "&a登录成功, 欢迎您 &b$nickname")
     }
 }

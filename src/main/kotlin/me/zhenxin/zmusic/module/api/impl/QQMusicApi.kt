@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.api.impl
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson.JSONObject
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
@@ -29,12 +29,12 @@ class QQMusicApi : MusicApi {
                     URLEncoder.encode(keyword, "UTF-8")
                 }&pageSize=$count&pageNo=$page"
             )
-        val data = JSONObject(search.data)
+        val data = JSONObject.parseObject(search.data as String)
         val result = data.getJSONObject("data")
         val songs = result.getJSONArray("list")
         songs.forEach {
             it as JSONObject
-            val id = it.getStr("songmid")
+            val id = it.getString("songmid")
             musics.add(getMusicInfo(id))
         }
         return musics
@@ -44,14 +44,14 @@ class QQMusicApi : MusicApi {
         val musics = mutableListOf<MusicInfo>()
         val search =
             httpGet("$api/songlist?id=$id")
-        val data = JSONObject(search.data)
+        val data = JSONObject.parseObject(search.data as String)
         val result = data.getJSONObject("data")
-        val listId = data.getStr("disstid")
-        val listName = data.getStr("dissname")
+        val listId = data.getString("disstid")
+        val listName = data.getString("dissname")
         val songs = result.getJSONArray("songlist")
         songs.forEach {
             it as JSONObject
-            val songId = it.getStr("songmid")
+            val songId = it.getString("songmid")
             musics.add(getMusicInfo(songId))
 
         }
@@ -64,20 +64,20 @@ class QQMusicApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = httpGet("$api/song/url?id=$id")
-        val json = JSONObject(result.data)
-        return json.getStr("data")
+        val json = JSONObject.parseObject(result.data as String)
+        return json.getString("data")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
         val songInfo = httpGet("$api/song?songmid=${id}")
-        val info = JSONObject(songInfo.data)
+        val info = JSONObject.parseObject(songInfo.data as String)
         val track = info.getJSONObject("data").getJSONObject("track_info")
-        val name = track.getStr("name")
+        val name = track.getString("name")
         val singers = track.getJSONArray("singer")
         val singer = mergeSingers(singers)
         val album = track.getJSONObject("album")
-        val albumName = album.getStr("name")
-        val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
+        val albumName = album.getString("name")
+        val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getString("pmid")}.jpg"
         val duration = track.getLong("interval") * 1000
 
 
