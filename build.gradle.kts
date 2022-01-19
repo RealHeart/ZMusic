@@ -12,7 +12,7 @@ group = "me.zhenxin.zmusic"
 version = "3.0-22w03a"
 
 val taboolib = "6.0.7-19"
-val minimessage = "4.2.0-SNAPSHOT"
+val minimessage = "4.10.0-SNAPSHOT"
 val bungeecord = "1.18-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
 val okhttp = "4.9.3"

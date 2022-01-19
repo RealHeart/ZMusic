@@ -35,6 +35,6 @@ import taboolib.common.env.RuntimeDependency
 )
 class RuntimeEnv
 
-private const val minimessage = "4.2.0-SNAPSHOT"
+private const val minimessage = "4.10.0-SNAPSHOT"
 private const val okhttp = "4.9.3"
 private const val fastjson = "1.2.79"
