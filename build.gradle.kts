@@ -46,7 +46,6 @@ dependencies {
     compileOnly("com.alibaba:fastjson:$fastjson")
 
     compileOnly("io.netty:netty-buffer:4.1.72.Final")
-
     // Kotlin
     compileOnly(kotlin("stdlib"))
 }

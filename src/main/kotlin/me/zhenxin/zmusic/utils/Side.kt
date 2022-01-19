@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.utils
 
-import me.zhenxin.zmusic.module.taboolib.sendPluginMessage
+import me.zhenxin.zmusic.logger
+import me.zhenxin.zmusic.taboolib.extend.sendPluginMessage
 import taboolib.common.platform.ProxyPlayer
 
 /**
@@ -16,6 +17,7 @@ import taboolib.common.platform.ProxyPlayer
  * @param url 播放链接
  */
 fun ProxyPlayer.playMusic(url: String) {
+    logger.debug("播放音乐: $url")
     sendPluginMessage("[Play]$url")
 }
 

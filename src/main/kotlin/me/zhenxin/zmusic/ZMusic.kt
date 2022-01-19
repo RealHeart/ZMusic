@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic
 
-import me.zhenxin.zmusic.module.Lang
-import me.zhenxin.zmusic.module.Logger
-import me.zhenxin.zmusic.module.config
-import me.zhenxin.zmusic.module.taboolib.registerChannel
+import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.taboolib.extend.registerChannel
+import me.zhenxin.zmusic.utils.Logger
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale

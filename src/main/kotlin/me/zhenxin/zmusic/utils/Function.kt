@@ -3,11 +3,11 @@ package me.zhenxin.zmusic.utils
 import com.alibaba.fastjson.JSONObject
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
+import me.zhenxin.zmusic.api.MusicApi
+import me.zhenxin.zmusic.api.impl.*
+import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.module.api.MusicApi
-import me.zhenxin.zmusic.module.api.impl.*
-import me.zhenxin.zmusic.module.config
 import taboolib.common.io.digest
 import java.util.*
 

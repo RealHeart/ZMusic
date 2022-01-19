@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.entity
 
-import me.zhenxin.zmusic.type.MusicPlatform
+import me.zhenxin.zmusic.enums.MusicPlatform
 
 /**
  * 状态信息
