@@ -32,7 +32,7 @@ fun List<String>.colored(): List<String> = map { it.replace("&", "§") }
 /**
  * 通过 MiniMessage 生成 Component
  */
-fun String.component(): Component = MiniMessage.get().parse(this)
+fun String.component(): Component = MiniMessage.miniMessage().deserialize(this)
 
 /**
  * 通过代号获取相应API实例
