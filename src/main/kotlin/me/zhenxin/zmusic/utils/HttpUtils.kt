@@ -24,7 +24,7 @@ data class HttpResult(
     /* 状态码 */
     val code: Int,
     /* 数据 */
-    val data: Any?
+    val data: String
 )
 
 /**
@@ -33,7 +33,11 @@ data class HttpResult(
  * @param paramsMap 参数(Map)
  * @return 字符串
  */
-fun httpGet(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): HttpResult {
+fun httpGet(
+    url: String,
+    paramsMap: MutableMap<String, Any?> = mutableMapOf(),
+    headers: MutableMap<String, String> = mutableMapOf()
+): HttpResult {
     val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
     var fullUrl = url
     if (params.isNotEmpty()) {
@@ -42,8 +46,10 @@ fun httpGet(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): 
     val req = Request.Builder()
         .url(fullUrl)
         .get()
-        .build()
-    return call(req)
+    headers.forEach {
+        req.addHeader(it.key, it.value)
+    }
+    return call(req.build())
 }
 
 /**
@@ -51,13 +57,19 @@ fun httpGet(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): 
  * @param url 连接
  * @param paramsMap 参数
  */
-fun httpPost(url: String, paramsMap: MutableMap<String, Any?> = mutableMapOf()): HttpResult {
+fun httpPost(
+    url: String,
+    paramsMap: MutableMap<String, Any?> = mutableMapOf(),
+    headers: MutableMap<String, String> = mutableMapOf()
+): HttpResult {
     val body = toJSONString(paramsMap).toRequestBody(mediaType)
     val req = Request.Builder()
         .url(url)
         .post(body)
-        .build()
-    return call(req)
+    headers.forEach {
+        req.addHeader(it.key, it.value)
+    }
+    return call(req.build())
 }
 
 private fun call(request: Request): HttpResult {

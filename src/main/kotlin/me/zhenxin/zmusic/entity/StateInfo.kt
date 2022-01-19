@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.data
+package me.zhenxin.zmusic.entity
 
 import me.zhenxin.zmusic.type.MusicPlatform
 

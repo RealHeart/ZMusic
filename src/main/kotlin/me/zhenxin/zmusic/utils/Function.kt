@@ -3,6 +3,7 @@ package me.zhenxin.zmusic.utils
 import com.alibaba.fastjson.JSONObject
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
+import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.impl.*
@@ -103,4 +104,39 @@ fun loginNetease(): LoginResult {
  */
 fun loginQQ() {
 
+}
+
+/**
+ * 格式化歌词
+ * @param lyric String 歌词内容
+ * @param translation String 歌词翻译内容 可空 默认为空
+ * @return MutableList<LyricRaw>
+ */
+fun formatLyric(lyric: String, translation: String = ""): MutableList<LyricRaw> {
+    val result = mutableListOf<LyricRaw>()
+    val lyricMap = formatLyric(lyric)
+    val translationMap = formatLyric(translation)
+    lyricMap.forEach {
+        val time = it.key
+        val text = it.value
+        val tr = translationMap[time] ?: ""
+        result.add(LyricRaw(time, text, tr))
+    }
+    return result
+}
+
+private fun formatLyric(content: String): MutableMap<Long, String> {
+    val map = mutableMapOf<Long, String>()
+    val regex = Regex("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})](.*)")
+    val matches = regex.findAll(content)
+    matches.forEach { value ->
+        val min = value.groupValues[1].toLong()
+        val sec = value.groupValues[2].toLong()
+        val msStr = value.groupValues[3]
+        val ms = if (msStr.length == 2) msStr.toLong() else msStr.substring(0, msStr.length - 1).toLong()
+        val text = value.groupValues[4]
+        val time = min * 60 * 1000 + sec * 1000 + ms
+        map[time] = text.trim()
+    }
+    return map
 }
