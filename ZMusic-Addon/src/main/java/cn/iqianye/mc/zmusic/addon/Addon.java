@@ -33,10 +33,10 @@ public class Addon extends JavaPlugin {
                 getLogger().warning(ChatColor.RED + "版本低于1.12,进度提示不生效");
                 isSupportAdv = false;
             }
-            if (version.isHigherThan("1.17")) {
-                getLogger().warning(ChatColor.RED + "版本高于1.17,进度提示不生效");
-                isSupportAdv = false;
-            }
+//            if (version.isHigherThan("1.17")) {
+//                getLogger().warning(ChatColor.RED + "版本高于1.17,进度提示不生效");
+//                isSupportAdv = false;
+//            }
         } else {
             getLogger().warning(ChatColor.RED + "请勿在子服安装ZMusic插件");
             setEnabled(false);

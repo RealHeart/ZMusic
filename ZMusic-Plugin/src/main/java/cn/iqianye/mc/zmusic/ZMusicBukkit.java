@@ -115,10 +115,10 @@ public class ZMusicBukkit extends JavaPlugin {
             Config.realSupportAdvancement = false;
         }
 
-        if (version.isHigherThan("1.17")) {
-            ZMusic.log.sendErrorMessage("检测到当前服务端版本高于1.17，不支持进度");
-            Config.realSupportAdvancement = false;
-        }
+//        if (version.isHigherThan("1.17")) {
+//            ZMusic.log.sendErrorMessage("检测到当前服务端版本高于1.17，不支持进度");
+//            Config.realSupportAdvancement = false;
+//        }
 
         ZMusic.loadEnd(getServer().getConsoleSender());
     }

@@ -27,8 +27,8 @@
         </repository>
         <!--临时使用CodeMC仓库-->
         <repository>
-            <id>codemc-nms</id>
-            <url>https://repo.codemc.io/repository/nms-local/</url>
+            <id>nms-repo</id>
+            <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
         <repository>
             <id>bungeecord-repo</id>
