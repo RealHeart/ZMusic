@@ -1,6 +1,6 @@
 # 2.0.12 | 2022-01-23
 * 1.18版本支持成就显示
-* 优化了成就API的代码逻辑，变成了屎诗级代码(遵循 [![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode) 书写标准)
+* ~~优化了成就API的代码逻辑，变成了屎诗级代码(遵循 [![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode) 书写标准)~~
 
 # 2.0.11 | 2022-01-09
 
