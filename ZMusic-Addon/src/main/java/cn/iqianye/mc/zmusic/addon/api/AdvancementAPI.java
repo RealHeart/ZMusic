@@ -472,6 +472,114 @@ public class AdvancementAPI {
         }
     }
 
+
+    public void loadAdvancement_1_18_R2(NamespacedKey key, String json) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+        if (Bukkit.getAdvancement(key) != null)
+            return;
+        //MinecraftKey minecraftKey = CraftNamespacedKey.toMinecraft(key);
+
+        MinecraftKey minecraftKey = (MinecraftKey) Class.forName("org.bukkit.craftbukkit.v1_18_R2.util.CraftNamespacedKey")
+                .getDeclaredMethod("toMinecraft", NamespacedKey.class)
+                .invoke(Class.forName("org.bukkit.craftbukkit.v1_18_R2.util.CraftNamespacedKey"), key);
+
+        JsonElement jsonElement = (JsonElement) AdvancementDataWorld.class.getDeclaredField("b")
+                .getType().getDeclaredMethod("fromJson", String.class, Class.class)
+                .invoke(new GsonBuilder().create(), json, JsonElement.class);
+        JsonObject jsonObject = (JsonObject) ChatDeserializer.class.getDeclaredMethod("m", JsonElement.class, String.class)
+                .invoke(ChatDeserializer.class, jsonElement, "advancement");
+        //SerializedAdvancement serializedAdvancement = SerializedAdvancement.a(jsonObject, new LootDeserializationContext(minecraftKey, MinecraftServer.getServer().aH()));
+
+        net.minecraft.advancements.Advancement.SerializedAdvancement serializedAdvancement = (net.minecraft.advancements.Advancement.SerializedAdvancement) net.minecraft.advancements.Advancement.SerializedAdvancement.class
+                .getDeclaredMethod("a", JsonObject.class, LootDeserializationContext.class)
+                .invoke(net.minecraft.advancements.Advancement.SerializedAdvancement.class,
+                        jsonObject,
+                        new LootDeserializationContext(
+                                minecraftKey,
+                                //MinecraftServer.getServer().aH()
+
+                                (LootPredicateManager) MinecraftServer.getServer().getClass().getSuperclass()
+                                        .getDeclaredMethod("aG")
+                                        .invoke(MinecraftServer.getServer())
+                        )
+                );
+
+
+        if (serializedAdvancement != null)
+            //(MinecraftServer.getServer().ax()).c.a(Maps.newHashMap(Collections.singletonMap(minecraftKey, serializedAdvancement)));
+            MinecraftServer.getServer()
+                    .getClass()
+                    .getSuperclass()
+                    .getDeclaredMethod("ax")
+                    .invoke(MinecraftServer.getServer())
+                    .getClass()
+                    .getDeclaredField("c")
+                    .getType()
+                    .getDeclaredMethod("a", Map.class)
+                    .invoke(
+                            MinecraftServer.getServer()
+                                    .getClass()
+                                    .getSuperclass()
+                                    .getDeclaredMethod("ax")
+                                    .invoke(MinecraftServer.getServer())
+                                    .getClass()
+                                    .getDeclaredField("c")
+                                    .get(MinecraftServer.getServer()
+                                            .getClass()
+                                            .getSuperclass()
+                                            .getDeclaredMethod("ax")
+                                            .invoke(MinecraftServer.getServer())),
+                            Maps.newHashMap(Collections.singletonMap(minecraftKey, serializedAdvancement))
+                    );
+    }
+
+    public void removeAdvancement_1_18_R2(Advancement advancement) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Bukkit.getUnsafe().removeAdvancement(advancement.getKey());
+        try {
+
+            DedicatedServer dedicatedServer = (DedicatedServer) (Class.forName("org.bukkit.craftbukkit.v1_18_R2.CraftServer")
+                    .cast(Bukkit.getServer())).getClass().getDeclaredMethod("getServer")
+                    .invoke((Class.forName("org.bukkit.craftbukkit.v1_18_R2.CraftServer")
+                            .cast(Bukkit.getServer())));
+
+            //Advancements advancements = (dedicatedServer.ax()).c;
+            Advancements advancements = (Advancements) dedicatedServer.getClass().getSuperclass()
+                    .getDeclaredMethod("ax")
+                    .invoke(dedicatedServer).getClass().getDeclaredField("c").get(dedicatedServer.getClass().getSuperclass().getDeclaredMethod("ax").invoke(dedicatedServer));
+
+            Set<Map.Entry<MinecraftKey, net.minecraft.advancements.Advancement>> entries =
+                    (Set<Map.Entry<MinecraftKey, net.minecraft.advancements.Advancement>>) advancements.getClass()
+                            .getDeclaredField("b")
+                            .getType()
+                            .getDeclaredMethod("entrySet")
+                            .invoke(advancements.getClass().getDeclaredField("b").get(advancements));
+
+            for (Map.Entry entry : entries) {
+                if (((net.minecraft.advancements.Advancement) entry.getValue()).getClass()
+                        .getDeclaredMethod("h")
+                        .invoke(entry.getValue())
+                        .getClass()
+                        .getDeclaredMethod("a")
+                        .invoke(entry.getValue().getClass().getDeclaredMethod("h").invoke(entry.getValue()))
+                        .equals(advancement.getKey().getKey().toLowerCase())
+                ) {
+                    //advancements.b.remove(entry.getKey());
+                    advancements.getClass()
+                            .getDeclaredField("b")
+                            .getType()
+                            .getDeclaredMethod("remove", Object.class)
+                            .invoke(advancements
+                                            .getClass()
+                                            .getDeclaredField("b")
+                                            .get(advancements),
+                                    entry.getKey());
+                    break;
+                }
+            }
+        } catch (Exception | Error exception) {
+            exception.printStackTrace();
+        }
+    }
+
     /*private void remove() {
         Bukkit.getUnsafe().removeAdvancement(id);
         Bukkit.reloadData();
