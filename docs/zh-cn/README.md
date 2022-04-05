@@ -36,9 +36,10 @@
 
 ## BungeeCord说明
 
-* BungeeCord 目前仅支持1.9-1.17的服务端
+* 只有 BungeeCord 端需要安装 ZMusic-Plugin 插件（子服不需要安装）
+* BungeeCord 目前仅支持 1.9-1.18 的服务端
 * BungeeCord 暂不支持经济系统
-* 对于子服显示Papi变量 进度提示等功能 需要安装ZMusic-Addon插件
+* 对于子服显示Papi变量 进度提示等功能 只需要对子服安装 ZMusic-Addon 插件
 
 ## 视频
 
