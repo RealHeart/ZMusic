@@ -5,14 +5,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     java
     id("io.izzel.taboolib") version "1.34"
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
 }
 
 group = "me.zhenxin.zmusic"
 version = "3.0-22w04a"
 
-val taboolib = "6.0.7-19"
-val minimessage = "4.10.0-SNAPSHOT"
+val taboolib = "6.0.7-52"
+val minimessage = "4.10.1"
 val bungeecord = "1.18-R0.1-SNAPSHOT"
 val velocity = "3.0.0"
 val okhttp = "4.9.3"
