@@ -32,7 +32,7 @@
 本插件需要客户端安装配套Mod才能正常播放
 
 * 对于1.8-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.7.10, 1.12.2-1.17.1的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
+* 对于1.7.10, 1.12.2-1.18.2的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
 
 ## BungeeCord说明
 
