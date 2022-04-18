@@ -53,7 +53,7 @@ val playCommand = subCommand {
                     val result = api.searchSingle(argument)
                     logger.debug(result)
                     val url = api.getPlayUrl(result.id)
-                    if(url.isEmpty()){
+                    if (url.isEmpty()) {
                         sender.sendMsg("播放错误")
                         return@submit
                     }

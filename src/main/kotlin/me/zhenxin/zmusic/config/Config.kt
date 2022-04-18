@@ -49,14 +49,6 @@ object Loader {
         val API_NETEASE_PASSWORD: String
             get() = config.getStr("api.netease.password")
 
-        /** QQ音乐 API链接  */
-        val API_QQ_LINK: String
-            get() = config.getStr("api.qq.link")
-
-        /** QQ音乐 Cookie */
-        val API_QQ_COOKIE: String
-            get() = config.getStr("api.qq.cookie")
-
         /** ZMusic VIP QQ */
         val VIP_QQ: String
             get() = config.getStr("vip.qq")

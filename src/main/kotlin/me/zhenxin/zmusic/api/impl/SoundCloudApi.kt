@@ -1,9 +1,11 @@
 package me.zhenxin.zmusic.api.impl;
 
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
+import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
@@ -34,7 +36,7 @@ class SoundCloudApi : MusicApi {
             }&limit=$count&offset=$offset&client_id=$clientId"
         )
         logger.debug(result)
-        val data = JSONObject.parseObject(result.data as String)
+        val data = JSON.parseObject(result.data)
         val songs = data.getJSONArray("collection")
         songs.forEach {
             it as JSONObject
@@ -70,11 +72,15 @@ class SoundCloudApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = httpGet("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
-        val json = JSONObject.parseObject(result.data as String)
+        val json = JSON.parseObject(result.data)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
         val urlLink = (data[1] as JSONObject).getString("url")
         val urlResult = httpGet("$urlLink?client_id=$clientId")
-        return JSONObject.parseObject(urlResult.data as String).getString("url")
+        return JSON.parseObject(urlResult.data).getString("url")
+    }
+
+    override fun getLyric(id: String): MutableList<LyricRaw> {
+        TODO("Not yet implemented")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {

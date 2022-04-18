@@ -1,4 +1,4 @@
-  package me.zhenxin.zmusic.taboolib.extend
+package me.zhenxin.zmusic.taboolib.extend
 
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.taboolib.extend.component.Component

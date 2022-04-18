@@ -1,11 +1,14 @@
 package me.zhenxin.zmusic.api.impl
 
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.utils.formatLyric
 import me.zhenxin.zmusic.utils.httpGet
 import java.net.URLEncoder
 
@@ -30,7 +33,7 @@ class NeteaseApi : MusicApi {
                     URLEncoder.encode(keyword, "UTF-8")
                 }&limit=$count&offset=$offset"
             )
-        val data = JSONObject.parseObject(search.data as String)
+        val data = JSON.parseObject(search.data)
         val result = data.getJSONObject("result")
         val songs = result.getJSONArray("songs")
         songs.forEach {
@@ -44,7 +47,7 @@ class NeteaseApi : MusicApi {
     override fun getPlaylist(id: String): PlaylistInfo {
         val musics = mutableListOf<MusicInfo>()
         val info = httpGet("$api/playlist/detail?id=$id")
-        val data = JSONObject.parseObject(info.data as String)
+        val data = JSON.parseObject(info.data)
         val playlist = data.getJSONObject("playlist")
         val listId = playlist.getString("id")
         val listName = playlist.getString("name")
@@ -64,14 +67,24 @@ class NeteaseApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = httpGet("$api/song/url?id=$id")
-        val json = JSONObject.parseObject(result.data as String)
+        val json = JSON.parseObject(result.data)
         val data = json.getJSONArray("data")[0] as JSONObject
         return data.getString("url")
     }
 
+    override fun getLyric(id: String): MutableList<LyricRaw> {
+        val result = httpGet("$api/lyric?id=$id")
+        val json = JSON.parseObject(result.data)
+        val lrc = json.getJSONObject("lrc")
+        val lyric = lrc.getString("lyric")
+        val tlrc = json.getJSONObject("tlyric")
+        val tlyric = tlrc.getString("lyric")
+        return formatLyric(lyric, tlyric)
+    }
+
     override fun getMusicInfo(id: String): MusicInfo {
         val result = httpGet("$api/song/detail?ids=${id}")
-        val info = JSONObject.parseObject(result.data as String)
+        val info = JSON.parseObject(result.data)
         val song = info.getJSONArray("songs")[0] as JSONObject
         val name = song.getString("name")
         val singers = song.getJSONArray("ar")

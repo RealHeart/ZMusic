@@ -17,8 +17,6 @@ import taboolib.module.lang.asLangTextList
 object Lang {
     val PLATFORM_NETEASE
         get() = console().asLangText("platform-netease")
-    val PLATFORM_QQ
-        get() = console().asLangText("platform-qq")
     val PLATFORM_BILI
         get() = console().asLangText("platform-bili")
     val PLATFORM_XIMA

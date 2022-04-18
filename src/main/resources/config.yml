@@ -11,7 +11,6 @@ debug: false
 #
 # 使用开源API项目 推荐自行搭建
 # 网易云: https:#github.com/Binaryify/NeteaseCloudMusicApi
-# QQ: https:#github.com/jsososo/QQMusicApi
 api:
   # 网易云音乐
   netease:
@@ -21,12 +20,6 @@ api:
     account: ''
     # 密码
     password: ''
-  # QQ音乐
-  qq:
-    # API链接
-    link: 'https://qqmusic.api.zhenxin.xyz'
-    # QQ音乐Cookie 游戏内输入/zm login qq 获取
-    cookie: ''
 
 # ZMusic VIP设置
 vip:

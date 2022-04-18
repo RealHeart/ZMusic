@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson.JSON.toJSONString
+import com.alibaba.fastjson2.JSON.toJSONString
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request

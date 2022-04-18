@@ -14,7 +14,6 @@ enum class MusicPlatform(
     val supportIdPlay: Boolean
 ) {
     NETEASE(true, true, true),
-    QQ(true, false, true),
     BILIBILI(false, false, true),
     XIMA(false, false, false),
     SOUNDCLOUD(false, false, false)
@@ -23,7 +22,6 @@ enum class MusicPlatform(
 fun getPlatformNames(): List<String> {
     return listOf(
         MusicPlatform.NETEASE.name.lowercase(),
-        MusicPlatform.QQ.name.lowercase(),
         MusicPlatform.BILIBILI.name.lowercase(),
         MusicPlatform.XIMA.name.lowercase(),
         MusicPlatform.SOUNDCLOUD.name.lowercase()

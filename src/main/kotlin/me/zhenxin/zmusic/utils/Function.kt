@@ -1,14 +1,16 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSON
 import me.zhenxin.adventure.text.Component
 import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.api.MusicApi
-import me.zhenxin.zmusic.api.impl.*
+import me.zhenxin.zmusic.api.impl.BiliBiliApi
+import me.zhenxin.zmusic.api.impl.NeteaseApi
+import me.zhenxin.zmusic.api.impl.SoundCloudApi
+import me.zhenxin.zmusic.api.impl.XimaApi
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
-import taboolib.common.io.digest
 import java.util.*
 
 
@@ -40,7 +42,6 @@ fun String.component(): Component = MiniMessage.miniMessage().deserialize(this)
 fun String.asMusicApi(): MusicApi {
     return when (this) {
         "netease" -> NeteaseApi() // 网易云音乐
-        "qq" -> QQMusicApi() // QQ音乐
         "bilibili" -> BiliBiliApi() // 哔哩哔哩
         "xima" -> XimaApi() // 喜马拉雅
         "soundcloud" -> SoundCloudApi() // SoundCloud
@@ -66,44 +67,8 @@ fun setLocale() {
 fun isChina(): Boolean {
     val result = httpGet("http://ip-api.com/json/")
     logger.debug(result)
-    val data = JSONObject.parseObject(result.data as String)
+    val data = JSON.parseObject(result.data)
     return data.getString("country") == "China"
-}
-
-/**
- * 登录网易云音乐
- */
-fun loginNetease(): LoginResult {
-    val account = config.API_NETEASE_ACCOUNT
-    val password = config.API_NETEASE_PASSWORD
-    if (account.isEmpty() || password.isEmpty()) {
-        return LoginResult(400, "&c未配置账号密码")
-    }
-    val api = config.API_NETEASE_LINK
-    val result = httpPost(
-        "$api/login", mutableMapOf(
-            "email" to account,
-            "md5_password" to password.digest("md5")
-        )
-    )
-
-    val info = JSONObject.parseObject(result.data as String)
-    val code = info.getIntValue("code")
-    return if (code != 200) {
-        val msg = info.getString("msg")
-        LoginResult(code, "&c$msg")
-    } else {
-        val profile = info.getJSONObject("profile")
-        val nickname = profile.getString("nickname")
-        LoginResult(200, "&a登录成功, 欢迎您 &b$nickname")
-    }
-}
-
-/**
- * 登录QQ音乐
- */
-fun loginQQ() {
-
 }
 
 /**

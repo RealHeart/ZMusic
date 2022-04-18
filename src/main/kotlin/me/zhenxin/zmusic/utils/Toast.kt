@@ -44,7 +44,7 @@ fun ProxyPlayer.sendToast(msg: String) {
             )
             val icon = list[(list.indices).random()]
             player.sendToast(icon, msg)
-        }else{
+        } else {
             logger.debug("当前版本: ${MinecraftVersion.runningVersion}(${MinecraftVersion.majorLegacy}) 不支持Toast")
         }
     }

@@ -18,8 +18,6 @@
 ## TODO List
 * - [x] Play
 * - [x] Netease Cloud Music
-* - [x] QQ Music
-* - [x] Kugou Music
 * - [x] Ximalaya FM
 * - [x] Language System
 * - [x] Config System
@@ -40,11 +38,11 @@ This is a powerful music system that supports the following features.
 * Single play
 * Lyric show
 * Lyric translation show
-* Multi-search(QQ/Netease/Kugou/Ximalaya/BiliBili/SoundCloud)
+* Multi-search(Netease/Ximalaya/BiliBili/SoundCloud)
 * Keyword search
 * Personal Playlist
 * Full-Server Playlist
-* Playlist Play(QQ/Netease)
+* Playlist Play(Netease)
 * Volume(only AllMusic Mod Support)
 * Support BungeeCord
 

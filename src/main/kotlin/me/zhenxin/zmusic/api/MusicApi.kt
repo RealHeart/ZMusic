@@ -1,7 +1,8 @@
 package me.zhenxin.zmusic.api
 
-import com.alibaba.fastjson.JSONArray
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
+import me.zhenxin.zmusic.entity.LyricRaw
 
 
 /**
@@ -22,6 +23,7 @@ interface MusicApi {
      * 根据关键词搜索音乐
      *
      * @param keyword 关键词
+     * @return 音乐信息
      */
     fun searchSingle(keyword: String): MusicInfo {
         if (keyword.contains("-id:")) {
@@ -42,6 +44,7 @@ interface MusicApi {
      * @param keyword 关键词
      * @param page 页数
      * @param count 每页返回数量
+     * @return 音乐列表
      */
     fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo>
 
@@ -49,6 +52,7 @@ interface MusicApi {
      * 获取歌单
      *
      * @param id 歌单ID
+     * @return 歌单信息
      */
     fun getPlaylist(id: String): PlaylistInfo
 
@@ -56,6 +60,7 @@ interface MusicApi {
      * 获取专辑
      *
      * @param id 专辑ID
+     * @return 专辑信息
      */
     fun getAlbum(id: String)
 
@@ -64,8 +69,16 @@ interface MusicApi {
      * 获取音乐播放链接
      *
      * @param id 音乐ID
+     * @return 音乐播放链接
      */
     fun getPlayUrl(id: String): String
+
+    /**
+     * 获取歌词
+     * @param id String 音乐ID
+     * @return LyricRaw 歌词
+     */
+    fun getLyric(id: String): MutableList<LyricRaw>
 
     fun mergeSingers(singers: JSONArray): String {
         var singer = ""
