@@ -95,7 +95,7 @@
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
+[kotlin]: https://img.shields.io/badge/kotlin-1.6.20-blue
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
 

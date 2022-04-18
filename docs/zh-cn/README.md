@@ -32,13 +32,14 @@
 本插件需要客户端安装配套Mod才能正常播放
 
 * 对于1.8-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.7.10, 1.12.2-1.17.1的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
+* 对于1.7.10, 1.12.2-1.18.2的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
 
 ## BungeeCord说明
 
-* BungeeCord 目前仅支持1.9-1.17的服务端
+* 只有 BungeeCord 端需要安装 ZMusic-Plugin 插件（子服不需要安装）
+* BungeeCord 目前仅支持 1.9-1.18 的服务端
 * BungeeCord 暂不支持经济系统
-* 对于子服显示Papi变量 进度提示等功能 需要安装ZMusic-Addon插件
+* 对于子服显示Papi变量 进度提示等功能 只需要对子服安装 ZMusic-Addon 插件
 
 ## 视频
 
@@ -335,7 +336,6 @@
 目前支持 QQ 网易云 哔哩哔哩音乐  
 示例: `/zm play bilibili -id:374305`
 
-
 <span id="faq"></span>
 
 # 常见问题
@@ -364,7 +364,7 @@
 
 当然，如果您全部满足以上条件的话，还是无法播放音乐，我们建议您在未配置外置API的情况下使用**网易云音乐**进行播放。
 
-实际上，我们建议您使用自己拥有的服务器开服，如果您使用的是**未命名测试等第三方服务平台**的话，可能会因为网络环境而不支持 ZMusic 长时间联网
+实际上，我们建议您使用自己拥有的服务器开服。
 
 ### 服务器载入成功后，使用`/zm`相关指令时，会提示“错误：请等待插件载入完毕”
 
@@ -389,7 +389,7 @@
 
 ### 载入插件时，出现`java.lang.NoClassDefFoundError com/google/gson/xxx` 错误
 
-您的服务端未内置gson库，安装带gson库的插件即可。
+您的服务端未内置gson库，安装带gson库的插件即可。（不会吧不会吧，竟然真有不支持gson的吧！）
 
 ## 我找不到以上描述的任何错误
 
@@ -405,6 +405,15 @@
 
 ~~(所以我一个ZMusic使用文档为什么要回答AllMusic的问题，AllMusic插件用户请退群)~~
 
+## 插件加载后出现报错：“错误：请等待插件加载完毕”
+
+出现此种问题，请检查以下情况。
+
+* 检查您安装的插件版本是否为最新。
+* 检查`ZMusic`插件文件夹是否有权限写入（特别是基于Linux的系统， ~~建议直接暴力chmod 777~~ ）
+* 检查您的服务端是否支持异步线程(一般基于`Bukkit`的都支持，~~别问我关于`Mohist`的问题辣！焯！~~)
+* 手动修复插件文件夹，在`ZMusic`文件夹中新建一个叫`language`的文件夹，之后从我们的仓库中的`master`分支找到`language`文件夹，并下载`zh_cn.json`文件，放入`language`文件夹中，然后重载或者重启服务器。
+
 ## 是否支持 `1.7.10`
 
 我们并不推荐您使用`1.7.10`版本, 如果您坚持使用, 请确保如下说明.
@@ -413,9 +422,8 @@
 * `Uranium` 仅在 `dev-4-b210` 测试成功
 * `Mohist` 仅在 `1.7.10-42` 测试成功
 * 除 `聊天信息` 外, 其他全部歌词显示均无效(除Uranium)
-* 使用 `Uranium` 配套模组, 可实现Title/ActonBar显示
+* 使用 `Uranium` 配套模组, 可实现Title/ActionBar显示
 * 我们不接受任何 `1.7.10` 版本的问题反馈
-
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 
