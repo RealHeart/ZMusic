@@ -49,10 +49,6 @@ public class PlayMusic {
                     json = NeteaseCloudMusic.getMusicUrl(searchKey);
                     searchSourceName = "网易云音乐";
                     break;
-                case "qq":
-                    json = QQMusic.getMusicUrl(searchKey);
-                    searchSourceName = "QQ音乐";
-                    break;
                 case "kugou":
                     json = KuGouMusic.getMusicUrl(searchKey);
                     searchSourceName = "酷狗音乐";

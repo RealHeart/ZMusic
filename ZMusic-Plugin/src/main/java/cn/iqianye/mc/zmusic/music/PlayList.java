@@ -4,7 +4,6 @@ import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.QQMusic;
 import cn.iqianye.mc.zmusic.utils.HelpUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.*;
@@ -220,11 +219,6 @@ public class PlayList {
                     id = url.split("playlist\\?id=")[1].split("&")[0];
                     json = NeteaseCloudMusic.getMusicSongList(id);
                     platformName = "网易云音乐";
-                    break;
-                case "qq":
-                    id = url.split("playlist/")[1].split("\\.html")[0];
-                    json = QQMusic.getMusicSongList(id);
-                    platformName = "QQ音乐";
                     break;
                 default:
                     ZMusic.message.sendErrorMessage("错误：未知的平台", player);

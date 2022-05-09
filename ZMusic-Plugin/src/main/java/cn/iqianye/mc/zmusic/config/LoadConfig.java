@@ -66,7 +66,6 @@ public class LoadConfig {
         // Api
         JsonObject api = config.get("api").getAsJsonObject();
         Config.neteaseApiRoot = api.get("netease").getAsString();
-        Config.qqMusicApiRoot = api.get("qq").getAsString();
         // Account
         JsonObject account = config.get("account").getAsJsonObject();
         // Netease

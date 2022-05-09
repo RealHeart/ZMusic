@@ -145,37 +145,7 @@ public class PlayListPlayer extends Thread {
                     String url = "";
                     JsonObject lyric = null;
                     Gson gson = new GsonBuilder().create();
-                    if (platform.equalsIgnoreCase("qq")) {
-                        String id = playList.get(songs).get("id").getAsString();
-                        String mid = playList.get(songs).get("mid").getAsString();
-                        String getMp3Url = Config.qqMusicApiRoot + "song/url?id=" + id + "&mediaId=" + mid;
-                        String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);
-                        JsonObject getMp3Json = gson.fromJson(getMp3JsonText, JsonObject.class);
-                        try {
-                            url = getMp3Json.get("data").getAsString();
-                        } catch (Exception e) {
-                            ZMusic.message.sendErrorMessage("播放[§e" + fullName + "§c]失败.", player);
-                            ZMusic.message.sendErrorMessage("无法获取播放链接, 可能无版权或为VIP音乐.", player);
-                            songs++;
-                            continue;
-                        }
-                        String getLyricUrl = Config.qqMusicApiRoot + "lyric?songmid=" + id;
-                        String lyricJsonText = NetUtils.getNetString(getLyricUrl, null);
-                        JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
-                        String lyricText = lyricJson.get("data").getAsJsonObject().get("lyric").getAsString();
-                        lyricText = lyricText.replaceAll("&apos;", "'");
-                        lyricText = lyricText.replaceAll("\r", "");
-                        String lyricTrText = lyricJson.get("data").getAsJsonObject().get("trans").getAsString();
-                        lyricTrText = lyricTrText.replaceAll("&apos;", "'");
-                        lyricTrText = lyricTrText.replaceAll("\r", "");
-                        if (lyricText.isEmpty()) {
-                            ZMusic.message.sendErrorMessage("未找到歌词信息", player);
-                        }
-                        if (lyricTrText.isEmpty()) {
-                            ZMusic.message.sendErrorMessage("未找到歌词翻译", player);
-                        }
-                        lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
-                    } else if (platform.equalsIgnoreCase("netease")) {
+                    if (platform.equalsIgnoreCase("netease")) {
                         String id = playList.get(songs).get("id").getAsString();
                         String getMp3Url = Config.neteaseApiRoot + "song/url?id=" + id + "&br=320000";
                         String getMp3JsonText = NetUtils.getNetString(getMp3Url, null);

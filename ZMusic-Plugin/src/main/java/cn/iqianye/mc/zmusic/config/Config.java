@@ -14,7 +14,6 @@ public class Config {
     public static boolean update;
     // Api
     public static String neteaseApiRoot;
-    public static String qqMusicApiRoot;
     // Account
     // Netease
     public static String neteaseloginType;
