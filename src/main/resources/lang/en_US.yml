@@ -47,4 +47,11 @@ message-json-tips-next: 'Next'
 
 toast-playing: '&aPlaying\n&e{0}'
 
-nosupported-region: '&cThis service is not supported in the country where the current server is located.'
+no-supported-region: '&cThis service is not supported in the country where the current server is located.'
+
+update-checking: '&aChecking for updates...'
+update-no-update: '&aNo update available.'
+update-new-version:
+  - '&aNew version found: &b{0}'
+  - '&aDownload: &b{1}'
+  - '&aUpdate log:'

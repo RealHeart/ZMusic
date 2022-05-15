@@ -37,7 +37,7 @@ val playCommand = subCommand {
                 val platform = context.argument(-1)
                 if (platform == "soundcloud") {
                     if (isChina()) {
-                        sender.sendMsg(Lang.NOSUPPORTED_REGION)
+                        sender.sendMsg(Lang.NO_SUPPORTED_REGION)
                         return@execute
                     }
                 }

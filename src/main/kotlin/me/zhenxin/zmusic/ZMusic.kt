@@ -3,10 +3,7 @@ package me.zhenxin.zmusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.Logger
-import me.zhenxin.zmusic.utils.colored
-import me.zhenxin.zmusic.utils.loginNetease
-import me.zhenxin.zmusic.utils.setLocale
+import me.zhenxin.zmusic.utils.*
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
@@ -27,7 +24,7 @@ import taboolib.module.nms.MinecraftVersion
  */
 @Suppress("unused")
 object ZMusic {
-    lateinit var VERSION: String
+    lateinit var VERSION_NAME: String
 
     private const val logo = "" +
             "  ______  __  __                 _        \n" +
@@ -40,7 +37,7 @@ object ZMusic {
     @Awake(LifeCycle.LOAD)
     fun onLoad() {
         // 初始化变量
-        VERSION = pluginVersion
+        VERSION_NAME = pluginVersion
 
         // 初始化日志模块
         logger = Logger(console())
@@ -52,13 +49,13 @@ object ZMusic {
         logo.split("\n").forEach {
             logger.info("§b$it")
         }
-        logger.info("\t§6v$VERSION\tby ZhenXin")
+        logger.info("\t§6v$VERSION_NAME\tby ZhenXin")
 
         logger.info(Lang.INIT_LOADING)
         // 注册bStats
-        Metrics(7291, VERSION, BUKKIT)
-        Metrics(8864, VERSION, BUNGEE)
-        Metrics(12426, VERSION, VELOCITY)
+        Metrics(7291, VERSION_NAME, BUKKIT)
+        Metrics(8864, VERSION_NAME, BUNGEE)
+        Metrics(12426, VERSION_NAME, VELOCITY)
 
         // 注册通信频道
         registerChannel("zmusic:channel")
@@ -66,10 +63,12 @@ object ZMusic {
 
         Lang.INIT_LOADED.forEach {
             logger.info(
-                it.replace("{0}", VERSION)
+                it.replace("{0}", VERSION_NAME)
                     .replace("{1}", runningPlatform.name.lowercase())
             )
         }
+
+        submit(async = true) { checkUpdate(console()) }
 
         if (runningPlatform == BUKKIT) {
             logger.debug(MinecraftVersion.majorLegacy)

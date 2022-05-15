@@ -11,5 +11,5 @@ import me.zhenxin.zmusic.ZMusic
  */
 object ZMusicApi {
     @JvmStatic
-    val VERSION: String = ZMusic.VERSION
+    val VERSION: String = ZMusic.VERSION_NAME
 }

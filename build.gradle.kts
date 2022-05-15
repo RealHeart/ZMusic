@@ -4,25 +4,23 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "1.38"
+    id("io.izzel.taboolib") version "1.40"
     kotlin("jvm") version "1.6.20"
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-22w17a"
+version = "3.0.0-22w18a"
 
-val taboolib = "6.0.7-54"
+val taboolib = "6.0.7-64"
 val minimessage = "4.10.0-SNAPSHOT"
 val bungeecord = "1.18-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
 val okhttp = "4.9.3"
 val fastjson = "2.0.1"
 val nms = "11802"
-val netty = "4.1.75.Final"
+val netty = "4.1.76.Final"
 
 repositories {
-    // 阿里云
-    maven("https://maven.aliyun.com/repository/public/")
     // bungeecord
     maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
     // Velocity
@@ -36,7 +34,7 @@ dependencies {
     // NMS
     compileOnly("ink.ptms.core:v$nms:$nms:mapped")
     compileOnly("ink.ptms.core:v$nms:$nms:universal")
-    compileOnly("ink.ptms:nms-all:1.0.0")
+    compileOnly("ink.ptms:nms-all:1.0.0") // 1.8-1.16.5
 
     // Kyori Adventure
     compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")

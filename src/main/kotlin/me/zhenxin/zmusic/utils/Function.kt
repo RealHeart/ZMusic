@@ -8,9 +8,13 @@ import me.zhenxin.zmusic.api.impl.BiliBiliApi
 import me.zhenxin.zmusic.api.impl.NeteaseApi
 import me.zhenxin.zmusic.api.impl.SoundCloudApi
 import me.zhenxin.zmusic.api.impl.XimaApi
+import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
+import me.zhenxin.zmusic.taboolib.extend.sendMsg
+import taboolib.common.platform.ProxyCommandSender
 import java.util.*
 
 
@@ -104,4 +108,34 @@ private fun formatLyric(content: String): MutableMap<Long, String> {
         map[time] = text.trim()
     }
     return map
+}
+
+fun checkUpdate(sender: ProxyCommandSender) {
+    sender.sendMsg(Lang.UPDATE_CHECKING)
+    val plugin = "zmusic"
+    val type = "snapshot"
+    val api = "https://api.zplu.cc/version"
+    val result = httpGet("$api?plugin=$plugin&type=$type")
+    val json = JSON.parseObject(result.data)
+    val data = json.getJSONObject("data")
+    val info = data.getJSONObject("info")
+    val version = info.getString("version")
+    val versionCode = info.getIntValue("version_code")
+    val changelog = info.getString("changelog")
+    val releaseUrl = info.getString("release_url")
+    if (versionCode > VERSION_CODE) {
+        Lang.UPDATE_NEW_VERSION.forEach {
+            sender.sendMsg(
+                it
+                    .replace("{0}", version)
+                    .replace("{1}", releaseUrl)
+            )
+        }
+        val logs = changelog.split("\\n")
+        logs.forEach {
+            sender.sendMsg("&b".colored() + it.colored())
+        }
+    } else {
+        sender.sendMsg(Lang.UPDATE_NO_UPDATE)
+    }
 }

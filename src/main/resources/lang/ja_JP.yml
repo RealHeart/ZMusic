@@ -48,4 +48,11 @@ message-json-tips-next: '次のページ'
 
 toast-playing: '&a再生中\n&e{0}'
 
-nosupported-region: '&cこのサービスはお住まいの地域からはご利用になれません。'
+no-supported-region: '&cこのサービスはお住まいの地域からはご利用になれません。'
+
+update-checking: '&a更新を確認中...'
+update-no-update: '&a現在、最新版です。'
+update-new-version:
+  - '&a新しいバージョンが見つかりました: &b{0}'
+  - '&aダウンロードサイト: &b{1}'
+  - '&a更新ログ:'

@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.player
+package me.zhenxin.zmusic.music
 
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
@@ -18,30 +18,30 @@ import taboolib.common.platform.function.submit
 class MusicPlayer(
     private val player: ProxyPlayer,
     private val api: MusicApi,
-    private val playlist: MutableList<MusicInfo>,
+    private val musicList: MutableList<MusicInfo>,
     private val mode: PlayMode = SINGLE
-) : Runnable {
+) {
     private var currentIndex = 0
     private lateinit var currentMusic: MusicInfo
     private var currentLyric: MutableList<LyricRaw> = mutableListOf()
 
-    fun play() {
+    private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
         player.playMusic(url)
     }
 
-    fun sendLyric() {
-
+    private fun sendLyric() {
     }
 
-    override fun run() {
+    fun start() {
         when (mode) {
             SINGLE -> {
-                currentMusic = playlist[currentIndex]
+                currentMusic = musicList[currentIndex]
                 val url = api.getPlayUrl(currentMusic.id)
                 player.playMusic(url)
                 submit(async = true) {
                     currentLyric = api.getLyric(currentMusic.id)
+                    play()
                     sendLyric()
                 }
             }

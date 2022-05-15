@@ -70,6 +70,13 @@ object Lang {
     val TOAST_PLAYING
         get() = console().asLangText("toast-playing").colored().replace("\\n", "\n")
 
-    val NOSUPPORTED_REGION
-        get() = console().asLangText("nosupported-region").colored()
+    val NO_SUPPORTED_REGION
+        get() = console().asLangText("no-supported-region").colored()
+
+    val UPDATE_CHECKING
+        get() = console().asLangText("update-checking").colored()
+    val UPDATE_NO_UPDATE
+        get() = console().asLangText("update-no-update").colored()
+    val UPDATE_NEW_VERSION
+        get() = console().asLangTextList("update-new-version").colored()
 }

@@ -38,4 +38,4 @@ class RuntimeEnv
 private const val minimessage = "4.10.0-SNAPSHOT"
 private const val okhttp = "4.9.3"
 private const val fastjson = "2.0.1"
-private const val netty = "4.1.75.Final"
+private const val netty = "4.1.76.Final"

@@ -10,7 +10,7 @@ debug: false
 # API设置
 #
 # 使用开源API项目 推荐自行搭建
-# 网易云: https:#github.com/Binaryify/NeteaseCloudMusicApi
+# 网易云: https://github.com/Binaryify/NeteaseCloudMusicApi
 api:
   # 网易云音乐
   netease:
