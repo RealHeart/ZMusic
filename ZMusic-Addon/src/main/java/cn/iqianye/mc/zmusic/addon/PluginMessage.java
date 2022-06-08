@@ -1,7 +1,7 @@
 package cn.iqianye.mc.zmusic.addon;
 
-import cn.iqianye.mc.zmusic.addon.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.addon.data.PlayerData;
+import cn.iqianye.mc.zmusic.addon.proto.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -23,7 +23,7 @@ public class PluginMessage implements PluginMessageListener {
                 boolean isAdv = json.get("isAdv").getAsBoolean();
                 if (isAdv) {
                     String title = json.get("title").getAsString();
-                    new AdvancementAPI(title).sendAdvancement(player);
+                    Toast.sendToast(player, title);
                 }
             } catch (Exception ignored) {
             }

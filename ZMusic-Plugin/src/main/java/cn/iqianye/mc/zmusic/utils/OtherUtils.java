@@ -1,16 +1,15 @@
 package cn.iqianye.mc.zmusic.utils;
 
 import cn.iqianye.mc.zmusic.ZMusic;
-import cn.iqianye.mc.zmusic.api.AdvancementAPI;
 import cn.iqianye.mc.zmusic.api.MultiMap;
 import cn.iqianye.mc.zmusic.api.bossbar.BossBar;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
+import cn.iqianye.mc.zmusic.proto.Toast;
 import com.google.gson.*;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -452,11 +451,7 @@ public class OtherUtils {
                 ZMusic.send.sendToZMusicAddon(player, json.toString());
             } else {
                 ZMusic.runTask.run(() -> {
-                    try {
-                        new AdvancementAPI(title).sendAdvancement(player);
-                    } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.sendToast(player, title);
                 });
             }
         }

@@ -1,3 +1,10 @@
+# 2.5.0 | 2022-06-09
+* 进度显示使用发包方式重构
+* 进度显示支持 1.19 (v1_19_R1)
+
+# 2.0.13 | 2022-04-08
+* 进度显示支持 1.18.2 版本
+
 # 2.0.12 | 2022-01-23
 * 1.18版本支持成就显示
 * ~~优化了成就API的代码逻辑，变成了屎诗级代码(遵循 [![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode) 书写标准)~~

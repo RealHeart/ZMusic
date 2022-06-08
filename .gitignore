@@ -25,6 +25,7 @@ hs_err_pid*
 #custom
 .idea/
 libs/
+lib/
 out/
 target/
 *.iml
