@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.proto.packet.AdvancementPacket
 import net.minecraft.advancements.*
 import net.minecraft.advancements.critereon.LootSerializationContext
 import net.minecraft.network.chat.ChatMessage
+import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.PacketPlayOutAdvancements
 import net.minecraft.resources.MinecraftKey
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
@@ -79,6 +80,9 @@ class AdvancementPacket_1_17_R1(
 
         val packet = PacketPlayOutAdvancements(false, advancements, removedAdvancements, progress)
         val craftPlayer = player as CraftPlayer
-        craftPlayer.handle.b.sendPacket(packet)
+        val connection = craftPlayer.handle.b
+        connection.javaClass
+            .getDeclaredMethod("sendPacket", Packet::class.java)
+            .invoke(connection, packet)
     }
 }
