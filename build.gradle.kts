@@ -11,14 +11,14 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0.0-22w18a"
 
-val taboolib = "6.0.7-64"
+val taboolib = "6.0.8-9"
 val minimessage = "4.10.0-SNAPSHOT"
-val bungeecord = "1.18-R0.1-SNAPSHOT"
+val spigot = "1.19-R0.1-SNAPSHOT"
+val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
 val okhttp = "4.9.3"
-val fastjson = "2.0.1"
-val nms = "11802"
-val netty = "4.1.76.Final"
+val fastjson = "2.0.3"
+val netty = "4.1.77.Final"
 
 repositories {
     // bungeecord
@@ -32,9 +32,14 @@ repositories {
 
 dependencies {
     // NMS
-    compileOnly("ink.ptms.core:v$nms:$nms:mapped")
-    compileOnly("ink.ptms.core:v$nms:$nms:universal")
-    compileOnly("ink.ptms:nms-all:1.0.0") // 1.8-1.16.5
+    compileOnly("ink.ptms.core:v11900:11900:universal")
+    compileOnly("ink.ptms.core:v11802:11802:universal")
+    compileOnly("ink.ptms.core:v11801:11801:universal")
+    compileOnly("ink.ptms.core:v11701:11701:universal")
+    compileOnly("ink.ptms:nms-all:1.0.0") // 1.8_R1 - 1.16_R3
+
+    // Spigot API
+    compileOnly("org.spigotmc:spigot-api:$spigot")
 
     // Kyori Adventure
     compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
@@ -81,9 +86,7 @@ taboolib {
     install(
         "module-configuration",
         "module-lang",
-        "module-metrics",
-        "module-nms",
-        "module-nms-util"
+        "module-metrics"
     )
     // 扩展
     install(
@@ -103,5 +106,5 @@ tasks.withType<JavaCompile> {
 
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_17
 }
