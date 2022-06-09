@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic.command.impl
 
 import me.zhenxin.zmusic.api.impl.NeteaseApi
+import me.zhenxin.zmusic.proto.sendToast
 import me.zhenxin.zmusic.taboolib.extend.sendPluginMessage
 import me.zhenxin.zmusic.utils.colored
-import me.zhenxin.zmusic.utils.sendToast
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
@@ -22,7 +22,7 @@ val testCommand = subCommand {
     execute<ProxyPlayer> { sender, _, _ ->
         submit {
             val api = NeteaseApi()
-            val result = api.searchSingle("勾指起誓")
+            val result = api.searchSingle("让风告诉你")
             println(result)
             sender.sendPluginMessage(
                 "[Play]${api.getPlayUrl(result.id)}"

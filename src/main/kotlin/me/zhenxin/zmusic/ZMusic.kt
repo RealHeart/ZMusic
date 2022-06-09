@@ -12,7 +12,6 @@ import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.runningPlatform
 import taboolib.common.platform.function.submit
 import taboolib.module.metrics.Metrics
-import taboolib.module.nms.MinecraftVersion
 
 
 /**
@@ -69,10 +68,6 @@ object ZMusic {
         }
 
         submit(async = true) { checkUpdate(console()) }
-
-        if (runningPlatform == BUKKIT) {
-            logger.debug(MinecraftVersion.majorLegacy)
-        }
 
         if (config.DEBUG) {
             submit(async = true) {
