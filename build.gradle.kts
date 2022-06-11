@@ -12,7 +12,8 @@ group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
 val taboolib = "6.0.8-9"
-val minimessage = "4.10.0-SNAPSHOT"
+val adventureMinimessage = "4.11.0"
+val adventurePlatform = "4.1.0"
 val spigot = "1.19-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
@@ -25,8 +26,6 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
     // Velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
-    // ZhenXin
-    maven("https://gitee.com/RealHeart/Maven/raw/master")
     mavenCentral()
 }
 
@@ -42,7 +41,9 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:$spigot")
 
     // Kyori Adventure
-    compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
+    compileOnly("net.kyori:adventure-text-minimessage:$adventureMinimessage")
+    compileOnly("net.kyori:adventure-platform-bukkit:$adventurePlatform")
+    compileOnly("net.kyori:adventure-platform-bungeecord:$adventurePlatform")
 
     // Platform API
     compileOnly("net.md-5:bungeecord-api:$bungeecord")

@@ -3,7 +3,10 @@ package me.zhenxin.zmusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.*
+import me.zhenxin.zmusic.utils.Logger
+import me.zhenxin.zmusic.utils.checkUpdate
+import me.zhenxin.zmusic.utils.loginNetease
+import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
@@ -46,9 +49,9 @@ object ZMusic {
     fun onEnable() {
         setLocale()
         logo.split("\n").forEach {
-            logger.info("§b$it")
+            logger.info("&b$it")
         }
-        logger.info("\t§6v$VERSION_NAME\tby ZhenXin")
+        logger.info("\t&6v$VERSION_NAME\tby ZhenXin")
 
         logger.info(Lang.INIT_LOADING)
         // 注册bStats
@@ -71,9 +74,9 @@ object ZMusic {
 
         if (config.DEBUG) {
             submit(async = true) {
-                logger.info("&a正在尝试登录网易云音乐...".colored())
+                logger.info("&a正在尝试登录网易云音乐...")
                 val result = loginNetease()
-                logger.info(result.message.colored())
+                logger.info(result.message)
             }
         }
     }

@@ -3,7 +3,6 @@ package me.zhenxin.zmusic.proto
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.platform.bukkitPlugin
 import me.zhenxin.zmusic.proto.packet.impl.*
-import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
@@ -36,7 +35,7 @@ fun ProxyPlayer.sendToast(msg: String) {
             "v1_13_R2" -> AdvancementPacket_1_13_R2(cast(), msg)
             "v1_12_R1" -> AdvancementPacket_1_12_R1(cast(), msg)
             else -> {
-                logger.info("&cToast not support this NMS version: $nms".colored())
+                logger.info("&cToast not support this NMS version: $nms")
                 return;
             }
         }

@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.config
 
-import me.zhenxin.zmusic.utils.colored
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Configuration
 
@@ -31,7 +30,7 @@ object Loader {
 
         /** 前缀 */
         val PREFIX: String
-            get() = config.getStr("prefix").colored()
+            get() = config.getStr("prefix")
 
         /** 调试模式 */
         val DEBUG: Boolean
@@ -75,7 +74,7 @@ object Loader {
 
         /** 歌词颜色 */
         val LYRIC_COLOR: String
-            get() = config.getStr("lyric.color").colored()
+            get() = config.getStr("lyric.color")
 
         /** 歌词显示 BossBar */
         val LYRIC_BOSS_BAR: Boolean

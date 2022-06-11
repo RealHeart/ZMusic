@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.proto.packet.impl
 
-import com.google.gson.JsonObject
 import me.zhenxin.zmusic.proto.packet.AdvancementPacket
 import net.minecraft.server.v1_15_R1.*
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer

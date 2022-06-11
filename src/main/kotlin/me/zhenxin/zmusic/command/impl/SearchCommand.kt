@@ -6,7 +6,6 @@ import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
-import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -50,13 +49,13 @@ val searchCommand = subCommand {
                         val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
                                 "<red>[<yellow><click:run_command:'/zm play $platform $keyword'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
                                 "<red>[<yellow><click:run_command:'/zm music $platform $keyword'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
-                        sender.sendMsg(msg.colored())
+                        sender.sendMsg(msg)
                     }
                     val prev =
                         "<click:run_command:'/zm search $platform $args -page:${page - 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_PREV}'><<<</click>"
                     val next =
                         "<click:run_command:'/zm search $platform $args -page:${page + 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_NEXT}'>>>></click>"
-                    sender.sendMsg("<gold>======<red>$prev<gold>=====================<red>${next}<gold>=======".colored())
+                    sender.sendMsg("<gold>======<red>$prev<gold>=====================<red>${next}<gold>=======")
                 }
             }
         }

@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.config
 
-import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.function.console
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
@@ -23,29 +22,29 @@ object Lang {
         get() = console().asLangText("platform-xima")
 
     val INIT_LOADING
-        get() = console().asLangText("init-loading").colored()
+        get() = console().asLangText("init-loading")
     val INIT_LOADED
-        get() = console().asLangTextList("init-loaded").colored()
+        get() = console().asLangTextList("init-loaded")
 
     val HELP_TIPS
-        get() = console().asLangText("help-tips").colored()
+        get() = console().asLangText("help-tips")
     val HELP_MAIN
-        get() = console().asLangTextList("help-main").colored()
+        get() = console().asLangTextList("help-main")
 
     val COMMAND_INCORRECT_COMMAND
-        get() = console().asLangTextList("command-incorrect-command").colored()
+        get() = console().asLangTextList("command-incorrect-command")
     val COMMAND_INCORRECT_SENDER
-        get() = console().asLangText("command-incorrect-sender").colored()
+        get() = console().asLangText("command-incorrect-sender")
     val COMMAND_PLAY_SEARCHING
-        get() = console().asLangText("command-play-searching").colored()
+        get() = console().asLangText("command-play-searching")
     val COMMAND_PLAY_SUCCESS
-        get() = console().asLangText("command-play-success").colored()
+        get() = console().asLangText("command-play-success")
     val COMMAND_PLAY_NOSUPPORTED_IDPLAY
-        get() = console().asLangText("command-play-nosupported-idplay").colored()
+        get() = console().asLangText("command-play-nosupported-idplay")
     val COMMAND_SEARCH_HEADER
-        get() = console().asLangText("command-search-header").colored()
+        get() = console().asLangText("command-search-header")
     val COMMAND_RELOAD_SUCCESS
-        get() = console().asLangText("command-reload-success").colored()
+        get() = console().asLangText("command-reload-success")
 
     val COMMAND_SUGGESTION_PLATFORM
         get() = console().asLangText("command-suggestion-platform")
@@ -61,22 +60,22 @@ object Lang {
     val MESSAGE_JSON_QUEUE
         get() = console().asLangText("message-json-queue")
     val MESSAGE_JSON_TIPS
-        get() = console().asLangText("message-json-tips").colored()
+        get() = console().asLangText("message-json-tips")
     val MESSAGE_JSON_TIPS_PREV
         get() = console().asLangText("message-json-tips-prev")
     val MESSAGE_JSON_TIPS_NEXT
         get() = console().asLangText("message-json-tips-next")
 
     val TOAST_PLAYING
-        get() = console().asLangText("toast-playing").colored().replace("\\n", "\n")
+        get() = console().asLangText("toast-playing").replace("\\n", "\n")
 
     val NO_SUPPORTED_REGION
-        get() = console().asLangText("no-supported-region").colored()
+        get() = console().asLangText("no-supported-region")
 
     val UPDATE_CHECKING
-        get() = console().asLangText("update-checking").colored()
+        get() = console().asLangText("update-checking")
     val UPDATE_NO_UPDATE
-        get() = console().asLangText("update-no-update").colored()
+        get() = console().asLangText("update-no-update")
     val UPDATE_NEW_VERSION
-        get() = console().asLangTextList("update-new-version").colored()
+        get() = console().asLangTextList("update-new-version")
 }

@@ -10,7 +10,7 @@ import taboolib.common.platform.ProxyCommandSender
 @PlatformImplementation(Platform.VELOCITY)
 class ComponentVelocity : Component {
 
-    override fun sendMsg(sender: ProxyCommandSender, component: me.zhenxin.adventure.text.Component) {
+    override fun sendMsg(sender: ProxyCommandSender, component: net.kyori.adventure.text.Component) {
         val s = sender.cast<CommandSource>()
         s.sendMessage(component as net.kyori.adventure.text.Component)
     }

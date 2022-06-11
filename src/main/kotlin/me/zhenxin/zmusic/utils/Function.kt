@@ -1,8 +1,6 @@
 package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.JSON
-import me.zhenxin.adventure.text.Component
-import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.impl.BiliBiliApi
 import me.zhenxin.zmusic.api.impl.NeteaseApi
@@ -14,6 +12,7 @@ import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
+import net.kyori.adventure.text.minimessage.MiniMessage
 import taboolib.common.platform.ProxyCommandSender
 import java.util.*
 
@@ -26,19 +25,36 @@ import java.util.*
  */
 
 /**
- * 替换&为§
+ * 格式化颜色代码
  */
-fun String.colored(): String = replace("&", "§")
-
-/**
- * 替换&为§
- */
-fun List<String>.colored(): List<String> = map { it.replace("&", "§") }
+fun String.colored() = replace("§", "&")
+    .replace("&0", "<black>")
+    .replace("&1", "<dark_blue>")
+    .replace("&2", "<dark_green>")
+    .replace("&3", "<dark_aqua>")
+    .replace("&4", "<dark_red>")
+    .replace("&5", "<dark_purple>")
+    .replace("&6", "<gold>")
+    .replace("&7", "<gray>")
+    .replace("&8", "<dark_gray>")
+    .replace("&9", "<blue>")
+    .replace("&a", "<green>")
+    .replace("&b", "<aqua>")
+    .replace("&c", "<red>")
+    .replace("&d", "<light_purple>")
+    .replace("&e", "<yellow>")
+    .replace("&f", "<white>")
+    .replace("&k", "<obfuscated>")
+    .replace("&l", "<bold>")
+    .replace("&m", "<strikethrough>")
+    .replace("&n", "<underlined>")
+    .replace("&o", "<italic>")
+    .replace("&r", "<reset>")
 
 /**
  * 通过 MiniMessage 生成 Component
  */
-fun String.component(): Component = MiniMessage.miniMessage().deserialize(this)
+fun String.component() = MiniMessage.miniMessage().deserialize(this.colored())
 
 /**
  * 通过代号获取相应API实例
@@ -133,7 +149,7 @@ fun checkUpdate(sender: ProxyCommandSender) {
         }
         val logs = changelog.split("\\n")
         logs.forEach {
-            sender.sendMsg("&b".colored() + it.colored())
+            sender.sendMsg("&b$it")
         }
     } else {
         sender.sendMsg(Lang.UPDATE_NO_UPDATE)
