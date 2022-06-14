@@ -25,11 +25,6 @@
             <id>ZhenXin-repo</id>
             <url>https://code.aliyun.com/zhenxin/Maven/raw/master/</url>
         </repository>
-        <!--临时使用CodeMC仓库-->
-        <repository>
-            <id>nms-repo</id>
-            <url>https://repo.codemc.io/repository/nms/</url>
-        </repository>
         <repository>
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -64,47 +59,28 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.19-R0.1-SNAPSHOT.jar</systemPath>
+            <groupId>ink.ptms.core</groupId>
+            <artifactId>v11900</artifactId>
+            <version>11900</version>
+            <classifier>universal</classifier>
         </dependency>
         <dependency>
-            <groupId>org.bukkit.</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>craftbukkit</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>ink.ptms.core</groupId>
+            <artifactId>v11802</artifactId>
+            <version>11802</version>
+            <classifier>universal</classifier>
         </dependency>
         <dependency>
-            <groupId>org.bukkit..</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>craftbukkit</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>ink.ptms.core</groupId>
+            <artifactId>v11801</artifactId>
+            <version>11801</version>
+            <classifier>universal</classifier>
         </dependency>
         <dependency>
-            <groupId>org.bukkit...</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>craftbukkit</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>ink.ptms.core</groupId>
+            <artifactId>v11701</artifactId>
+            <version>11701</version>
+            <classifier>universal</classifier>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
