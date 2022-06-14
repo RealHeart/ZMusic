@@ -34,7 +34,6 @@ public class LoadLang {
     }
 
     public void load() {
-        Gson gson = new GsonBuilder().create();
         JsonObject info = json.get("info").getAsJsonObject();
         JsonObject lang = json.get("language").getAsJsonObject();
         JsonObject play = lang.get("play").getAsJsonObject();
@@ -45,6 +44,7 @@ public class LoadLang {
         Lang.playSuccess = play.get("playSuccess").getAsString();
         Lang.playAllSource = play.get("playAllSource").getAsString();
         JsonArray playError = play.get("playError").getAsJsonArray();
+        Lang.playError.clear();
         for (JsonElement j : playError) {
             Lang.playError.add(j.getAsString());
         }
@@ -70,12 +70,14 @@ public class LoadLang {
         // 全部歌单提示
         JsonObject playList = lang.get("playList").getAsJsonObject();
         JsonArray playListPlayError = playList.get("playListPlayError").getAsJsonArray();
+        Lang.playListPlayError.clear();
         for (JsonElement j : playListPlayError) {
             Lang.playListPlayError.add(j.getAsString());
         }
         // 全部帮助信息
         Lang.helpHelp = lang.get("help").getAsJsonObject().get("help").getAsString();
         JsonArray helpMain = lang.get("help").getAsJsonObject().get("main").getAsJsonArray();
+        Lang.mainHelp.clear();
         for (JsonElement j : helpMain) {
             Lang.mainHelp.add(j.getAsString());
         }
