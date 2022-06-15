@@ -12,6 +12,6 @@ class ComponentVelocity : Component {
 
     override fun sendMsg(sender: ProxyCommandSender, component: net.kyori.adventure.text.Component) {
         val s = sender.cast<CommandSource>()
-        s.sendMessage(component as net.kyori.adventure.text.Component)
+        s.sendMessage(component)
     }
 }

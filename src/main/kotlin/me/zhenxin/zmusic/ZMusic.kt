@@ -1,7 +1,9 @@
 package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.js.Http
+import me.zhenxin.zmusic.js.evalJS
+import me.zhenxin.zmusic.js.nashornSandbox
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
 import me.zhenxin.zmusic.utils.Logger
 import me.zhenxin.zmusic.utils.checkUpdate
@@ -43,6 +45,10 @@ object ZMusic {
 
         // 初始化日志模块
         logger = Logger(console())
+
+        // 初始化JS模块
+        nashornSandbox.allow(Http::class.java)
+        nashornSandbox.inject("http", Http())
     }
 
     @Awake(LifeCycle.ENABLE)
@@ -72,12 +78,20 @@ object ZMusic {
 
         submit(async = true) { checkUpdate(console()) }
 
-        if (config.DEBUG) {
-            submit(async = true) {
-                logger.info("&a正在尝试登录网易云音乐...")
-                val result = loginNetease()
-                logger.info(result.message)
-            }
+        submit(async = true) {
+            logger.info("&a正在尝试登录网易云音乐...")
+            val result = loginNetease()
+            logger.info(result.message)
+        }
+
+        submit(async = true) {
+            // JavaScript Test
+            val js = """
+                var result = http.get('https://api.zplu.cc/version?plugin=zmusic&type=snapshot')
+                result
+            """.trimIndent()
+            val result = js.evalJS()
+            result?.let { logger.debug(it) }
         }
     }
 }

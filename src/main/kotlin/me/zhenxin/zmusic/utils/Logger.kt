@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import me.zhenxin.zmusic.config.Loader
+import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 
@@ -17,7 +17,7 @@ class Logger(private val sender: ProxyCommandSender) {
     }
 
     fun debug(msg: Any) {
-        if (Loader.Config.DEBUG) {
+        if (config.DEBUG) {
             sender.sendMsg("&e[Debug] $msg")
         }
     }

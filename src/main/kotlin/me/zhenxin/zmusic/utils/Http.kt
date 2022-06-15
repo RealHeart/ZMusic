@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.JSON.toJSONString
+import me.zhenxin.zmusic.exception.ZMusicException
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -18,26 +19,16 @@ private val client = OkHttpClient().newBuilder().build()
 private val mediaType = "application/json; charset=utf-8".toMediaType()
 
 /**
- * HTTP请求返回
- */
-data class HttpResult(
-    /* 状态码 */
-    val code: Int,
-    /* 数据 */
-    val data: String
-)
-
-/**
  * GET获取
  * @param url 链接
  * @param paramsMap 参数(Map)
  * @return 字符串
  */
-fun httpGet(
+fun get(
     url: String,
     paramsMap: MutableMap<String, Any?> = mutableMapOf(),
     headers: MutableMap<String, String> = mutableMapOf()
-): HttpResult {
+): String {
     val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
     var fullUrl = url
     if (params.isNotEmpty()) {
@@ -55,14 +46,14 @@ fun httpGet(
 /**
  * POST获取
  * @param url 连接
- * @param paramsMap 参数
+ * @param data 参数
  */
-fun httpPost(
+fun post(
     url: String,
-    paramsMap: MutableMap<String, Any?> = mutableMapOf(),
+    data: MutableMap<String, Any?> = mutableMapOf(),
     headers: MutableMap<String, String> = mutableMapOf()
-): HttpResult {
-    val body = toJSONString(paramsMap).toRequestBody(mediaType)
+): String {
+    val body = toJSONString(data).toRequestBody(mediaType)
     val req = Request.Builder()
         .url(url)
         .post(body)
@@ -72,15 +63,12 @@ fun httpPost(
     return call(req.build())
 }
 
-private fun call(request: Request): HttpResult {
+private fun call(request: Request): String {
     val res = client.newCall(request).execute()
     if (res.isSuccessful) {
         if (res.body != null) {
-            return HttpResult(
-                res.code,
-                res.body!!.string()
-            )
+            return res.body!!.string()
         }
     }
-    return HttpResult(400, "{}")
+    throw ZMusicException("Http error ${res.code}, body: ${res.body?.string()}")
 }

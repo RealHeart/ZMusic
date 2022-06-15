@@ -85,9 +85,9 @@ fun setLocale() {
  * 检测服务器IP是否为中国大陆地区
  */
 fun isChina(): Boolean {
-    val result = httpGet("http://ip-api.com/json/")
+    val result = get("http://ip-api.com/json/")
     logger.debug(result)
-    val data = JSON.parseObject(result.data)
+    val data = JSON.parseObject(result)
     return data.getString("country") == "China"
 }
 
@@ -131,8 +131,8 @@ fun checkUpdate(sender: ProxyCommandSender) {
     val plugin = "zmusic"
     val type = "snapshot"
     val api = "https://api.zplu.cc/version"
-    val result = httpGet("$api?plugin=$plugin&type=$type")
-    val json = JSON.parseObject(result.data)
+    val result = get("$api?plugin=$plugin&type=$type")
+    val json = JSON.parseObject(result)
     val data = json.getJSONObject("data")
     val info = data.getJSONObject("info")
     val version = info.getString("version")

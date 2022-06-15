@@ -18,7 +18,9 @@ val spigot = "1.19-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
 val okhttp = "4.9.3"
-val fastjson = "2.0.3"
+val fastjson = "2.0.6"
+val nashorn = "15.4"
+val nashornSandbox = "0.2.5"
 val netty = "4.1.77.Final"
 
 repositories {
@@ -53,7 +55,10 @@ dependencies {
     compileOnly("com.squareup.okhttp3:okhttp:$okhttp")
     // fastjson
     compileOnly("com.alibaba.fastjson2:fastjson2:$fastjson")
-
+    // nashorn
+    compileOnly("org.openjdk.nashorn:nashorn-core:$nashorn")
+    compileOnly("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")
+    // nettty
     compileOnly("io.netty:netty-buffer:$netty")
     // Kotlin
     compileOnly(kotlin("stdlib"))
@@ -91,8 +96,7 @@ taboolib {
     )
     // 扩展
     install(
-        "expansion-command-helper",
-        "expansion-javascript"
+        "expansion-command-helper"
     )
     version = taboolib
 }

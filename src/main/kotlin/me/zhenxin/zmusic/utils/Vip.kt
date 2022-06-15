@@ -16,15 +16,16 @@ import java.net.URLEncoder
  * m4s转mp3
  */
 fun m4s2mp3(id: String, url: String): String {
-    val u = "https://api.zplu.cc/zmusic/vip/m4s2mp3?id=$id&url=${
-        URLEncoder.encode(
-            url,
-            "UTF-8"
-        )
-    }&qq=${config.VIP_QQ}&key=${config.VIP_KEY}"
-    val result = httpGet(u)
+    val result = get(
+        "https://api.zplu.cc/zmusic/vip/m4s2mp3?id=$id&url=${
+            URLEncoder.encode(
+                url,
+                "UTF-8"
+            )
+        }&qq=${config.VIP_QQ}&key=${config.VIP_KEY}"
+    )
     logger.debug(result)
-    val json = JSON.parseObject(result.data)
+    val json = JSON.parseObject(result)
     if (json.getIntValue("code") != 200) {
         return ""
     }

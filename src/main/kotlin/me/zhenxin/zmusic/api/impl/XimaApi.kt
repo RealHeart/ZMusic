@@ -7,7 +7,7 @@ import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.utils.httpGet
+import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
 /**
@@ -24,12 +24,12 @@ class XimaApi : MusicApi {
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
         val search =
-            httpGet(
+            get(
                 "https://www.ximalaya.com/revision/search/main?kw=${
                     URLEncoder.encode(keyword, "UTF-8")
                 }&core=track&page=$page&rows=$count"
             )
-        val data = JSON.parseObject(search.data)
+        val data = JSON.parseObject(search)
         val result = data.getJSONObject("data")
         val track = result.getJSONObject("track")
         val songs = track.getJSONArray("docs")
@@ -66,8 +66,8 @@ class XimaApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result =
-            httpGet("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
-        val json = JSON.parseObject(result.data)
+            get("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
+        val json = JSON.parseObject(result)
         val data = json.getJSONObject("data")
         val page = data.getJSONObject("playpage")
         val track = page.getJSONObject("trackInfo")

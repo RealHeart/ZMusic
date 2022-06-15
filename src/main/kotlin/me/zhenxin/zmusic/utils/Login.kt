@@ -21,14 +21,14 @@ fun loginNetease(): LoginResult {
         return LoginResult(400, "&c未配置账号密码")
     }
     val api = config.API_NETEASE_LINK
-    val result = httpPost(
+    val result = post(
         "$api/login", mutableMapOf(
             "email" to account,
             "md5_password" to password.digest("md5")
         )
     )
 
-    val info = JSON.parseObject(result.data)
+    val info = JSON.parseObject(result)
     val code = info.getIntValue("code")
     return if (code != 200) {
         val msg = info.getString("msg")

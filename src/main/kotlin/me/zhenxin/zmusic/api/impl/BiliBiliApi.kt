@@ -7,7 +7,7 @@ import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.utils.httpGet
+import me.zhenxin.zmusic.utils.get
 import me.zhenxin.zmusic.utils.m4s2mp3
 import java.net.URLEncoder
 
@@ -24,14 +24,14 @@ class BiliBiliApi : MusicApi {
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
         val search =
-            httpGet(
+            get(
                 "https://api.bilibili.com/x/web-interface/search/type?search_type=video&page=$page&keyword=${
                     URLEncoder.encode(
                         keyword, "UTF-8"
                     )
                 }"
             )
-        val json = JSON.parseObject(search.data)
+        val json = JSON.parseObject(search)
         val data = json.getJSONObject("data")
         val result = data.getJSONArray("result")
         result.forEach {
@@ -69,8 +69,8 @@ class BiliBiliApi : MusicApi {
         val bvid = ids[0]
         val cid = ids[1]
         val url = "https://api.bilibili.com/x/player/playurl?bvid=$bvid&cid=$cid&fnval=16"
-        val result = httpGet(url)
-        val json = JSON.parseObject(result.data)
+        val result = get(url)
+        val json = JSON.parseObject(result)
         val data = json.getJSONObject("data")
         val dash = data.getJSONObject("dash")
         val audios = dash.getJSONArray("audio")
@@ -85,8 +85,8 @@ class BiliBiliApi : MusicApi {
 
     override fun getMusicInfo(id: String): MusicInfo {
         val url = "https://api.bilibili.com/x/web-interface/view?bvid=${id}"
-        val result = httpGet(url)
-        val json = JSON.parseObject(result.data)
+        val result = get(url)
+        val json = JSON.parseObject(result)
         val data = json.getJSONObject("data")
         val fullId = "${data.getString("bvid")},${data.get("cid")}"
         val title = data.getString("title")

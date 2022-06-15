@@ -7,7 +7,7 @@ import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.utils.httpGet
+import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
 /**
@@ -27,7 +27,7 @@ class SoundCloudApi : MusicApi {
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
         val offset = (page - 1) * count
-        val result = httpGet(
+        val result = get(
             "$api/search/tracks?q=${
                 URLEncoder.encode(
                     keyword,
@@ -36,7 +36,7 @@ class SoundCloudApi : MusicApi {
             }&limit=$count&offset=$offset&client_id=$clientId"
         )
         logger.debug(result)
-        val data = JSON.parseObject(result.data)
+        val data = JSON.parseObject(result)
         val songs = data.getJSONArray("collection")
         songs.forEach {
             it as JSONObject
@@ -71,12 +71,12 @@ class SoundCloudApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = httpGet("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
-        val json = JSON.parseObject(result.data)
+        val result = get("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
+        val json = JSON.parseObject(result)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
         val urlLink = (data[1] as JSONObject).getString("url")
-        val urlResult = httpGet("$urlLink?client_id=$clientId")
-        return JSON.parseObject(urlResult.data).getString("url")
+        val urlResult = get("$urlLink?client_id=$clientId")
+        return JSON.parseObject(urlResult).getString("url")
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
