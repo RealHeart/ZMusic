@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.js.Http
 import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
@@ -10,14 +11,11 @@ import me.zhenxin.zmusic.utils.Logger
 import me.zhenxin.zmusic.utils.checkUpdate
 import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform.*
-import taboolib.common.platform.function.console
-import taboolib.common.platform.function.pluginVersion
-import taboolib.common.platform.function.runningPlatform
-import taboolib.common.platform.function.submit
+import taboolib.common.platform.Plugin
+import taboolib.common.platform.function.*
 import taboolib.module.metrics.Metrics
+import java.io.File
 
 
 /**
@@ -28,7 +26,7 @@ import taboolib.module.metrics.Metrics
  * @email qgzhenxin@qq.com
  */
 @Suppress("unused")
-object ZMusic {
+object ZMusic : Plugin() {
     lateinit var VERSION_NAME: String
 
     private const val logo = "" +
@@ -39,8 +37,7 @@ object ZMusic {
             "  / /__  | |  | | | |_| | \\__ \\ | | | (__ \n" +
             " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n"
 
-    @Awake(LifeCycle.LOAD)
-    fun onLoad() {
+    override fun onLoad() {
         // 初始化变量
         VERSION_NAME = pluginVersion
 
@@ -52,10 +49,28 @@ object ZMusic {
         nashornSandbox.allow(Util::class.java)
         nashornSandbox.inject("http", Http())
         nashornSandbox.inject("util", Util())
+
+        val files = listOf(
+            "scripts/platform_example.js"
+        )
+
+        files.forEach {
+            if (it.contains("example")) {
+                releaseResourceFile(it, true)
+            } else {
+                releaseResourceFile(it)
+            }
+        }
+
+        val scripts = File(getDataFolder(), "scripts").listFiles() ?: throw ZMusicException("scripts path not found")
+        scripts.forEach {
+            if (it.name.contains("platform_")) {
+                println(it.readText())
+            }
+        }
     }
 
-    @Awake(LifeCycle.ENABLE)
-    fun onEnable() {
+    override fun onEnable() {
         setLocale()
         logo.split("\n").forEach {
             logger.info("&b$it")
@@ -71,7 +86,6 @@ object ZMusic {
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
-
         Lang.INIT_LOADED.forEach {
             logger.info(
                 it.replace("{0}", VERSION_NAME)

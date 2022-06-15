@@ -11,7 +11,7 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
-val taboolib = "6.0.8-9"
+val taboolib = "6.0.9-4"
 val adventureMinimessage = "4.11.0"
 val adventurePlatform = "4.1.0"
 val spigot = "1.19-R0.1-SNAPSHOT"
