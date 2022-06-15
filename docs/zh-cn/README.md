@@ -305,7 +305,7 @@
 
 ## 2.5版本使用
 
-[```Protocolib```](https://www.spigotmc.org/resources/protocollib.624/) [可选] 如果需要使用成就显示 请安装
+[```Protocolib```](https://www.spigotmc.org/resources/protocollib.1997/) [可选] 如果需要使用成就显示 请安装
 
 ## 1.5,1.6版本使用
 
