@@ -19,11 +19,11 @@
 * 单独播放
 * 歌词显示
 * 歌词翻译显示
-* 多搜索源(QQ/网易云/酷狗/酷我/哔哩哔哩)
+* 多搜索源(网易云/酷狗/酷我/哔哩哔哩)
 * 关键词搜索
 * 个人歌单
 * 全服歌单
-* 歌单播放(QQ音乐/网易云)
+* 歌单播放(网易云)
 * 音量调节(1.12及以上支持)
 * 支持BungeeCord
 
@@ -32,12 +32,14 @@
 本插件需要客户端安装配套Mod才能正常播放
 
 * 对于1.8-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.7.10, 1.12.2-1.18.2的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`）
+* 对于1.7.10, 1.12.2-1.19的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`
+  ，但是需要注意的是：请下载有版本号前缀的文件）
+* 对于1.19 Forge版客户端，暂时可用的解决方法是，加群下载适配1.19版本的AllMusic-UNOFFICIAL。 ~~（问就是因为颜色编译不出来）~~
 
 ## BungeeCord说明
 
 * 只有 BungeeCord 端需要安装 ZMusic-Plugin 插件（子服不需要安装）
-* BungeeCord 目前仅支持 1.9-1.18 的服务端
+* BungeeCord 目前仅支持 1.9-1.19 的服务端
 * BungeeCord 暂不支持经济系统
 * 对于子服显示Papi变量 进度提示等功能 只需要对子服安装 ZMusic-Addon 插件
 
@@ -74,7 +76,7 @@
 
 ### 示例
 
-`/zm play qq 你的猫咪`
+`/zm play netease 你的猫咪`
 
 ## 点歌
 
@@ -88,7 +90,7 @@
 
 ### 示例
 
-`/zm music qq 你的猫咪`
+`/zm music netease 你的猫咪`
 
 ## 搜索
 
@@ -102,7 +104,7 @@
 
 ### 示例
 
-`/zm search qq 你的猫咪`
+`/zm search netease 你的猫咪`
 
 ## 歌单
 
@@ -132,7 +134,7 @@
 * 子命令与普通模式相同
 
 示例:
-`/zm playlist global qq list`
+`/zm playlist global netease list`
 
 `子命令` 对应平台的子命令
 
@@ -148,12 +150,10 @@
 
 导入:
 
-* `/zm playlist qq import https://y.qq.com/n/yqq/playlist/1937967578.html`
 * `/zm playlist 163 import https://music.163.com/#/playlist?id=363046232`
 
 播放:
 
-* `/zm playlist qq play 1937967578`
 * `/zm playlist 163 play 363046232`
 
 ## 管理员
@@ -170,7 +170,7 @@
 
 ### 示例
 
-`/zm playAll qq 你的猫咪`
+`/zm playAll netease 你的猫咪`
 
 # 权限
 
@@ -201,13 +201,7 @@
     /// 使用开源项目NeteaseCloudMusicApi
     /// 推荐自行部署，需Node.js环境
     /// 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
-    "netease": "https://netease.api.zhenxin.xyz/",
-    /// QQ音乐API地址
-    ///
-    /// 使用开源项目QQMusicApi
-    /// 推荐自行部署，需Node.js环境
-    /// 地址: https://github.com/jsososo/QQMusicApi
-    "qq": "https://qqmusic.api.zhenxin.xyz/"
+    "netease": "https://netease.api.zhenxin.xyz/"
   },
   /// 账号设置
   "account": {
@@ -309,6 +303,10 @@
 [```PlaceholderAPI```](https://www.spigotmc.org/resources/placeholderapi.6245/) [可选] 如需使用上方变量 请安装   
 [```Vault```](https://www.spigotmc.org/resources/vault.34315/) [可选] 如果需要使用点歌扣费 请安装
 
+## 2.5版本使用
+
+[```Protocolib```](https://www.spigotmc.org/resources/protocollib.624/) [可选] 如果需要使用成就显示 请安装
+
 ## 1.5,1.6版本使用
 
 ~~[```AudioBuffer```](https://www.mcbbs.net/thread-832205-1-1.html) [必须] 用于播放音乐，贴内有配套Mod 客户端需安装~~
@@ -324,7 +322,7 @@
 `搜索源` 为你要搜索音乐的平台  
 目前支持以下平台
 
-* qq - QQ音乐
+* ~~qq - QQ音乐~~ 已不受支持 
 * netease/163 - 网易云音乐
 * kugou - 酷狗音乐
 * kuwo - 酷我音乐
@@ -333,7 +331,7 @@
 # 歌名ID化说明
 
 将歌名替换为 `-id:音乐ID` 即可  
-目前支持 QQ 网易云 哔哩哔哩音乐  
+目前支持 网易云 哔哩哔哩音乐  
 示例: `/zm play bilibili -id:374305`
 
 <span id="faq"></span>
@@ -379,6 +377,10 @@
 
 请加入测试群了解最新开发进度（群号951532728）
 
+### 播放音乐成功后，客户端提示耗时时间很长（但是实际却很短）。
+
+导致此问题的原因可能是连续点击同一个点歌按钮间隔时间过短。导致内部线程调用尚未处理过来，显示了错误的耗时时间，不影响实际使用。
+
 ## 可能会遇到的后台异常
 
 ### 登录网易云音乐时，出现`java.net.UnknownHostException` 异常
@@ -391,28 +393,25 @@
 
 您的服务端未内置gson库，安装带gson库的插件即可。（不会吧不会吧，竟然真有不支持gson的吧！）
 
-## 我找不到以上描述的任何错误
+### 点歌成功后，后台刷屏报黄色错误
 
-您可以加入我们的交流群，如果有报错信息的话，请上传后台报错信息至[WhkSoft PasteBin](https://paste.whksoft.cn/)  
-然后通过链接的形式反馈给我们。  
-帮助手册仍在进一步完善中！
-
-## 安装 AllMusic 之后，客户端无法启动(Fabric)
+### 安装 AllMusic 之后，客户端无法启动(Fabric)
 
 * 请检查您安装的模组版本是否对应，如您的客户端使用的是Fabric模组加载器，但是您下载的是 `[Forge-1.16.5]-AllMusic-x.x.x.jar`
-* 如果您下载的是Fabric版本模组，请检查您是否安装了`Fabric-API`前置模组
+* 如果您下载的是 Fabric 版本模组，请检查您是否安装了 `Fabric-API` 前置模组
 * 本模组与`CardBoard`不兼容
 
 ~~(所以我一个ZMusic使用文档为什么要回答AllMusic的问题，AllMusic插件用户请退群)~~
 
-## 插件加载后出现报错：“错误：请等待插件加载完毕”
+### 插件加载后出现报错：“错误：请等待插件加载完毕”
 
 出现此种问题，请检查以下情况。
 
 * 检查您安装的插件版本是否为最新。
 * 检查`ZMusic`插件文件夹是否有权限写入（特别是基于Linux的系统， ~~建议直接暴力chmod 777~~ ）
 * 检查您的服务端是否支持异步线程(一般基于`Bukkit`的都支持，~~别问我关于`Mohist`的问题辣！焯！~~)
-* 手动修复插件文件夹，在`ZMusic`文件夹中新建一个叫`language`的文件夹，之后从我们的仓库中的`master`分支找到`language`文件夹，并下载`zh_cn.json`文件，放入`language`文件夹中，然后重载或者重启服务器。
+* 手动修复插件文件夹，在`ZMusic`文件夹中新建一个叫`language`的文件夹，之后从我们的仓库中的`master`分支找到`language`文件夹，并下载`zh_cn.json`文件，放入`language`
+  文件夹中，然后重载或者重启服务器。
 
 ## 是否支持 `1.7.10`
 
@@ -424,6 +423,17 @@
 * 除 `聊天信息` 外, 其他全部歌词显示均无效(除Uranium)
 * 使用 `Uranium` 配套模组, 可实现Title/ActionBar显示
 * 我们不接受任何 `1.7.10` 版本的问题反馈
+
+### 我找不到以上描述的任何错误
+
+您可以加入我们的交流群，如果有报错信息的话，请上传后台报错信息至[WhkSoft PasteBin](https://paste.whksoft.cn/)  
+然后通过链接的形式反馈给我们。  
+帮助手册仍在进一步完善中！
+
+## ~~彩蛋环节：死亡不掉落用什么插件？~~
+
+~~![img.png](img.png)~~
+~~你需要安装下北泽式死亡不掉落插件，首先排除可以使用`/gamerule`改死亡不掉落，这怎么可能是原版的指令呢，对吧！再说了，百度是什么咱也完全不知道！~~
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 
