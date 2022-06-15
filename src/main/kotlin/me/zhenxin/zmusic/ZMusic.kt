@@ -2,6 +2,7 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.js.Http
+import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
@@ -49,6 +50,7 @@ object ZMusic {
         // 初始化JS模块
         nashornSandbox.allow(Http::class.java)
         nashornSandbox.inject("http", Http())
+        nashornSandbox.inject("util", Util())
     }
 
     @Awake(LifeCycle.ENABLE)
@@ -87,8 +89,11 @@ object ZMusic {
         submit(async = true) {
             // JavaScript Test
             val js = """
-                var result = http.get('https://api.zplu.cc/version?plugin=zmusic&type=snapshot')
-                result
+                function test() {
+                    var result = http.get('https://api.zplu.cc/version?plugin=zmusic&type=snapshot')
+                    return result
+                }
+                test()
             """.trimIndent()
             val result = js.evalJS()
             result?.let { logger.debug(it) }
