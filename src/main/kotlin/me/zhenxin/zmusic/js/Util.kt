@@ -1,7 +1,5 @@
 package me.zhenxin.zmusic.js
 
-import com.alibaba.fastjson2.JSONObject
-
 /**
  * .
  *
@@ -11,9 +9,8 @@ import com.alibaba.fastjson2.JSONObject
 class Util {
     fun mergeSingers(singers: MutableList<String>): String {
         var singer = ""
-        singers.forEach { ar ->
-            ar as JSONObject
-            singer = "$singer${ar.getString("name")}/"
+        singers.forEach {
+            singer = "$singer$it/"
         }
         singer = singer.trimEnd('/')
         return singer
