@@ -6,6 +6,7 @@ package me.zhenxin.zmusic.js
  * @author 真心
  * @since 2022/6/15 11:02
  */
+@Suppress("unused")
 class Util {
     fun mergeSingers(singers: MutableList<String>): String {
         var singer = ""
