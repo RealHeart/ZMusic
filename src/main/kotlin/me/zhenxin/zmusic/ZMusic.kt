@@ -49,6 +49,7 @@ object ZMusic {
 
         // 初始化JS模块
         nashornSandbox.allow(Http::class.java)
+        nashornSandbox.allow(Util::class.java)
         nashornSandbox.inject("http", Http())
         nashornSandbox.inject("util", Util())
     }
