@@ -20,6 +20,7 @@ public class SendBC implements Send {
             buf.writeByte(666);
             buf.writeBytes(bytes);
             ZMusic.runTask.runAsync(() -> player.sendData("allmusic:channel", buf.array()));
+            ZMusic.runTask.runAsync(() -> player.sendData("zmusic:channel", buf.array()));
         } catch (
                 Exception e) {
             ZMusic.log.sendDebugMessage("[Mod通信] 数据发送发生错误");

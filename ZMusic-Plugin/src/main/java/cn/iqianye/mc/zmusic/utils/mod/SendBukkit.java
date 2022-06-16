@@ -23,6 +23,7 @@ public class SendBukkit implements Send {
             buf.writeByte(666);
             buf.writeBytes(bytes);
             ZMusic.runTask.runAsync(() -> player.sendPluginMessage(ZMusicBukkit.plugin, "allmusic:channel", buf.array()));
+            ZMusic.runTask.runAsync(() -> player.sendPluginMessage(ZMusicBukkit.plugin, "zmusic:channel", buf.array()));
         } catch (Exception e) {
             ZMusic.log.sendDebugMessage("[Mod通信] 数据发送发生错误");
         }
