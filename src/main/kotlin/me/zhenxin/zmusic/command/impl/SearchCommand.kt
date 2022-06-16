@@ -36,13 +36,12 @@ val searchCommand = subCommand {
                     } catch (e: Exception) {
                     }
                 }
-                sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
+                sender.sendMsg(Lang.COMMAND_SEARCHING)
                 val platform = context.argument(-1)
                 val supportId = platform.asMusicPlatform().supportIdPlay
                 val api = platform.asMusicApi()
                 submit(async = true) {
                     val result = api.searchPage(args, page, 10)
-                    logger.debug(result)
                     sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
                     result.forEachIndexed { i, m ->
                         val keyword = if (supportId) "-id:${m.id}" else "${m.name} ${m.singer}"

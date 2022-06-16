@@ -24,7 +24,6 @@ fun m4s2mp3(id: String, url: String): String {
             )
         }&qq=${config.VIP_QQ}&key=${config.VIP_KEY}"
     )
-    logger.debug(result)
     val json = JSON.parseObject(result)
     if (json.getIntValue("code") != 200) {
         return ""

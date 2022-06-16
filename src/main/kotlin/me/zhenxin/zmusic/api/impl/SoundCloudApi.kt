@@ -35,7 +35,6 @@ class SoundCloudApi : MusicApi {
                 )
             }&limit=$count&offset=$offset&client_id=$clientId"
         )
-        logger.debug(result)
         val data = JSON.parseObject(result)
         val songs = data.getJSONArray("collection")
         songs.forEach {

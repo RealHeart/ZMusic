@@ -34,7 +34,7 @@ val playCommand = subCommand {
                 listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                sender.sendMsg(Lang.COMMAND_PLAY_SEARCHING)
+                sender.sendMsg(Lang.COMMAND_SEARCHING)
                 val platform = context.argument(-1)
                 if (platform == "soundcloud") {
                     if (isChina()) {
@@ -45,27 +45,24 @@ val playCommand = subCommand {
                 if (argument.contains("-id:")) {
                     val p = platform.asMusicPlatform()
                     if (!p.supportIdPlay) {
-                        sender.sendMsg(Lang.COMMAND_PLAY_NOSUPPORTED_IDPLAY)
+                        sender.sendMsg(Lang.COMMAND_NOSUPPORTED_IDPLAY)
                         return@execute
                     }
                 }
                 val api = platform.asMusicApi()
                 submit(async = true) {
                     val result = api.searchSingle(argument)
-                    logger.debug(result)
                     val url = api.getPlayUrl(result.id)
                     if (url.isEmpty()) {
                         sender.sendMsg("播放错误")
                         return@submit
                     }
-                    logger.debug(url)
                     sender.playMusic(url)
-                    sender.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name))
+                    sender.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name).colored())
                     sender.sendMsg(
                         Lang.COMMAND_PLAY_SUCCESS
                             .replace("{0}", api.name)
                             .replace("{1}", "${result.singer} - ${result.name}")
-                            .colored()
                     )
                 }
             }

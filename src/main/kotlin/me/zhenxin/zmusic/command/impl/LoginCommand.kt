@@ -23,7 +23,6 @@ val loginCommand = subCommand {
         execute<ProxyCommandSender> { sender, _, argument ->
             val arguments = argument.split(" ")
             val platform = MusicPlatform.valueOf(arguments[0].uppercase())
-            logger.debug(argument)
             when (platform) {
                 // 暂时实验性 后续加入语言文件
                 MusicPlatform.NETEASE -> {

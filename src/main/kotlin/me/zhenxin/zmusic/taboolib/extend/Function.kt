@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.taboolib.extend
 
 import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.component.Component
 import me.zhenxin.zmusic.taboolib.extend.pluginmessage.PluginMessage
 import me.zhenxin.zmusic.utils.component
@@ -60,6 +61,7 @@ fun ProxyPlayer.sendPluginMessage(channel: String, data: ByteArray) {
  * @param data 消息
  */
 fun ProxyPlayer.sendPluginMessage(data: String) {
+    logger.debug("PluginMessage: $data")
     sendPluginMessage("allmusic:channel", data.toByteArray())
     sendPluginMessage("zmusic:channel", data.toByteArray())
 }

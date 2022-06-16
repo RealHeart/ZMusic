@@ -2,6 +2,7 @@ package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.JSON.toJSONString
 import me.zhenxin.zmusic.exception.ZMusicException
+import me.zhenxin.zmusic.logger
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -34,6 +35,7 @@ fun get(
     if (params.isNotEmpty()) {
         fullUrl += "?$params"
     }
+    logger.debug("Request GET: $fullUrl")
     val req = Request.Builder()
         .url(fullUrl)
         .get()
@@ -53,7 +55,11 @@ fun post(
     data: MutableMap<String, Any?> = mutableMapOf(),
     headers: MutableMap<String, String> = mutableMapOf()
 ): String {
-    val body = toJSONString(data).toRequestBody(mediaType)
+    val json = toJSONString(data)
+    logger.debug("Request POST: $url")
+    logger.debug("POST Data: $json")
+
+    val body = json.toRequestBody(mediaType)
     val req = Request.Builder()
         .url(url)
         .post(body)

@@ -88,7 +88,6 @@ fun setLocale() {
  */
 fun isChina(): Boolean {
     val result = get("http://ip-api.com/json/")
-    logger.debug(result)
     val data = JSON.parseObject(result)
     return data.getString("country") == "China"
 }
