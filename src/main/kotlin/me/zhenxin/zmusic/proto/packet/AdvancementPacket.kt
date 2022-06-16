@@ -72,5 +72,5 @@ abstract class AdvancementPacket(
         sent(false)
     }
 
-    abstract protected fun sent(add: Boolean)
+    protected abstract fun sent(add: Boolean)
 }

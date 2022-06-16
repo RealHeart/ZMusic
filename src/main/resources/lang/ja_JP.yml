@@ -46,7 +46,7 @@ message-json-tips: '&aクリックして実行'
 message-json-tips-prev: '前のページ'
 message-json-tips-next: '次のページ'
 
-toast-playing: '&a再生中\n&e{0}'
+toast-playing: '§a再生中\n§e{0}'
 
 no-supported-region: '&cこのサービスはお住まいの地域からはご利用になれません。'
 

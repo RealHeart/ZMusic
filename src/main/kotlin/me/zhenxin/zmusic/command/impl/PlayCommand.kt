@@ -9,6 +9,7 @@ import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.proto.sendToast
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
+import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
 import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer

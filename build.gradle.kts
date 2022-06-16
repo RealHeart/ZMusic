@@ -12,7 +12,7 @@ group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
 val taboolib = "6.0.9-4"
-val adventureMinimessage = "4.11.0"
+val adventureMinimessage = "4.12.0-SNAPSHOT"
 val adventurePlatform = "4.1.0"
 val spigot = "1.19-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
@@ -24,6 +24,8 @@ val nashornSandbox = "0.2.5"
 val netty = "4.1.77.Final"
 
 repositories {
+    //sonatype
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     // bungeecord
     maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
     // Velocity
