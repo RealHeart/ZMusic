@@ -26,7 +26,7 @@ fun ProxyCommandSender.sendMsg(msg: String) = sendMsg(msg.component())
  * 发送消息 Component
  * @param component Component
  */
-fun ProxyCommandSender.sendMsg(component: net.kyori.adventure.text.Component) {
+fun ProxyCommandSender.sendMsg(component: me.zhenxin.adventure.text.Component) {
     sendMessage(config.PREFIX.component().append(component))
 }
 
@@ -34,7 +34,7 @@ fun ProxyCommandSender.sendMsg(component: net.kyori.adventure.text.Component) {
  * 发送消息 Component
  * @param component Component
  */
-fun ProxyCommandSender.sendMessage(component: net.kyori.adventure.text.Component) {
+fun ProxyCommandSender.sendMessage(component: me.zhenxin.adventure.text.Component) {
     return implementations<Component>().sendMsg(this, component)
 }
 

@@ -47,8 +47,18 @@ val searchCommand = subCommand {
                     result.forEachIndexed { i, m ->
                         val keyword = if (supportId) "-id:${m.id}" else "${m.name} ${m.singer}"
                         val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
-                                "<red>[<yellow><click:run_command:'/zm play $platform ${keyword.replace("'", "\\'")}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
-                                "<red>[<yellow><click:run_command:'/zm music $platform ${keyword.replace("'", "\\'")}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
+                                "<red>[<yellow><click:run_command:'/zm play $platform ${
+                                    keyword.replace(
+                                        "'",
+                                        "\\'"
+                                    )
+                                }'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
+                                "<red>[<yellow><click:run_command:'/zm music $platform ${
+                                    keyword.replace(
+                                        "'",
+                                        "\\'"
+                                    )
+                                }'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
                         sender.sendMsg(msg)
                     }
                     val prev =

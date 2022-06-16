@@ -46,7 +46,7 @@ message-json-tips: '&a点击执行'
 message-json-tips-prev: '上一页'
 message-json-tips-next: '下一页'
 
-toast-playing: '§a正在播放\n§e{0}'
+toast-playing: '&a正在播放\n&e{0}'
 
 no-supported-region: '&c当前服务器所在的国家/地区不支持此功能.'
 

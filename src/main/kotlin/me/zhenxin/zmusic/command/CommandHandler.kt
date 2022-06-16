@@ -7,7 +7,8 @@ import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.PermissionDefault.*
+import taboolib.common.platform.command.PermissionDefault.OP
+import taboolib.common.platform.command.PermissionDefault.TRUE
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -28,12 +29,6 @@ import taboolib.expansion.createHelper
     permissionDefault = TRUE
 )
 object CommandHandler {
-    @CommandBody(
-        optional = true,
-        permission = "zmusic.developer",
-        permissionDefault = FALSE
-    )
-    val test = testCommand
 
     @CommandBody
     val main = mainCommand {

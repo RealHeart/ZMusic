@@ -65,6 +65,7 @@ val playCommand = subCommand {
                         Lang.COMMAND_PLAY_SUCCESS
                             .replace("{0}", api.name)
                             .replace("{1}", "${result.singer} - ${result.name}")
+                            .colored()
                     )
                 }
             }

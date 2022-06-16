@@ -45,7 +45,7 @@ message-json-tips: '&aClick to execute'
 message-json-tips-prev: 'Prev'
 message-json-tips-next: 'Next'
 
-toast-playing: '§aPlaying\n§e{0}'
+toast-playing: '&aPlaying\n&e{0}'
 
 no-supported-region: '&cThis service is not supported in the country where the current server is located.'
 

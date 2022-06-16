@@ -12,24 +12,23 @@ group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
 val taboolib = "6.0.9-4"
-val adventureMinimessage = "4.12.0-SNAPSHOT"
-val adventurePlatform = "4.1.0"
+val minimessage = "4.11.0"
 val spigot = "1.19-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
-val okhttp = "4.9.3"
-val fastjson = "2.0.6"
+val okhttp = "4.10.0"
+val fastjson = "2.0.7"
 val nashorn = "15.4"
 val nashornSandbox = "0.2.5"
 val netty = "4.1.77.Final"
 
 repositories {
-    //sonatype
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     // bungeecord
     maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
     // Velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
+    // ZhenXin
+    maven("https://gitee.com/RealHeart/Maven/raw/master")
     mavenCentral()
 }
 
@@ -45,9 +44,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:$spigot")
 
     // Kyori Adventure
-    compileOnly("net.kyori:adventure-text-minimessage:$adventureMinimessage")
-    compileOnly("net.kyori:adventure-platform-bukkit:$adventurePlatform")
-    compileOnly("net.kyori:adventure-platform-bungeecord:$adventurePlatform")
+    compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
 
     // Platform API
     compileOnly("net.md-5:bungeecord-api:$bungeecord")

@@ -16,16 +16,9 @@ import taboolib.common.env.RuntimeDependency
         test = "!com.alibaba.fastjson2.JSON"
     ),
     RuntimeDependency(
-        value = "!net.kyori:adventure-text-minimessage:$adventureMinimessage",
-        test = "!net.kyori.adventure.text.minimessage.MiniMessage",
-    ),
-    RuntimeDependency(
-        value = "!net.kyori:adventure-platform-bukkit:$adventurePlatform",
-        test = "!net.kyori.adventure.platform.bukkit.BukkitAudiences",
-    ),
-    RuntimeDependency(
-        value = "!net.kyori:adventure-platform-bungeecord:$adventurePlatform",
-        test = "!net.kyori.adventure.platform.bungeecord.BungeeAudiences",
+        value = "!me.zhenxin:adventure-text-minimessage:$minimessage",
+        test = "!me.zhenxin.adventure.text.minimessage.MiniMessage",
+        repository = "https://gitee.com/RealHeart/Maven/raw/master"
     ),
     RuntimeDependency(
         value = "!io.netty:netty-buffer:$netty",
@@ -42,10 +35,9 @@ import taboolib.common.env.RuntimeDependency
 )
 class RuntimeEnv
 
-private const val adventureMinimessage = "4.11.0"
-private const val adventurePlatform = "4.1.0"
-private const val okhttp = "4.9.3"
-private const val fastjson = "2.0.6"
+private const val minimessage = "4.11.0"
+private const val okhttp = "4.10.0"
+private const val fastjson = "2.0.7"
 private const val netty = "4.1.77.Final"
 private const val nashorn = "15.4"
 private const val nashornSandbox = "0.2.5"
