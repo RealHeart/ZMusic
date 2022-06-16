@@ -35,12 +35,14 @@ object Lang {
         get() = console().asLangTextList("command-incorrect-command")
     val COMMAND_INCORRECT_SENDER
         get() = console().asLangText("command-incorrect-sender")
-    val COMMAND_PLAY_SEARCHING
-        get() = console().asLangText("command-play-searching")
+    val COMMAND_SEARCHING
+        get() = console().asLangText("command-searching")
+    val COMMAND_NOSUPPORTED_IDPLAY
+        get() = console().asLangText("command-nosupported-idplay")
     val COMMAND_PLAY_SUCCESS
         get() = console().asLangText("command-play-success")
-    val COMMAND_PLAY_NOSUPPORTED_IDPLAY
-        get() = console().asLangText("command-play-nosupported-idplay")
+    val COMMAND_MUSIC_SUCCESS
+        get() = console().asLangText("command-music-success")
     val COMMAND_SEARCH_HEADER
         get() = console().asLangText("command-search-header")
     val COMMAND_RELOAD_SUCCESS
@@ -55,6 +57,8 @@ object Lang {
         get() = console().asLangText("message-json-play")
     val MESSAGE_JSON_MUSIC
         get() = console().asLangText("message-json-music")
+    val MESSAGE_JSON_STOP
+        get() = console().asLangText("message-json-stop")
     val MESSAGE_JSON_PLAYALL
         get() = console().asLangText("message-json-playall")
     val MESSAGE_JSON_QUEUE
