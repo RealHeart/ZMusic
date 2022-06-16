@@ -21,7 +21,7 @@ import java.net.URLEncoder
 class SoundCloudApi : MusicApi {
     override val name: String = "SoundCloud"
 
-    private val clientId = "gwAS4jKn4NeO7GDcFEnzuiXHdgq0Khvd"
+    private val clientId = "cyfcuTc4OKTJ09j8IoqWUZQkZ7QFN3p8"
     private val api = "https://api-v2.soundcloud.com"
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
