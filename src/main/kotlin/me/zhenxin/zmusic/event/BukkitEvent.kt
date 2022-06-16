@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.event
 
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
 
@@ -12,7 +13,11 @@ import taboolib.common.platform.function.adaptPlayer
  * @email qgzhenxin@qq.com
  */
 
+@Suppress("unused")
 object BukkitEvent {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) = EventEx.onPlayerJoin(adaptPlayer(event.player))
+
+    @SubscribeEvent
+    fun onPlayerQuit(event: PlayerQuitEvent) = EventEx.onPlayerQuit(adaptPlayer(event.player))
 }
