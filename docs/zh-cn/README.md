@@ -338,13 +338,13 @@
 
 ### 播放时没有声音
 
-如果您使用的是`KCaldron`，那么很抱歉，我们暂不支持此服务器。
+如果您使用的是`KCaldron`，那么很抱歉，我们不支持此服务器。
 
 但如果您非要想使用模组服的话，这里有两种解决方案：
 
 * 使用 [BungeeCord](https://www.spigotmc.org/wiki/bungeecord) 或者 [WaterFall](https://papermc.io/downloads#Waterfall)
   等群组服服务端。
-* 使用 Arclight, LoliServer, Mohist, Uranium 等支持本插件的模组服核心。
+* 使用 Arclight, LoliServer, Mohist, Uranium 等可能支持本插件的模组服核心。
 
 如果您使用的是 **Spigot, Paper, Yatopia, Sugarcane 等原版插件服核心**，那么请检查您是否满足以下条件：
 
@@ -353,6 +353,7 @@
 * 您在服务器插件文件夹安装的是 ZMusic 系列插件而不是 AllMusic 模组(模组需要在客户端进行安装)
 * 您的客户端是 Fabric 或者 Forge 而**不是**纯净版，并且已经安装了 AudioBuffer **或者** AllMusic 模组
 * 您的网络环境良好
+* 您点歌时使用的平台是网易云音乐！！！111111111
 
 如果你未满足以上条件中的其中一个的话，请进行进一步调整。
 
@@ -391,9 +392,11 @@
 
 ### 点歌成功后，后台刷屏报黄色错误
 
-### 安装 AllMusic 之后，客户端无法启动(Fabric)
+从 2.5 开始，旧版的进度调用方案已被停用，请更新到最新版本。
 
-* 请检查您安装的模组版本是否对应，如您的客户端使用的是Fabric模组加载器，但是您下载的是 `[Forge-1.16.5]-AllMusic-x.x.x.jar`
+### 安装 AllMusic 之后，客户端无法启动 (Fabric)
+
+* 请检查您安装的模组版本是否对应，如您的客户端使用的是 Fabric 模组加载器，但是您下载的是 `[Forge-1.16.5]-AllMusic-x.x.x.jar`
 * 如果您下载的是 Fabric 版本模组，请检查您是否安装了 `Fabric-API` 前置模组
 * 本模组与`CardBoard`不兼容
 
@@ -419,6 +422,19 @@
 * 除 `聊天信息` 外, 其他全部歌词显示均无效(除Uranium)
 * 使用 `Uranium` 配套模组, 可实现Title/ActionBar显示
 * 我们不接受任何 `1.7.10` 版本的问题反馈
+
+## 插件卡服吗？
+
+<font size="25">不卡服！</font>如果出现卡服问题，一般是服务器内其他插件导致的卡服，并且某位用户点歌的时候正好碰到了卡服的时刻。（不服？不服就贴出timings报告！）  
+碎碎念：听说点大悲咒会崩服（bushi
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
+如果您在点歌的时候确信发生了上述崩服的情况，请让腐竹将崩服之前爆出的红色Stacktrace发给我们，我们会尽快解决。  
+为了您的人身安全，我们建议有群组服的将 ZMusic 丢进群组服插件文件夹内。
+
+## 插件命令无法被 DeluxeMenu/TrMenu 等菜单插件调用 (BungeeCord/WaterFall)
+这是群组服的通病，因为 ZMusic 的指令是注册在群组服核心内，而插件只能调用 Spigot/Paper 侧的指令。  
+这边想出了一个折中的方法，就是让用户自己输入，虽然这样做对用户来说不太友好，但是自己动手，丰衣足食！
 
 ### 我找不到以上描述的任何错误
 
