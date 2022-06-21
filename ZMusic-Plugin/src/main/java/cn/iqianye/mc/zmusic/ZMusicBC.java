@@ -37,7 +37,7 @@ public class ZMusicBC extends Plugin {
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
         ZMusic.log.sendNormalMessage("正在加载中....");
-        MetricsBC bStats = new MetricsBC(this, 8864);
+        new MetricsBC(this, 8864);
         getProxy().registerChannel("zmusic:channel");
         getProxy().registerChannel("allmusic:channel");
         getProxy().registerChannel("AudioBuffer");

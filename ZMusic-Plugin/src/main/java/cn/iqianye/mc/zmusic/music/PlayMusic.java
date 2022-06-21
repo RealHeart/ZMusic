@@ -4,7 +4,10 @@ import cn.iqianye.mc.zmusic.ZMusic;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
 import cn.iqianye.mc.zmusic.language.Lang;
-import cn.iqianye.mc.zmusic.music.searchSource.*;
+import cn.iqianye.mc.zmusic.music.searchSource.BiliBiliMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
+import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatColor;
@@ -69,6 +72,10 @@ public class PlayMusic {
                         ZMusic.message.sendErrorMessage("错误,本服务器未授权.", player);
                         return;
                     }
+                case "qq":
+                    ZMusic.message.sendErrorMessage("由于不可抗力因素。", player);
+                    ZMusic.message.sendErrorMessage("QQ音乐搜索源已于2.5.0版本移除, API服务已关闭。", player);
+                    return;
                 default:
                     ZMusic.message.sendErrorMessage("错误：未知的搜索源", player);
                     return;

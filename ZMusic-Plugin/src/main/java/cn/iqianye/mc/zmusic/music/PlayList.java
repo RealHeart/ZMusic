@@ -172,7 +172,9 @@ public class PlayList {
                     platform = "netease";
                     break;
                 case "qq":
-                    break;
+                    ZMusic.message.sendErrorMessage("由于不可抗力因素。", player);
+                    ZMusic.message.sendErrorMessage("QQ音乐搜索源已于2.5.0版本移除, API服务已关闭。", player);
+                    return;
                 default:
                     ZMusic.message.sendErrorMessage("错误：未知的平台", player);
                     return;
