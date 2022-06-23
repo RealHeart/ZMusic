@@ -318,7 +318,7 @@
 `搜索源` 为你要搜索音乐的平台  
 目前支持以下平台
 
-* ~~qq - QQ音乐~~ 已不受支持 
+* ~~qq - QQ音乐~~ 已不受支持
 * netease/163 - 网易云音乐
 * kugou - 酷狗音乐
 * kuwo - 酷我音乐
@@ -426,15 +426,26 @@
 ## 插件卡服吗？
 
 <font size="25">不卡服！</font>如果出现卡服问题，一般是服务器内其他插件导致的卡服，并且某位用户点歌的时候正好碰到了卡服的时刻。（不服？不服就贴出timings报告！）  
-碎碎念：听说点大悲咒会崩服（bushi
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-如果您在点歌的时候确信发生了上述崩服的情况，请让腐竹将崩服之前爆出的红色Stacktrace发给我们，我们会尽快解决。  
+碎碎念：听说点大悲咒会崩服（bushi  
+![img_1.png](img_1.png)  
+![img_2.png](img_2.png)  
+如果您在点歌的时候确信发生了上述崩服的情况，请让腐竹将崩服之前爆出的红色Stacktrace发给我们，我们会尽快解决。    
 为了您的人身安全，我们建议有群组服的将 ZMusic 丢进群组服插件文件夹内。
 
 ## 插件命令无法被 DeluxeMenu/TrMenu 等菜单插件调用 (BungeeCord/WaterFall)
+
 这是群组服的通病，因为 ZMusic 的指令是注册在群组服核心内，而插件只能调用 Spigot/Paper 侧的指令。  
 这边想出了一个折中的方法，就是让用户自己输入，虽然这样做对用户来说不太友好，但是自己动手，丰衣足食！
+
+## [zmusic插件一直提示没有zmusic.use权限，确保权限组已经加入了](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1310665)
+
+如果您使用的是蹦极端(BungeeCord/Waterfall)，请在跨服端的插件目录内添加LuckPerms-Bungee插件，然后通过`/lpb`指令进行赋予权限。
+
+## [[Sponge]服务端ZMusic在线音乐加载不上去](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1048579)
+
+本插件不支持Sponge平台，请等待3.0发布。（当前的3.0测试版对Sponge为半支持状态）
+
+~~干啥啥不行，自搜第一名！~~
 
 ### 我找不到以上描述的任何错误
 
@@ -444,7 +455,7 @@
 
 ## ~~彩蛋环节：死亡不掉落用什么插件？~~
 
-~~![img.png](img.png)~~
+~~![img.png](img.png)~~  
 ~~你需要安装下北泽式死亡不掉落插件，首先排除可以使用`/gamerule`改死亡不掉落，这怎么可能是原版的指令呢，对吧！再说了，百度是什么咱也完全不知道！~~
 
 [java]: https://img.shields.io/badge/java-1.8-blue
