@@ -16,7 +16,8 @@ enum class MusicPlatform(
     NETEASE(true, true, true),
     BILIBILI(false, false, true),
     XIMA(false, false, false),
-    SOUNDCLOUD(false, false, false)
+    SOUNDCLOUD(false, false, false),
+    YOUTUBE(false, false, false),
 }
 
 fun getPlatformNames(): List<String> {
@@ -24,7 +25,8 @@ fun getPlatformNames(): List<String> {
         MusicPlatform.NETEASE.name.lowercase(),
         MusicPlatform.BILIBILI.name.lowercase(),
         MusicPlatform.XIMA.name.lowercase(),
-        MusicPlatform.SOUNDCLOUD.name.lowercase()
+        MusicPlatform.SOUNDCLOUD.name.lowercase(),
+        MusicPlatform.YOUTUBE.name.lowercase()
     )
 }
 

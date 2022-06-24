@@ -3,10 +3,7 @@ package me.zhenxin.zmusic.utils
 import com.alibaba.fastjson2.JSON
 import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.api.MusicApi
-import me.zhenxin.zmusic.api.impl.BiliBiliApi
-import me.zhenxin.zmusic.api.impl.NeteaseApi
-import me.zhenxin.zmusic.api.impl.SoundCloudApi
-import me.zhenxin.zmusic.api.impl.XimaApi
+import me.zhenxin.zmusic.api.impl.*
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.consts.VERSION_CODE
@@ -67,6 +64,7 @@ fun String.asMusicApi(): MusicApi {
         "bilibili" -> BiliBiliApi() // 哔哩哔哩
         "xima" -> XimaApi() // 喜马拉雅
         "soundcloud" -> SoundCloudApi() // SoundCloud
+        "youtube" -> YoutubeApi() // YouTube
         else -> NeteaseApi() // 理论上永远不会执行
     }
 }

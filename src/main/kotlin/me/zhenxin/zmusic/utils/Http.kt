@@ -45,6 +45,21 @@ fun get(
     return call(req.build())
 }
 
+fun postURLEncoded(
+    url: String,
+    paramsMap: MutableMap<String, Any?> = mutableMapOf(),
+    headers: MutableMap<String, String> = mutableMapOf()
+): String {
+    val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
+    val req = Request.Builder()
+        .url(url)
+        .post(params.toRequestBody("application/x-www-form-urlencoded; charset=utf-8".toMediaType()))
+    headers.forEach {
+        req.addHeader(it.key, it.value)
+    }
+    return call(req.build())
+}
+
 /**
  * POST获取
  * @param url 连接
@@ -56,8 +71,8 @@ fun post(
     headers: MutableMap<String, String> = mutableMapOf()
 ): String {
     val json = toJSONString(data)
-    logger.debug("Request POST: $url")
-    logger.debug("POST Data: $json")
+//    logger.debug("Request POST: $url")
+//    logger.debug("POST Data: $json")
 
     val body = json.toRequestBody(mediaType)
     val req = Request.Builder()
