@@ -103,7 +103,34 @@ class YoutubeApi : MusicApi {
 
     override fun getPlaylist(id: String): PlaylistInfo {
         //获取playlist需要两个数据，一个是playlist的id，一个是其中的一个视频的id
-        TODO("Not yet implemented")
+        //目前考虑传入参数格式为v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ
+        val params = id.split("&")
+        if (params.size != 2) {
+            throw IllegalArgumentException("Invalid playlist id format")
+        }
+        if (params[0].startsWith("v=")) {
+            val videoId = params[0].substring(2)
+            if (params[1].startsWith("list=")) {
+                val playlistId = params[1].substring(5)
+                return getPlaylist(videoId, playlistId)
+            } else {
+                throw IllegalArgumentException("Invalid playlist id format")
+            }
+        } else if (params[0].startsWith("list=")) {
+            val playlistId = params[0].substring(5)
+            if (params[1].startsWith("v=")) {
+                val videoId = params[1].substring(2)
+                return getPlaylist(videoId, playlistId)
+            } else {
+                throw IllegalArgumentException("Invalid playlist id format")
+            }
+        } else {
+            throw IllegalArgumentException("Invalid playlist id format")
+        }
+    }
+
+    private fun getPlaylist(videoId: String, playListId: String): PlaylistInfo {
+        TODO("not yet implemented")
     }
 
     override fun getAlbum(id: String) {
