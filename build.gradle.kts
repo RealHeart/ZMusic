@@ -5,26 +5,28 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     java
     id("io.izzel.taboolib") version "1.40"
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.6.21"
 }
 
 group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
-val taboolib = "6.0.9-9"
+val taboolib = "6.0.8-9"
 val minimessage = "4.11.0"
-val spigot = "1.19-R0.1-SNAPSHOT"
+val spigot = "1.18.2-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
 val okhttp = "4.10.0"
-val fastjson = "2.0.7"
+val fastjson = "2.0.8"
 val nashorn = "15.4"
 val nashornSandbox = "0.2.5"
 val netty = "4.1.77.Final"
 
 repositories {
+    // spigot
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     // bungeecord
-    maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
     // Velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     // ZhenXin
@@ -66,9 +68,8 @@ dependencies {
 taboolib {
     description {
         contributors {
-            name("zhen_xin")
+            name("ZhenXin")
             name("BlackNeko")
-            name("KanKe")
         }
         links {
             name("homepage").url("https://m.zplu.cc")
