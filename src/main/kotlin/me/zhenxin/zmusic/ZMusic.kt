@@ -63,9 +63,7 @@ object ZMusic : Plugin() {
             }
         }
 
-        lazy {
-            initHttpClient()
-        }
+        initHttpClient()
     }
 
     override fun onEnable() {
