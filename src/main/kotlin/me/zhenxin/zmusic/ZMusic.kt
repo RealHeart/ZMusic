@@ -7,10 +7,7 @@ import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.Logger
-import me.zhenxin.zmusic.utils.checkUpdate
-import me.zhenxin.zmusic.utils.loginNetease
-import me.zhenxin.zmusic.utils.setLocale
+import me.zhenxin.zmusic.utils.*
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -41,9 +38,6 @@ object ZMusic : Plugin() {
         // 初始化变量
         VERSION_NAME = pluginVersion
 
-        // 初始化日志模块
-        logger = Logger(console())
-
         // 初始化JS模块
         nashornSandbox.allow(Http::class.java)
         nashornSandbox.allow(Util::class.java)
@@ -64,9 +58,13 @@ object ZMusic : Plugin() {
 
         val scripts = File(getDataFolder(), "scripts").listFiles() ?: throw ZMusicException("scripts path not found")
         scripts.forEach {
-            if (it.name.contains("platform_")) {
-                println(it.readText())
+            if (it.name.contains("platform_") || !it.name.contains("example")) {
+
             }
+        }
+
+        lazy {
+            initHttpClient()
         }
     }
 
@@ -116,4 +114,4 @@ object ZMusic : Plugin() {
     }
 }
 
-lateinit var logger: Logger
+val logger by lazy { Logger(console()) }
