@@ -5,10 +5,8 @@ import com.alibaba.fastjson2.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
-import me.zhenxin.zmusic.buildPlayerJsonQuery
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.utils.post
-import me.zhenxin.zmusic.utils.postURLEncoded
 
 /**
  *
@@ -87,7 +85,7 @@ class YoutubeApi : MusicApi {
         )
     }
 
-    fun getDurationLong(duration: String): Long {
+    private fun getDurationLong(duration: String): Long {
         val arr = duration.split(":")
         if (arr.size == 1) {
             return arr[0].toLong()
@@ -138,15 +136,9 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val data = postURLEncoded(
-            "$dlApi/newp", mutableMapOf(
-                "u" to "https://www.youtube.com/watch?v=$id",
-                "c" to "HK"
-            ), mutableMapOf("content-type" to "application/x-www-form-urlencoded")
-        )
+        val data = post("$dlApi/newp", "u=https://www.youtube.com/watch?v=$id&c=HK")
         val json = JSONObject.parseObject(data)
-        val mp3 = json.getJSONObject("data").getString("mp3")
-        return dlApi + mp3
+        return json.getJSONObject("data").getString("mp3_cdn")
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
@@ -154,7 +146,7 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
-        val query = buildPlayerJsonQuery("KrNUrgaOsCc")
+        val query = buildJsonQuery("KrNUrgaOsCc")
         val result = post("${api}/youtubei/v1/player?key=$apiKey", query)
         val data = JSON.parseObject(result)
         val videoDetails = data.getJSONObject("videoDetails")
