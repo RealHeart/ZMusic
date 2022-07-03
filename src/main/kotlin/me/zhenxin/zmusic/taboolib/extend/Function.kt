@@ -2,9 +2,10 @@ package me.zhenxin.zmusic.taboolib.extend
 
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.taboolib.extend.component.Component
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.ClickCommand
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.JsonMessage
 import me.zhenxin.zmusic.taboolib.extend.pluginmessage.PluginMessage
-import me.zhenxin.zmusic.utils.component
+import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.implementations
@@ -21,22 +22,25 @@ import taboolib.common.platform.function.implementations
  * 发送消息
  * @param msg 消息
  */
-fun ProxyCommandSender.sendMsg(msg: String) = sendMsg(msg.component())
+fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${config.PREFIX}$msg".colored())
 
 /**
- * 发送消息 Component
- * @param component Component
+ * 发送点击消息
+ * @param base 基本消息
+ * @param commands 命令
  */
-fun ProxyCommandSender.sendMsg(component: me.zhenxin.adventure.text.Component) {
-    sendMessage(config.PREFIX.component().append(component))
+fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
+    return implementations<JsonMessage>().sendClickMessage(this, base, commands)
 }
 
 /**
- * 发送消息 Component
- * @param component Component
+ * 发送分页条
+ * @param pageBar 分页条消息内容 使用{prev} {next} 指定分页点击消息位置
+ * @param prev 上一页命令
+ * @param next 下一页命令
  */
-fun ProxyCommandSender.sendMessage(component: me.zhenxin.adventure.text.Component) {
-    return implementations<Component>().sendMsg(this, component)
+fun ProxyPlayer.sendClickPageBar(pageBar: String, prev: ClickCommand, next: ClickCommand) {
+    return implementations<JsonMessage>().sendClickPageBar(this, pageBar, prev, next)
 }
 
 /**

@@ -3,9 +3,12 @@ package me.zhenxin.zmusic.command.impl
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
-import me.zhenxin.zmusic.logger
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.ClickCommand
+import me.zhenxin.zmusic.taboolib.extend.sendClickMessage
+import me.zhenxin.zmusic.taboolib.extend.sendClickPageBar
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
+import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -45,26 +48,35 @@ val searchCommand = subCommand {
                     sender.sendMsg(Lang.COMMAND_SEARCH_HEADER)
                     result.forEachIndexed { i, m ->
                         val keyword = if (supportId) "-id:${m.id}" else "${m.name} ${m.singer}"
-                        val msg = "&d${i + 1}&c.&a${m.name} - ${m.singer} " +
-                                "<red>[<yellow><click:run_command:'/zm play $platform ${
-                                    keyword.replace(
-                                        "'",
-                                        "\\'"
-                                    )
-                                }'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_PLAY}</click><red>] " +
-                                "<red>[<yellow><click:run_command:'/zm music $platform ${
-                                    keyword.replace(
-                                        "'",
-                                        "\\'"
-                                    )
-                                }'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>${Lang.MESSAGE_JSON_MUSIC}</click><red>]"
-                        sender.sendMsg(msg)
+                        sender.sendClickMessage(
+                            "&d${i + 1}&c.&a${m.name} - ${m.singer}".colored(),
+                            arrayOf(
+                                ClickCommand(
+                                    "&f[&e${Lang.MESSAGE_JSON_PLAY}&f]".colored(),
+                                    Lang.MESSAGE_JSON_TIPS.colored(),
+                                    "/zm play $platform $keyword"
+                                ),
+                                ClickCommand(
+                                    "&f[&e${Lang.MESSAGE_JSON_MUSIC}&f]".colored(),
+                                    Lang.MESSAGE_JSON_TIPS.colored(),
+                                    "/zm music $platform $keyword"
+                                ),
+                            )
+                        )
                     }
-                    val prev =
-                        "<click:run_command:'/zm search $platform $args -page:${page - 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_PREV}'><<<</click>"
-                    val next =
-                        "<click:run_command:'/zm search $platform $args -page:${page + 1}'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS_NEXT}'>>>></click>"
-                    sender.sendMsg("<gold>======<red>$prev<gold>=====================<red>${next}<gold>=======")
+                    sender.sendClickPageBar(
+                        "&6======&c{prev}&6=====================&c{next}&6=======".colored(),
+                        ClickCommand(
+                            Lang.MESSAGE_JSON_TIPS_PREV,
+                            "<<<<",
+                            "/zm search $platform $args -page:${page - 1}"
+                        ),
+                        ClickCommand(
+                            Lang.MESSAGE_JSON_TIPS_NEXT,
+                            ">>>>",
+                            "/zm search $platform $args -page:${page + 1}"
+                        )
+                    )
                 }
             }
         }

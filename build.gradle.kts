@@ -11,8 +11,7 @@ plugins {
 group = "me.zhenxin.zmusic"
 version = "3.0.0-22w24a"
 
-val taboolib = "6.0.8-9"
-val minimessage = "4.11.0"
+val taboolib = "6.0.9-14"
 val spigot = "1.18.2-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
@@ -36,33 +35,28 @@ repositories {
 
 dependencies {
     // NMS
-    implementation("ink.ptms.core:v11900:11900:universal")
-    implementation("ink.ptms.core:v11802:11802:universal")
-    implementation("ink.ptms.core:v11801:11801:universal")
-    implementation("ink.ptms.core:v11701:11701:universal")
-    implementation("ink.ptms:nms-all:1.0.0") // 1.8_R1 - 1.16_R3
+    compileOnly("ink.ptms.core:v11900:11900:universal")
+    compileOnly("ink.ptms.core:v11802:11802:universal")
+    compileOnly("ink.ptms.core:v11801:11801:universal")
+    compileOnly("ink.ptms.core:v11701:11701:universal")
+    compileOnly("ink.ptms:nms-all:1.0.0") // 1.8_R1 - 1.16_R3
 
     // Spigot API
-    implementation("org.spigotmc:spigot-api:$spigot")
-
-    // Kyori Adventure
-    implementation("me.zhenxin:adventure-text-minimessage:$minimessage")
+    compileOnly("org.spigotmc:spigot-api:$spigot")
 
     // Platform API
-    implementation("net.md-5:bungeecord-api:$bungeecord")
-    implementation("com.velocitypowered:velocity-api:$velocity")
+    compileOnly("net.md-5:bungeecord-api:$bungeecord")
+    compileOnly("com.velocitypowered:velocity-api:$velocity")
 
     // okhttp
-    implementation("com.squareup.okhttp3:okhttp:$okhttp")
+    compileOnly("com.squareup.okhttp3:okhttp:$okhttp")
     // fastjson
-    implementation("com.alibaba.fastjson2:fastjson2:$fastjson")
+    compileOnly("com.alibaba.fastjson2:fastjson2-kotlin:$fastjson")
     // nashorn
-    implementation("org.openjdk.nashorn:nashorn-core:$nashorn")
-    implementation("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")
+    compileOnly("org.openjdk.nashorn:nashorn-core:$nashorn")
+    compileOnly("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")
     // nettty
-    implementation("io.netty:netty-buffer:$netty")
-    // Kotlin
-    implementation(kotlin("stdlib"))
+    compileOnly("io.netty:netty-buffer:$netty")
 }
 
 taboolib {

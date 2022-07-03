@@ -10,7 +10,7 @@ import taboolib.common.platform.ProxyPlayer
  * @since 2021/8/16 17:11
  * @email qgzhenxin@qq.com
  */
-interface PluginMessage {
+interface            PluginMessage {
 
     fun registerChannel(channel: String)
 

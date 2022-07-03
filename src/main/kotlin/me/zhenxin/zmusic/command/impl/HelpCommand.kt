@@ -2,7 +2,6 @@ package me.zhenxin.zmusic.command.impl
 
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
-import me.zhenxin.zmusic.utils.component
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
@@ -16,11 +15,7 @@ import taboolib.common.platform.command.subCommand
 
 val helpCommand = subCommand {
     execute<ProxyCommandSender> { sender, context, _ ->
-        sender.sendMsg(
-            "&6========== &r[<gradient:#66CCFF:#0088FF>ZMusic</gradient>&r] &eBy: ZhenXin &6=========="
-
-                .component()
-        )
+        sender.sendMsg("&6========== &r[&bZMusic&r] &eBy: ZhenXin &6==========")
         Lang.HELP_MAIN.forEach {
             if (it.contains("[admin]")) {
                 if (sender.hasPermission("zmusic.admin")) {

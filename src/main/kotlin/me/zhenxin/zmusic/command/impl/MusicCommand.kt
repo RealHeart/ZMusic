@@ -4,6 +4,8 @@ import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.proto.sendToast
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.ClickCommand
+import me.zhenxin.zmusic.taboolib.extend.sendClickMessage
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
@@ -56,12 +58,19 @@ val musicCommand = subCommand {
                     onlinePlayers().forEach {
                         it.playMusic(url)
                         it.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name).colored())
-                        it.sendMsg(
+                        it.sendClickMessage(
                             Lang.COMMAND_MUSIC_SUCCESS
                                 .replace("{0}", sender.name)
                                 .replace("{1}", api.name)
-                                .replace("{2}", "${result.singer} - ${result.name}") +
-                                    " <click:run_command:'/zm stop'><hover:show_text:'${Lang.MESSAGE_JSON_TIPS}'>&f[&c${Lang.MESSAGE_JSON_STOP}&f]</click>"
+                                .replace("{2}", "${result.singer} - ${result.name}")
+                                .colored(),
+                            arrayOf(
+                                ClickCommand(
+                                    "&f[&c${Lang.MESSAGE_JSON_STOP}&f]",
+                                    Lang.MESSAGE_JSON_TIPS.colored(),
+                                    "/zm stop"
+                                )
+                            )
                         )
                     }
                 }

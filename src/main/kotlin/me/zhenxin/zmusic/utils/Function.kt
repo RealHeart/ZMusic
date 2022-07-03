@@ -1,14 +1,12 @@
 package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.JSON
-import me.zhenxin.adventure.text.minimessage.MiniMessage
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.impl.*
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import java.util.*
@@ -25,35 +23,6 @@ import java.util.*
  * 格式化颜色代码
  */
 fun String.colored() = replace("&", "§")
-
-/**
- * 通过 MiniMessage 生成 Component
- */
-fun String.component() = MiniMessage.miniMessage().deserialize(
-    this.replace("§", "&")
-        .replace("&0", "<black>")
-        .replace("&1", "<dark_blue>")
-        .replace("&2", "<dark_green>")
-        .replace("&3", "<dark_aqua>")
-        .replace("&4", "<dark_red>")
-        .replace("&5", "<dark_purple>")
-        .replace("&6", "<gold>")
-        .replace("&7", "<gray>")
-        .replace("&8", "<dark_gray>")
-        .replace("&9", "<blue>")
-        .replace("&a", "<green>")
-        .replace("&b", "<aqua>")
-        .replace("&c", "<red>")
-        .replace("&d", "<light_purple>")
-        .replace("&e", "<yellow>")
-        .replace("&f", "<white>")
-        .replace("&k", "<obfuscated>")
-        .replace("&l", "<bold>")
-        .replace("&m", "<strikethrough>")
-        .replace("&n", "<underlined>")
-        .replace("&o", "<italic>")
-        .replace("&r", "<reset>")
-)
 
 /**
  * 通过代号获取相应API实例

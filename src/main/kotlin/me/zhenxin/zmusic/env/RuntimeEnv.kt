@@ -12,13 +12,9 @@ import taboolib.common.env.RuntimeDependency
         relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
     ),
     RuntimeDependency(
-        value = "!com.alibaba.fastjson2:fastjson2:$fastjson",
-        test = "!com.alibaba.fastjson2.JSON"
-    ),
-    RuntimeDependency(
-        value = "!me.zhenxin:adventure-text-minimessage:$minimessage",
-        test = "!me.zhenxin.adventure.text.minimessage.MiniMessage",
-        repository = "https://gitee.com/RealHeart/Maven/raw/master"
+        value = "!com.alibaba.fastjson2:fastjson2-kotlin:$fastjson",
+        test = "!com.alibaba.fastjson2.JSONKt",
+        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
     ),
     RuntimeDependency(
         value = "!io.netty:netty-buffer:$netty",
@@ -35,7 +31,6 @@ import taboolib.common.env.RuntimeDependency
 )
 class RuntimeEnv
 
-private const val minimessage = "4.11.0"
 private const val okhttp = "4.10.0"
 private const val fastjson = "2.0.8"
 private const val netty = "4.1.77.Final"

@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.taboolib.extend.pluginmessage.impl
 
 import me.zhenxin.zmusic.platform.bungeePlugin
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.JsonMessage
 import me.zhenxin.zmusic.taboolib.extend.pluginmessage.PluginMessage
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import taboolib.common.platform.Platform

@@ -2,6 +2,7 @@ package me.zhenxin.zmusic.api.impl
 
 import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
@@ -33,7 +34,7 @@ class NeteaseApi : MusicApi {
                     URLEncoder.encode(keyword, "UTF-8")
                 }&limit=$count&offset=$offset"
             )
-        val data = JSON.parseObject(search)
+        val data = search.parseObject()
         val result = data.getJSONObject("result")
         val songs = result.getJSONArray("songs")
         songs.forEach {

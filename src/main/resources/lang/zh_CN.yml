@@ -33,7 +33,7 @@ command-searching: '&a正在搜索中...'
 command-nosupported-idplay: '&c当前平台不支持 &e-id &c模式.'
 command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
 command-music-success: '&a玩家&b{0}&a在&r[&e{1}&r]&a点播了一首&r[&e{2}&r]&a, 享受音乐吧~'
-command-search-header: '&6===============&a[ <gradient:#66CCFF:#0088FF>搜索结果</gradient> &a]&6================'
+command-search-header: '&6===============&a[ &b搜索结果 &a]&6================'
 command-reload-success: '&a配置和语言文件已重载完毕!'
 
 command-suggestion-platform: '平台'

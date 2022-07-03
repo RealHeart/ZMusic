@@ -138,7 +138,12 @@ class YoutubeApi : MusicApi {
     override fun getPlayUrl(id: String): String {
         val data = post("$dlApi/newp", "u=https://www.youtube.com/watch?v=$id&c=HK")
         val json = JSONObject.parseObject(data)
-        return json.getJSONObject("data").getString("mp3_cdn")
+        val mp3 = json.getJSONObject("data").getString("mp3")
+        if (mp3.isEmpty()) {
+            return json.getJSONObject("data").getString("mp3_cdn")
+        } else {
+            return dlApi + mp3
+        }
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {

@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.taboolib.extend.pluginmessage.impl
 
 import me.zhenxin.zmusic.platform.bukkitPlugin
+import me.zhenxin.zmusic.taboolib.extend.jsonmessage.JsonMessage
 import me.zhenxin.zmusic.taboolib.extend.pluginmessage.PluginMessage
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform

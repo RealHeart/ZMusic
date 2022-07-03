@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.event
 
-import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.checkUpdate
 import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.ProxyPlayer
@@ -15,8 +14,7 @@ import taboolib.common.platform.function.submit
  */
 object EventEx {
     fun onPlayerJoin(player: ProxyPlayer) {
-        player.sendMsg("进入服务器事件测试")
-        if (player.isOp) {
+        if (player.hasPermission("zmusic.admin.event")) {
             submit(async = true) { checkUpdate(player) }
         }
     }
