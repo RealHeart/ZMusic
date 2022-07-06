@@ -10,4 +10,4 @@ package me.zhenxin.zmusic.consts
 /**
  * 版本代码
  */
-const val VERSION_CODE: Int = 2204250
+const val VERSION_CODE: Int = 2207060
