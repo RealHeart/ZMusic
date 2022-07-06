@@ -45,8 +45,8 @@ message-json-stop: '止まる再生'
 message-json-playall: 'フルサーバープレイ'
 message-json-queue: 'キューを追加'
 message-json-tips: '&aクリックして実行'
-message-json-tips-prev: '前のページ'
-message-json-tips-next: '次のページ'
+message-json-tips-prev: '&b前のページ'
+message-json-tips-next: '&b次のページ'
 
 toast-playing: '&a再生中\n&e{0}'
 

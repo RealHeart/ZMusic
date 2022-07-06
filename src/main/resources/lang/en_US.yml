@@ -44,8 +44,8 @@ message-json-stop: 'Stop play'
 message-json-playall: 'Play across the whole server'
 message-json-queue: 'Add in queue'
 message-json-tips: '&aClick to execute'
-message-json-tips-prev: 'Prev'
-message-json-tips-next: 'Next'
+message-json-tips-prev: '&bPrev'
+message-json-tips-next: '&bNext'
 
 toast-playing: '&aPlaying\n&e{0}'
 

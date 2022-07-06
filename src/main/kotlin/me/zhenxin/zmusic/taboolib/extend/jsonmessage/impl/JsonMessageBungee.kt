@@ -49,7 +49,7 @@ class JsonMessageBungee : JsonMessage {
 
         val message = TextComponent(prevArr[0])
         message.addExtra(prevClick)
-        message.addExtra(prevArr[1])
+        message.addExtra(nextArr[0])
         message.addExtra(nextClick)
         message.addExtra(nextArr[1])
         player.sendMessage(message)

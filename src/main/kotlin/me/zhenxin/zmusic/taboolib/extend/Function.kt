@@ -30,7 +30,7 @@ fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${config.PREFIX}$msg"
  * @param commands 命令
  */
 fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
-    return implementations<JsonMessage>().sendClickMessage(this, base, commands)
+    return implementations<JsonMessage>().sendClickMessage(this, "${config.PREFIX.colored()}$base", commands)
 }
 
 /**
@@ -40,7 +40,7 @@ fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
  * @param next 下一页命令
  */
 fun ProxyPlayer.sendClickPageBar(pageBar: String, prev: ClickCommand, next: ClickCommand) {
-    return implementations<JsonMessage>().sendClickPageBar(this, pageBar, prev, next)
+    return implementations<JsonMessage>().sendClickPageBar(this, "${config.PREFIX.colored()}$pageBar", prev, next)
 }
 
 /**

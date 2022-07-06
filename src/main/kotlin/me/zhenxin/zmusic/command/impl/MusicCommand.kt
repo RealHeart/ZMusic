@@ -66,7 +66,7 @@ val musicCommand = subCommand {
                                 .colored(),
                             arrayOf(
                                 ClickCommand(
-                                    "&f[&c${Lang.MESSAGE_JSON_STOP}&f]",
+                                    "&f[&c${Lang.MESSAGE_JSON_STOP}&f]".colored(),
                                     Lang.MESSAGE_JSON_TIPS.colored(),
                                     "/zm stop"
                                 )

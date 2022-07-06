@@ -45,8 +45,8 @@ message-json-stop: '停止播放'
 message-json-playall: '全服播放'
 message-json-queue: '添加队列'
 message-json-tips: '&a点击执行'
-message-json-tips-prev: '上一页'
-message-json-tips-next: '下一页'
+message-json-tips-prev: '&b上一页'
+message-json-tips-next: '&b下一页'
 
 toast-playing: '&a正在播放\n&e{0}'
 

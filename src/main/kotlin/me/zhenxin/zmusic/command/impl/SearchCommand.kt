@@ -65,15 +65,15 @@ val searchCommand = subCommand {
                         )
                     }
                     sender.sendClickPageBar(
-                        "&6======&c{prev}&6=====================&c{next}&6=======".colored(),
+                        "&6======{prev}&6========================{next}&6=======".colored(),
                         ClickCommand(
-                            Lang.MESSAGE_JSON_TIPS_PREV,
-                            "<<<<",
+                            "&c<<<<".colored(),
+                            Lang.MESSAGE_JSON_TIPS_PREV.colored(),
                             "/zm search $platform $args -page:${page - 1}"
                         ),
                         ClickCommand(
-                            Lang.MESSAGE_JSON_TIPS_NEXT,
-                            ">>>>",
+                            "&c>>>>".colored(),
+                            Lang.MESSAGE_JSON_TIPS_NEXT.colored(),
                             "/zm search $platform $args -page:${page + 1}"
                         )
                     )

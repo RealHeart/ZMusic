@@ -24,33 +24,35 @@ class JsonMessageVelocity : JsonMessage {
 
     override fun sendClickMessage(sender: ProxyPlayer, base: String, commands: Array<ClickCommand>) {
         val player = sender.cast<Player>()
-        val msg = Component.text(base)
-        commands.forEach {
+        val msg = Component.empty().toBuilder()
+        msg.append(Component.text(base))
+        for (it in commands) {
             msg.append(Component.text(" "))
-            val click = Component.text(it.message)
-            click.hoverEvent(HoverEvent.showText(Component.text(it.hover)))
-            click.clickEvent(ClickEvent.runCommand(it.command))
-            msg.append(click)
+            msg.append(
+                Component.text(it.message)
+                    .hoverEvent(HoverEvent.showText(Component.text(it.hover)))
+                    .clickEvent(ClickEvent.runCommand(it.command))
+            )
         }
-        player.sendMessage(msg)
+        player.sendMessage(msg.build())
     }
 
     override fun sendClickPageBar(sender: ProxyPlayer, pageBar: String, prev: ClickCommand, next: ClickCommand) {
         val player = sender.cast<Player>()
         val prevArr = pageBar.split("{prev}")
         val nextArr = prevArr[1].split("{next}")
-        val prevClick = Component.text(prev.message)
+        val prevClick = Component.text(prev.message).toBuilder()
         prevClick.hoverEvent(HoverEvent.showText(Component.text(prev.hover)))
         prevClick.clickEvent(ClickEvent.runCommand(prev.command))
-        val nextClick = Component.text(next.message)
+        val nextClick = Component.text(next.message).toBuilder()
         nextClick.hoverEvent(HoverEvent.showText(Component.text(next.hover)))
         nextClick.clickEvent(ClickEvent.runCommand(next.command))
 
-        val message = Component.text(prevArr[0])
+        val message = Component.text(prevArr[0]).toBuilder()
         message.append(prevClick)
-        message.append(Component.text(prevArr[1]))
+        message.append(Component.text(nextArr[0]))
         message.append(nextClick)
         message.append(Component.text(nextArr[1]))
-        player.sendMessage(message)
+        player.sendMessage(message.build())
     }
 }
