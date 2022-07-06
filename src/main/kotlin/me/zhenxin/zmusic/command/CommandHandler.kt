@@ -1,14 +1,16 @@
 package me.zhenxin.zmusic.command
 
+import me.zhenxin.zmusic.bossbar.createBossBar
+import me.zhenxin.zmusic.bossbar.getBossBar
 import me.zhenxin.zmusic.command.impl.*
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
+import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.PermissionDefault.OP
-import taboolib.common.platform.command.PermissionDefault.TRUE
+import taboolib.common.platform.command.PermissionDefault.*
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -29,6 +31,26 @@ import taboolib.expansion.createHelper
     permissionDefault = TRUE
 )
 object CommandHandler {
+
+    @CommandBody(
+        optional = true,
+        permission = "zmusic.devloper.test",
+        permissionDefault = FALSE
+    )
+    val test = subCommand {
+        execute<ProxyPlayer> { sender, context, _ ->
+            submit(async = true) {
+                sender.createBossBar()
+                val bossBar = sender.getBossBar()
+                bossBar.show("", 100F)
+                for (i in 0..100) {
+                    bossBar.updateTitle("&bBossBar Test: Current Number $i".colored())
+                    Thread.sleep(1000)
+                }
+            }
+        }
+    }
+
 
     @CommandBody
     val main = mainCommand {
