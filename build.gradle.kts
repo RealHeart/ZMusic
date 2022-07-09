@@ -50,8 +50,10 @@ dependencies {
 
     // okhttp
     compileOnly("com.squareup.okhttp3:okhttp:$okhttp")
+    testImplementation("com.squareup.okhttp3:okhttp:$okhttp")
     // fastjson
     compileOnly("com.alibaba.fastjson2:fastjson2-kotlin:$fastjson")
+    testImplementation("com.alibaba.fastjson2:fastjson2-kotlin:$fastjson")
     // nashorn
     compileOnly("org.openjdk.nashorn:nashorn-core:$nashorn")
     compileOnly("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")
