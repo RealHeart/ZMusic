@@ -4,13 +4,10 @@ import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.bossbar.BossBar
 import me.zhenxin.zmusic.config.config
-import me.zhenxin.zmusic.status.createBossBar
-import me.zhenxin.zmusic.status.getBossBar
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.enums.PlayMode.*
-import me.zhenxin.zmusic.status.removeBossBar
-import me.zhenxin.zmusic.status.setPlaying
+import me.zhenxin.zmusic.status.*
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
@@ -85,6 +82,7 @@ class MusicPlayer(
                     player.removeBossBar()
                     player.stopMusic()
                     player.setPlaying(false)
+                    player.removeMusicPlayer()
                     cancel()
                 }
                 SINGLE_LOOP -> {
@@ -96,6 +94,7 @@ class MusicPlayer(
                         player.removeBossBar()
                         player.stopMusic()
                         player.setPlaying(false)
+                        player.removeMusicPlayer()
                         cancel()
                     } else {
                         currentIndex++

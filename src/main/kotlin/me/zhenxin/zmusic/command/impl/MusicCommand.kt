@@ -3,7 +3,9 @@ package me.zhenxin.zmusic.command.impl
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
+import me.zhenxin.zmusic.music.MusicPlayer
 import me.zhenxin.zmusic.proto.sendToast
+import me.zhenxin.zmusic.status.setMusicPlayer
 import me.zhenxin.zmusic.taboolib.extend.jsonmessage.ClickCommand
 import me.zhenxin.zmusic.taboolib.extend.sendClickMessage
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
@@ -51,12 +53,14 @@ val musicCommand = subCommand {
                 val api = platform.asMusicApi()
                 submit(async = true) {
                     val result = api.searchSingle(argument)
-                    val url = api.getPlayUrl(result.id)
-                    if (url.isEmpty()) {
-                        return@submit
-                    }
                     onlinePlayers().forEach {
-                        it.playMusic(url)
+                        val player = MusicPlayer(
+                            it,
+                            api,
+                            mutableListOf(result)
+                        )
+                        player.start()
+                        it.setMusicPlayer(player)
                         it.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name).colored())
                         it.sendClickMessage(
                             Lang.COMMAND_MUSIC_SUCCESS
