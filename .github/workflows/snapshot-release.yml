@@ -15,6 +15,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+      - name: Setup Gradle
+        run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build
       - name: Upload Artifact
