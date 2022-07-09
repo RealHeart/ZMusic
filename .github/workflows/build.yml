@@ -1,10 +1,8 @@
-name: Stable Release
+name: CI
 on:
   push:
     branches:
       - '3.0'
-    tags:
-      - 'v*'
 
 jobs:
   release:
@@ -15,6 +13,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+      - name: Setup Gradle
+        run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build
       - name: Upload Artifact
