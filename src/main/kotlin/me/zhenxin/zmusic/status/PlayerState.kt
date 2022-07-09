@@ -1,7 +1,6 @@
-package me.zhenxin.zmusic.data
+package me.zhenxin.zmusic.status
 
 import me.zhenxin.zmusic.bossbar.BossBar
-import me.zhenxin.zmusic.bossbar.impl.BossBarBukkit
 import taboolib.common.platform.ProxyPlayer
 
 /**
@@ -13,4 +12,5 @@ import taboolib.common.platform.ProxyPlayer
  */
 object PlayerState {
     val BOSS_BAR = mutableMapOf<ProxyPlayer, BossBar>()
+    val PLAYING = mutableMapOf<ProxyPlayer, Boolean>()
 }

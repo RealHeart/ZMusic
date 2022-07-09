@@ -19,5 +19,7 @@ data class MusicInfo(
     /** 专辑图片 */
     val albumImage: String,
     /** 持续时间(毫秒) */
-    val duration: Long
+    val duration: Long,
+    /** 音乐全名 */
+    val fullName: String = "$name - $singer",
 )

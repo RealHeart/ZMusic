@@ -87,7 +87,7 @@ private fun formatLyric(content: String): MutableMap<Long, String> {
         val sec = value.groupValues[2].toLong()
         val ms = value.groupValues[3].toLong()
         val text = value.groupValues[4]
-        val time = min * 60 * 1000 + sec * 1000 + ms
+        val time = (min * 60 * 1000 + sec * 1000 + ms) / 1000
         map[time] = text.trim()
     }
     return map

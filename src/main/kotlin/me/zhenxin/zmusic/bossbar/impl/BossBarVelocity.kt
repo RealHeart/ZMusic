@@ -22,8 +22,9 @@ class BossBarVelocity(player: ProxyPlayer) : BossBar(player) {
         net.kyori.adventure.bossbar.BossBar.Overlay.NOTCHED_20
     )
 
-    override fun show(title: String, seconds: Float) {
-        updateTitle(title)
+    private var seconds = 0F
+
+    override fun start() {
         val player = player.cast<Player>()
         player.showBossBar(bar)
         submit(async = true) {
@@ -39,7 +40,11 @@ class BossBarVelocity(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
-    override fun updateTitle(title: String) {
+    override fun setTime(seconds: Float) {
+        this.seconds = seconds
+    }
+
+    override fun setTitle(title: String) {
         bar.name(Component.text(title))
     }
 }

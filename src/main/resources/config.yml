@@ -58,10 +58,8 @@ lyric:
   # 以下为显示方式设置，可同时启用
   # 是否使用BossBar显示歌词(不支持1.8及以下)
   boss-bar: true
-  # 是否使用ActionBar显示歌词
+  # 是否使用ActionBar显示歌词(不支持1.8以下)
   action-bar: false
-  # 是否使用Title显示歌词
-  title: false
   # 是否使用聊天信息显示歌词
   chat: false
 

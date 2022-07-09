@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic.command
 
-import me.zhenxin.zmusic.bossbar.createBossBar
-import me.zhenxin.zmusic.bossbar.getBossBar
 import me.zhenxin.zmusic.command.impl.*
 import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.status.createBossBar
+import me.zhenxin.zmusic.status.getBossBar
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
@@ -42,9 +42,11 @@ object CommandHandler {
             submit(async = true) {
                 sender.createBossBar()
                 val bossBar = sender.getBossBar()
-                bossBar.show("", 100F)
+                bossBar.setTitle("正在播放音乐")
+                bossBar.setTime(100F)
+                bossBar.start()
                 for (i in 0..100) {
-                    bossBar.updateTitle("&bBossBar Test: Current Number $i".colored())
+                    bossBar.setTitle("&bBossBar Test: Current Number $i".colored())
                     Thread.sleep(1000)
                 }
             }

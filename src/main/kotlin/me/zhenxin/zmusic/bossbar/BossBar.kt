@@ -14,12 +14,17 @@ abstract class BossBar(
 ) {
 
     /**
-     * 显示 BossBar
+     * 开始 BossBar
      */
-    abstract fun show(title: String, seconds: Float)
+    abstract fun start()
 
     /**
-     * 更新 BossBar 标题
+     * 设置 BossBar 时间
      */
-    abstract fun updateTitle(title: String)
+    abstract fun setTime(seconds: Float)
+
+    /**
+     * 设置 BossBar 标题
+     */
+    abstract fun setTitle(title: String)
 }

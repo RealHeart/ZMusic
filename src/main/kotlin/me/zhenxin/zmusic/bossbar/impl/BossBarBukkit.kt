@@ -4,7 +4,6 @@ import me.zhenxin.zmusic.platform.bukkitPlugin
 import me.zhenxin.zmusic.bossbar.BossBar
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
-import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
 import taboolib.common.platform.ProxyPlayer
@@ -21,10 +20,10 @@ import taboolib.common.platform.function.submit
 class BossBarBukkit(player: ProxyPlayer) : BossBar(player) {
 
     private val bar = bukkitPlugin.server.createBossBar("", BarColor.BLUE, BarStyle.SEGMENTED_20)
+    private var seconds = 0F
 
-    override fun show(title: String, seconds: Float) {
+    override fun start() {
         if (player.isOnline()) {
-            updateTitle(title)
             bar.isVisible = true
             bar.progress = 0.0
             bar.addPlayer(player.cast())
@@ -42,7 +41,11 @@ class BossBarBukkit(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
-    override fun updateTitle(title: String) {
+    override fun setTime(seconds: Float) {
+        this.seconds = seconds
+    }
+
+    override fun setTitle(title: String) {
         bar.setTitle(title)
     }
 }

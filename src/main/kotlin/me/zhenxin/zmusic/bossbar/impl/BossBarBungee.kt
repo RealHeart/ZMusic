@@ -16,11 +16,11 @@ import java.util.*
 class BossBarBungee(player: ProxyPlayer) : BossBar(player) {
 
     private val uuid = UUID.randomUUID()
+    private var seconds = 0F
 
-    override fun show(title: String, seconds: Float) {
+    override fun start() {
         if (player.isOnline()) {
             val packet = getPacket(0)
-            packet.title = title
             packet.color = 1
             packet.division = 4
             packet.health = 0F
@@ -38,7 +38,11 @@ class BossBarBungee(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
-    override fun updateTitle(title: String) {
+    override fun setTime(seconds: Float) {
+        this.seconds = seconds
+    }
+
+    override fun setTitle(title: String) {
         val paket = getPacket(3)
         paket.title = title
         player.cast<ProxiedPlayer>().unsafe().sendPacket(paket)
