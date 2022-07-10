@@ -1,8 +1,9 @@
-name: CI
+name: Stable Release
+
 on:
   push:
-    branches:
-      - '3.0'
+    tags:
+      - 'v*'
 
 jobs:
   release:
