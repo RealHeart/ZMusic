@@ -12,7 +12,6 @@ import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
-import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.onlinePlayers

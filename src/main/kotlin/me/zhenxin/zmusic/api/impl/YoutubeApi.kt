@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.api.impl
 
-import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONObject
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.utils.PostType
 import me.zhenxin.zmusic.utils.post
 
 /**
@@ -26,7 +26,7 @@ class YoutubeApi : MusicApi {
         val music = mutableListOf<MusicInfo>()
         val query = buildJsonQuery(keyword)
         val result = post("${api}/youtubei/v1/search?key=${apiKey}", query)
-        val data = JSON.parseObject(result)
+        val data = JSONObject(result)
         val songs = data.getJSONObject("contents")
             .getJSONObject("twoColumnSearchResultsRenderer")
             .getJSONObject("primaryContents")
@@ -45,17 +45,17 @@ class YoutubeApi : MusicApi {
             }
 
             if (video != null) {
-                val videoId = video.getString("videoId")
+                val videoId = video.getStr("videoId")
                 val title = video.getJSONObject("title")
                     .getJSONArray("runs")
                     .getJSONObject(0)
-                    .getString("text")
+                    .getStr("text")
                 val author = video.getJSONObject("longBylineText")
                     .getJSONArray("runs")
                     .getJSONObject(0)
-                    .getString("text")
+                    .getStr("text")
                 val duration = video.getJSONObject("lengthText")
-                    .getString("simpleText")
+                    .getStr("simpleText")
 
                 music.add(
                     MusicInfo(
@@ -72,14 +72,14 @@ class YoutubeApi : MusicApi {
         return music
     }
 
-    private fun buildJsonQuery(keyword: String): MutableMap<String, Any?> {
+    private fun buildJsonQuery(keyword: String): Map<String, Any> {
         val client = mapOf(
             "client" to mapOf(
                 "clientName" to "WEB",
                 "clientVersion" to "2.20220622.01.00"
             )
         )
-        return mutableMapOf(
+        return mapOf(
             "context" to client,
             "query" to keyword
         )
@@ -136,11 +136,16 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val data = post("$dlApi/newp", "u=https://www.youtube.com/watch?v=$id&c=HK")
-        val json = JSONObject.parseObject(data)
-        val mp3 = json.getJSONObject("data").getString("mp3")
+        val data = post(
+            "$dlApi/newp", mapOf(
+                "u" to "https://www.youtube.com/watch?v=$id",
+                "c" to "HK"
+            ), type = PostType.FORM
+        )
+        val json = JSONObject(data)
+        val mp3 = json.getJSONObject("data").getStr("mp3")
         if (mp3.isEmpty()) {
-            return json.getJSONObject("data").getString("mp3_cdn")
+            return json.getJSONObject("data").getStr("mp3_cdn")
         } else {
             return dlApi + mp3
         }
@@ -153,10 +158,10 @@ class YoutubeApi : MusicApi {
     override fun getMusicInfo(id: String): MusicInfo {
         val query = buildJsonQuery("KrNUrgaOsCc")
         val result = post("${api}/youtubei/v1/player?key=$apiKey", query)
-        val data = JSON.parseObject(result)
+        val data = JSONObject(result)
         val videoDetails = data.getJSONObject("videoDetails")
-        val title = videoDetails.getString("title")
-        val lengthSeconds = videoDetails.getString("lengthSeconds")
+        val title = videoDetails.getStr("title")
+        val lengthSeconds = videoDetails.getStr("lengthSeconds")
         return MusicInfo(
             id,
             title,

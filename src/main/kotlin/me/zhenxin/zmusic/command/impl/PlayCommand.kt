@@ -5,7 +5,6 @@ package me.zhenxin.zmusic.command.impl
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
-import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.music.MusicPlayer
 import me.zhenxin.zmusic.proto.sendToast
 import me.zhenxin.zmusic.status.setMusicPlayer
@@ -13,7 +12,6 @@ import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
-import me.zhenxin.zmusic.utils.playMusic
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit

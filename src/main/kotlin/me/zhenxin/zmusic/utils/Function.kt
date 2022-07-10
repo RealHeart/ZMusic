@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson2.JSON
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.impl.*
 import me.zhenxin.zmusic.config.Lang
@@ -55,8 +55,8 @@ fun setLocale() {
  */
 fun isChina(): Boolean {
     val result = get("http://ip-api.com/json/")
-    val data = JSON.parseObject(result)
-    return data.getString("country") == "China"
+    val data = JSONObject(result)
+    return data.getStr("country") == "China"
 }
 
 /**
@@ -99,13 +99,13 @@ fun checkUpdate(sender: ProxyCommandSender) {
     val type = "snapshot"
     val api = "https://api.zplu.cc/version"
     val result = get("$api?plugin=$plugin&type=$type")
-    val json = JSON.parseObject(result)
+    val json = JSONObject(result)
     val data = json.getJSONObject("data")
     val info = data.getJSONObject("info")
-    val version = info.getString("version")
-    val versionCode = info.getIntValue("version_code")
-    val changelog = info.getString("changelog")
-    val releaseUrl = info.getString("release_url")
+    val version = info.getStr("version")
+    val versionCode = info.getInt("version_code")
+    val changelog = info.getStr("changelog")
+    val releaseUrl = info.getStr("release_url")
     if (versionCode > VERSION_CODE) {
         Lang.UPDATE_NEW_VERSION.forEach {
             sender.sendMsg(

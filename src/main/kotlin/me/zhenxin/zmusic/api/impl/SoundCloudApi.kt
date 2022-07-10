@@ -1,12 +1,10 @@
 package me.zhenxin.zmusic.api.impl;
 
-import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONObject
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
@@ -35,15 +33,15 @@ class SoundCloudApi : MusicApi {
                 )
             }&limit=$count&offset=$offset&client_id=$clientId"
         )
-        val data = JSON.parseObject(result)
+        val data = JSONObject(result)
         val songs = data.getJSONArray("collection")
         songs.forEach {
             it as JSONObject
-            val id = it.getString("permalink_url")
-            val name = it.getString("title")
-            val singer = it.getJSONObject("user").getString("username")
-            val albumName = it.getString("tag_list")
-            var albumImage = it.getString("artwork_url")
+            val id = it.getStr("permalink_url")
+            val name = it.getStr("title")
+            val singer = it.getJSONObject("user").getStr("username")
+            val albumName = it.getStr("tag_list")
+            var albumImage = it.getStr("artwork_url")
             val duration = it.getLong("duration")
 
             if (albumImage == null) albumImage = ""
@@ -71,11 +69,11 @@ class SoundCloudApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = get("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
-        val json = JSON.parseObject(result)
+        val json = JSONObject(result)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
-        val urlLink = (data[1] as JSONObject).getString("url")
+        val urlLink = (data[1] as JSONObject).getStr("url")
         val urlResult = get("$urlLink?client_id=$clientId")
-        return JSON.parseObject(urlResult).getString("url")
+        return JSONObject(urlResult).getStr("url")
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {

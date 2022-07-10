@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.api
 
-import com.alibaba.fastjson2.JSONArray
-import com.alibaba.fastjson2.JSONObject
+import cn.hutool.json.JSONArray
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.entity.LyricRaw
 
 
@@ -82,9 +82,9 @@ interface MusicApi {
 
     fun mergeSingers(singers: JSONArray): String {
         var singer = ""
-        singers.forEach { ar ->
-            ar as JSONObject
-            singer = "$singer${ar.getString("name")}/"
+        singers.forEach {
+            it as JSONObject
+            singer = "$singer${it.getStr("name")}/"
         }
         singer = singer.trimEnd('/')
         return singer

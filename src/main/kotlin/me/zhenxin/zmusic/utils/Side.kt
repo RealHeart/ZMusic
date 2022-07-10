@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.utils
 
-import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendPluginMessage
 import taboolib.common.platform.ProxyPlayer
 

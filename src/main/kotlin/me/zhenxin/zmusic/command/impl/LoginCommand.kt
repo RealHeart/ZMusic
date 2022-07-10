@@ -2,7 +2,6 @@ package me.zhenxin.zmusic.command.impl
 
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNamesWithSupportAccount
-import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.loginNetease
 import taboolib.common.platform.ProxyCommandSender

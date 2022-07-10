@@ -2,16 +2,11 @@
 
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson2.JSON.toJSONString
+import cn.hutool.http.HttpRequest
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.net.InetSocketAddress
-import java.net.Proxy
 
 
 /**
@@ -21,20 +16,15 @@ import java.net.Proxy
  * @email qgzhenxin@qq.com
  */
 
-private lateinit var client: OkHttpClient
-private val mediaType = "application/json; charset=utf-8".toMediaType()
-private val urlencoded = "application/x-www-form-urlencoded; charset=utf-8".toMediaType()
-
 /**
  * GET获取
  * @param url 链接
  * @param paramsMap 参数(Map)
- * @return 字符串
  */
 fun get(
     url: String,
-    paramsMap: MutableMap<String, Any?> = mutableMapOf(),
-    headers: MutableMap<String, String> = mutableMapOf()
+    paramsMap: Map<String, Any?> = mutableMapOf(),
+    headers: Map<String, String> = mutableMapOf()
 ): String {
     val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
     var fullUrl = url
@@ -42,13 +32,11 @@ fun get(
         fullUrl += "?$params"
     }
     logger.debug("Request GET: $fullUrl")
-    val req = Request.Builder()
-        .url(fullUrl)
-        .get()
+    val request = HttpRequest.get(fullUrl);
     headers.forEach {
-        req.addHeader(it.key, it.value)
+        request.header(it.key, it.value)
     }
-    return call(req.build())
+    return request(request)
 }
 
 /**
@@ -58,60 +46,40 @@ fun get(
  */
 fun post(
     url: String,
-    data: MutableMap<String, Any?> = mutableMapOf(),
-    headers: MutableMap<String, String> = mutableMapOf()
-): String {
-    val json = toJSONString(data)
-    logger.debug("Request POST: $url")
-    logger.debug("POST Data: $json")
-
-    val body = json.toRequestBody(mediaType)
-    val req = Request.Builder()
-        .url(url)
-        .post(body)
-    headers.forEach {
-        req.addHeader(it.key, it.value)
-    }
-    return call(req.build())
-}
-
-/**
- * POST获取
- * @param url 链接
- * @param params 参数
- * @return 字符串
- */
-fun post(
-    url: String,
-    params: String,
-    headers: MutableMap<String, String> = mutableMapOf()
+    data: Map<String, Any?> = mutableMapOf(),
+    headers: Map<String, String> = mutableMapOf(),
+    type: PostType = PostType.JSON
 ): String {
     logger.debug("Request POST: $url")
-    logger.debug("POST Data: $params")
-    val body = params.toRequestBody(urlencoded)
-    val req = Request.Builder()
-        .url(url)
-        .post(body)
+    logger.debug("POST Data: $data")
+    logger.debug("POST Type: ${type.ordinal}")
+    val request = HttpRequest
+        .post(url)
     headers.forEach {
-        req.addHeader(it.key, it.value)
+        request.header(it.key, it.value)
     }
-    return call(req.build())
+    when (type) {
+        PostType.JSON -> request.body(JSONObject(data).toString())
+        PostType.FORM -> request.form(data.toMap())
+    }
+
+    return request(request)
 }
 
-private fun call(request: Request): String {
-    val res = client.newCall(request).execute()
-    if (res.isSuccessful) {
-        if (res.body != null) {
-            return res.body!!.string()
+private fun request(request: HttpRequest): String {
+    if (config.PROXY_ENABLE) {
+        request.setHttpProxy(config.PROXY_HOSTNAME, config.PROXY_PORT)
+    }
+    val res = request.execute()
+    if (res.isOk) {
+        if (!res.body().isNullOrEmpty()) {
+            return res.body()
         }
     }
-    throw ZMusicException("Http error ${res.code}, body: ${res.body?.string()}")
+    throw ZMusicException("Http error ${res.status}, body: ${res.body()}")
 }
 
-fun initHttpClient() {
-    val builder = OkHttpClient().newBuilder()
-    if (config.PROXY_ENABLE) {
-        builder.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(config.PROXY_HOSTNAME, config.PROXY_PORT)))
-    }
-    client = builder.build()
+enum class PostType() {
+    JSON,
+    FORM
 }

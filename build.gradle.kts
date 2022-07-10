@@ -15,8 +15,7 @@ val taboolib = "6.0.9-14"
 val spigot = "1.18.2-R0.1-SNAPSHOT"
 val bungeecord = "1.19-R0.1-SNAPSHOT"
 val velocity = "3.0.1"
-val okhttp = "4.10.0"
-val fastjson = "2.0.8"
+val hutool = "5.8.4"
 val nashorn = "15.4"
 val nashornSandbox = "0.2.5"
 val netty = "4.1.77.Final"
@@ -48,12 +47,11 @@ dependencies {
     compileOnly("net.md-5:bungeecord-api:$bungeecord")
     compileOnly("com.velocitypowered:velocity-api:$velocity")
 
-    // okhttp
-    compileOnly("com.squareup.okhttp3:okhttp:$okhttp")
-    testImplementation("com.squareup.okhttp3:okhttp:$okhttp")
-    // fastjson
-    compileOnly("com.alibaba.fastjson2:fastjson2-kotlin:$fastjson")
-    testImplementation("com.alibaba.fastjson2:fastjson2-kotlin:$fastjson")
+    // hutool
+    compileOnly("cn.hutool:hutool-http:$hutool")
+    compileOnly("cn.hutool:hutool-json:$hutool")
+    testImplementation("cn.hutool:hutool-http:$hutool")
+    testImplementation("cn.hutool:hutool-json:$hutool")
     // nashorn
     compileOnly("org.openjdk.nashorn:nashorn-core:$nashorn")
     compileOnly("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")

@@ -7,7 +7,10 @@ import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.*
+import me.zhenxin.zmusic.utils.Logger
+import me.zhenxin.zmusic.utils.checkUpdate
+import me.zhenxin.zmusic.utils.loginNetease
+import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -62,8 +65,6 @@ object ZMusic : Plugin() {
 
             }
         }
-
-        initHttpClient()
     }
 
     override fun onEnable() {

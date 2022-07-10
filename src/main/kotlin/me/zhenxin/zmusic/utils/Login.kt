@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson2.JSON
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.config
 import taboolib.common.io.digest
 
@@ -28,14 +28,14 @@ fun loginNetease(): LoginResult {
         )
     )
 
-    val info = JSON.parseObject(result)
-    val code = info.getIntValue("code")
+    val info = JSONObject(result)
+    val code = info.getInt("code")
     return if (code != 200) {
-        val msg = info.getString("msg")
+        val msg = info.getStr("msg")
         LoginResult(code, "&c$msg")
     } else {
         val profile = info.getJSONObject("profile")
-        val nickname = profile.getString("nickname")
+        val nickname = profile.getStr("nickname")
         LoginResult(200, "&a登录成功, 欢迎您 &b$nickname")
     }
 }

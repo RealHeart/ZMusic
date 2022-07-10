@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.api.impl
 
-import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONObject
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.api.MusicApi
 import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.api.PlaylistInfo
@@ -31,17 +30,17 @@ class BiliBiliApi : MusicApi {
                     )
                 }"
             )
-        val json = JSON.parseObject(search)
+        val json = JSONObject(search)
         val data = json.getJSONObject("data")
         val result = data.getJSONArray("result")
         result.forEach {
             it as JSONObject
-            val bvid = it.getString("bvid")
-            val title = it.getString("title")
+            val bvid = it.getStr("bvid")
+            val title = it.getStr("title")
                 .replace("</em>", "")
                 .replace("<em class=\"keyword\">", "")
-            val author = it.getString("author")
-            val pic = it.getString("pic")
+            val author = it.getStr("author")
+            val pic = it.getStr("pic")
             musics.add(
                 MusicInfo(
                     bvid,
@@ -70,12 +69,12 @@ class BiliBiliApi : MusicApi {
         val cid = ids[1]
         val url = "https://api.bilibili.com/x/player/playurl?bvid=$bvid&cid=$cid&fnval=16"
         val result = get(url)
-        val json = JSON.parseObject(result)
+        val json = JSONObject(result)
         val data = json.getJSONObject("data")
         val dash = data.getJSONObject("dash")
         val audios = dash.getJSONArray("audio")
         val audio = audios.getJSONObject(0)
-        val mp3 = m4s2mp3(bvid, audio.getString("baseUrl"))
+        val mp3 = m4s2mp3(bvid, audio.getStr("baseUrl"))
         return mp3.ifEmpty { "" }
     }
 
@@ -86,12 +85,12 @@ class BiliBiliApi : MusicApi {
     override fun getMusicInfo(id: String): MusicInfo {
         val url = "https://api.bilibili.com/x/web-interface/view?bvid=${id}"
         val result = get(url)
-        val json = JSON.parseObject(result)
+        val json = JSONObject(result)
         val data = json.getJSONObject("data")
-        val fullId = "${data.getString("bvid")},${data.get("cid")}"
-        val title = data.getString("title")
-        val singer = data.getJSONObject("owner").getString("name")
-        val pic = data.getString("pic")
+        val fullId = "${data.getStr("bvid")},${data["cid"]}"
+        val title = data.getStr("title")
+        val singer = data.getJSONObject("owner").getStr("name")
+        val pic = data.getStr("pic")
         val duration = data.getLong("duration") * 1000
         return MusicInfo(
             fullId,

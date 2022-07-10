@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.bossbar.impl
 
-import me.zhenxin.zmusic.platform.bukkitPlugin
 import me.zhenxin.zmusic.bossbar.BossBar
+import me.zhenxin.zmusic.platform.bukkitPlugin
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import taboolib.common.platform.Platform

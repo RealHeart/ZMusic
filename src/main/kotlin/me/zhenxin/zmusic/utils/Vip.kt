@@ -1,8 +1,7 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson2.JSON
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.config
-import me.zhenxin.zmusic.logger
 import java.net.URLEncoder
 
 /**
@@ -24,9 +23,9 @@ fun m4s2mp3(id: String, url: String): String {
             )
         }&qq=${config.VIP_QQ}&key=${config.VIP_KEY}"
     )
-    val json = JSON.parseObject(result)
-    if (json.getIntValue("code") != 200) {
+    val json = JSONObject(result)
+    if (json.getInt("code") != 200) {
         return ""
     }
-    return json.getString("data")
+    return json.getStr("data")
 }

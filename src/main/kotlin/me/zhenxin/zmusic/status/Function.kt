@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.status
 
-import me.zhenxin.zmusic.bossbar.BossBar
 import me.zhenxin.zmusic.bossbar.impl.BossBarBukkit
 import me.zhenxin.zmusic.bossbar.impl.BossBarBungee
 import me.zhenxin.zmusic.bossbar.impl.BossBarVelocity
