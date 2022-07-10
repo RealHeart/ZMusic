@@ -8,6 +8,11 @@ import taboolib.common.env.RuntimeDependency
 @RuntimeDependencies(
     RuntimeDependency(
         value = "!cn.hutool:hutool-http:$hutool",
+        test = "!cn.hutool.http.HttpUtil"
+    ),
+    RuntimeDependency(
+        value = "!cn.hutool:hutool-json:$hutool",
+        test = "!cn.hutool.json.JSONUtil"
     ),
     RuntimeDependency(
         value = "!io.netty:netty-buffer:$netty",
