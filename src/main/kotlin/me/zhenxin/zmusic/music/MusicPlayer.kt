@@ -7,6 +7,7 @@ import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.enums.PlayMode.*
+import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.status.*
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
@@ -41,9 +42,31 @@ class MusicPlayer(
         bossBar.start()
     }
 
+    override fun run() {
+        if (!player.isOnline()) {
+            logger.debug("[Thread:${Thread.currentThread().id}]玩家离线, 线程终止")
+            cancel()
+        }
+        currentTime += 1
+        sendLyric()
+        updateState()
+        checkMode()
+    }
+
+    fun start() {
+        currentMusic = musicList[currentIndex]
+        currentLyric = api.getLyric(currentMusic.id)
+        player.createBossBar()
+        bossBar = player.getBossBar()
+        bossBar.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
+        bossBar.setTime(currentMusic.duration.toFloat() / 1000)
+        play()
+        Timer().schedule(this, 1000, 1000)
+    }
+
     private fun sendLyric() {
         submit(async = true) {
-            val lyric = currentLyric.find { it.time == currentTime * 10 } ?: return@submit
+            val lyric = currentLyric.find { it.time == currentTime } ?: return@submit
             val content = "${config.LYRIC_COLOR.colored()}${lyric.content}"
             if (config.LYRIC_BOSS_BAR) {
                 bossBar.setTitle(content)
@@ -57,25 +80,11 @@ class MusicPlayer(
         }
     }
 
-    fun start() {
-        currentMusic = musicList[currentIndex]
-        currentLyric = api.getLyric(currentMusic.id)
-        player.createBossBar()
-        bossBar = player.getBossBar()
-        bossBar.setTitle(currentMusic.fullName)
-        bossBar.setTime(currentMusic.duration.toFloat())
-        play()
-        Timer().schedule(this, 1000, 1000)
-    }
-
-    fun updateState() {
+    private fun updateState() {
 
     }
 
-    override fun run() {
-        currentTime += 1
-        sendLyric()
-        updateState()
+    private fun checkMode() {
         if (currentTime == currentMusic.duration) {
             when (mode) {
                 SINGLE -> {

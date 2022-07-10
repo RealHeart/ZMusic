@@ -25,10 +25,8 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     // bungeecord
     maven("https://oss.sonatype.org/content/repositories/snapshots")
-    // Velocity
+    // velocity
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
-    // ZhenXin
-    maven("https://gitee.com/RealHeart/Maven/raw/master")
     mavenCentral()
 }
 
@@ -50,13 +48,15 @@ dependencies {
     // hutool
     compileOnly("cn.hutool:hutool-http:$hutool")
     compileOnly("cn.hutool:hutool-json:$hutool")
-    testImplementation("cn.hutool:hutool-http:$hutool")
-    testImplementation("cn.hutool:hutool-json:$hutool")
     // nashorn
     compileOnly("org.openjdk.nashorn:nashorn-core:$nashorn")
     compileOnly("org.javadelight:delight-nashorn-sandbox:$nashornSandbox")
     // nettty
     compileOnly("io.netty:netty-buffer:$netty")
+
+    // test
+    testImplementation("cn.hutool:hutool-http:$hutool")
+    testImplementation("cn.hutool:hutool-json:$hutool")
 }
 
 taboolib {

@@ -38,7 +38,7 @@ object CommandHandler {
         permissionDefault = FALSE
     )
     val test = subCommand {
-        execute<ProxyPlayer> { sender, context, _ ->
+        execute<ProxyPlayer> { sender, _, _ ->
             submit(async = true) {
                 sender.createBossBar()
                 val bossBar = sender.getBossBar()

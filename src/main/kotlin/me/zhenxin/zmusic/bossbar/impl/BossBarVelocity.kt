@@ -40,6 +40,11 @@ class BossBarVelocity(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
+    override fun stop() {
+        val player = player.cast<Player>()
+        player.hideBossBar(bar)
+    }
+
     override fun setTime(seconds: Float) {
         this.seconds = seconds
     }

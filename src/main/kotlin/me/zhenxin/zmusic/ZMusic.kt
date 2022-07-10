@@ -6,6 +6,8 @@ import me.zhenxin.zmusic.js.Http
 import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
+import me.zhenxin.zmusic.status.removeBossBar
+import me.zhenxin.zmusic.status.removeMusicPlayer
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
 import me.zhenxin.zmusic.utils.Logger
 import me.zhenxin.zmusic.utils.checkUpdate
@@ -83,6 +85,7 @@ object ZMusic : Plugin() {
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
+
         Lang.INIT_LOADED.forEach {
             logger.info(
                 it.replace("{0}", VERSION_NAME)
@@ -109,6 +112,13 @@ object ZMusic : Plugin() {
             """.trimIndent()
             val result = js.evalJS()
             result?.let { logger.debug(it) }
+        }
+    }
+
+    override fun onDisable() {
+        onlinePlayers().forEach {
+            it.removeBossBar()
+            it.removeMusicPlayer()
         }
     }
 }

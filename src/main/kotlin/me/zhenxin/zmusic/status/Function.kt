@@ -26,7 +26,13 @@ fun ProxyPlayer.createBossBar() {
 
 fun ProxyPlayer.getBossBar() = PlayerState.BOSS_BAR[this] ?: throw IllegalStateException("BossBar is not created")
 
-fun ProxyPlayer.removeBossBar() = PlayerState.BOSS_BAR.remove(this)
+fun ProxyPlayer.removeBossBar() {
+    val bossBar = PlayerState.BOSS_BAR[this]
+    if (bossBar != null) {
+        bossBar.stop()
+        PlayerState.BOSS_BAR.remove(this)
+    }
+}
 
 fun ProxyPlayer.setPlaying(playing: Boolean) = PlayerState.PLAYING.put(this, playing)
 fun ProxyPlayer.isPlaying() = PlayerState.PLAYING[this] ?: false
@@ -36,4 +42,10 @@ fun ProxyPlayer.setMusicPlayer(musicPlayer: MusicPlayer) = PlayerState.MUSIC_PLA
 fun ProxyPlayer.getMusicPlayer() =
     PlayerState.MUSIC_PLAYER[this] ?: throw IllegalStateException("MusicPlayer is not created")
 
-fun ProxyPlayer.removeMusicPlayer() = PlayerState.MUSIC_PLAYER.remove(this)
+fun ProxyPlayer.removeMusicPlayer() {
+    val player = PlayerState.MUSIC_PLAYER[this]
+    if (player != null) {
+        player.cancel()
+        PlayerState.MUSIC_PLAYER.remove(this)
+    }
+}

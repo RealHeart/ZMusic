@@ -41,6 +41,11 @@ class BossBarBukkit(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
+    override fun stop() {
+        bar.isVisible = false
+        bar.removeAll()
+    }
+
     override fun setTime(seconds: Float) {
         this.seconds = seconds
     }

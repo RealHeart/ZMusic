@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.entity
 
 import me.zhenxin.zmusic.enums.MusicPlatform
+import me.zhenxin.zmusic.enums.PlayMode
 
 /**
  * 状态信息
@@ -13,19 +14,19 @@ data class StateInfo(
     /** 是否正在播放 */
     val playing: Boolean,
     /** 歌名 */
-    val musicName: String,
+    val name: String,
     /** 歌手 */
-    val musicSinger: String,
+    val singer: String,
     /** 专辑 */
     val album: String,
     /** 平台 */
     val platform: MusicPlatform,
+    /** 最大播放时间 */
+    val time: Long,
     /** 当前播放时间 */
     val currentTime: Long,
-    /** 最大播放时间 */
-    val maxTime: Long,
     /** 歌词 */
     val lyric: Long,
-    /** 是否循环播放 */
-    val loop: Boolean
+    /** 播放模式 */
+    val mode: PlayMode
 )

@@ -19,6 +19,11 @@ abstract class BossBar(
     abstract fun start()
 
     /**
+     * 停止 BossBar
+     */
+    abstract fun stop()
+
+    /**
      * 设置 BossBar 时间
      */
     abstract fun setTime(seconds: Float)

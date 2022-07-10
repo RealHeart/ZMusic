@@ -38,6 +38,10 @@ class BossBarBungee(player: ProxyPlayer) : BossBar(player) {
         }
     }
 
+    override fun stop() {
+        remove()
+    }
+
     override fun setTime(seconds: Float) {
         this.seconds = seconds
     }
