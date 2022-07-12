@@ -16,19 +16,33 @@
 2.0版本请查看[v2](../../tree/v2/)分支
 
 ## 待办事项
-* - [x] 播放
-* - [x] 网易云音乐
-* - [x] 喜马拉雅
-* - [x] 语言系统
-* - [x] 配置系统
-* - [ ] 歌词系统
-* - [ ] 音乐播放器
-* - [ ] 专辑播放
-* - [ ] 歌单播放
-* - [ ] 全服队列
-* - [ ] 可扩展平台
-* - [ ] 数据库支持
-* - [ ] ZMusic Mod
+
+*
+    - [x] 播放
+*
+    - [x] 网易云音乐
+*
+    - [x] 喜马拉雅
+*
+    - [x] 语言系统
+*
+    - [x] 配置系统
+*
+    - [x] 歌词系统
+*
+    - [x] 音乐播放器
+*
+    - [ ] 专辑播放
+*
+    - [ ] 歌单播放
+*
+    - [ ] 全服队列
+*
+    - [ ] 可扩展平台
+*
+    - [ ] 数据库支持
+*
+    - [ ] ZMusic Mod
 
 ## 简介
 
@@ -85,12 +99,17 @@
 
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
+## 仓库
+
+* [ZMusic](https://github.com/RealHeart/ZMusic) - 插件
+* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - 配套模组
+* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - 使用文档
+
 ## 鸣谢
 
 * [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
 * [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
 * [hutool](https://hutool.cn/) 功能齐全的工具类库
-
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 
