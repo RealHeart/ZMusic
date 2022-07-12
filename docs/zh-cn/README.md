@@ -32,9 +32,9 @@
 本插件需要客户端安装配套Mod才能正常播放
 
 * 对于1.8-1.11的客户端 请安装[`AudioBuffer`](https://www.mcbbs.net/thread-832205-1-1.html) Mod
-* 对于1.7.10, 1.12.2-1.19的客户端 请安装[`AllMusic`](https://pan.baidu.com/s/1_QH-JbYT84vg3sbk5_xxxw) Mod （提取码为`ibiv`
-  ，但是需要注意的是：请下载有版本号前缀的文件）
-* 对于1.19 Forge版客户端，暂时可用的解决方法是，加群下载适配1.19版本的AllMusic-UNOFFICIAL。 ~~（问就是因为颜色编译不出来）~~
+* 对于1.7.10, 1.12.2-1.19的客户端 请安装[`AllMusic`](https://www.aliyundrive.com/s/ytTy36gRYc8/folder/628f5a18e108ef84cb934b6ca4301be905f1a653) Mod 
+  ，但是需要注意的是：请下载有版本号前缀的文件。  
+* 当然，我们也同样开发了属于我们自己的 Mod，只不过现在还在测试！绝赞开源中！可以前往内测群中下载编译好的版本！
 
 ## BungeeCord说明
 
@@ -116,7 +116,6 @@
 
 目前支持以下平台
 
-* qq - QQ音乐
 * netease/163 - 网易云音乐
 
 如果平台为type 则为设置歌单播放方式.  
@@ -318,7 +317,6 @@
 `搜索源` 为你要搜索音乐的平台  
 目前支持以下平台
 
-* ~~qq - QQ音乐~~ 已不受支持
 * netease/163 - 网易云音乐
 * kugou - 酷狗音乐
 * kuwo - 酷我音乐
@@ -344,7 +342,7 @@
 
 * 使用 [BungeeCord](https://www.spigotmc.org/wiki/bungeecord) 或者 [WaterFall](https://papermc.io/downloads#Waterfall)
   等群组服服务端。
-* 使用 Arclight, LoliServer, Mohist, Uranium 等可能支持本插件的模组服核心。
+* 使用 Arclight, LoliServer, Mohist, Uranium 等**可能**支持本插件的模组服核心。
 
 如果您使用的是 **Spigot, Paper, Yatopia, Sugarcane 等原版插件服核心**，那么请检查您是否满足以下条件：
 
@@ -353,7 +351,7 @@
 * 您在服务器插件文件夹安装的是 ZMusic 系列插件而不是 AllMusic 模组(模组需要在客户端进行安装)
 * 您的客户端是 Fabric 或者 Forge 而**不是**纯净版，并且已经安装了 AudioBuffer **或者** AllMusic 模组
 * 您的网络环境良好
-* 您点歌时使用的平台是网易云音乐！！！111111111
+* 您点歌时使用的平台是网易云音乐！！！
 
 如果你未满足以上条件中的其中一个的话，请进行进一步调整。
 
