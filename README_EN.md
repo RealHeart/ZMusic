@@ -13,7 +13,7 @@
 
 3.0 version developing, based in TabooLib 6
 
-2.0 version see [master](../../tree/master/) branch
+2.0 version see [v2](../../tree/v2/) branch
 
 ## TODO List
 * - [x] Play
