@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.status
 
-import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.bossbar.BossBar
+import me.zhenxin.zmusic.entity.StateInfo
 import me.zhenxin.zmusic.music.MusicPlayer
 import taboolib.common.platform.ProxyPlayer
 
@@ -13,10 +13,7 @@ import taboolib.common.platform.ProxyPlayer
  * @email qgzhenxin@qq.com
  */
 object PlayerState {
+    val STATE = mutableMapOf<ProxyPlayer, StateInfo>()
     val MUSIC_PLAYER = mutableMapOf<ProxyPlayer, MusicPlayer>()
     val BOSS_BAR = mutableMapOf<ProxyPlayer, BossBar>()
-    val PLAYING = mutableMapOf<ProxyPlayer, Boolean>()
-    val MUSIC = mutableMapOf<ProxyPlayer, MusicInfo>()
-    val CURRENT_LYRIC = mutableMapOf<ProxyPlayer, String>()
-    val CURRENT_TIME = mutableMapOf<ProxyPlayer, String>()
 }

@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.api
+package me.zhenxin.zmusic.music
 
 /**
  * 音乐信息

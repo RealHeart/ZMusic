@@ -12,21 +12,21 @@ import me.zhenxin.zmusic.enums.PlayMode
  */
 data class StateInfo(
     /** 是否正在播放 */
-    val playing: Boolean,
+    var playing: Boolean,
     /** 歌名 */
-    val name: String,
+    var name: String,
     /** 歌手 */
-    val singer: String,
+    var singer: String,
     /** 专辑 */
-    val album: String,
+    var album: String,
     /** 平台 */
-    val platform: MusicPlatform,
+    var platform: MusicPlatform,
     /** 最大播放时间 */
-    val time: Long,
+    var time: Long,
     /** 当前播放时间 */
-    val currentTime: Long,
+    var currentTime: Long,
     /** 歌词 */
-    val lyric: Long,
+    var lyric: String,
     /** 播放模式 */
-    val mode: PlayMode
+    var mode: PlayMode
 )

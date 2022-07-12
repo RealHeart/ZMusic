@@ -1,12 +1,12 @@
 package me.zhenxin.zmusic.utils
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.api.MusicApi
-import me.zhenxin.zmusic.api.impl.*
+import me.zhenxin.zmusic.music.MusicApi
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.music.impl.*
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import java.util.*

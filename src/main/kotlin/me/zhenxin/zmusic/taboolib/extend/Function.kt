@@ -9,6 +9,7 @@ import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.implementations
+import taboolib.common.platform.function.submit
 
 /**
  * TabooLib 扩展函数
@@ -57,7 +58,9 @@ fun registerChannel(channel: String) {
  * @param data 发送数据
  */
 fun ProxyPlayer.sendPluginMessage(channel: String, data: ByteArray) {
-    return implementations<PluginMessage>().sendMessage(this, channel, data)
+    submit(async = true) {
+        implementations<PluginMessage>().sendMessage(this@sendPluginMessage, channel, data)
+    }
 }
 
 /**

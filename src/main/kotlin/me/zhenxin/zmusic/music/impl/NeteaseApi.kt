@@ -1,9 +1,9 @@
-package me.zhenxin.zmusic.api.impl
+package me.zhenxin.zmusic.music.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.api.MusicApi
-import me.zhenxin.zmusic.api.MusicInfo
-import me.zhenxin.zmusic.api.PlaylistInfo
+import me.zhenxin.zmusic.music.MusicApi
+import me.zhenxin.zmusic.music.MusicInfo
+import me.zhenxin.zmusic.music.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw

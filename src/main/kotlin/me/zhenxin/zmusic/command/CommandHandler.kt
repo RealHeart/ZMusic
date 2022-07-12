@@ -145,9 +145,7 @@ object CommandHandler {
     )
     val url = subCommand {
         execute<ProxyPlayer> { sender, _, argument ->
-            submit {
-                sender.playMusic(argument.replace("url ", ""))
-            }
+            sender.playMusic(argument.replace("url ", ""))
         }
     }
 }

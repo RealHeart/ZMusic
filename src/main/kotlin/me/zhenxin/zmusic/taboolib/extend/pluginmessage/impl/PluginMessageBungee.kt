@@ -24,7 +24,7 @@ class PluginMessageBungee : PluginMessage {
     }
 
     override fun sendMessage(sender: ProxyPlayer, channel: String, data: ByteArray) {
-        val player by lazy { sender.cast<ProxiedPlayer>() }
+        val player = sender.cast<ProxiedPlayer>()
         player.sendData(channel, encodeBytes(data))
     }
 }

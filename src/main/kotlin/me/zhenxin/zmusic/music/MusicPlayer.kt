@@ -1,7 +1,5 @@
 package me.zhenxin.zmusic.music
 
-import me.zhenxin.zmusic.api.MusicApi
-import me.zhenxin.zmusic.api.MusicInfo
 import me.zhenxin.zmusic.bossbar.BossBar
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
@@ -90,7 +88,7 @@ class MusicPlayer(
                 SINGLE -> {
                     player.removeBossBar()
                     player.stopMusic()
-                    player.setPlaying(false)
+                    player.setState(playing = true)
                     player.removeMusicPlayer()
                     cancel()
                 }
@@ -102,7 +100,7 @@ class MusicPlayer(
                     if (currentIndex == musicList.size - 1) {
                         player.removeBossBar()
                         player.stopMusic()
-                        player.setPlaying(false)
+                        player.setState(playing = false)
                         player.removeMusicPlayer()
                         cancel()
                     } else {

@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.api
+package me.zhenxin.zmusic.music
 
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
