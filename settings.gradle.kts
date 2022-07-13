@@ -5,3 +5,5 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+include("zmusic-plugin")
+include("zmusic-bridge")
