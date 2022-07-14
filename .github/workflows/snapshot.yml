@@ -2,6 +2,11 @@ name: Snapshot Release
 
 on:
   push:
+    paths:
+      - "**.kt"
+      - "**.kts"
+      - "**.java"
+      - "gradle/libs.versions.toml"
     branches:
       - "v3"
 
