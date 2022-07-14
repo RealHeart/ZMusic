@@ -1,4 +1,5 @@
-group = "me.zhenxin"
+@file:Suppress("SpellCheckingInspection")
+
 version = "3.0.0"
 
 repositories {
@@ -7,19 +8,19 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:20.1.0")
-    // NMS
-    compileOnly("ink.ptms.core:v11900:11900:universal")
-    compileOnly("ink.ptms.core:v11802:11802:universal")
-    compileOnly("ink.ptms.core:v11801:11801:universal")
-    compileOnly("ink.ptms.core:v11701:11701:universal")
-    compileOnly("ink.ptms:nms-all:1.0.0") // 1.8_R1 - 1.16_R3
+    libs.bundles.nms.get().forEach {
+        compileOnly(
+            group = it.module.group,
+            name = it.module.name,
+            version = it.versionConstraint.toString(),
+            classifier = "universal"
+        )
+    }
+    compileOnly(libs.nms.legacy)
+    compileOnly(libs.spigot)
 
-    // Spigot API
-    compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
-
-    // PlaceholderAPI
     compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("org.jetbrains:annotations:23.0.0")
 }
 
 tasks.processResources {

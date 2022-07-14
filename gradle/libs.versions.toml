@@ -1,0 +1,39 @@
+[versions]
+taboolib = "6.0.9-31"
+spigot = "1.19-R0.1-SNAPSHOT"
+bungeecord = "1.19-R0.1-SNAPSHOT"
+velocity = "3.0.1"
+hutool = "5.8.4"
+nashorn = "15.4"
+nashorn_sandbox = "0.2.5"
+netty = "4.1.77.Final"
+
+[libraries]
+# Platform API
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
+velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
+# hutool
+hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
+hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
+# nashorn
+nashorn = { module = "org.openjdk.nashorn:nashorn-core", version.ref = "nashorn" }
+nashorn_sandbox = { module = "org.javadelight:delight-nashorn-sandbox", version.ref = "nashorn_sandbox" }
+# netty
+netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+# NMS
+nms_v11900 = { module = "ink.ptms.core:v11900", version = "11900" }
+nms_v11802 = { module = "ink.ptms.core:v11802", version = "11802" }
+nms_v11801 = { module = "ink.ptms.core:v11801", version = "11801" }
+nms_v11701 = { module = "ink.ptms.core:v11701", version = "11701" }
+nms_legacy = { module = "ink.ptms:nms-all", version = "1.0.0" }
+
+[bundles]
+platform = ["spigot", "bungeecord", "velocity"]
+hutool = ["hutool_http", "hutool_json"]
+nashorn = ["nashorn", "nashorn_sandbox"]
+nms = ["nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version = "1.6.21" }
+taboolib = { id = "io.izzel.taboolib", version = "1.40" }

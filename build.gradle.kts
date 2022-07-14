@@ -1,7 +1,6 @@
 plugins {
     java
 }
-group = "me.zhenxin"
 
 allprojects {
     repositories {
@@ -18,6 +17,8 @@ allprojects {
 }
 
 subprojects {
+    group = "me.zhenxin"
+    version = "3.0.0-22w28b"
     apply {
         plugin("java")
     }
@@ -30,3 +31,5 @@ subprojects {
         options.encoding = "UTF-8"
     }
 }
+
+tasks.jar { enabled = false }
