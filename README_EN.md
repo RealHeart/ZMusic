@@ -81,9 +81,9 @@ This is a powerful music system that supports the following functions.
 
 ## Repositories
 
-* [ZMusic](https://github.com/RealHeart/ZMusic) - 插件
-* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - 配套模组
-* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - 使用文档
+* [ZMusic](https://github.com/RealHeart/ZMusic) - Plugin
+* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - Mod
+* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - Documentation
 
 ## Open Source License
 
