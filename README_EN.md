@@ -1,5 +1,3 @@
-# ZMusic
-
 <div align="center">
 
 ![][banner]
@@ -15,7 +13,7 @@
 ![][downloads]
 ![][license]
 
-[简体中文](README.md) | English
+[简体中文](README.md) | [日本語](README_JP.md) | English
 
 V3 version is under development based on TabooLib 6
 
