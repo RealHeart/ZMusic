@@ -1,0 +1,10 @@
+name: ZMusic
+main: me.zhenxin.zmusic.bukkit.ZMusicBukkit
+version: ${version}
+api-version: 1.13
+authors:
+  - ZhenXin
+  - BlackNeko
+description: ZMusic
+softdepend:
+  - PlaceholderAPI

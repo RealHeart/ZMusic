@@ -1,0 +1,10 @@
+name: ZMusicBridge
+main: me.zhenxin.zmusic.bridge.ZMusicBridge
+version: ${version}
+api-version: 1.13
+authors:
+  - ZhenXin
+  - BlackNeko
+description: ZMusic Bridge
+softdepend:
+  - PlaceholderAPI

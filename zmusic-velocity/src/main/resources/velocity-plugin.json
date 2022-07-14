@@ -1,0 +1,10 @@
+{
+  "id": "zmusic",
+  "name": "ZMusic",
+  "main": "me.zhenxin.zmusic.velocity.ZMusicVelocity",
+  "version": "4.0.0-dev",
+  "authors": [
+    "ZhenXin",
+    "BlackNeko"
+  ]
+}
