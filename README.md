@@ -1,48 +1,27 @@
 # ZMusic
 
+<div style="text-align: center">
+
+![][banner]
+
 ![][java]
 ![][kotlin]
-[![][license]](LICENSE)
-![][release]
-[![][downloads]](../../releases)
+![][tested-versions]
+
 ![][players]
 ![][servers]
-![][tested-versions]
+
+![][releases]
+![][downloads]
+![][license]
 
 简体中文 | [English](README_EN.md)
 
-3.0版本正在开发中 基于TabooLib 6
+V3 版本正在开发中 基于TabooLib 6
 
-2.0版本请查看[v2](../../tree/v2/)分支
+[V2](../../tree/v2) 版本现为LTS(长期支持)状态
 
-## 待办事项
-
-*
-    - [x] 播放
-*
-    - [x] 网易云音乐
-*
-    - [x] 喜马拉雅
-*
-    - [x] 语言系统
-*
-    - [x] 配置系统
-*
-    - [x] 歌词系统
-*
-    - [x] 音乐播放器
-*
-    - [ ] 专辑播放
-*
-    - [ ] 歌单播放
-*
-    - [ ] 全服队列
-*
-    - [ ] 可扩展平台
-*
-    - [ ] 数据库支持
-*
-    - [ ] ZMusic Mod
+</div>
 
 ## 简介
 
@@ -62,7 +41,7 @@
 
 ## 视频
 
-[点击前往哔哩哔哩查看演示视频](https://www.bilibili.com/video/av92156922)
+[哔哩哔哩](https://www.bilibili.com/video/av92156922)
 
 ## 反馈
 
@@ -74,10 +53,7 @@
 1. 克隆
 
    > ```shell
-   > git clone https://gitee.com/RealHeart/ZMusic # Gitee-码云
-   > ```
-   > ```shell
-   > git clone https://github.com/RealHeart/ZMusic # Github
+   > git clone https://github.com/RealHeart/ZMusic
    > ```
 
 2. 构建
@@ -97,7 +73,7 @@
 
 ## 文档
 
-[点击查看使用文档](https://zmusic.zhenxin.xyz/)
+[点击查看使用文档](https://m.zplu.cc/)
 
 ## 仓库
 
@@ -105,24 +81,45 @@
 * [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - 配套模组
 * [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - 使用文档
 
+## 开源协议
+
+本项目使用 [GPL-3.0](LICENSE) 协议开放源代码
+
+```text
+ZMusic - Powerful Music System
+Copyright (C) 2022 RealHeart
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
+
 ## 鸣谢
 
 * [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
 * [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
 * [hutool](https://hutool.cn/) 功能齐全的工具类库
 
-[java]: https://img.shields.io/badge/java-1.8-blue
+[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Light
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.6.20-blue
+[java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 
-[license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
+[kotlin]: https://img.shields.io/badge/kotlin-1.6.21-blue?style=for-the-badge
 
-[players]: https://img.shields.io/bstats/players/7291
+[license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 
-[servers]: https://img.shields.io/bstats/servers/7291
+[players]: https://img.shields.io/bstats/players/7291?label=bukkit-players&style=for-the-badge
 
-[tested-versions]: https://img.shields.io/spiget/tested-versions/83027
+[servers]: https://img.shields.io/bstats/servers/7291?label=bukkit-servers&style=for-the-badge
 
-[release]: https://img.shields.io/github/v/release/RealHeart/ZMusic
+[tested-versions]: https://img.shields.io/spiget/tested-versions/83027?style=for-the-badge
 
-[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?color=blue
+[releases]: https://img.shields.io/github/v/release/RealHeart/ZMusic?style=for-the-badge
+
+[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?style=for-the-badge

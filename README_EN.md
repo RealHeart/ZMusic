@@ -1,13 +1,27 @@
 # ZMusic
 
+<div style="text-align: center">
+
+![][banner]
+
 ![][java]
 ![][kotlin]
-[![][license]](LICENSE)
-![][release]
-[![][downloads]](../../releases)
+![][tested-versions]
+
 ![][players]
 ![][servers]
-![][tested-versions]
+
+![][releases]
+![][downloads]
+![][license]
+
+[简体中文](README.md) | English
+
+V3 version is under development based on TabooLib 6
+
+[V2](../../tree/v2) version is now LTS (long -term support) status
+
+</div>
 
 [简体中文](README.md) | English
 
@@ -15,44 +29,30 @@
 
 2.0 version see [v2](../../tree/v2/) branch
 
-## TODO List
-* - [x] Play
-* - [x] Netease Cloud Music
-* - [x] Ximalaya FM
-* - [x] Language System
-* - [x] Config System
-* - [ ] Lyric System
-* - [ ] Music Player
-* - [ ] Album Play
-* - [ ] Playlist Play
-* - [ ] Full-Server queue
-* - [ ] Platform extensible
-* - [ ] Database support
-* - [ ] ZMusic Mod
-
 ## Introduction
 
-This is a powerful music system that supports the following features.
+This is a powerful music system that supports the following functions.
 
-* Full-Server play
-* Single play
-* Lyric show
-* Lyric translation show
-* Multi-search(Netease/Ximalaya/BiliBili/SoundCloud)
+* Full service song
+* Play separately
+* Lyrics display
+* Lyrics translation display
+* Multi -search source (Netease Cloud/Ximalaya/Bilibili/SoundCloud)
 * Keyword search
-* Personal Playlist
-* Full-Server Playlist
-* Playlist Play(Netease)
-* Volume(only AllMusic Mod Support)
+* Personal song list
+* Full service song list
+* Play of the song list (Netease Cloud)
+* Volume adjustment (only Allmusic MOD support)
 * Support BungeeCord
 
 ## Video
 
-[Click goto BiliBili play Video](https://www.bilibili.com/video/av92156922)
+[YouTube](https://youtu.be/B1RNNwE_MGE)
 
 ## Feedback
 
 * Submit [Issues](../../issues)
+* Join [Discord](https://discord.gg/twQgJNufYn) feedback
 
 ## Develop
 
@@ -79,7 +79,32 @@ This is a powerful music system that supports the following features.
 
 ## Documentation
 
-[Click view Documentation](https://zmusic.zhenxin.xyz/)
+[Click view Documentation](https://m.zplu.cc/)
+
+## Repositories
+
+* [ZMusic](https://github.com/RealHeart/ZMusic) - 插件
+* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - 配套模组
+* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - 使用文档
+
+## Open Source License
+
+This project uses [GPL-3.0](LICENSE) license for open source code
+
+```text
+ZMusic - Powerful Music System
+Copyright (C) 2022 RealHeart
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
 
 ## Thank
 
@@ -87,19 +112,20 @@ This is a powerful music system that supports the following features.
 * [JetBrains](https://www.jetbrains.com/) Provide powerful IDE support
 * [hutool](https://hutool.cn/) Fully full tool class library
 
+[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Light
 
-[java]: https://img.shields.io/badge/java-1.8-blue
+[java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
+[kotlin]: https://img.shields.io/badge/kotlin-1.6.21-blue?style=for-the-badge
 
-[license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
+[license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 
-[players]: https://img.shields.io/bstats/players/7291
+[players]: https://img.shields.io/bstats/players/7291?label=bukkit-players&style=for-the-badge
 
-[servers]: https://img.shields.io/bstats/servers/7291
+[servers]: https://img.shields.io/bstats/servers/7291?label=bukkit-servers&style=for-the-badge
 
-[tested-versions]: https://img.shields.io/spiget/tested-versions/83027
+[tested-versions]: https://img.shields.io/spiget/tested-versions/83027?style=for-the-badge
 
-[release]: https://img.shields.io/github/v/release/RealHeart/ZMusic
+[releases]: https://img.shields.io/github/v/release/RealHeart/ZMusic?style=for-the-badge
 
-[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?color=blue
+[downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?style=for-the-badge
