@@ -39,7 +39,7 @@ V3 バージョンは開発中です TabooLib 6　に基づいています
 
 ## ビデオ
 
-[ビリビリ](https://www.bilibili.com/video/av92156922)
+[YouTube](https://youtu.be/B1RNNwE_MGE)
 
 ## フィードバック
 
