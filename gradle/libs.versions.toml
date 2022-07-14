@@ -33,7 +33,3 @@ platform = ["spigot", "bungeecord", "velocity"]
 hutool = ["hutool_http", "hutool_json"]
 nashorn = ["nashorn", "nashorn_sandbox"]
 nms = ["nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]
-
-[plugins]
-kotlin = { id = "org.jetbrains.kotlin.jvm", version = "1.6.21" }
-taboolib = { id = "io.izzel.taboolib", version = "1.40" }
