@@ -46,6 +46,7 @@ dependencies {
 
 taboolib {
     description {
+        name("ZMusic")
         contributors {
             name("ZhenXin")
             name("BlackNeko")
