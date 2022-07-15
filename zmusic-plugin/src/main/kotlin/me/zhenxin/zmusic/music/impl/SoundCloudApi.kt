@@ -1,10 +1,10 @@
 package me.zhenxin.zmusic.music.impl;
 
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.music.MusicApi
 import me.zhenxin.zmusic.music.MusicInfo
 import me.zhenxin.zmusic.music.PlaylistInfo
-import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
@@ -77,7 +77,7 @@ class SoundCloudApi : MusicApi {
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
-        TODO("Not yet implemented")
+        return mutableListOf(LyricRaw(1, "", ""))
     }
 
     override fun getMusicInfo(id: String): MusicInfo {

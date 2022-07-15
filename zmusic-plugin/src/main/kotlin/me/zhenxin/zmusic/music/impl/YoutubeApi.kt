@@ -152,7 +152,7 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
-        TODO("Not yet implemented")
+        return mutableListOf(LyricRaw(1, "", ""))
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
