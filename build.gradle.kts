@@ -18,7 +18,6 @@ allprojects {
 
 subprojects {
     group = "me.zhenxin"
-    version = "3.0.0-22w28b"
     apply {
         plugin("java")
     }

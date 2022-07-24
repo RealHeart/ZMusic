@@ -20,7 +20,6 @@ dependencies {
     compileOnly(libs.spigot)
 
     compileOnly("me.clip:placeholderapi:2.11.2")
-    compileOnly("org.jetbrains:annotations:23.0.0")
 }
 
 tasks.processResources {

@@ -1,7 +1,9 @@
 @file:Suppress("SpellCheckingInspection")
 
+version = "3.0.0-cb1"
+
 plugins {
-    id("io.izzel.taboolib") version "1.40"
+    id("io.izzel.taboolib") version "1.41"
     kotlin("jvm") version "1.6.21"
 }
 
