@@ -1,9 +1,11 @@
 package me.zhenxin.zmusic.command.impl
 
+import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
+import me.zhenxin.zmusic.utils.isVip
 import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.platform.ProxyCommandSender
@@ -23,6 +25,7 @@ val reloadCommand = subCommand {
         config.reload()
         Language.reload()
         setLocale()
+        ZMusic.IS_VIP = isVip()
         sender.sendMsg(Lang.COMMAND_RELOAD_SUCCESS)
         submit(async = true) {
             logger.info("&a正在尝试登录网易云音乐...")

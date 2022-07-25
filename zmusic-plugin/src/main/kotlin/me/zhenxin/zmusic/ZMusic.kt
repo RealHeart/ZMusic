@@ -27,6 +27,7 @@ import java.io.File
 @Suppress("unused")
 object ZMusic : Plugin() {
     lateinit var VERSION_NAME: String
+    var IS_VIP = false
 
     private const val logo = "" +
             "  ______  __  __                 _        \n" +
@@ -82,6 +83,8 @@ object ZMusic : Plugin() {
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
+
+        IS_VIP = isVip()
 
         Lang.INIT_LOADED.forEach {
             logger.info(

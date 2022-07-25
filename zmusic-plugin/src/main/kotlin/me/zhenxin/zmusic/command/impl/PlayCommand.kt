@@ -2,6 +2,7 @@
 
 package me.zhenxin.zmusic.command.impl
 
+import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
@@ -12,7 +13,6 @@ import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
-import me.zhenxin.zmusic.utils.isVip
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -44,7 +44,7 @@ val playCommand = subCommand {
                     }
                 }
                 if (platform == "bilibili") {
-                    if (!isVip()) {
+                    if (!ZMusic.IS_VIP) {
                         sender.sendMsg("&c由于需要服务器转码, 此平台需要VIP授权方可使用.")
                         return@execute
                     }
