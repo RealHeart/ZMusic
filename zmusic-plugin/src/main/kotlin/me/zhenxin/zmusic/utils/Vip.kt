@@ -29,3 +29,12 @@ fun m4s2mp3(id: String, url: String): String {
     }
     return json.getStr("data")
 }
+
+/**
+ * 是否VIP
+ */
+fun isVip(): Boolean {
+    val result = get("https://api.zplu.cc/zmusic/vip/check?qq={${config.VIP_QQ}}&key=${config.VIP_KEY}")
+    val data = JSONObject(result)
+    return data.getBool("data")
+}

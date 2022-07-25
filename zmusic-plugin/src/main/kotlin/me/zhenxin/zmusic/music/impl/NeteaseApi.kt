@@ -65,7 +65,7 @@ class NeteaseApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = get("$api/song/url?id=$id")
+        val result = get("$api/song/url?id=$id&br=320000")
         val json = JSONObject(result)
         val data = json.getJSONArray("data")[0] as JSONObject
         return data.getStr("url")

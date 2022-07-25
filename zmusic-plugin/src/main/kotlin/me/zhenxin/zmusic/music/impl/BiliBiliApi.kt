@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.music.impl
 
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.music.MusicApi
 import me.zhenxin.zmusic.music.MusicInfo
 import me.zhenxin.zmusic.music.PlaylistInfo
-import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.utils.get
 import me.zhenxin.zmusic.utils.m4s2mp3
 import java.net.URLEncoder
@@ -74,8 +74,7 @@ class BiliBiliApi : MusicApi {
         val dash = data.getJSONObject("dash")
         val audios = dash.getJSONArray("audio")
         val audio = audios.getJSONObject(0)
-        val mp3 = m4s2mp3(bvid, audio.getStr("baseUrl"))
-        return mp3.ifEmpty { "" }
+        return m4s2mp3(bvid, audio.getStr("baseUrl"))
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {

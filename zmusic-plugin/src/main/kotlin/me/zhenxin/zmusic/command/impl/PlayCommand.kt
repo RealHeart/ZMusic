@@ -12,6 +12,7 @@ import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
+import me.zhenxin.zmusic.utils.isVip
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
@@ -36,9 +37,15 @@ val playCommand = subCommand {
             execute<ProxyPlayer> { sender, context, argument ->
                 sender.sendMsg(Lang.COMMAND_SEARCHING)
                 val platform = context.argument(-1)
-                if (platform == "soundcloud") {
+                if (platform == "soundcloud" || platform == "youtube") {
                     if (isChina()) {
                         sender.sendMsg(Lang.NO_SUPPORTED_REGION)
+                        return@execute
+                    }
+                }
+                if (platform == "bilibili") {
+                    if (!isVip()) {
+                        sender.sendMsg("&c由于需要服务器转码, 此平台需要VIP授权方可使用.")
                         return@execute
                     }
                 }
