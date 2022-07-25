@@ -2,9 +2,9 @@ package me.zhenxin.zmusic.proto.packet.impl
 
 import com.google.gson.JsonObject
 import me.zhenxin.zmusic.proto.packet.AdvancementPacket
-import net.minecraft.server.v1_16_R3.*
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
-import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
+import net.minecraft.server.v1_16_R2.*
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
