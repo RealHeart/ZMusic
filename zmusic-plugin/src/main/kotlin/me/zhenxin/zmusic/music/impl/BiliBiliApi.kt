@@ -33,24 +33,30 @@ class BiliBiliApi : MusicApi {
         val json = JSONObject(search)
         val data = json.getJSONObject("data")
         val result = data.getJSONArray("result")
-        result.forEach {
-            it as JSONObject
-            val bvid = it.getStr("bvid")
-            val title = it.getStr("title")
-                .replace("</em>", "")
-                .replace("<em class=\"keyword\">", "")
-            val author = it.getStr("author")
-            val pic = it.getStr("pic")
-            musics.add(
-                MusicInfo(
-                    bvid,
-                    title,
-                    author,
-                    title,
-                    pic,
-                    0
+        if (count == 1) {
+            val music = result.getJSONObject(0)
+            val id = music.getStr("bvid")
+            musics.add(getMusicInfo(id))
+        } else {
+            result.forEach {
+                it as JSONObject
+                val bvid = it.getStr("bvid")
+                val title = it.getStr("title")
+                    .replace("</em>", "")
+                    .replace("<em class=\"keyword\">", "")
+                val author = it.getStr("author")
+                val pic = it.getStr("pic")
+                musics.add(
+                    MusicInfo(
+                        bvid,
+                        title,
+                        author,
+                        title,
+                        pic,
+                        0
+                    )
                 )
-            )
+            }
         }
         return musics
     }
@@ -78,7 +84,7 @@ class BiliBiliApi : MusicApi {
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
-        return mutableListOf(LyricRaw(1, "", ""))
+        return mutableListOf()
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
