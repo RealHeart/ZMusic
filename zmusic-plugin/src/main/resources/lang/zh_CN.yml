@@ -26,8 +26,12 @@ help-main:
   - '&6========================================'
 
 command-incorrect-command:
-  - '&c命令格式错误:'
-  - '&7/{0} {1}&c<-- 位于此处'
+  - '&c执行命令时出现错误.'
+  - '&7/{0} {1}&c<-位于此处'
+  - '&c可能的原因:'
+  - '&7- &c命令参数输入有误.'
+  - '&7- &c没有使用此命令的权限.'
+  - '&7- &c此命令不存在.'
 command-incorrect-sender: '&c此命令只能由玩家使用.'
 command-searching: '&a正在搜索中...'
 command-nosupported-idplay: '&c当前平台不支持 &e-id &c模式.'

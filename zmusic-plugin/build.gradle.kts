@@ -57,10 +57,6 @@ taboolib {
         "module-lang",
         "module-metrics"
     )
-    // 扩展
-    install(
-        "expansion-command-helper"
-    )
     version = libs.versions.taboolib.get()
 }
 

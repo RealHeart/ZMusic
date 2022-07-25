@@ -7,6 +7,7 @@ import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
@@ -14,7 +15,6 @@ import taboolib.common.platform.command.PermissionDefault.*
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
-import taboolib.expansion.createHelper
 
 /**
  * 命令处理器
@@ -56,12 +56,13 @@ object CommandHandler {
 
     @CommandBody
     val main = mainCommand {
-        createHelper()
+        execute<ProxyCommandSender> { sender, context, _ ->
+            sender.sendMsg(Lang.HELP_TIPS.replace("{0}", context.name))
+        }
         incorrectCommand { sender, context, _, _ ->
             val src = context.args()
             val args = src.last().split(" ").toMutableList()
             val command = if (src.size > 1) src.first() + " " else ""
-            println(src.size)
             args[args.lastIndex] = "&c&n${args.last()}"
             val arg = args.joinToString(" ") { it }.trimEnd(' ')
             Lang.COMMAND_INCORRECT_COMMAND.forEach {
