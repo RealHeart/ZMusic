@@ -114,7 +114,6 @@ object ZMusic : Plugin() {
 
     override fun onDisable() {
         onlinePlayers().forEach {
-            it.stopMusic()
             it.getState().player?.cancel()
             playerState.remove(it.name)
         }

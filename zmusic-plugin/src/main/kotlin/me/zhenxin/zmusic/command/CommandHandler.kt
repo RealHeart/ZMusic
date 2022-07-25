@@ -57,19 +57,20 @@ object CommandHandler {
     @CommandBody
     val main = mainCommand {
         createHelper()
-//        incorrectCommand { sender, context, index, _ ->
-//            var args = ""
-//            for (i in (1 - index)..0) {
-//                args = "${context.argument(i)} "
-//            }
-//            args = args.trimEnd(' ')
-//            Lang.COMMAND_INCORRECT_COMMAND.forEach {
-//                sender.sendMsg(
-//                    it.replace("{0}", context.name)
-//                        .replace("{1}", args)
-//                )
-//            }
-//        }
+        incorrectCommand { sender, context, _, _ ->
+            val src = context.args()
+            val args = src.last().split(" ").toMutableList()
+            val command = if (src.size > 1) src.first() + " " else ""
+            println(src.size)
+            args[args.lastIndex] = "&c&n${args.last()}"
+            val arg = args.joinToString(" ") { it }.trimEnd(' ')
+            Lang.COMMAND_INCORRECT_COMMAND.forEach {
+                sender.sendMsg(
+                    it.replace("{0}", context.name)
+                        .replace("{1}", "$command$arg")
+                )
+            }
+        }
         incorrectSender { sender, _ ->
             sender.sendMsg(Lang.COMMAND_INCORRECT_SENDER)
         }
@@ -119,6 +120,17 @@ object CommandHandler {
 
     @CommandBody(
         optional = true,
+        permission = "zmusic.user.url",
+        permissionDefault = TRUE
+    )
+    val url = subCommand {
+        execute<ProxyPlayer> { sender, _, argument ->
+            sender.playMusic(argument.replace("url ", ""))
+        }
+    }
+
+    @CommandBody(
+        optional = true,
         permission = "zmusic.admin.main",
         permissionDefault = OP
     )
@@ -137,15 +149,4 @@ object CommandHandler {
         permissionDefault = OP
     )
     val reload = reloadCommand
-
-    @CommandBody(
-        optional = true,
-        permission = "zmusic.user.url",
-        permissionDefault = TRUE
-    )
-    val url = subCommand {
-        execute<ProxyPlayer> { sender, _, argument ->
-            sender.playMusic(argument.replace("url ", ""))
-        }
-    }
 }
