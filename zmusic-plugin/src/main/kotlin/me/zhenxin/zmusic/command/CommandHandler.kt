@@ -3,7 +3,7 @@ package me.zhenxin.zmusic.command
 import me.zhenxin.zmusic.command.impl.*
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.status.createBossBar
-import me.zhenxin.zmusic.status.getBossBar
+import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
@@ -41,7 +41,7 @@ object CommandHandler {
         execute<ProxyPlayer> { sender, _, _ ->
             submit(async = true) {
                 sender.createBossBar()
-                val bossBar = sender.getBossBar()
+                val bossBar = sender.getState().bossBar!!
                 bossBar.setTitle("正在播放音乐")
                 bossBar.setTime(100F)
                 bossBar.start()
@@ -57,19 +57,19 @@ object CommandHandler {
     @CommandBody
     val main = mainCommand {
         createHelper()
-        incorrectCommand { sender, context, index, _ ->
-            var args = ""
-            for (i in (1 - index)..0) {
-                args = "${context.argument(i)} "
-            }
-            args = args.trimEnd(' ')
-            Lang.COMMAND_INCORRECT_COMMAND.forEach {
-                sender.sendMsg(
-                    it.replace("{0}", context.name)
-                        .replace("{1}", args)
-                )
-            }
-        }
+//        incorrectCommand { sender, context, index, _ ->
+//            var args = ""
+//            for (i in (1 - index)..0) {
+//                args = "${context.argument(i)} "
+//            }
+//            args = args.trimEnd(' ')
+//            Lang.COMMAND_INCORRECT_COMMAND.forEach {
+//                sender.sendMsg(
+//                    it.replace("{0}", context.name)
+//                        .replace("{1}", args)
+//                )
+//            }
+//        }
         incorrectSender { sender, _ ->
             sender.sendMsg(Lang.COMMAND_INCORRECT_SENDER)
         }

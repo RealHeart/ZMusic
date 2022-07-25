@@ -34,9 +34,13 @@ class BossBarBukkit(player: ProxyPlayer) : BossBar(player) {
                     progress += step
                     if (progress > 1) break
                     bar.progress = progress
-                    Thread.sleep(1000)
+                    if (bar.isVisible) {
+                        Thread.sleep(1000)
+                    } else {
+                        break
+                    }
                 }
-                bar.isVisible = false
+                stop()
             }
         }
     }

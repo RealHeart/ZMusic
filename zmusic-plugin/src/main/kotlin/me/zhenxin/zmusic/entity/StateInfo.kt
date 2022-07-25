@@ -1,7 +1,9 @@
 package me.zhenxin.zmusic.entity
 
+import me.zhenxin.zmusic.bossbar.BossBar
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.PlayMode
+import me.zhenxin.zmusic.music.MusicPlayer
 
 /**
  * 状态信息
@@ -12,21 +14,25 @@ import me.zhenxin.zmusic.enums.PlayMode
  */
 data class StateInfo(
     /** 是否正在播放 */
-    var playing: Boolean,
+    var playing: Boolean? = null,
     /** 歌名 */
-    var name: String,
+    var name: String? = null,
     /** 歌手 */
-    var singer: String,
+    var singer: String? = null,
     /** 专辑 */
-    var album: String,
+    var album: String? = null,
     /** 平台 */
-    var platform: MusicPlatform,
+    var platform: MusicPlatform? = null,
     /** 最大播放时间 */
-    var time: Long,
+    var time: Long? = null,
     /** 当前播放时间 */
-    var currentTime: Long,
+    var currentTime: Long? = null,
     /** 歌词 */
-    var lyric: String,
+    var lyric: String? = null,
     /** 播放模式 */
-    var mode: PlayMode
+    var mode: PlayMode? = null,
+    /** 播放器 */
+    var player: MusicPlayer? = null,
+    /** BossBar */
+    var bossBar: BossBar? = null
 )

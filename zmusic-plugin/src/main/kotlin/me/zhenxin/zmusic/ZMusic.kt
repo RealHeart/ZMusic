@@ -6,13 +6,10 @@ import me.zhenxin.zmusic.js.Http
 import me.zhenxin.zmusic.js.Util
 import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
-import me.zhenxin.zmusic.status.removeBossBar
-import me.zhenxin.zmusic.status.removeMusicPlayer
+import me.zhenxin.zmusic.status.getState
+import me.zhenxin.zmusic.status.playerState
 import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.Logger
-import me.zhenxin.zmusic.utils.checkUpdate
-import me.zhenxin.zmusic.utils.loginNetease
-import me.zhenxin.zmusic.utils.setLocale
+import me.zhenxin.zmusic.utils.*
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -117,8 +114,9 @@ object ZMusic : Plugin() {
 
     override fun onDisable() {
         onlinePlayers().forEach {
-            it.removeBossBar()
-            it.removeMusicPlayer()
+            it.stopMusic()
+            it.getState().player?.cancel()
+            playerState.remove(it.name)
         }
     }
 }

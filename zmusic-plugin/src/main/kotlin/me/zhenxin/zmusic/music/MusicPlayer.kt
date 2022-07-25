@@ -52,10 +52,11 @@ class MusicPlayer(
     }
 
     fun start() {
+        player.stopMusic()
         currentMusic = musicList[currentIndex]
         currentLyric = api.getLyric(currentMusic.id)
         player.createBossBar()
-        bossBar = player.getBossBar()
+        bossBar = player.getState().bossBar!!
         bossBar.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
         bossBar.setTime(currentMusic.duration.toFloat() / 1000)
         play()
@@ -89,7 +90,7 @@ class MusicPlayer(
                     player.removeBossBar()
                     player.stopMusic()
                     player.setState(playing = true)
-                    player.removeMusicPlayer()
+                    player.setState(player = null)
                     cancel()
                 }
                 SINGLE_LOOP -> {
@@ -101,7 +102,7 @@ class MusicPlayer(
                         player.removeBossBar()
                         player.stopMusic()
                         player.setState(playing = false)
-                        player.removeMusicPlayer()
+                        player.setState(player = null)
                         cancel()
                     } else {
                         currentIndex++
