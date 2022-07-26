@@ -4,7 +4,6 @@ import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.js.Http
 import me.zhenxin.zmusic.js.Util
-import me.zhenxin.zmusic.js.evalJS
 import me.zhenxin.zmusic.js.nashornSandbox
 import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.status.playerState
@@ -84,8 +83,6 @@ object ZMusic : Plugin() {
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
 
-        IS_VIP = isVip()
-
         Lang.INIT_LOADED.forEach {
             logger.info(
                 it.replace("{0}", VERSION_NAME)
@@ -101,17 +98,8 @@ object ZMusic : Plugin() {
             logger.info(result.message)
         }
 
-        submit(async = true) {
-            // JavaScript Test
-            val js = """
-                function test() {
-                    var result = http.get('https://api.zplu.cc/version?plugin=zmusic&type=snapshot')
-                    return result
-                }
-                test()
-            """.trimIndent()
-            val result = js.evalJS()
-            result?.let { logger.debug(it) }
+        submit {
+            IS_VIP = isVip()
         }
     }
 
