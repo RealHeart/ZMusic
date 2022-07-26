@@ -51,8 +51,8 @@ fun post(
     type: PostType = PostType.JSON
 ): String {
     logger.debug("Request POST: $url")
+    logger.debug("POST Type: ${type.name}")
     logger.debug("POST Data: $data")
-    logger.debug("POST Type: ${type.ordinal}")
     val request = HttpRequest
         .post(url)
     headers.forEach {

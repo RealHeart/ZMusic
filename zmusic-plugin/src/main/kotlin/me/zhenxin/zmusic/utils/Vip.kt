@@ -13,15 +13,20 @@ import java.net.URLEncoder
 
 /**
  * m4s转mp3
+ *
+ * @param id 唯一ID
+ * @param url 音频地址
  */
 fun m4s2mp3(id: String, url: String): String {
-    val result = get(
-        "https://api.zplu.cc/zmusic/vip/m4s2mp3?id=$id&url=${
-            URLEncoder.encode(
-                url,
-                "UTF-8"
-            )
-        }&qq=${config.VIP_QQ}&key=${config.VIP_KEY}"
+    val result = post(
+        "https://api.zplu.cc/zmusic/vip/m4s2mp3",
+        mapOf(
+            "id" to id,
+            "url" to URLEncoder.encode(url, "UTF-8"),
+            "qq" to config.VIP_QQ,
+            "key" to config.VIP_KEY
+        ),
+        type = PostType.FORM
     )
     val json = JSONObject(result)
     if (json.getInt("code") != 200) {
@@ -34,7 +39,11 @@ fun m4s2mp3(id: String, url: String): String {
  * 是否VIP
  */
 fun isVip(): Boolean {
-    val result = get("https://api.zplu.cc/zmusic/vip/check?qq=${config.VIP_QQ}&key=${config.VIP_KEY}")
+    val result = post(
+        "https://api.zplu.cc/zmusic/vip/check",
+        mapOf("qq" to config.VIP_QQ, "key" to config.VIP_KEY),
+        type = PostType.FORM
+    )
     val data = JSONObject(result)
     return data.getBool("data")
 }

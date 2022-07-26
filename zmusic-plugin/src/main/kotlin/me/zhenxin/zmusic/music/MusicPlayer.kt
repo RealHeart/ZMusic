@@ -6,7 +6,9 @@ import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.enums.PlayMode.*
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.status.*
+import me.zhenxin.zmusic.status.createBossBar
+import me.zhenxin.zmusic.status.getState
+import me.zhenxin.zmusic.status.setState
 import me.zhenxin.zmusic.taboolib.extend.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
@@ -84,10 +86,9 @@ class MusicPlayer(
     }
 
     private fun checkMode() {
-        if (currentTime == currentMusic.duration) {
+        if (currentTime >= currentMusic.duration / 1000) {
             when (mode) {
                 SINGLE -> {
-                    player.removeBossBar()
                     player.stopMusic()
                     player.setState(playing = true)
                     player.setState(player = null)
@@ -99,7 +100,6 @@ class MusicPlayer(
                 }
                 LIST -> {
                     if (currentIndex == musicList.size - 1) {
-                        player.removeBossBar()
                         player.stopMusic()
                         player.setState(playing = false)
                         player.setState(player = null)
