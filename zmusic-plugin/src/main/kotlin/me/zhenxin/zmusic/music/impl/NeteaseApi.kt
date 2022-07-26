@@ -1,12 +1,12 @@
 package me.zhenxin.zmusic.music.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.music.MusicApi
-import me.zhenxin.zmusic.music.MusicInfo
-import me.zhenxin.zmusic.music.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.music.MusicApi
+import me.zhenxin.zmusic.music.MusicInfo
+import me.zhenxin.zmusic.music.PlaylistInfo
 import me.zhenxin.zmusic.utils.formatLyric
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
@@ -77,7 +77,7 @@ class NeteaseApi : MusicApi {
         val lrc = json.getJSONObject("lrc")
         val lyric = lrc.getStr("lyric")
         val tlrc = json.getJSONObject("tlyric")
-        val tlyric = tlrc.getStr("lyric")
+        val tlyric = if (tlrc != null) tlrc.getStr("lyric") else ""
         return formatLyric(lyric, tlyric)
     }
 
