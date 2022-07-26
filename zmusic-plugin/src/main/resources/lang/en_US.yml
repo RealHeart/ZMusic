@@ -1,5 +1,5 @@
 platform-netease: 'Netease CloudMusic'
-platform-bili: 'BiliBili Music'
+platform-bili: 'BiliBili'
 platform-xima: 'Ximalaya FM'
 
 init-loading: '&aLoading...'
