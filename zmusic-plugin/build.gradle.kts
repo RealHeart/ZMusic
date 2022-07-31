@@ -18,6 +18,8 @@ dependencies {
     }
     compileOnly(libs.nms.legacy)
 
+    compileOnly(libs.placeholderapi)
+
     compileOnly(libs.bundles.platform)
     compileOnly(libs.bundles.hutool)
     compileOnly(libs.bundles.nashorn)

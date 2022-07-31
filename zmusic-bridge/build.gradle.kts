@@ -34,4 +34,3 @@ tasks.processResources {
 tasks.jar {
     archiveBaseName.set("ZMusicBridge")
 }
-
