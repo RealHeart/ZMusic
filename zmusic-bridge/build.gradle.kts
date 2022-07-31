@@ -17,9 +17,10 @@ dependencies {
         )
     }
     compileOnly(libs.nms.legacy)
+
     compileOnly(libs.spigot)
 
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly(libs.placeholderapi)
 }
 
 tasks.processResources {

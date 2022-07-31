@@ -15,5 +15,5 @@ public enum MessageType {
     /**
      * 消息信息
      */
-    INFO
+    INFO,
 }

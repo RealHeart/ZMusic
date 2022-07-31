@@ -8,3 +8,4 @@ authors:
 description: ZMusic Bridge
 softdepend:
   - PlaceholderAPI
+  - ZMusic

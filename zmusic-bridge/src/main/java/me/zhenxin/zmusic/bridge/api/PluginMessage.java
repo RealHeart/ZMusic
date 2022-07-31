@@ -2,10 +2,12 @@ package me.zhenxin.zmusic.bridge.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.zhenxin.zmusic.bridge.ZMusicBridge;
 import me.zhenxin.zmusic.bridge.data.PlayerData;
 import me.zhenxin.zmusic.bridge.entity.Message;
 import me.zhenxin.zmusic.bridge.entity.MusicInfo;
 import me.zhenxin.zmusic.bridge.proto.Toast;
+import me.zhenxin.zmusic.bridge.utils.StringUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -23,6 +25,9 @@ public class PluginMessage implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
         bytes[0] = 0;
         String message = new String(bytes, StandardCharsets.UTF_8).substring(1);
+        if (ZMusicBridge.DEBUG) {
+            ZMusicBridge.logger.warning("[PluginMessage] " + message);
+        }
         Gson gson = new GsonBuilder().create();
         try {
             Message data = gson.fromJson(message, Message.class);
@@ -33,14 +38,14 @@ public class PluginMessage implements PluginMessageListener {
                     break;
                 case INFO:
                     MusicInfo info = data.getInfo();
-                    if (info.getName() != null) {
+                    if (!StringUtil.isNullOrEmpty(info.getName())) {
                         PlayerData.setName(player, info.getName());
                     }
-                    if (info.getSinger() != null) {
+                    if (!StringUtil.isNullOrEmpty(info.getSinger())) {
                         PlayerData.setSinger(player, info.getSinger());
                     }
-                    if (info.getLyric() != null) {
-                        PlayerData.setName(player, info.getLyric());
+                    if (StringUtil.isNullOrEmpty(info.getLyric())) {
+                        PlayerData.setLyric(player, info.getLyric());
                     }
                     if (info.getCurrentTime() != null) {
                         PlayerData.setCurrentTime(player, info.getCurrentTime());
@@ -48,6 +53,7 @@ public class PluginMessage implements PluginMessageListener {
                     if (info.getMaxTime() != null) {
                         PlayerData.setMaxTime(player, info.getMaxTime());
                     }
+                    break;
                 default:
             }
         } catch (Exception e) {

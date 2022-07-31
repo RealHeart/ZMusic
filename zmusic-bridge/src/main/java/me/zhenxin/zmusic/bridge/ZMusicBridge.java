@@ -5,14 +5,17 @@ import me.zhenxin.zmusic.bridge.api.PluginMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Locale;
+import java.util.logging.Logger;
 
 /**
  * @author 真心
  * @email qgzhenxin@qq.com
  * @since 2022/7/13 20:59
  */
-@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
+@SuppressWarnings({"AlibabaClassNamingShouldBeCamel", "AlibabaUndefineMagicConstant"})
 public class ZMusicBridge extends JavaPlugin {
+    public static boolean DEBUG = true;
+    public static Logger logger;
     public static boolean isSupportPlaceholderAPI = false;
     public static JavaPlugin plugin;
 
@@ -22,17 +25,17 @@ public class ZMusicBridge extends JavaPlugin {
                 .getPluginManager()
                 .isPluginEnabled("ZMusic")) {
             Locale locale = Locale.getDefault();
-            if (locale == Locale.SIMPLIFIED_CHINESE
-                    || locale == Locale.TRADITIONAL_CHINESE
-                    || locale == Locale.CHINESE) {
+            if ("zh".equals(locale.getLanguage())) {
                 getLogger().warning("检测到ZMusic插件已启用，请移除ZMusic插件。");
                 getLogger().warning("ZMusicBridge 用于BungeeCord/Velocity端与子服通信，请勿同时启用ZMusic和ZMusicBridge。");
             } else {
                 getLogger().warning("Checking ZMusic plugin is enabled, please remove ZMusic plugin.");
                 getLogger().warning("ZMusicBridge is used to communicate between BungeeCord/Velocity server and sub-server, please do not enable ZMusic and ZMusicBridge at the same time.");
             }
+            setEnabled(false);
         }
         plugin = this;
+        logger = getLogger();
         ZMusicBridge.isSupportPlaceholderAPI = getServer()
                 .getPluginManager()
                 .isPluginEnabled("PlaceholderAPI");
@@ -40,12 +43,14 @@ public class ZMusicBridge extends JavaPlugin {
             boolean register = new PlaceholderAPI().register();
             if (!register) {
                 getLogger().warning("PlaceholderAPI register failed!");
+            } else {
+                getLogger().info("PlaceholderAPI register success!");
             }
         } else {
             getLogger().warning("PlaceholderAPI is not enabled.");
         }
-        getServer()
-                .getMessenger()
-                .registerIncomingPluginChannel(this, "zmusic:bridge", new PluginMessage());
+        String channel = "zmusic:bridge";
+        getServer().getMessenger().registerIncomingPluginChannel(this, channel, new PluginMessage());
+        getLogger().info("ZMusicBridge enabled!");
     }
 }

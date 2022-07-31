@@ -73,7 +73,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 return String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
             }
         } else {
-            return "--:--";
+            return "00:00";
         }
     }
 }
