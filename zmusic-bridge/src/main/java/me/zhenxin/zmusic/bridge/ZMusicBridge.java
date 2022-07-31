@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings({"AlibabaClassNamingShouldBeCamel", "AlibabaUndefineMagicConstant"})
 public class ZMusicBridge extends JavaPlugin {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static Logger logger;
     public static boolean isSupportPlaceholderAPI = false;
     public static JavaPlugin plugin;
