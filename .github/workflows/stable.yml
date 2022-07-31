@@ -17,7 +17,7 @@ jobs:
       - name: Setup Gradle
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew :zmusic-plugin:clean zmusic-plugin:build
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:

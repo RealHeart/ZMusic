@@ -22,9 +22,11 @@ jobs:
       - name: Setup Gradle
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew :zmusic-plugin:clean zmusic-plugin:build
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: 'ZMusic'
-          path: zmusic-plugin/build/libs/ZMusic*all.jar
+          path: |
+            zmusic-bridge/build/libs/**.jar
+            zmusic-plugin/build/libs/ZMusic*all.jar
