@@ -1,8 +1,8 @@
 package me.zhenxin.zmusic.proto.packet
 
-import me.zhenxin.zmusic.platform.bukkitPlugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import taboolib.platform.BukkitPlugin
 import kotlin.random.Random
 
 /**
@@ -23,6 +23,7 @@ abstract class AdvancementPacket(
     protected val desc = "ZMusic Music Playing Toast"
 
     private fun randomIcon(): Material {
+        val bukkitPlugin = BukkitPlugin.getInstance()
         val icons = mutableListOf<Material>()
         val pkgName = bukkitPlugin.server.javaClass.`package`.name
         val nms = pkgName.substring(pkgName.lastIndexOf('.') + 1)

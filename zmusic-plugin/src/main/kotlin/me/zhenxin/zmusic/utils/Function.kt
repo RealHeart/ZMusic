@@ -1,13 +1,16 @@
+@file:Suppress("SpellCheckingInspection")
+
 package me.zhenxin.zmusic.utils
 
+import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.music.MusicApi
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.music.impl.*
-import me.zhenxin.zmusic.taboolib.extend.sendMsg
+import me.zhenxin.zmusic.module.music.MusicApi
+import me.zhenxin.zmusic.module.music.impl.*
+import me.zhenxin.zmusic.module.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import java.util.*
 
@@ -122,3 +125,7 @@ fun checkUpdate(sender: ProxyCommandSender) {
         sender.sendMsg(Lang.UPDATE_NO_UPDATE)
     }
 }
+
+fun Any.toJSONObject(): JSONObject = JSONObject(this)
+
+fun Any.toJSONArray(): JSONArray = JSONArray(this)

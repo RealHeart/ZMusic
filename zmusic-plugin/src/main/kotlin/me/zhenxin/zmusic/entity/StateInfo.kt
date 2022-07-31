@@ -1,9 +1,9 @@
 package me.zhenxin.zmusic.entity
 
-import me.zhenxin.zmusic.bossbar.BossBar
+import me.zhenxin.zmusic.module.bossbar.BossBar
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.PlayMode
-import me.zhenxin.zmusic.music.MusicPlayer
+import me.zhenxin.zmusic.module.music.MusicPlayer
 
 /**
  * 状态信息

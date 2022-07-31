@@ -2,13 +2,16 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.exception.ZMusicException
-import me.zhenxin.zmusic.js.Http
-import me.zhenxin.zmusic.js.Util
-import me.zhenxin.zmusic.js.nashornSandbox
+import me.zhenxin.zmusic.module.js.Http
+import me.zhenxin.zmusic.module.js.Util
+import me.zhenxin.zmusic.module.js.nashornSandbox
+import me.zhenxin.zmusic.module.registerChannel
 import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.status.playerState
-import me.zhenxin.zmusic.taboolib.extend.registerChannel
-import me.zhenxin.zmusic.utils.*
+import me.zhenxin.zmusic.utils.Logger
+import me.zhenxin.zmusic.utils.checkUpdate
+import me.zhenxin.zmusic.utils.isVip
+import me.zhenxin.zmusic.utils.loginNetease
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -67,7 +70,6 @@ object ZMusic : Plugin() {
     }
 
     override fun onEnable() {
-        setLocale()
         logo.split("\n").forEach {
             logger.info("&b$it")
         }

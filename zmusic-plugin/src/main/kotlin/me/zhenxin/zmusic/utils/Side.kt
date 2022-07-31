@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.utils
 
 import me.zhenxin.zmusic.status.removeBossBar
-import me.zhenxin.zmusic.taboolib.extend.sendPluginMessage
+import me.zhenxin.zmusic.module.sendPluginMessage
 import taboolib.common.platform.ProxyPlayer
 
 /**
