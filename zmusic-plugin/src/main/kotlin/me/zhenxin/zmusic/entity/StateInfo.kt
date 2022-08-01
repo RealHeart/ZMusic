@@ -1,8 +1,8 @@
 package me.zhenxin.zmusic.entity
 
-import me.zhenxin.zmusic.module.bossbar.BossBar
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.PlayMode
+import me.zhenxin.zmusic.module.bossbar.BossBar
 import me.zhenxin.zmusic.module.music.MusicPlayer
 
 /**
@@ -24,9 +24,9 @@ data class StateInfo(
     /** 平台 */
     var platform: MusicPlatform? = null,
     /** 最大播放时间 */
-    var time: Long? = null,
+    var time: Int? = null,
     /** 当前播放时间 */
-    var currentTime: Long? = null,
+    var currentTime: Int? = null,
     /** 歌词 */
     var lyric: String? = null,
     /** 播放模式 */

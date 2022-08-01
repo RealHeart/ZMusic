@@ -7,7 +7,7 @@ package me.zhenxin.zmusic.entity
  * @since 2022/1/9 12:26
  */
 data class LyricRaw(
-    var time: Long = 0,
+    var time: Int = 0,
     var content: String = "",
     var translation: String = ""
 )

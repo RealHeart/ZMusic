@@ -10,7 +10,7 @@ import me.zhenxin.zmusic.consts.VERSION_CODE
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.module.music.impl.*
-import me.zhenxin.zmusic.module.sendMsg
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import java.util.*
 
@@ -81,8 +81,8 @@ fun formatLyric(lyric: String, translation: String = ""): MutableList<LyricRaw> 
     return result
 }
 
-private fun formatLyric(content: String): MutableMap<Long, String> {
-    val map = mutableMapOf<Long, String>()
+private fun formatLyric(content: String): MutableMap<Int, String> {
+    val map = mutableMapOf<Int, String>()
     val regex = Regex("\\[(\\d{1,2}):(\\d{1,2}).(\\d{1,3})](.*)")
     val matches = regex.findAll(content)
     matches.forEach { value ->
@@ -91,7 +91,7 @@ private fun formatLyric(content: String): MutableMap<Long, String> {
         val ms = value.groupValues[3].toLong()
         val text = value.groupValues[4]
         val time = (min * 60 * 1000 + sec * 1000 + ms) / 1000
-        map[time] = text.trim()
+        map[time.toInt()] = text.trim()
     }
     return map
 }

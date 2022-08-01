@@ -4,9 +4,9 @@ import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
+import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.formatLyric
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
@@ -91,7 +91,7 @@ class NeteaseApi : MusicApi {
         val album = song.getJSONObject("al")
         val albumName = album.getStr("name")
         val albumImage = album.getStr("picUrl")
-        val duration = song.getLong("dt")
+        val duration = song.getLong("dt") / 1000
 
         return MusicInfo(
             id,
@@ -99,7 +99,7 @@ class NeteaseApi : MusicApi {
             singer,
             albumName,
             albumImage,
-            duration
+            duration.toInt()
         )
     }
 }

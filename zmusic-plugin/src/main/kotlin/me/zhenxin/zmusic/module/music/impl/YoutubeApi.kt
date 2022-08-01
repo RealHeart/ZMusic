@@ -1,10 +1,10 @@
 package me.zhenxin.zmusic.module.music.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.module.music.MusicApi
+import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
-import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.PostType
 import me.zhenxin.zmusic.utils.post
 
@@ -64,7 +64,7 @@ class YoutubeApi : MusicApi {
                         author,
                         "",
                         "",
-                        getDurationLong(duration)
+                        getDuration(duration)
                     )
                 )
             }
@@ -85,18 +85,14 @@ class YoutubeApi : MusicApi {
         )
     }
 
-    private fun getDurationLong(duration: String): Long {
-        val arr = duration.split(":")
-        if (arr.size == 1) {
-            return arr[0].toLong()
+    private fun getDuration(duration: String): Int {
+        val array = duration.split(":")
+        return when (array.size) {
+            1 -> array[0].toInt()
+            2 -> array[0].toInt() * 60 + array[1].toInt()
+            3 -> array[0].toInt() * 60 * 60 + array[1].toInt() * 60 + array[2].toInt()
+            else -> 0
         }
-        if (arr.size == 2) {
-            return arr[0].toLong() * 60 + arr[1].toLong()
-        }
-        if (arr.size == 3) {
-            return arr[0].toLong() * 60 * 60 + arr[1].toLong() * 60 + arr[2].toLong()
-        }
-        return 0
     }
 
     override fun getPlaylist(id: String): PlaylistInfo {
@@ -168,7 +164,7 @@ class YoutubeApi : MusicApi {
             "",
             "",
             "",
-            lengthSeconds.toLong() * 1000
+            lengthSeconds.toInt()
         )
     }
 }

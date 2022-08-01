@@ -1,6 +1,5 @@
 package me.zhenxin.zmusic.module.music
 
-import me.zhenxin.zmusic.module.bossbar.BossBar
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.entity.LyricRaw
@@ -8,10 +7,13 @@ import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.enums.PlayMode.*
 import me.zhenxin.zmusic.logger
+import me.zhenxin.zmusic.module.bossbar.BossBar
+import me.zhenxin.zmusic.module.taboolib.resetData
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.status.createBossBar
 import me.zhenxin.zmusic.status.getState
+import me.zhenxin.zmusic.status.removeBossBar
 import me.zhenxin.zmusic.status.setState
-import me.zhenxin.zmusic.module.sendMsg
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
 import me.zhenxin.zmusic.utils.sendBridgeInfo
@@ -19,8 +21,8 @@ import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
-import java.util.*
 import taboolib.common.platform.function.submit
+import java.util.*
 
 /**
  * 音乐播放器
@@ -33,42 +35,56 @@ class MusicPlayer(
     private val api: MusicApi,
     private val musicList: MutableList<MusicInfo>,
     private val mode: PlayMode = SINGLE
-) : TimerTask() {
+) {
     private var currentIndex = 0
     private lateinit var currentMusic: MusicInfo
     private lateinit var bossBar: BossBar
     private var currentLyric: MutableList<LyricRaw> = mutableListOf()
 
-    private var currentTime = 0L
+    private var currentTime = 0
     private var currentLyricString = ""
+
+    private var playing = true
 
     private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
         player.playMusic(url)
-        bossBar.start()
+        // bossBar.start()
     }
 
-    override fun run() {
-        if (!player.isOnline()) {
-            logger.debug("[Thread:${Thread.currentThread().id}]玩家离线, 线程终止")
-            cancel()
+    private fun run() {
+        while (playing) {
+            if (!player.isOnline()) {
+                logger.debug("[Thread:${Thread.currentThread().id}]玩家离线, 线程终止")
+                stop()
+            }
+            currentTime += 1
+            sendLyric()
+            updateState()
+            checkMode()
+            Thread.sleep(1000)
         }
-        currentTime += 1
-        sendLyric()
-        updateState()
-        checkMode()
+    }
+
+    fun stop() {
+        playing = false
+        player.stopMusic()
+        player.removeBossBar()
+        player.setState(playing = false)
+        player.setState(player = null)
     }
 
     fun start() {
-        player.stopMusic()
+        player.resetData()
         currentMusic = musicList[currentIndex]
         currentLyric = api.getLyric(currentMusic.id)
         player.createBossBar()
         bossBar = player.getState().bossBar!!
         bossBar.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
-        bossBar.setTime(currentMusic.duration.toFloat() / 1000)
+        bossBar.setTime(currentMusic.duration.toFloat())
+        player.setState(bossBar = bossBar)
         play()
-        Timer().schedule(this, 1000, 1000)
+        submit(async = true) { run() }
     }
 
     private fun sendLyric() {
@@ -89,28 +105,35 @@ class MusicPlayer(
     }
 
     private fun updateState() {
-        submit(async = true) {
-            if (runningPlatform != Platform.BUNGEE) {
-                player.sendBridgeInfo(
-                    BridgeMusicInfo(
-                        name = currentMusic.name,
-                        singer = currentMusic.singer,
-                        lyric = currentLyricString,
-                        currentTime = currentTime,
-                        maxTime = currentMusic.duration / 1000,
-                    )
+        if (runningPlatform == Platform.BUNGEE || runningPlatform == Platform.VELOCITY) {
+            player.sendBridgeInfo(
+                BridgeMusicInfo(
+                    name = currentMusic.name,
+                    singer = currentMusic.singer,
+                    lyric = currentLyricString,
+                    currentTime = currentTime,
+                    maxTime = currentMusic.duration
                 )
-            }
+            )
         }
+        player.setState(
+            playing = playing,
+            name = currentMusic.name,
+            singer = currentMusic.singer,
+            album = currentMusic.albumName,
+            platform = null,
+            time = currentMusic.duration,
+            currentTime = currentTime,
+            lyric = currentLyricString,
+            mode = mode
+        )
     }
 
     private fun checkMode() {
-        if (currentTime >= currentMusic.duration / 1000) {
+        if (currentTime >= currentMusic.duration) {
             when (mode) {
                 SINGLE -> {
-                    player.stopMusic()
-                    player.setState(playing = false)
-                    player.setState(player = null)
+                    stop()
                 }
 
                 SINGLE_LOOP -> {
@@ -120,9 +143,7 @@ class MusicPlayer(
 
                 LIST -> {
                     if (currentIndex == musicList.size - 1) {
-                        player.stopMusic()
-                        player.setState(playing = false)
-                        player.setState(player = null)
+                        stop()
                     } else {
                         currentIndex++
                     }
@@ -160,5 +181,4 @@ class MusicPlayer(
             }
         }
     }
-
 }

@@ -47,7 +47,7 @@ fun ProxyPlayer.sendToast(title: String) {
             packet.revoke()
         }
 
-        Platform.BUNGEE -> sendBridgeToast(title)
+        Platform.BUNGEE, Platform.VELOCITY -> sendBridgeToast(title)
         else -> {}
     }
 }

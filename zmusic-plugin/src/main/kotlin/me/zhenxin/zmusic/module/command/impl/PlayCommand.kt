@@ -7,9 +7,9 @@ import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.module.music.MusicPlayer
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.proto.sendToast
 import me.zhenxin.zmusic.status.setState
-import me.zhenxin.zmusic.module.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.isChina
@@ -65,13 +65,13 @@ val playCommand = subCommand {
                         mutableListOf(result)
                     )
                     sender.sendToast(Lang.TOAST_PLAYING.replace("{0}", result.name).colored())
-                    player.start()
                     sender.setState(player = player)
                     sender.sendMsg(
                         Lang.COMMAND_PLAY_SUCCESS
                             .replace("{0}", api.name)
                             .replace("{1}", "${result.singer} - ${result.name}")
                     )
+                    player.start()
                 }
             }
         }

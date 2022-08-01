@@ -2,10 +2,11 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.exception.ZMusicException
+import me.zhenxin.zmusic.module.PlaceholderAPI
 import me.zhenxin.zmusic.module.js.Http
 import me.zhenxin.zmusic.module.js.Util
 import me.zhenxin.zmusic.module.js.nashornSandbox
-import me.zhenxin.zmusic.module.registerChannel
+import me.zhenxin.zmusic.module.taboolib.registerChannel
 import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.status.playerState
 import me.zhenxin.zmusic.utils.Logger
@@ -85,6 +86,11 @@ object ZMusic : Plugin() {
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
 
+        // 注册PAPI
+        if (runningPlatform == BUKKIT) {
+            PlaceholderAPI().register()
+        }
+
         Lang.INIT_LOADED.forEach {
             logger.info(
                 it.replace("{0}", VERSION_NAME)
@@ -107,7 +113,7 @@ object ZMusic : Plugin() {
 
     override fun onDisable() {
         onlinePlayers().forEach {
-            it.getState().player?.cancel()
+            it.getState().player?.stop()
             playerState.remove(it.name)
         }
     }

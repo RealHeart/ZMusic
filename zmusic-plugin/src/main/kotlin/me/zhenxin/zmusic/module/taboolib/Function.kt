@@ -1,11 +1,14 @@
-package me.zhenxin.zmusic.module
+package me.zhenxin.zmusic.module.taboolib
 
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.taboolib.jsonmessage.ClickCommand
 import me.zhenxin.zmusic.module.taboolib.jsonmessage.JsonMessage
 import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
+import me.zhenxin.zmusic.status.removeBossBar
+import me.zhenxin.zmusic.status.setState
 import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.implementations
@@ -83,4 +86,11 @@ fun ProxyPlayer.sendPluginMessage(message: String) {
     logger.debug("PluginMessage: $message")
     sendPluginMessage("zmusic:channel", message.toByteArray())
     sendPluginMessage("allmusic:channel", message.toByteArray())
+}
+
+
+fun ProxyPlayer.resetData() {
+    stopMusic()
+    removeBossBar()
+    setState()
 }

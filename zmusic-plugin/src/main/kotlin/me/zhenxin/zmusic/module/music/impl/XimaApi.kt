@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.module.music.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.module.music.MusicApi
-import me.zhenxin.zmusic.entity.MusicInfo
-import me.zhenxin.zmusic.entity.PlaylistInfo
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
+import me.zhenxin.zmusic.entity.MusicInfo
+import me.zhenxin.zmusic.entity.PlaylistInfo
+import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
@@ -39,7 +39,7 @@ class XimaApi : MusicApi {
             val name = it.getStr("title")
             val albumName = it.getStr("albumTitle")
             val albumImage = it.getStr("albumCoverPath")
-            val duration = it.getLong("duration") * 1000
+            val duration = it.getInt("duration")
 
             musics.add(
                 MusicInfo(

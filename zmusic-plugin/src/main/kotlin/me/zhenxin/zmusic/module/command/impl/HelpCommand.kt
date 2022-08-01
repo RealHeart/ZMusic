@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.module.sendMsg
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 

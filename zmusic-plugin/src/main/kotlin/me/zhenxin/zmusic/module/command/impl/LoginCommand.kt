@@ -2,7 +2,7 @@ package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNamesWithSupportAccount
-import me.zhenxin.zmusic.module.sendMsg
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.loginNetease
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
@@ -29,6 +29,7 @@ val loginCommand = subCommand {
                     val result = loginNetease()
                     sender.sendMsg(result.message)
                 }
+
                 else -> return@execute
             }
         }

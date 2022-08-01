@@ -2,8 +2,7 @@ package me.zhenxin.zmusic.module.command
 
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.command.impl.*
-import me.zhenxin.zmusic.module.sendMsg
-import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.playMusic
 import me.zhenxin.zmusic.utils.sendBridgeToast
 import taboolib.common.platform.ProxyCommandSender
@@ -13,6 +12,7 @@ import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.PermissionDefault.*
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submit
 
 /**
  * 命令处理器
@@ -37,7 +37,11 @@ object CommandHandler {
     )
     val test = subCommand {
         execute<ProxyPlayer> { sender, _, _ ->
-            sender.sendBridgeToast(Lang.TOAST_PLAYING.replace("{0}", "Toast Test").colored());
+            submit(async = true) {
+                submit(async = true) {
+                    sender.sendBridgeToast("Test Toast")
+                }
+            }
         }
     }
 

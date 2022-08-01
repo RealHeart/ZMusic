@@ -4,14 +4,14 @@ import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.logger
-import me.zhenxin.zmusic.module.sendMsg
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.isVip
 import me.zhenxin.zmusic.utils.loginNetease
 import me.zhenxin.zmusic.utils.setLocale
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
-import taboolib.module.lang.Language
 import taboolib.common.platform.function.submit
+import taboolib.module.lang.Language
 
 /**
  * 重载命令

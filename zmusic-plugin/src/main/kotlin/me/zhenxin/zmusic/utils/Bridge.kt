@@ -3,7 +3,7 @@ package me.zhenxin.zmusic.utils
 import me.zhenxin.zmusic.entity.BridgeMessage
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.enums.BridgeMessageType
-import me.zhenxin.zmusic.module.sendBridgeMessage
+import me.zhenxin.zmusic.module.taboolib.sendBridgeMessage
 import taboolib.common.platform.ProxyPlayer
 
 /**

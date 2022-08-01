@@ -2,9 +2,9 @@ package me.zhenxin.zmusic.module.music.impl;
 
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
+import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.get
 import java.net.URLEncoder
 
@@ -42,7 +42,7 @@ class SoundCloudApi : MusicApi {
             val singer = it.getJSONObject("user").getStr("username")
             val albumName = it.getStr("tag_list")
             var albumImage = it.getStr("artwork_url")
-            val duration = it.getLong("duration")
+            val duration = it.getLong("duration") / 1000
 
             if (albumImage == null) albumImage = ""
             musics.add(
@@ -52,7 +52,7 @@ class SoundCloudApi : MusicApi {
                     singer,
                     albumName,
                     albumImage,
-                    duration
+                    duration.toInt()
                 )
             )
         }

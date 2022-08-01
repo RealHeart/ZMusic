@@ -4,9 +4,9 @@ import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.module.taboolib.jsonmessage.ClickCommand
-import me.zhenxin.zmusic.module.sendClickMessage
-import me.zhenxin.zmusic.module.sendClickPageBar
-import me.zhenxin.zmusic.module.sendMsg
+import me.zhenxin.zmusic.module.taboolib.sendClickMessage
+import me.zhenxin.zmusic.module.taboolib.sendClickPageBar
+import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.asMusicApi
 import me.zhenxin.zmusic.utils.colored
 import taboolib.common.platform.ProxyPlayer

@@ -3,9 +3,9 @@ package me.zhenxin.zmusic.module.music.impl
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
-import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
+import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.get
 import me.zhenxin.zmusic.utils.m4s2mp3
 import java.net.URLEncoder
@@ -96,7 +96,7 @@ class BiliBiliApi : MusicApi {
         val title = data.getStr("title")
         val singer = data.getJSONObject("owner").getStr("name")
         val pic = data.getStr("pic")
-        val duration = data.getLong("duration") * 1000
+        val duration = data.getInt("duration")
         return MusicInfo(
             fullId,
             title,

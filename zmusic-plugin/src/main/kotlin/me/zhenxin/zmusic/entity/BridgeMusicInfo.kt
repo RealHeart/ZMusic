@@ -11,6 +11,6 @@ data class BridgeMusicInfo(
     val name: String? = null,
     val singer: String? = null,
     val lyric: String? = null,
-    val currentTime: Long? = null,
-    val maxTime: Long? = null
+    val currentTime: Int? = null,
+    val maxTime: Int? = null
 )

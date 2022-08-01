@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import me.zhenxin.zmusic.status.removeBossBar
-import me.zhenxin.zmusic.module.sendPluginMessage
+import me.zhenxin.zmusic.module.taboolib.sendPluginMessage
 import taboolib.common.platform.ProxyPlayer
 
 /**
@@ -22,5 +21,4 @@ fun ProxyPlayer.playMusic(url: String) {
 
 fun ProxyPlayer.stopMusic() {
     sendPluginMessage("[Stop]")
-    removeBossBar()
 }

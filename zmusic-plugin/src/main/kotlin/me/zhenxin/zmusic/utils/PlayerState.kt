@@ -1,12 +1,12 @@
 package me.zhenxin.zmusic.status
 
+import me.zhenxin.zmusic.entity.StateInfo
+import me.zhenxin.zmusic.enums.MusicPlatform
+import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.module.bossbar.BossBar
 import me.zhenxin.zmusic.module.bossbar.impl.BossBarBukkit
 import me.zhenxin.zmusic.module.bossbar.impl.BossBarBungee
 import me.zhenxin.zmusic.module.bossbar.impl.BossBarVelocity
-import me.zhenxin.zmusic.entity.StateInfo
-import me.zhenxin.zmusic.enums.MusicPlatform
-import me.zhenxin.zmusic.enums.PlayMode
 import me.zhenxin.zmusic.module.music.MusicPlayer
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
@@ -34,8 +34,8 @@ fun ProxyPlayer.setState(
     singer: String? = null,
     album: String? = null,
     platform: MusicPlatform? = null,
-    time: Long? = null,
-    currentTime: Long? = null,
+    time: Int? = null,
+    currentTime: Int? = null,
     lyric: String? = null,
     mode: PlayMode? = null,
     player: MusicPlayer? = null,
