@@ -29,12 +29,12 @@ public class PlayerData {
         return info.getLyric();
     }
 
-    public static Long getCurrentTime(Player player) {
+    public static Integer getCurrentTime(Player player) {
         MusicInfo info = getMusicInfo(player);
         return info.getCurrentTime();
     }
 
-    public static Long getMaxTime(Player player) {
+    public static Integer getMaxTime(Player player) {
         MusicInfo info = getMusicInfo(player);
         return info.getMaxTime();
     }
@@ -57,13 +57,13 @@ public class PlayerData {
         setMusicInfo(player, info);
     }
 
-    public static void setCurrentTime(Player player, Long currentTime) {
+    public static void setCurrentTime(Player player, Integer currentTime) {
         MusicInfo info = getMusicInfo(player);
         info.setCurrentTime(currentTime);
         setMusicInfo(player, info);
     }
 
-    public static void setMaxTime(Player player, Long maxTime) {
+    public static void setMaxTime(Player player, Integer maxTime) {
         MusicInfo info = getMusicInfo(player);
         info.setMaxTime(maxTime);
         setMusicInfo(player, info);

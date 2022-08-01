@@ -48,17 +48,17 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                     return "None";
                 }
             case "status_current_time":
-                Long currentTime = PlayerData.getCurrentTime(player);
+                Integer currentTime = PlayerData.getCurrentTime(player);
                 return formatTime(currentTime);
             case "status_max_time":
-                Long maxTime = PlayerData.getMaxTime(player);
+                Integer maxTime = PlayerData.getMaxTime(player);
                 return formatTime(maxTime);
             default:
                 return null;
         }
     }
 
-    private String formatTime(Long time) {
+    private String formatTime(Integer time) {
         if (time != null) {
             if (time < 60) {
                 return "00" + ":" + String.format("%02d", time);

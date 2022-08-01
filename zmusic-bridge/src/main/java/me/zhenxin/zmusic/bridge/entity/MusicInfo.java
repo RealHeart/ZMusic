@@ -23,11 +23,11 @@ public class MusicInfo {
     /**
      * 当前时间
      */
-    private Long currentTime;
+    private Integer currentTime;
     /**
      * 最大时间
      */
-    private Long maxTime;
+    private Integer maxTime;
 
     public String getName() {
         return name;
@@ -53,19 +53,19 @@ public class MusicInfo {
         this.lyric = lyric;
     }
 
-    public Long getCurrentTime() {
+    public Integer getCurrentTime() {
         return currentTime;
     }
 
-    public void setCurrentTime(Long currentTime) {
+    public void setCurrentTime(Integer currentTime) {
         this.currentTime = currentTime;
     }
 
-    public Long getMaxTime() {
+    public Integer getMaxTime() {
         return maxTime;
     }
 
-    public void setMaxTime(Long maxTime) {
+    public void setMaxTime(Integer maxTime) {
         this.maxTime = maxTime;
     }
 }
