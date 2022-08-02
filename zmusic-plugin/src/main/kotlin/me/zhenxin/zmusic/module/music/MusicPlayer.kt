@@ -70,8 +70,7 @@ class MusicPlayer(
         playing = false
         player.stopMusic()
         player.removeBossBar()
-        player.setState(playing = false)
-        player.setState(player = null)
+        player.resetData()
     }
 
     fun start() {

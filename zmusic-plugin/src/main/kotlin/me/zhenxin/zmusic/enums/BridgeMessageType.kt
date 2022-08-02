@@ -9,5 +9,6 @@ package me.zhenxin.zmusic.enums
  */
 enum class BridgeMessageType {
     TOAST,
-    INFO
+    INFO,
+    RESET,
 }

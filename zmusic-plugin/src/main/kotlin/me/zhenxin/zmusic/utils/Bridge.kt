@@ -23,10 +23,18 @@ fun ProxyPlayer.sendBridgeToast(title: String) {
     sendBridgeMessage(json.toString().toByteArray())
 }
 
-fun ProxyPlayer.sendBridgeInfo(info: BridgeMusicInfo) {
+fun ProxyPlayer.sendBridgeInfo(info: BridgeMusicInfo = BridgeMusicInfo()) {
     val message = BridgeMessage(
         type = BridgeMessageType.INFO,
         info = info
+    )
+    val json = message.toJSONObject()
+    sendBridgeMessage(json.toString().toByteArray())
+}
+
+fun ProxyPlayer.sendBridgeReset() {
+    val message = BridgeMessage(
+        type = BridgeMessageType.RESET
     )
     val json = message.toJSONObject()
     sendBridgeMessage(json.toString().toByteArray())

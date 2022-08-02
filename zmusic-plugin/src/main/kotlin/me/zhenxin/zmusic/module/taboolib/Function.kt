@@ -8,6 +8,7 @@ import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import me.zhenxin.zmusic.status.removeBossBar
 import me.zhenxin.zmusic.status.setState
 import me.zhenxin.zmusic.utils.colored
+import me.zhenxin.zmusic.utils.sendBridgeReset
 import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
@@ -92,4 +93,5 @@ fun ProxyPlayer.resetData() {
     stopMusic()
     removeBossBar()
     setState()
+    sendBridgeReset()
 }
