@@ -16,4 +16,8 @@ public enum MessageType {
      * 消息信息
      */
     INFO,
+    /**
+     * 重置状态
+     */
+    RESET,
 }

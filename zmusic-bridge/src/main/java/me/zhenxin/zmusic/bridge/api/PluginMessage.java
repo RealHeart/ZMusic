@@ -44,7 +44,7 @@ public class PluginMessage implements PluginMessageListener {
                     if (!StringUtil.isNullOrEmpty(info.getSinger())) {
                         PlayerData.setSinger(player, info.getSinger());
                     }
-                    if (StringUtil.isNullOrEmpty(info.getLyric())) {
+                    if (!StringUtil.isNullOrEmpty(info.getLyric())) {
                         PlayerData.setLyric(player, info.getLyric());
                     }
                     if (info.getCurrentTime() != null) {
@@ -53,6 +53,9 @@ public class PluginMessage implements PluginMessageListener {
                     if (info.getMaxTime() != null) {
                         PlayerData.setMaxTime(player, info.getMaxTime());
                     }
+                    break;
+                case RESET:
+                    PlayerData.resetData(player);
                     break;
                 default:
             }

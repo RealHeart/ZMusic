@@ -69,6 +69,16 @@ public class PlayerData {
         setMusicInfo(player, info);
     }
 
+    public static void resetData(Player player) {
+        MusicInfo info = getMusicInfo(player);
+        info.setName(null);
+        info.setSinger(null);
+        info.setLyric(null);
+        info.setCurrentTime(null);
+        info.setMaxTime(null);
+        setMusicInfo(player, info);
+    }
+
     private static MusicInfo getMusicInfo(Player player) {
         MusicInfo info = musicInfo.get(player);
         if (info == null) {
