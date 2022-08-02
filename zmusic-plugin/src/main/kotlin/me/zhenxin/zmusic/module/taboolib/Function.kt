@@ -71,7 +71,6 @@ fun ProxyPlayer.sendPluginMessage(channel: String, message: ByteArray) {
  * @param message 发送数据
  */
 fun ProxyPlayer.sendBridgeMessage(message: ByteArray) {
-    logger.debug("BridgeMessage: ${message.toString(Charsets.UTF_8)}")
     val channel = "zmusic:bridge"
     submit(async = true) {
         implementations<PluginMessage>().sendBridgeMessage(this@sendBridgeMessage, channel, message)

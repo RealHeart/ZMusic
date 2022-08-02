@@ -1,10 +1,13 @@
 package me.zhenxin.zmusic.module.bossbar.impl
 
 import me.zhenxin.zmusic.module.bossbar.BossBar
+import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer
+import net.md_5.bungee.chat.ComponentSerializer
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.submit
 import java.util.*
+
 
 /**
  * BossBar Bungee 实现
@@ -13,17 +16,21 @@ import java.util.*
  * @since 2022/7/6 10:57
  * @email qgzhenxin@qq.com
  */
-class BossBarBungee(player: ProxyPlayer) : BossBar(player) {
+class BossBarBungee(private val player: ProxyPlayer) : BossBar() {
 
     private val uuid = UUID.randomUUID()
     private var seconds = 0F
 
+    private val bungeePlayer = player.cast<ProxiedPlayer>()
+
     override fun start() {
         if (player.isOnline()) {
             val packet = getPacket(0)
+            packet.title = ComponentSerializer.toString(TextComponent(""))
             packet.color = 1
             packet.division = 4
             packet.health = 0F
+            sendPacket(packet)
             submit(async = true) {
                 val step = 1F / seconds
                 var progress = 0F
@@ -47,21 +54,23 @@ class BossBarBungee(player: ProxyPlayer) : BossBar(player) {
     }
 
     override fun setTitle(title: String) {
-        val paket = getPacket(3)
-        paket.title = title
-        player.cast<ProxiedPlayer>().unsafe().sendPacket(paket)
+        val packet = getPacket(3)
+        packet.title = ComponentSerializer.toString(TextComponent(title))
+        sendPacket(packet)
     }
 
     private fun setProgress(progress: Float) {
-        val paket = getPacket(2)
-        paket.health = progress
-        player.cast<ProxiedPlayer>().unsafe().sendPacket(paket)
+        val packet = getPacket(2)
+        packet.health = progress
+        sendPacket(packet)
     }
 
     private fun remove() {
-        val paket = getPacket(1)
-        player.cast<ProxiedPlayer>().unsafe().sendPacket(paket)
+        val packet = getPacket(1)
+        sendPacket(packet)
     }
 
     private fun getPacket(action: Int) = net.md_5.bungee.protocol.packet.BossBar(uuid, action)
+
+    private fun sendPacket(packet: net.md_5.bungee.protocol.packet.BossBar) = bungeePlayer.unsafe().sendPacket(packet)
 }

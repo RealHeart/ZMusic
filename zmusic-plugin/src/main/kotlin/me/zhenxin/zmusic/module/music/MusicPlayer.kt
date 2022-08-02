@@ -49,7 +49,7 @@ class MusicPlayer(
     private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
         player.playMusic(url)
-        // bossBar.start()
+        bossBar.start()
     }
 
     private fun run() {

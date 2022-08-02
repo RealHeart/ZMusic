@@ -13,7 +13,7 @@ import taboolib.common.platform.function.submit
  * @since 2022/7/6 11:09
  * @email qgzhenxin@qq.com
  */
-class BossBarVelocity(player: ProxyPlayer) : BossBar(player) {
+class BossBarVelocity(private val player: ProxyPlayer) : BossBar() {
 
     private val bar = net.kyori.adventure.bossbar.BossBar.bossBar(
         Component.text(),

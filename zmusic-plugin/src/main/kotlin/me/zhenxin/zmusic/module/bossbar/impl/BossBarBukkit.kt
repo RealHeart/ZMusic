@@ -17,7 +17,7 @@ import taboolib.platform.BukkitPlugin
  * @email qgzhenxin@qq.com
  */
 @PlatformImplementation(Platform.BUKKIT)
-class BossBarBukkit(player: ProxyPlayer) : BossBar(player) {
+class BossBarBukkit(private val player: ProxyPlayer) : BossBar() {
     private val bukkitPlugin = BukkitPlugin.getInstance()
 
     private val bar = bukkitPlugin.server.createBossBar("", BarColor.BLUE, BarStyle.SEGMENTED_20)

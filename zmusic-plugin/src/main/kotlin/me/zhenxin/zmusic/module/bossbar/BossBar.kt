@@ -1,7 +1,5 @@
 package me.zhenxin.zmusic.module.bossbar
 
-import taboolib.common.platform.ProxyPlayer
-
 /**
  * BossBar 跨平台实现
  *
@@ -9,9 +7,7 @@ import taboolib.common.platform.ProxyPlayer
  * @since 2022/7/5 14:01
  * @email qgzhenxin@qq.com
  */
-abstract class BossBar(
-    var player: ProxyPlayer
-) {
+abstract class BossBar {
 
     /**
      * 开始 BossBar
