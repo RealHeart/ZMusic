@@ -3,8 +3,8 @@
 version = "3.0.0-cb2"
 
 plugins {
-    id("io.izzel.taboolib") version "1.41"
-    kotlin("jvm") version "1.6.21"
+    id("io.izzel.taboolib") version "1.42"
+    kotlin("jvm") version "1.7.10"
 }
 
 dependencies {

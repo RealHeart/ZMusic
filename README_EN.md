@@ -21,12 +21,6 @@ V3 version is under development based on TabooLib 6
 
 </div>
 
-[简体中文](README.md) | English
-
-3.0 version developing, based in TabooLib 6
-
-2.0 version see [v2](../../tree/v2/) branch
-
 ## Introduction
 
 This is a powerful music system that supports the following functions.
@@ -114,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.6.21-blue?style=for-the-badge
+[kotlin]: https://img.shields.io/badge/kotlin-1.7.10-blue?style=for-the-badge
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 
