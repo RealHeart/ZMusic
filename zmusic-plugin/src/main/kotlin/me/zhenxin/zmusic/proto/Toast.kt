@@ -2,6 +2,7 @@ package me.zhenxin.zmusic.proto
 
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.proto.packet.impl.*
+import me.zhenxin.zmusic.utils.nmsVersion
 import me.zhenxin.zmusic.utils.sendBridgeToast
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
@@ -19,14 +20,10 @@ import taboolib.platform.BukkitPlugin
  * 发送Toast
  * @param title 信息
  */
-@Suppress("MoveVariableDeclarationIntoWhen")
 fun ProxyPlayer.sendToast(title: String) {
     when (runningPlatform) {
         Platform.BUKKIT -> {
-            val bukkitPlugin = BukkitPlugin.getInstance()
-            val pkgName = bukkitPlugin.server.javaClass.`package`.name
-            val nms = pkgName.substring(pkgName.lastIndexOf('.') + 1)
-            val packet = when (nms) {
+            val packet = when (nmsVersion()) {
                 "v1_19_R1" -> AdvancementPacket_1_19_R1(cast(), title)
                 "v1_18_R2" -> AdvancementPacket_1_18_R2(cast(), title)
                 "v1_18_R1" -> AdvancementPacket_1_18_R1(cast(), title)
@@ -39,7 +36,7 @@ fun ProxyPlayer.sendToast(title: String) {
                 "v1_13_R2" -> AdvancementPacket_1_13_R2(cast(), title)
                 "v1_12_R1" -> AdvancementPacket_1_12_R1(cast(), title)
                 else -> {
-                    logger.info("&cToast not support this NMS version: $nms")
+                    logger.debug("Toast not support this NMS version: ${nmsVersion()}")
                     return;
                 }
             }

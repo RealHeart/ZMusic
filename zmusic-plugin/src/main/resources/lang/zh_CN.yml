@@ -11,19 +11,6 @@ init-loaded:
   - '&a插件作者: &b真心'
 
 help-tips: '&a输入 &a/&e{0} &bhelp &a查看帮助.'
-help-main:
-  - '&a/&e{0} &bhelp &c- &a查看主帮助(当前).'
-  - '&a/&e{0} &bhelp play &c- &a查看播放帮助.'
-  - '&a/&e{0} &bhelp music &c- &a查看点歌帮助.'
-  - '&a/&e{0} &bhelp search &c- &a查看搜索帮助.'
-  - '&a/&e{0} &bhelp playlist &c- &a查看歌单帮助.'
-  - '[admin]&a/&e{0} &bhelp admin &c- &a查看管理员帮助.'
-  - '&6========================================'
-  - '&a/&e{0} &bstop &c- &a停止播放'
-  - '&a/&e{0} &bloop &c- &a开/关循环播放'
-  - '&a/&e{0} &burl [MP3地址] &c- &a播放网络音乐'
-  - '&a/&e{0} &b163hot [歌名] &c- &a获取网易云音乐热评(前三)'
-  - '&6========================================'
 
 command-incorrect-command:
   - '&c执行命令时出现错误.'
@@ -39,6 +26,8 @@ command-play-success: '&a在&r[&e{0}&r]&a播放&r[&e{1}&r]&a成功.'
 command-music-success: '&a玩家&b{0}&a在&r[&e{1}&r]&a点播了一首&r[&e{2}&r]&a, 享受音乐吧~'
 command-search-header: '&6===============&a[ &b搜索结果 &a]&6================'
 command-reload-success: '&a配置和语言文件已重载完毕!'
+
+platform-netease-not-found-api: "&c检测到未配置网易云音乐API, 请检查配置文件."
 
 command-suggestion-platform: '平台'
 command-suggestion-song: '歌名'

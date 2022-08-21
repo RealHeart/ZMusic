@@ -28,8 +28,6 @@ object Lang {
 
     val HELP_TIPS
         get() = console().asLangText("help-tips")
-    val HELP_MAIN
-        get() = console().asLangTextList("help-main")
 
     val COMMAND_INCORRECT_COMMAND
         get() = console().asLangTextList("command-incorrect-command")
@@ -52,6 +50,9 @@ object Lang {
         get() = console().asLangText("command-suggestion-platform")
     val COMMAND_SUGGESTION_SONG
         get() = console().asLangText("command-suggestion-song")
+
+    val PLATFORM_NETEASE_NOT_FOUND_API
+        get() = console().asLangText("platform-netease-not-found-api")
 
     val MESSAGE_JSON_PLAY
         get() = console().asLangText("message-json-play")

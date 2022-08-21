@@ -11,18 +11,6 @@ init-loaded:
   - '&aPlugin Author: &bZhenXin'
 
 help-tips: '&aInput &a/&e{0} &bhelp &aShow Help.'
-help-main:
-  - '&a/&e{0} &bhelp &c- &aShow Main Help(this).'
-  - '&a/&e{0} &bhelp play &c- &aShow Play Help.'
-  - '&a/&e{0} &bhelp music &c- &aShow Music Help.'
-  - '&a/&e{0} &bhelp search &c- &aShow Search Help.'
-  - '&a/&e{0} &bhelp playlist &c- &aShow Playlist Help.'
-  - '[admin]&a/&e{0} &bhelp admin &c- &aShow Admin Help.'
-  - '&6========================================'
-  - '&a/&e{0} &bstop &c- &aStop Play'
-  - '&a/&e{0} &bloop &c- &aON/OFF LoopPlay'
-  - '&a/&e{0} &burl [MP3 Url] &c- &aPlay Netease Music.'
-  - '&6========================================'
 
 command-incorrect-command:
   - '&cCommand format error:'
@@ -37,6 +25,8 @@ command-reload-success: '&aConfiguration and language files have been reloaded!'
 
 command-suggestion-platform: 'Platform'
 command-suggestion-song: 'Song Name'
+
+platform-netease-not-found-api: "&cNetease CloudMusic API is not configured. Please check the configuration file"
 
 message-json-play: 'Play'
 message-json-music: 'Request'

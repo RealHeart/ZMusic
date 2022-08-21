@@ -58,6 +58,10 @@ fun ProxyPlayer.setState(
     playerState[this.name] = state
 }
 
+fun ProxyPlayer.resetState() {
+    playerState.remove(this.name)
+}
+
 /**
  * 获取玩家状态
  *

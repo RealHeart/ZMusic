@@ -9,14 +9,12 @@ import me.zhenxin.zmusic.module.js.nashornSandbox
 import me.zhenxin.zmusic.module.taboolib.registerChannel
 import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.status.playerState
-import me.zhenxin.zmusic.utils.Logger
-import me.zhenxin.zmusic.utils.checkUpdate
-import me.zhenxin.zmusic.utils.isVip
-import me.zhenxin.zmusic.utils.loginNetease
+import me.zhenxin.zmusic.utils.*
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
 import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 import java.io.File
 
 
@@ -45,6 +43,12 @@ object ZMusic : Plugin() {
         VERSION_NAME = pluginVersion
 
         // 初始化JS模块
+        initJavaScript()
+
+        logger = Logger(console())
+    }
+
+    private fun initJavaScript() {
         nashornSandbox.allow(Http::class.java)
         nashornSandbox.allow(Util::class.java)
         nashornSandbox.inject("http", Http())
@@ -82,14 +86,22 @@ object ZMusic : Plugin() {
         Metrics(8864, VERSION_NAME, BUNGEE)
         Metrics(12426, VERSION_NAME, VELOCITY)
 
+        // Bukkit相关
+        if (runningPlatform == BUKKIT) {
+            // PAPI
+            val enabled = BukkitPlugin.getInstance()
+                .server
+                .pluginManager
+                .isPluginEnabled("PlaceholderAPI")
+            if (enabled) {
+                PlaceholderAPI().register()
+            }
+        }
+
         // 注册通信频道
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
 
-        // 注册PAPI
-        if (runningPlatform == BUKKIT) {
-            PlaceholderAPI().register()
-        }
 
         Lang.INIT_LOADED.forEach {
             logger.info(
@@ -119,4 +131,4 @@ object ZMusic : Plugin() {
     }
 }
 
-val logger by lazy { Logger(console()) }
+lateinit var logger: Logger

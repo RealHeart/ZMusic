@@ -17,17 +17,16 @@ proxy:
   port: 8080
 
 # API设置
-#
-# 使用开源API项目 推荐自行搭建
-# 网易云: https://github.com/Binaryify/NeteaseCloudMusicApi
 api:
   # 网易云音乐
+  #
+  # 公共API列表和部署说明: https://m.zplu.cc/zh-cn/deploy-api/netease-api.html
   netease:
     # API链接
-    link: 'https://netease.api.zhenxin.xyz'
-    # 账号
+    link: ''
+    # 网易云账号
     account: ''
-    # 密码
+    # 网易云密码
     password: ''
 
 # ZMusic VIP设置

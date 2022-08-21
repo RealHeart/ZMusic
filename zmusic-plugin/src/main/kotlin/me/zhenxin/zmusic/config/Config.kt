@@ -1,5 +1,8 @@
 package me.zhenxin.zmusic.config
 
+import me.zhenxin.zmusic.utils.supportBossBar
+import taboolib.common.platform.Platform
+import taboolib.common.platform.function.runningPlatform
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Configuration
 
@@ -89,7 +92,13 @@ object Config {
 
     /** 歌词显示 BossBar */
     val LYRIC_BOSS_BAR: Boolean
-        get() = config.getBoolean("lyric.boss-bar")
+        get() {
+            var result = config.getBoolean("lyric.boss-bar")
+            if (runningPlatform == Platform.BUKKIT) {
+                if (!supportBossBar()) result = false
+            }
+            return result
+        }
 
     /** 歌词显示 ActionBar */
     val LYRIC_ACTION_BAR: Boolean

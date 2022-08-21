@@ -11,19 +11,6 @@ init-loaded:
   - '&a製作者: &bRealHeart'
 
 help-tips: '&a/&e{0} &bhelp &aと入力して、ヘルプを表示します。'
-help-main:
-  - '&a/&e{0} &bhelp &c- &aメインヘルプを表示(現在)'
-  - '&a/&e{0} &bhelp play &c- &a再生ヘルプを表示'
-  - '&a/&e{0} &bhelp music &c- &a曲の選ぶヘルプを表示'
-  - '&a/&e{0} &bhelp search &c- &a検索ヘルプを表示'
-  - '&a/&e{0} &bhelp playlist &c- &aプレイリストのヘルプを表示'
-  - '[admin]&a/&e{0} &bhelp admin &c- &aAdminヘルプを表示'
-  - '&6========================================'
-  - '&a/&e{0} &bstop &c- &a再生を停止'
-  - '&a/&e{0} &bloop &c- &aON/OFFループ再生'
-  - '&a/&e{0} &burl [MP3アドレス] &c- &aネット音楽を再生'
-  - '&a/&e{0} &b163hot [曲名] &c- &aNetEase Musicの音楽の人気がある評論を獲得。'
-  - '&6========================================'
 
 command-incorrect-command:
   - '&c不明または不完全なコマンドです。以下のエラーをご覧ください。'
@@ -38,6 +25,8 @@ command-reload-success: '&aプラグインリロード成功しました。'
 
 command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
+
+platform-netease-not-found-api: "&c检测到未配置网易云音乐API, 请检查配置文件."
 
 message-json-play: '再生'
 message-json-music: 'リクエスト'
