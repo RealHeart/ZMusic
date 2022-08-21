@@ -2,6 +2,8 @@ package me.zhenxin.zmusic.module.event
 
 import com.velocitypowered.api.event.connection.DisconnectEvent
 import com.velocitypowered.api.event.connection.PostLoginEvent
+import taboolib.common.platform.Platform
+import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
 
@@ -13,6 +15,7 @@ import taboolib.common.platform.function.adaptPlayer
  * @email qgzhenxin@qq.com
  */
 @Suppress("unused")
+@PlatformSide([Platform.VELOCITY])
 object VelocityEvent {
     @SubscribeEvent
     fun onPlayerJoin(event: PostLoginEvent) = EventEx.onPlayerJoin(adaptPlayer(event.player))

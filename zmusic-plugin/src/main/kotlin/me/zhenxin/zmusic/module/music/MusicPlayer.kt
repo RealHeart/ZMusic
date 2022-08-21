@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.module.music
 
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.entity.LyricRaw
@@ -12,12 +13,10 @@ import me.zhenxin.zmusic.module.taboolib.resetData
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.status.createBossBar
 import me.zhenxin.zmusic.status.getState
-import me.zhenxin.zmusic.status.removeBossBar
 import me.zhenxin.zmusic.status.setState
 import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.playMusic
 import me.zhenxin.zmusic.utils.sendBridgeInfo
-import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
@@ -38,7 +37,7 @@ class MusicPlayer(
 ) {
     private var currentIndex = 0
     private lateinit var currentMusic: MusicInfo
-    private lateinit var bossBar: BossBar
+    private var bossBar: BossBar? = null
     private var currentLyric: MutableList<LyricRaw> = mutableListOf()
 
     private var currentTime = 0
@@ -49,7 +48,13 @@ class MusicPlayer(
     private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
         player.playMusic(url)
-        bossBar.start()
+        if (Config.LYRIC_BOSS_BAR) {
+            player.createBossBar()
+            bossBar = player.getState().bossBar!!
+            bossBar?.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
+            bossBar?.setTime(currentMusic.duration.toFloat())
+            bossBar?.start()
+        }
     }
 
     private fun run() {
@@ -68,8 +73,6 @@ class MusicPlayer(
 
     fun stop() {
         playing = false
-        player.stopMusic()
-        player.removeBossBar()
         player.resetData()
     }
 
@@ -77,10 +80,6 @@ class MusicPlayer(
         player.resetData()
         currentMusic = musicList[currentIndex]
         currentLyric = api.getLyric(currentMusic.id)
-        player.createBossBar()
-        bossBar = player.getState().bossBar!!
-        bossBar.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
-        bossBar.setTime(currentMusic.duration.toFloat())
         player.setState(bossBar = bossBar)
         play()
         submit(async = true) { run() }
@@ -92,7 +91,7 @@ class MusicPlayer(
             currentLyricString = lyric.content
             val content = "${config.LYRIC_COLOR.colored()}${lyric.content}"
             if (config.LYRIC_BOSS_BAR) {
-                bossBar.setTitle(content)
+                bossBar?.setTitle(content)
             }
             if (config.LYRIC_ACTION_BAR) {
                 player.sendActionBar(content)
@@ -148,8 +147,10 @@ class MusicPlayer(
                     }
                     currentMusic = musicList[currentIndex]
                     currentLyric = api.getLyric(currentMusic.id)
-                    bossBar.setTitle(currentMusic.fullName)
-                    bossBar.setTime(currentMusic.duration.toFloat())
+                    if (Config.LYRIC_BOSS_BAR) {
+                        bossBar?.setTitle(currentMusic.fullName)
+                        bossBar?.setTime(currentMusic.duration.toFloat())
+                    }
                     currentTime = 0
                     play()
                 }
@@ -162,8 +163,10 @@ class MusicPlayer(
                     }
                     currentMusic = musicList[currentIndex]
                     currentLyric = api.getLyric(currentMusic.id)
-                    bossBar.setTitle(currentMusic.fullName)
-                    bossBar.setTime(currentMusic.duration.toFloat())
+                    if (Config.LYRIC_BOSS_BAR) {
+                        bossBar?.setTitle(currentMusic.fullName)
+                        bossBar?.setTime(currentMusic.duration.toFloat())
+                    }
                     currentTime = 0
                     play()
                 }
@@ -172,8 +175,10 @@ class MusicPlayer(
                     currentIndex = Random().nextInt(musicList.size)
                     currentMusic = musicList[currentIndex]
                     currentLyric = api.getLyric(currentMusic.id)
-                    bossBar.setTitle(currentMusic.fullName)
-                    bossBar.setTime(currentMusic.duration.toFloat())
+                    if (Config.LYRIC_BOSS_BAR) {
+                        bossBar?.setTitle(currentMusic.fullName)
+                        bossBar?.setTime(currentMusic.duration.toFloat())
+                    }
                     currentTime = 0
                     play()
                 }

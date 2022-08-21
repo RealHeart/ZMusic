@@ -2,6 +2,8 @@ package me.zhenxin.zmusic.module.event
 
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import taboolib.common.platform.Platform
+import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
 
@@ -14,6 +16,7 @@ import taboolib.common.platform.function.adaptPlayer
  */
 
 @Suppress("unused")
+@PlatformSide([Platform.BUKKIT])
 object BukkitEvent {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) = EventEx.onPlayerJoin(adaptPlayer(event.player))

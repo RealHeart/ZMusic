@@ -4,6 +4,7 @@ package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.module.music.MusicPlayer
@@ -40,6 +41,12 @@ val playCommand = subCommand {
                 if (platform == "soundcloud" || platform == "youtube") {
                     if (isChina()) {
                         sender.sendMsg(Lang.NO_SUPPORTED_REGION)
+                        return@execute
+                    }
+                }
+                if (platform == "netease") {
+                    if (config.API_NETEASE_LINK.isEmpty()) {
+                        sender.sendMsg(Lang.PLATFORM_NETEASE_NOT_FOUND_API)
                         return@execute
                     }
                 }
