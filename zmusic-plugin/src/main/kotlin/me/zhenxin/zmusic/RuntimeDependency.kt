@@ -27,7 +27,7 @@ package me.zhenxin.zmusic
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 
-private const val hutool = "5.8.4"
+private const val hutool = "5.8.5"
 private const val netty = "4.1.77.Final"
 private const val nashorn = "15.4"
 private const val nashornSandbox = "0.2.5"
