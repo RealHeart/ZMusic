@@ -22,10 +22,6 @@
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>ZhenXin-repo</id>
-            <url>https://code.aliyun.com/zhenxin/Maven/raw/master/</url>
-        </repository>
-        <repository>
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
