@@ -14,7 +14,7 @@ import taboolib.expansion.createHelper
  */
 
 val helpCommand = subCommand {
-    execute<ProxyCommandSender> { sender, context, _ ->
+    execute<ProxyCommandSender> { sender, _, _ ->
         sender.sendMsg("&6========== &r[&bZMusic&r] &eBy: ZhenXin &6==========")
         createHelper()
         sender.sendMsg("&6==================================")

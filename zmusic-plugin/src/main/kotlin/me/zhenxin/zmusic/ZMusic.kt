@@ -1,6 +1,8 @@
 package me.zhenxin.zmusic
 
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.module.PlaceholderAPI
 import me.zhenxin.zmusic.module.js.Http
@@ -27,8 +29,6 @@ import java.io.File
  */
 @Suppress("unused")
 object ZMusic : Plugin() {
-    lateinit var VERSION_NAME: String
-    var IS_VIP = false
 
     private const val logo = "" +
             "  ______  __  __                 _        \n" +
@@ -40,7 +40,7 @@ object ZMusic : Plugin() {
 
     override fun onLoad() {
         // 初始化变量
-        VERSION_NAME = pluginVersion
+        ZMusicData.VERSION_NAME = pluginVersion
 
         // 初始化JS模块
         initJavaScript()
@@ -78,13 +78,17 @@ object ZMusic : Plugin() {
         logo.split("\n").forEach {
             logger.info("&b$it")
         }
-        logger.info("\t&6v$VERSION_NAME\tby ZhenXin")
+        logger.info("\t&6v${ZMusicData.VERSION_NAME}\tby ZhenXin")
 
         logger.info(Lang.INIT_LOADING)
+
+        // 获取真实IP
+        ZMusicData.REAL_IP = realIP()
+
         // 注册bStats
-        Metrics(7291, VERSION_NAME, BUKKIT)
-        Metrics(8864, VERSION_NAME, BUNGEE)
-        Metrics(12426, VERSION_NAME, VELOCITY)
+        Metrics(7291, ZMusicData.VERSION_NAME, BUKKIT)
+        Metrics(8864, ZMusicData.VERSION_NAME, BUNGEE)
+        Metrics(12426, ZMusicData.VERSION_NAME, VELOCITY)
 
         // Bukkit相关
         if (runningPlatform == BUKKIT) {
@@ -105,12 +109,14 @@ object ZMusic : Plugin() {
 
         Lang.INIT_LOADED.forEach {
             logger.info(
-                it.replace("{0}", VERSION_NAME)
+                it.replace("{0}", ZMusicData.VERSION_NAME)
                     .replace("{1}", runningPlatform.name.lowercase())
             )
         }
 
-        submit(async = true) { checkUpdate(console()) }
+        if (Config.CHECK_UPDATE) {
+            submit(async = true) { checkUpdate(console()) }
+        }
 
         submit(async = true) {
             logger.info("&a正在尝试登录网易云音乐...")
@@ -119,7 +125,7 @@ object ZMusic : Plugin() {
         }
 
         submit {
-            IS_VIP = isVip()
+            ZMusicData.IS_VIP = isVip()
         }
     }
 

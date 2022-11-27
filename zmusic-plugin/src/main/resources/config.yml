@@ -1,4 +1,4 @@
-# 是否开启检查更新
+# 是否检查更新
 check-update: true
 # 插件使用的语言
 language: 'zh_CN'
@@ -21,13 +21,7 @@ api:
   # 网易云音乐
   #
   # 公共API列表和部署说明: https://m.zplu.cc/zh-cn/deploy-api/netease-api.html
-  netease:
-    # API链接
-    link: ''
-    # 网易云账号
-    account: ''
-    # 网易云密码
-    password: ''
+  netease: 'http://localhost:3000'
 
 # ZMusic VIP设置
 vip:

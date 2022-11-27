@@ -108,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.7.10-blue?style=for-the-badge
+[kotlin]: https://img.shields.io/badge/kotlin-1.7.21-blue?style=for-the-badge
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 

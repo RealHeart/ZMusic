@@ -7,7 +7,6 @@ import me.zhenxin.zmusic.utils.sendBridgeToast
 import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
-import taboolib.platform.BukkitPlugin
 
 /**
  * 吐司

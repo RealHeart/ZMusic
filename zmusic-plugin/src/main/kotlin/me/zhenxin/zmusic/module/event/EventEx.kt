@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.module.event
 
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.taboolib.resetData
 import me.zhenxin.zmusic.status.setState
 import me.zhenxin.zmusic.utils.checkUpdate
@@ -16,7 +17,9 @@ import taboolib.common.platform.function.submit
 object EventEx {
     fun onPlayerJoin(player: ProxyPlayer) {
         if (player.hasPermission("zmusic.admin.event")) {
-            submit(async = true) { checkUpdate(player) }
+            if (Config.CHECK_UPDATE) {
+                submit(async = true) { checkUpdate(player) }
+            }
         }
         player.setState()
     }

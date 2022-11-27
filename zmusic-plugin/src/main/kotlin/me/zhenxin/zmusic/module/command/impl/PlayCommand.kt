@@ -2,9 +2,9 @@
 
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
 import me.zhenxin.zmusic.module.music.MusicPlayer
@@ -27,11 +27,11 @@ import taboolib.common.platform.function.submit
  */
 
 val playCommand = subCommand {
-    dynamic(commit = Lang.COMMAND_SUGGESTION_PLATFORM) {
+    dynamic(comment = Lang.COMMAND_SUGGESTION_PLATFORM) {
         suggestion<ProxyPlayer> { _, _ ->
             getPlatformNames()
         }
-        dynamic(commit = Lang.COMMAND_SUGGESTION_SONG) {
+        dynamic(comment = Lang.COMMAND_SUGGESTION_SONG) {
             suggestion<ProxyPlayer>(true) { _, _ ->
                 listOf("[${Lang.COMMAND_SUGGESTION_SONG}]")
             }
@@ -45,13 +45,13 @@ val playCommand = subCommand {
                     }
                 }
                 if (platform == "netease") {
-                    if (config.API_NETEASE_LINK.isEmpty()) {
+                    if (config.API_NETEASE.isEmpty()) {
                         sender.sendMsg(Lang.PLATFORM_NETEASE_NOT_FOUND_API)
                         return@execute
                     }
                 }
                 if (platform == "bilibili") {
-                    if (!ZMusic.IS_VIP) {
+                    if (!ZMusicData.IS_VIP) {
                         sender.sendMsg("&c由于需要服务器转码, 此平台需要VIP授权方可使用.")
                         return@execute
                     }

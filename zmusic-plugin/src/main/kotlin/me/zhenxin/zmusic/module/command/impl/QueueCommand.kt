@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.module.command.impl
 
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
 /**
@@ -10,5 +11,14 @@ import taboolib.common.platform.command.subCommand
  * @email qgzhenxin@qq.com
  */
 val queueCommand = subCommand {
-
+    dynamic(comment = "Action") {
+        suggestion<ProxyCommandSender> { _, _ ->
+            listOf(
+                "add",
+                "remove",
+                "on",
+                "off"
+            )
+        }
+    }
 }

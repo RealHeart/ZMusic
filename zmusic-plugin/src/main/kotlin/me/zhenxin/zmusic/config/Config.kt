@@ -51,8 +51,8 @@ object Config {
         get() = config.getInt("proxy.port")
 
     /** 网易云音乐 API链接 */
-    val API_NETEASE_LINK: String
-        get() = config.getStr("api.netease.link")
+    val API_NETEASE: String
+        get() = config.getStr("api.netease")
 
     /** 网易云音乐 账号 */
     val API_NETEASE_ACCOUNT: String

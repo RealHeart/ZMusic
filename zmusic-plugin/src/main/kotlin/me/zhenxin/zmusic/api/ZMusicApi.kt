@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.api
 
-import me.zhenxin.zmusic.ZMusic
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.utils.playMusic
 import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.function.adaptPlayer
@@ -15,7 +15,7 @@ import taboolib.common.platform.function.adaptPlayer
 @Suppress("unused")
 object ZMusicApi {
     @JvmStatic
-    val version: String = ZMusic.VERSION_NAME
+    val version: String = ZMusicData.VERSION_NAME
 
     /**
      * 播放音乐

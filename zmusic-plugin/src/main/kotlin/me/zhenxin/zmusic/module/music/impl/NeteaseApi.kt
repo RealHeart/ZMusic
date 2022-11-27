@@ -20,7 +20,7 @@ import java.net.URLEncoder
  */
 @Suppress("DuplicatedCode")
 class NeteaseApi : MusicApi {
-    private val api = config.API_NETEASE_LINK
+    private val api = config.API_NETEASE
     override val name: String = Lang.PLATFORM_NETEASE
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {

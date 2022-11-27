@@ -8,8 +8,8 @@ allprojects {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         // bungeecord
         maven("https://oss.sonatype.org/content/repositories/snapshots")
-        // velocity
-        maven("https://nexus.velocitypowered.com/repository/maven-public/")
+        // papermc
+        maven("https://repo.papermc.io/repository/maven-public/")
         // PlaceholderAPI
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
         mavenCentral()

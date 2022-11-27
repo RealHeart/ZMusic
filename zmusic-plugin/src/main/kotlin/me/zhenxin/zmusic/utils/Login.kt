@@ -20,7 +20,7 @@ fun loginNetease(): LoginResult {
     if (account.isEmpty() || password.isEmpty()) {
         return LoginResult(400, "&c未配置账号密码")
     }
-    val api = config.API_NETEASE_LINK
+    val api = config.API_NETEASE
     val result = post(
         "$api/login", mutableMapOf(
             "email" to account,

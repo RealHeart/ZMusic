@@ -6,7 +6,7 @@ import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.config
-import me.zhenxin.zmusic.consts.VERSION_CODE
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.module.music.impl.*
@@ -57,9 +57,24 @@ fun setLocale() {
  * 检测服务器IP是否为中国大陆地区
  */
 fun isChina(): Boolean {
-    val result = get("http://ip-api.com/json/")
-    val data = JSONObject(result)
+    val data = queryIP()
     return data.getStr("country") == "China"
+}
+
+/**
+ * 获取公网IP地址
+ */
+fun realIP(): String {
+    val data = queryIP()
+    return data.getStr("query")
+}
+
+/**
+ * IP请求
+ */
+private fun queryIP(): JSONObject {
+    val result = get("http://ip-api.com/json/")
+    return JSONObject(result)
 }
 
 /**
@@ -109,7 +124,7 @@ fun checkUpdate(sender: ProxyCommandSender) {
     val versionCode = info.getInt("version_code")
     val changelog = info.getStr("changelog")
     val releaseUrl = info.getStr("release_url")
-    if (versionCode > VERSION_CODE) {
+    if (versionCode > ZMusicData.VERSION_CODE) {
         Lang.UPDATE_NEW_VERSION.forEach {
             sender.sendMsg(
                 it

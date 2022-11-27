@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import me.zhenxin.zmusic.ZMusic
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.status.getState
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
@@ -18,7 +18,7 @@ class PlaceholderAPI : PlaceholderExpansion() {
 
     override fun getAuthor(): String = "ZhenXin"
 
-    override fun getVersion(): String = ZMusic.VERSION_NAME
+    override fun getVersion(): String = ZMusicData.VERSION_NAME
 
     override fun onPlaceholderRequest(player: Player?, params: String): String? {
         if (player != null) {

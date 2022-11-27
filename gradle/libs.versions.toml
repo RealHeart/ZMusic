@@ -1,12 +1,12 @@
 [versions]
-taboolib = "6.0.9-73"
+taboolib = "6.0.10-22"
 spigot = "1.19.2-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
-velocity = "3.0.1"
-hutool = "5.8.5"
+velocity = "3.1.1"
+hutool = "5.8.10"
 nashorn = "15.4"
 nashorn_sandbox = "0.2.5"
-netty = "4.1.77.Final"
+netty = "4.1.85.Final"
 placeholderapi = "2.11.2"
 
 [libraries]

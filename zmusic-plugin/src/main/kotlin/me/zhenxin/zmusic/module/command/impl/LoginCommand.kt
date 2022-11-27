@@ -15,7 +15,7 @@ import taboolib.common.platform.command.subCommand
  * @email qgzhenxin@qq.com
  */
 val loginCommand = subCommand {
-    dynamic(commit = "平台") {
+    dynamic(comment = "平台") {
         suggestion<ProxyCommandSender> { _, _ ->
             getPlatformNamesWithSupportAccount()
         }
