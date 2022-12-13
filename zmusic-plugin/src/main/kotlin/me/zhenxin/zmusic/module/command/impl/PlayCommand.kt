@@ -3,7 +3,7 @@
 package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames
@@ -45,7 +45,7 @@ val playCommand = subCommand {
                     }
                 }
                 if (platform == "netease") {
-                    if (config.API_NETEASE.isEmpty()) {
+                    if (Config.API_NETEASE_LINK.isEmpty()) {
                         sender.sendMsg(Lang.PLATFORM_NETEASE_NOT_FOUND_API)
                         return@execute
                     }

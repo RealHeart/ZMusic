@@ -2,8 +2,7 @@ package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.enums.MusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNamesWithSupportAccount
-import me.zhenxin.zmusic.module.taboolib.sendMsg
-import me.zhenxin.zmusic.utils.loginNetease
+import me.zhenxin.zmusic.login.NeteaseLogin
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
@@ -25,9 +24,17 @@ val loginCommand = subCommand {
             when (platform) {
                 // 暂时实验性 后续加入语言文件
                 MusicPlatform.NETEASE -> {
-                    sender.sendMsg("&a正在尝试登录网易云音乐...")
-                    val result = loginNetease()
-                    sender.sendMsg(result.message)
+                    try {
+                        val num = arguments[1]
+                        if (num.length == 4) {
+                            NeteaseLogin.login(phone, num.toInt(), sender)
+                        } else {
+                            phone = num.toLong()
+                            NeteaseLogin.sent(phone, sender)
+                        }
+                    } catch (e: Exception) {
+                        NeteaseLogin.refresh(sender)
+                    }
                 }
 
                 else -> return@execute
@@ -35,3 +42,5 @@ val loginCommand = subCommand {
         }
     }
 }
+
+private var phone = 0L

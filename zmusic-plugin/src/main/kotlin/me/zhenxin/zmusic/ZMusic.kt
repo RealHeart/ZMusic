@@ -1,9 +1,11 @@
 package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
+import me.zhenxin.zmusic.login.NeteaseLogin
 import me.zhenxin.zmusic.module.PlaceholderAPI
 import me.zhenxin.zmusic.module.js.Http
 import me.zhenxin.zmusic.module.js.Util
@@ -120,8 +122,13 @@ object ZMusic : Plugin() {
 
         submit(async = true) {
             logger.info("&a正在尝试登录网易云音乐...")
-            val result = loginNetease()
-            logger.info(result.message)
+            if (GlobalData.COOKIE != "") {
+                val cookie = GlobalData.COOKIE
+                NeteaseLogin.refresh(console(), cookie)
+            } else {
+                logger.info("&c未获取到Cookie, 已登录游客账户!")
+                NeteaseLogin.loginGuest(console())
+            }
         }
 
         submit {

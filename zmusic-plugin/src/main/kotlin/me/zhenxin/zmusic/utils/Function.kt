@@ -4,14 +4,15 @@ package me.zhenxin.zmusic.utils
 
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.module.music.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.library.configuration.ConfigurationSection
 import java.util.*
 
 
@@ -46,10 +47,10 @@ fun String.asMusicApi(): MusicApi {
  */
 fun setLocale() {
     try {
-        val lang = config.LANGUAGE.split("_")
+        val lang = Config.LANGUAGE.split("_")
         Locale.setDefault(Locale(lang[0], lang[1]))
     } catch (e: Exception) {
-        if (config.DEBUG) e.printStackTrace()
+        if (Config.DEBUG) e.printStackTrace()
     }
 }
 
@@ -140,6 +141,8 @@ fun checkUpdate(sender: ProxyCommandSender) {
         sender.sendMsg(Lang.UPDATE_NO_UPDATE)
     }
 }
+
+fun ConfigurationSection.getStr(path: String): String = getString(path) ?: ""
 
 fun Any.toJSONObject(): JSONObject = JSONObject(this)
 

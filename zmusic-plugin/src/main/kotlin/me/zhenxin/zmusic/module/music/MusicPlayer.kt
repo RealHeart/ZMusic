@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.music
 
 import me.zhenxin.zmusic.config.Config
-import me.zhenxin.zmusic.config.config
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
@@ -51,7 +50,7 @@ class MusicPlayer(
         if (Config.LYRIC_BOSS_BAR) {
             player.createBossBar()
             bossBar = player.getState().bossBar!!
-            bossBar?.setTitle(config.LYRIC_COLOR.colored() + currentMusic.fullName)
+            bossBar?.setTitle(Config.LYRIC_COLOR.colored() + currentMusic.fullName)
             bossBar?.setTime(currentMusic.duration.toFloat())
             bossBar?.start()
         }
@@ -89,14 +88,14 @@ class MusicPlayer(
         submit(async = true) {
             val lyric = currentLyric.find { it.time == currentTime } ?: return@submit
             currentLyricString = lyric.content
-            val content = "${config.LYRIC_COLOR.colored()}${lyric.content}"
-            if (config.LYRIC_BOSS_BAR) {
+            val content = "${Config.LYRIC_COLOR.colored()}${lyric.content}"
+            if (Config.LYRIC_BOSS_BAR) {
                 bossBar?.setTitle(content)
             }
-            if (config.LYRIC_ACTION_BAR) {
+            if (Config.LYRIC_ACTION_BAR) {
                 player.sendActionBar(content)
             }
-            if (config.LYRIC_CHAT) {
+            if (Config.LYRIC_CHAT) {
                 player.sendMsg(content)
             }
         }

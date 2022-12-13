@@ -2,7 +2,7 @@ package me.zhenxin.zmusic.module.music.impl
 
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
@@ -20,7 +20,7 @@ import java.net.URLEncoder
  */
 @Suppress("DuplicatedCode")
 class NeteaseApi : MusicApi {
-    private val api = config.API_NETEASE
+    private val api = Config.API_NETEASE_LINK
     override val name: String = Lang.PLATFORM_NETEASE
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {

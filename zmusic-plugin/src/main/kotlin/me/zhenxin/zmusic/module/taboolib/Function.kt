@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.module.taboolib
 
-import me.zhenxin.zmusic.config.config
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.taboolib.jsonmessage.ClickCommand
 import me.zhenxin.zmusic.module.taboolib.jsonmessage.JsonMessage
@@ -27,7 +27,7 @@ import taboolib.common.platform.function.submit
  * 发送消息
  * @param msg 消息
  */
-fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${config.PREFIX}$msg".colored())
+fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${Config.PREFIX}$msg".colored())
 
 /**
  * 发送点击消息
@@ -35,7 +35,7 @@ fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${config.PREFIX}$msg"
  * @param commands 命令
  */
 fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
-    return implementations<JsonMessage>().sendClickMessage(this, "${config.PREFIX.colored()}$base", commands)
+    return implementations<JsonMessage>().sendClickMessage(this, "${Config.PREFIX.colored()}$base", commands)
 }
 
 /**
@@ -45,7 +45,7 @@ fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
  * @param next 下一页命令
  */
 fun ProxyPlayer.sendClickPageBar(pageBar: String, prev: ClickCommand, next: ClickCommand) {
-    return implementations<JsonMessage>().sendClickPageBar(this, "${config.PREFIX.colored()}$pageBar", prev, next)
+    return implementations<JsonMessage>().sendClickPageBar(this, "${Config.PREFIX.colored()}$pageBar", prev, next)
 }
 
 /**
