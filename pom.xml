@@ -56,6 +56,12 @@
         </dependency>
         <dependency>
             <groupId>ink.ptms.core</groupId>
+            <artifactId>v11903</artifactId>
+            <version>11903</version>
+            <classifier>universal</classifier>
+        </dependency>
+        <dependency>
+            <groupId>ink.ptms.core</groupId>
             <artifactId>v11900</artifactId>
             <version>11900</version>
             <classifier>universal</classifier>
