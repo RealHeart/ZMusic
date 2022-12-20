@@ -20,6 +20,9 @@ public class Toast {
         Player bukkitPlayer = (Player) player;
         AdvancementPacket packet;
         switch (nms) {
+            case "v1_19_R2":
+                packet = new AdvancementPacket_1_19_R2(bukkitPlayer, title);
+                break;
             case "v1_19_R1":
                 packet = new AdvancementPacket_1_19_R1(bukkitPlayer, title);
                 break;
