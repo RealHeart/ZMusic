@@ -327,7 +327,6 @@ public class Cmd {
                             "qq",
                             "163",
                             "netease",
-                            "kugou",
                             "kuwo",
                             "bilibili"};
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());

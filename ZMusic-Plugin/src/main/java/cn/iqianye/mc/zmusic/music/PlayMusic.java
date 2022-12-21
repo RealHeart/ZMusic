@@ -5,7 +5,6 @@ import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.data.PlayerData;
 import cn.iqianye.mc.zmusic.language.Lang;
 import cn.iqianye.mc.zmusic.music.searchSource.BiliBiliMusic;
-import cn.iqianye.mc.zmusic.music.searchSource.KuGouMusic;
 import cn.iqianye.mc.zmusic.music.searchSource.KuwoMusic;
 import cn.iqianye.mc.zmusic.music.searchSource.NeteaseCloudMusic;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
@@ -51,10 +50,6 @@ public class PlayMusic {
                 case "netease":
                     json = NeteaseCloudMusic.getMusicUrl(searchKey);
                     searchSourceName = "网易云音乐";
-                    break;
-                case "kugou":
-                    json = KuGouMusic.getMusicUrl(searchKey);
-                    searchSourceName = "酷狗音乐";
                     break;
                 case "kuwo":
                     json = KuwoMusic.getMusicUrl(searchKey);

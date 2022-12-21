@@ -65,7 +65,11 @@ public class LoadConfig {
         Config.prefix = config.get("prefix").getAsString().replaceAll("&", "§");
         // Api
         JsonObject api = config.get("api").getAsJsonObject();
-        Config.neteaseApiRoot = api.get("netease").getAsString();
+        String neteaseApiRoot = api.get("netease").getAsString();
+        if (!neteaseApiRoot.endsWith("/")) {
+            neteaseApiRoot += "/";
+        }
+        Config.neteaseApiRoot = neteaseApiRoot;
         // Account
         JsonObject account = config.get("account").getAsJsonObject();
         // Netease

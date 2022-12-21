@@ -27,10 +27,6 @@ public class SearchMusic {
                 json = NeteaseCloudMusic.getMusicList(searchKey);
                 searchSourceName = "网易云音乐";
                 break;
-            case "kugou":
-                json = KuGouMusic.getMusicList(searchKey);
-                searchSourceName = "酷狗音乐";
-                break;
             case "kuwo":
                 json = KuwoMusic.getMusicList(searchKey);
                 searchSourceName = "酷我音乐";
