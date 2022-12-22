@@ -26,11 +26,12 @@ command-reload-success: '&aプラグインリロード成功しました。'
 command-suggestion-platform: 'プラットフォーム'
 command-suggestion-song: '曲名'
 
-platform-netease-not-found-api: "&c检测到未配置网易云音乐API, 请检查配置文件."
+# CN Only
+platform-netease-not-found-api: "&cNetease Music API が構成されていないことが検出されました。構成ファイルを確認してください。"
 
 message-json-play: '再生'
-message-json-music: 'リクエスト'
-message-json-stop: '止まる再生'
+message-json-music: 'ﾘｸｴｽﾄ'
+message-json-stop: '停止'
 message-json-playall: 'フルサーバープレイ'
 message-json-queue: 'キューを追加'
 message-json-tips: '&aクリックして実行'
