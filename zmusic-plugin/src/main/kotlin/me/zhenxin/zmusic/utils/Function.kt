@@ -2,6 +2,7 @@
 
 package me.zhenxin.zmusic.utils
 
+import cn.hutool.http.HttpRequest
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Config
@@ -147,3 +148,22 @@ fun ConfigurationSection.getStr(path: String): String = getString(path) ?: ""
 fun Any.toJSONObject(): JSONObject = JSONObject(this)
 
 fun Any.toJSONArray(): JSONArray = JSONArray(this)
+
+fun getSoundCloudClientId(): String{
+    val content = HttpRequest.get("https://soundcloud.com/discover").execute().body()
+    //跨域js正则匹配
+    val regex = Regex("<script crossorigin src=\"(https://a-v2.sndcdn.com/assets/.*.js)\"></script>")
+    val matches = regex.findAll(content)
+    val jsList = matches.map { it.groupValues[1] }.toList()
+    //client_id正则匹配，后面的nonce方便标记位置
+    val clientIdRegex = Regex("client_id:\"(.*)\",nonce:")
+    //遍历请求寻找
+    for (js in jsList) {
+        val jsContent = HttpRequest.get(js).execute().body()
+        val clientId = clientIdRegex.find(jsContent)
+        if (clientId != null) {
+            return clientId.groupValues[1]
+        }
+    }
+    return ""
+}

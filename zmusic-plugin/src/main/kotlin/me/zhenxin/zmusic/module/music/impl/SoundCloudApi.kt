@@ -1,11 +1,15 @@
 package me.zhenxin.zmusic.module.music.impl;
 
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.data.ZMusicData.SOUNDCLOUD_CLIENT_ID
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
+import me.zhenxin.zmusic.exception.ZMusicException
+import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.utils.get
+import me.zhenxin.zmusic.utils.getSoundCloudClientId
 import java.net.URLEncoder
 
 /**
@@ -18,11 +22,10 @@ import java.net.URLEncoder
 @Suppress("SpellCheckingInspection")
 class SoundCloudApi : MusicApi {
     override val name: String = "SoundCloud"
-
-    private val clientId = "oAK4FVApfyPTcO3MHrfDGH5VX5x2cBGF"
     private val api = "https://api-v2.soundcloud.com"
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
+        checkClientId()
         val musics = mutableListOf<MusicInfo>()
         val offset = (page - 1) * count
         val result = get(
@@ -31,7 +34,7 @@ class SoundCloudApi : MusicApi {
                     keyword,
                     "UTF-8"
                 )
-            }&limit=$count&offset=$offset&client_id=$clientId"
+            }&limit=$count&offset=$offset&client_id=$SOUNDCLOUD_CLIENT_ID"
         )
         val data = JSONObject(result)
         val songs = data.getJSONArray("collection")
@@ -68,11 +71,12 @@ class SoundCloudApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = get("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$clientId")
+        checkClientId()
+        val result = get("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$SOUNDCLOUD_CLIENT_ID")
         val json = JSONObject(result)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
         val urlLink = (data[1] as JSONObject).getStr("url")
-        val urlResult = get("$urlLink?client_id=$clientId")
+        val urlResult = get("$urlLink?client_id=$SOUNDCLOUD_CLIENT_ID")
         return JSONObject(urlResult).getStr("url")
     }
 
@@ -84,5 +88,20 @@ class SoundCloudApi : MusicApi {
         TODO("Not yet implemented")
     }
 
+    private fun checkClientId(){
+        logger.debug("refresh SoundCloud ClientId")
+        if(SOUNDCLOUD_CLIENT_ID == ""){
+            SOUNDCLOUD_CLIENT_ID = getSoundCloudClientId()
+        }
+        //check ClientId is avaliable
+        try {
+            logger.debug("ClientId self-check, current ID is$SOUNDCLOUD_CLIENT_ID")
+            get("${api}/search/tracks?q=hello&limit=1&offset=0&client_id=$SOUNDCLOUD_CLIENT_ID")
+        } catch (e: ZMusicException) {
+
+            logger.debug("ClientId not avaliable, refreshing")
+            SOUNDCLOUD_CLIENT_ID = getSoundCloudClientId()
+        }
+    }
 
 }

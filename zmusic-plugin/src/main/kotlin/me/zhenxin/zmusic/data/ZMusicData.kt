@@ -27,4 +27,9 @@ object ZMusicData {
      * 真实IP
      */
     var REAL_IP = ""
+
+    /**
+     * SoundCloud Client ID
+     */
+    var SOUNDCLOUD_CLIENT_ID = ""
 }
