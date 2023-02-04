@@ -20,6 +20,7 @@ import taboolib.common.platform.Platform
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.runningPlatform
 import taboolib.common.platform.function.submit
+import taboolib.common.platform.service.PlatformExecutor
 import java.util.*
 
 /**
@@ -42,7 +43,7 @@ class MusicPlayer(
     private var currentTime = 0
     private var currentLyricString = ""
 
-    private var playing = true
+    private var playTask: PlatformExecutor.PlatformTask? = null
 
     private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
@@ -57,31 +58,34 @@ class MusicPlayer(
     }
 
     private fun run() {
-        while (playing) {
-            if (!player.isOnline()) {
-                logger.debug("[Thread:${Thread.currentThread().id}]玩家离线, 线程终止")
-                stop()
-            }
-            currentTime += 1
-            sendLyric()
-            updateState()
-            checkMode()
-            Thread.sleep(1000)
+        if (!player.isOnline()) {
+            logger.debug("[Thread:${Thread.currentThread().id}]玩家离线, 线程终止")
+            stop()
         }
+        currentTime += 1
+        sendLyric()
+        updateState()
+        checkMode()
     }
 
     fun stop() {
-        playing = false
+        logger.debug("stop")
+
         player.resetData()
+        if (playTask != null) {
+            logger.debug("stop")
+            playTask!!.cancel()
+            playTask = null
+        }
     }
 
     fun start() {
         player.resetData()
         currentMusic = musicList[currentIndex]
         currentLyric = api.getLyric(currentMusic.id)
-        player.setState(bossBar = bossBar)
+        player.setState(bossBar = bossBar, player = this)
         play()
-        submit(async = true) { run() }
+        playTask = submit(async = true, period = 20) { run() }
     }
 
     private fun sendLyric() {
@@ -114,7 +118,7 @@ class MusicPlayer(
             )
         }
         player.setState(
-            playing = playing,
+            playing = playTask != null,
             name = currentMusic.name,
             singer = currentMusic.singer,
             album = currentMusic.albumName,
