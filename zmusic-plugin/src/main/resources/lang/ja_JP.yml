@@ -42,6 +42,8 @@ toast-playing: '&a再生中\n&e{0}'
 
 no-supported-region: '&cこのサービスはお住まいの地域からはご利用になれません。'
 
+music-not-found: '&c音楽が見つかりません。'
+
 update-checking: '&a更新を確認中...'
 update-no-update: '&a現在、最新版です。'
 update-new-version:

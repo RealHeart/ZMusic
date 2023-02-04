@@ -45,6 +45,8 @@ toast-playing: '&a正在播放\n&e{0}'
 
 no-supported-region: '&c当前服务器所在的国家/地区不支持此功能.'
 
+music-not-found: '&c未找到此音乐.'
+
 update-checking: '&a正在检查更新...'
 update-no-update: '&a您的插件版本已是最新.'
 update-new-version:

@@ -3,7 +3,7 @@
 version = "3.0.0-beta3"
 
 plugins {
-    id("io.izzel.taboolib") version "1.50"
+    id("io.izzel.taboolib") version "1.56"
     kotlin("jvm") version "1.7.21"
 }
 
@@ -67,7 +67,7 @@ taboolib {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 tasks.jar {

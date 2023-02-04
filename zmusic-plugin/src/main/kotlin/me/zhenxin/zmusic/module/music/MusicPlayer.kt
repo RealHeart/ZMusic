@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.module.music
 
 import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
@@ -46,6 +47,10 @@ class MusicPlayer(
 
     private fun play() {
         val url = api.getPlayUrl(currentMusic.id)
+        if (url == null) {
+            player.sendMsg(Lang.MUSIC_NOT_FOUND)
+            return
+        }
         player.playMusic(url)
         if (Config.LYRIC_BOSS_BAR) {
             player.createBossBar()
