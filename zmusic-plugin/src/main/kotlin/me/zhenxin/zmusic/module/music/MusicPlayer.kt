@@ -74,8 +74,6 @@ class MusicPlayer(
     }
 
     fun stop() {
-        logger.debug("stop")
-
         player.resetData()
         if (playTask != null) {
             logger.debug("stop")
