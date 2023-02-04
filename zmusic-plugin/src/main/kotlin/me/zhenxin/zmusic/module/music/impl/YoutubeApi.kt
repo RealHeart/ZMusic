@@ -1,13 +1,11 @@
 package me.zhenxin.zmusic.module.music.impl
 
-import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
 import me.zhenxin.zmusic.module.music.MusicApi
-import me.zhenxin.zmusic.utils.PostType
-import me.zhenxin.zmusic.utils.post
+import me.zhenxin.zmusic.utils.get
 
 /**
  *
@@ -19,81 +17,31 @@ import me.zhenxin.zmusic.utils.post
 class YoutubeApi : MusicApi {
     //暂时硬编码
     override val name: String = "YouTube"
-    private val api = "https://www.youtube.com"
-    private val apiKey = "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
-    private val dlApi = "https://154.82.111.42.sslip.io"
+    private val api = "https://pipedapi.syncpundit.io"
 
-    override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
-        val music = mutableListOf<MusicInfo>()
-        val query = buildJsonQuery(keyword)
-        val result = post("${api}/youtubei/v1/search?key=${apiKey}", query)
+    override fun searchPage(keyword: String, page: Int, count: Int): List<MusicInfo>? {
+        val result = get("$api/search?q=$keyword&filter=all")
         val data = JSONObject(result)
-        val songs = data.getJSONObject("contents")
-                .getJSONObject("twoColumnSearchResultsRenderer")
-                .getJSONObject("primaryContents")
-                .getJSONObject("sectionListRenderer")
-                .getJSONArray("contents")
-                .getJSONObject(0)
-                .getJSONObject("itemSectionRenderer")
-                .getJSONArray("contents")
-
-        songs.forEach {
-            it as JSONObject
-            val video = try {
-                it.getJSONObject("videoRenderer")
-            } catch (_: Exception) {
-                null
-            }
-
-            if (video != null) {
-                val videoId = video.getStr("videoId")
-                val title = video.getJSONObject("title")
-                        .getJSONArray("runs")
-                        .getJSONObject(0)
-                        .getStr("text")
-                val author = video.getJSONObject("longBylineText")
-                        .getJSONArray("runs")
-                        .getJSONObject(0)
-                        .getStr("text")
-                val duration = video.getJSONObject("lengthText")
-                        .getStr("simpleText")
-
-                music.add(
-                        MusicInfo(
-                                videoId,
-                                title,
-                                author,
-                                "",
-                                "",
-                                getDuration(duration)
-                        )
-                )
-            }
+        val songs = data.getJSONArray("items")
+        if (songs.isNullOrEmpty()) {
+            return null
         }
-        return music
-    }
 
-    private fun buildJsonQuery(keyword: String): Map<String, Any> {
-        val client = mapOf(
-                "client" to mapOf(
-                        "clientName" to "WEB",
-                        "clientVersion" to "2.20220622.01.00"
-                )
-        )
-        return mapOf(
-                "context" to client,
-                "query" to keyword
-        )
-    }
-
-    private fun getDuration(duration: String): Int {
-        val array = duration.split(":")
-        return when (array.size) {
-            1 -> array[0].toInt()
-            2 -> array[0].toInt() * 60 + array[1].toInt()
-            3 -> array[0].toInt() * 60 * 60 + array[1].toInt() * 60 + array[2].toInt()
-            else -> 0
+        val videoArray = songs.stream().map { video ->
+            video as JSONObject
+            MusicInfo(
+                video.getStr("url").replaceFirst("/watch?v=", ""),
+                video.getStr("title"),
+                video.getStr("uploaderName"),
+                "",
+                "",
+                video.getInt("duration")
+            )
+        }.toList()
+        if (videoArray.isEmpty()) {
+            return null
         }
+        return videoArray
     }
 
     override fun getPlaylist(id: String): PlaylistInfo {
@@ -132,39 +80,37 @@ class YoutubeApi : MusicApi {
         TODO("Not yet implemented")
     }
 
-    override fun getPlayUrl(id: String): String {
-        val data = post(
-                "$dlApi/newp", mapOf(
-                "u" to "https://www.youtube.com/watch?v=$id",
-                "c" to "HK"
-        ), type = PostType.FORM
+    override fun getPlayUrl(id: String): String? {
+        val data = get(
+            "$api/streams/$id"
         )
         val json = JSONObject(data)
-        val mp3 = json.getJSONObject("data").getJSONArray("mp3")
-        if (mp3.isNullOrEmpty()) {
-            val mp3Cdn: JSONArray = json.getJSONObject("data").getJSONArray("mp3_cdn")
-            //遍历
-            for (m in mp3Cdn) {
-                //寻找mp3格式的对象
-                val mp3InCdn = m as JSONObject
-                if ("mp3" == mp3InCdn.getStr("mp3_format")) {
-                    return mp3InCdn.getStr("mp3_url")
-                }
-            }
-            //如果没有找到mp3格式的对象，就返回第一个
-            return mp3Cdn.getJSONObject(0).getStr("mp3_url")
-        } else {
-            //遍历
-            for (m in mp3) {
-                //寻找mp3格式的对象
-                val mp3InArray = m as JSONObject
-                if ("mp3" == mp3InArray.getStr("mp3_format")) {
-                    //mod端暂时有点问题
-                    return dlApi.replace("https://", "http://") + mp3InArray.getStr("mp3_url")
-                }
-            }
-            return dlApi.replace("https://", "http://") + mp3.getJSONObject(0).getStr("mp3_url")
+        val audioStreams = json.getJSONArray("audioStreams")
+        if (audioStreams.isNullOrEmpty()) {
+            return null
         }
+
+        val opusAudio = audioStreams.stream().filter { audio ->
+            val format = (audio as JSONObject).getStr("format")
+            format != null && format.equals("WEBMA_OPUS")
+        }.max { audio, audio2 ->
+            (audio as JSONObject).getInt("bitrate").compareTo((audio2 as JSONObject).getInt("bitrate"))
+        }.orElse(null)
+        if (opusAudio != null) {
+            return (opusAudio as JSONObject).getStr("url")
+        }
+
+        val m4aAudio = audioStreams.stream().filter { audio ->
+            val format = (audio as JSONObject).getStr("format")
+            format != null && format.equals("M4A")
+        }.max { audio, audio2 ->
+            (audio as JSONObject).getInt("bitrate").compareTo((audio2 as JSONObject).getInt("bitrate"))
+        }.orElse(null)
+        if (m4aAudio != null) {
+            return (m4aAudio as JSONObject).getStr("url")
+        }
+
+        return null
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
@@ -172,19 +118,12 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
-        val query = buildJsonQuery("KrNUrgaOsCc")
-        val result = post("${api}/youtubei/v1/player?key=$apiKey", query)
-        val data = JSONObject(result)
-        val videoDetails = data.getJSONObject("videoDetails")
-        val title = videoDetails.getStr("title")
-        val lengthSeconds = videoDetails.getStr("lengthSeconds")
+        val data = get(
+            "$api/streams/$id"
+        )
+        val json = JSONObject(data)
         return MusicInfo(
-                id,
-                title,
-                "",
-                "",
-                "",
-                lengthSeconds.toInt()
+            id, json.getStr("title"), json.getStr("uploader"), "", "", json.getInt("duration")
         )
     }
 }

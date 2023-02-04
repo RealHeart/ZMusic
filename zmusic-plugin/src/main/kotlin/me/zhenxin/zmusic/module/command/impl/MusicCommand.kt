@@ -66,6 +66,10 @@ val musicCommand = subCommand {
                 val api = platform.asMusicApi()
                 submit(async = true) {
                     val result = api.searchSingle(argument)
+                    if (result == null) {
+                        sender.sendMsg(Lang.MUSIC_NOT_FOUND)
+                        return@submit
+                    }
                     onlinePlayers().forEach {
                         val player = MusicPlayer(
                             it,

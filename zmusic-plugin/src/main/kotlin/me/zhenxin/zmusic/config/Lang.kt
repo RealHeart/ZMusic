@@ -77,6 +77,9 @@ object Lang {
     val NO_SUPPORTED_REGION
         get() = console().asLangText("no-supported-region")
 
+    val MUSIC_NOT_FOUND
+        get() = console().asLangText("music-not-found")
+
     val UPDATE_CHECKING
         get() = console().asLangText("update-checking")
     val UPDATE_NO_UPDATE

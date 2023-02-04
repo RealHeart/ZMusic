@@ -41,6 +41,8 @@ toast-playing: '&aPlaying\n&e{0}'
 
 no-supported-region: '&cThis service is not supported in the country where the current server is located.'
 
+music-not-found: '&cThe music is not found.'
+
 update-checking: '&aChecking for updates...'
 update-no-update: '&aNo update available.'
 update-new-version:

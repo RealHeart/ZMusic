@@ -27,13 +27,11 @@ fun get(
     headers: Map<String, String> = mutableMapOf()
 ): String {
     val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
-    val time = "&timestamp=${System.currentTimeMillis()}"
     var fullUrl = url
-    fullUrl += if (params.isNotEmpty()) {
-        "?$params$time"
-    } else {
-        time
+    if (params.isNotEmpty()) {
+        fullUrl += "?$params"
     }
+
     val request = HttpRequest.get(fullUrl)
     headers.forEach {
         request.header(it.key, it.value)
@@ -55,15 +53,7 @@ fun post(
     type: PostType = PostType.JSON,
     cookies: String = ""
 ): String {
-    var fullUrl = url
-    fullUrl += if (url.contains("?")) {
-        "&timestamp=${System.currentTimeMillis()}"
-    } else {
-        "?timestamp=${System.currentTimeMillis()}"
-    }
-
-    val request = HttpRequest
-        .post(fullUrl)
+    val request = HttpRequest.post(url)
 
     if (cookies.isNotEmpty()) {
         request.header("cookie", cookies)
@@ -78,7 +68,7 @@ fun post(
         PostType.FORM -> request.form(data.toMap())
     }
 
-    logger.debug("Request POST: $fullUrl")
+    logger.debug("Request POST: $url")
     logger.debug("POST Type: ${type.name}")
     logger.debug("POST Data: $data")
     return request(request)

@@ -27,7 +27,7 @@ interface MusicApi {
      * @param keyword 关键词
      * @return 音乐信息
      */
-    fun searchSingle(keyword: String): MusicInfo {
+    fun searchSingle(keyword: String): MusicInfo? {
         if (keyword.contains("-id:")) {
             try {
                 val id = keyword.split("-id:")[1]
@@ -37,6 +37,7 @@ interface MusicApi {
             }
         }
         val data = searchPage(keyword, 1, 1)
+        data ?: return null
         return data[0]
     }
 
@@ -48,7 +49,7 @@ interface MusicApi {
      * @param count 每页返回数量
      * @return 音乐列表
      */
-    fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo>
+    fun searchPage(keyword: String, page: Int, count: Int): List<MusicInfo>?
 
     /**
      * 获取歌单
@@ -73,7 +74,7 @@ interface MusicApi {
      * @param id 音乐ID
      * @return 音乐播放链接
      */
-    fun getPlayUrl(id: String): String
+    fun getPlayUrl(id: String): String?
 
     /**
      * 获取歌词
