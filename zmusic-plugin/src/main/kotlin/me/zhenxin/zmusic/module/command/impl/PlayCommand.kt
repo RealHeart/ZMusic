@@ -2,8 +2,8 @@
 
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.enums.asMusicPlatform
 import me.zhenxin.zmusic.enums.getPlatformNames

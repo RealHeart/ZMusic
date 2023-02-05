@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.utils
 
+import com.alibaba.fastjson2.toJSONString
 import me.zhenxin.zmusic.entity.BridgeMessage
 import me.zhenxin.zmusic.entity.BridgeMusicInfo
 import me.zhenxin.zmusic.enums.BridgeMessageType
@@ -19,8 +20,8 @@ fun ProxyPlayer.sendBridgeToast(title: String) {
         type = BridgeMessageType.TOAST,
         title = title
     )
-    val json = message.toJSONObject()
-    sendBridgeMessage(json.toString().toByteArray())
+    val json = message.toJSONString()
+    sendBridgeMessage(json.toByteArray())
 }
 
 fun ProxyPlayer.sendBridgeInfo(info: BridgeMusicInfo = BridgeMusicInfo()) {
@@ -28,14 +29,14 @@ fun ProxyPlayer.sendBridgeInfo(info: BridgeMusicInfo = BridgeMusicInfo()) {
         type = BridgeMessageType.INFO,
         info = info
     )
-    val json = message.toJSONObject()
-    sendBridgeMessage(json.toString().toByteArray())
+    val json = message.toJSONString()
+    sendBridgeMessage(json.toByteArray())
 }
 
 fun ProxyPlayer.sendBridgeReset() {
     val message = BridgeMessage(
         type = BridgeMessageType.RESET
     )
-    val json = message.toJSONObject()
-    sendBridgeMessage(json.toString().toByteArray())
+    val json = message.toJSONString()
+    sendBridgeMessage(json.toByteArray())
 }

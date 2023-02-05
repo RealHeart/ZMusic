@@ -1,10 +1,10 @@
 package me.zhenxin.zmusic.login
 
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.post
-import me.zhenxin.zmusic.utils.toJSONObject
 import taboolib.common.platform.ProxyCommandSender
 
 /**
@@ -67,8 +67,8 @@ object NeteaseLogin {
      */
     fun loginGuest(sender: ProxyCommandSender) {
         val result = post("$api/register/anonimous")
-        val data = result.toJSONObject()
-        val cookies = data.getStr("cookie")
+        val data = result.parseObject()
+        val cookies = data.getString("cookie")
         GlobalData.COOKIE = cookies
         welcome(sender)
     }
@@ -97,8 +97,8 @@ object NeteaseLogin {
                 "phone" to phone
             )
         )
-        val data = result.toJSONObject()
-        return data.getInt("code") == 200
+        val data = result.parseObject()
+        return data.getIntValue("code") == 200
     }
 
     /**
@@ -114,10 +114,10 @@ object NeteaseLogin {
                 "captcha" to captcha
             )
         )
-        val data = result.toJSONObject()
-        val code = data.getInt("code")
+        val data = result.parseObject()
+        val code = data.getIntValue("code")
         if (code != 200) return ""
-        return data.getStr("cookie")
+        return data.getString("cookie")
     }
 
     /**
@@ -131,10 +131,10 @@ object NeteaseLogin {
         } else {
             post("$api/login/refresh", cookies = cookies)
         }
-        val data = result.toJSONObject()
-        val code = data.getInt("code")
+        val data = result.parseObject()
+        val code = data.getIntValue("code")
         if (code != 200) return ""
-        return data.getStr("cookie")
+        return data.getString("cookie")
     }
 
     /**
@@ -143,14 +143,14 @@ object NeteaseLogin {
      */
     private fun userNickname(): String {
         val result = post("$api/user/account")
-        val data = result.toJSONObject()
-        if (data.getInt("code") != 200) {
+        val data = result.parseObject()
+        if (data.getIntValue("code") != 200) {
             return ""
         }
         val profile = data.getJSONObject("profile")
         if (profile.isNullOrEmpty()) {
-            return data.getJSONObject("account").getStr("userName")
+            return data.getJSONObject("account").getString("userName")
         }
-        return profile.getStr("nickname")
+        return profile.getString("nickname")
     }
 }

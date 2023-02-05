@@ -2,11 +2,16 @@
 
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.http.HttpRequest
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.toJSONString
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.net.InetSocketAddress
+import java.net.Proxy
 
 
 /**
@@ -32,13 +37,13 @@ fun get(
         fullUrl += "?$params"
     }
 
-    val request = HttpRequest.get(fullUrl)
+    val request = Request.Builder().get().url(fullUrl)
     headers.forEach {
         request.header(it.key, it.value)
     }
 
     logger.debug("Request GET: $fullUrl")
-    return request(request)
+    return request(request.build())
 }
 
 /**
@@ -50,10 +55,9 @@ fun post(
     url: String,
     data: Map<String, Any?> = mutableMapOf(),
     headers: Map<String, String> = mutableMapOf(),
-    type: PostType = PostType.JSON,
     cookies: String = ""
 ): String {
-    val request = HttpRequest.post(url)
+    val request = Request.Builder()
 
     if (cookies.isNotEmpty()) {
         request.header("cookie", cookies)
@@ -63,33 +67,46 @@ fun post(
         request.header(it.key, it.value)
     }
 
-    when (type) {
-        PostType.JSON -> request.body(JSONObject(data).toString())
-        PostType.FORM -> request.form(data.toMap())
-    }
-
+    val json = data.toJSONString()
+    val mediaType = "application/json".toMediaType()
+    val body = json.toRequestBody(mediaType)
+    request.post(body).url(url)
     logger.debug("Request POST: $url")
-    logger.debug("POST Type: ${type.name}")
     logger.debug("POST Data: $data")
-    return request(request)
+    return request(request.build())
 }
 
-private fun request(request: HttpRequest): String {
-    if (Config.PROXY_ENABLE) {
-        request.setHttpProxy(Config.PROXY_HOSTNAME, Config.PROXY_PORT)
-    }
-    val res = request.execute()
-    if (res.isOk) {
-        if (!res.body().isNullOrEmpty()) {
-            val body = res.body()
-            logger.debug("Request Body: $body")
-            return body
+private fun request(request: Request): String {
+    proxy()
+    val call = client.newCall(request)
+    val response = call.execute()
+    if (response.isSuccessful) {
+        val body = response.body
+        if (body != null) {
+            val string = body.string()
+            body.close()
+            response.close()
+            if (string.isNotEmpty()) {
+                logger.debug("Request Body: $string")
+                return string
+            }
         }
     }
-    throw ZMusicException("HTTP Error ${res.status}, body: ${res.body()}")
+    throw ZMusicException("HTTP Error ${response.code}, body: ${response.body?.string()}")
 }
 
-enum class PostType {
-    JSON,
-    FORM
+private fun proxy() {
+    if (Config.PROXY_ENABLE) {
+        val type = Proxy.Type.HTTP
+        val host = Config.PROXY_HOSTNAME
+        val port = Config.PROXY_PORT
+        val address = InetSocketAddress(host, port)
+        val proxy = Proxy(type, address)
+        client = OkHttpClient()
+            .newBuilder()
+            .proxy(proxy)
+            .build()
+    }
 }
+
+private var client = OkHttpClient()

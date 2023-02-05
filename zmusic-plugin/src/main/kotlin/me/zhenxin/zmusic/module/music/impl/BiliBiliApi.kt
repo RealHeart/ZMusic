@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.module.music.impl
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
@@ -30,22 +31,22 @@ class BiliBiliApi : MusicApi {
                     )
                 }"
             )
-        val json = JSONObject(search)
+        val json = search.parseObject()
         val data = json.getJSONObject("data")
         val result = data.getJSONArray("result")
         if (count == 1) {
             val music = result.getJSONObject(0)
-            val id = music.getStr("bvid")
+            val id = music.getString("bvid")
             musics.add(getMusicInfo(id))
         } else {
             result.forEach {
                 it as JSONObject
-                val bvid = it.getStr("bvid")
-                val title = it.getStr("title")
+                val bvid = it.getString("bvid")
+                val title = it.getString("title")
                     .replace("</em>", "")
                     .replace("<em class=\"keyword\">", "")
-                val author = it.getStr("author")
-                val pic = it.getStr("pic")
+                val author = it.getString("author")
+                val pic = it.getString("pic")
                 musics.add(
                     MusicInfo(
                         bvid,
@@ -75,12 +76,12 @@ class BiliBiliApi : MusicApi {
         val cid = ids[1]
         val url = "https://api.bilibili.com/x/player/playurl?bvid=$bvid&cid=$cid&fnval=16"
         val result = get(url)
-        val json = JSONObject(result)
+        val json = result.parseObject()
         val data = json.getJSONObject("data")
         val dash = data.getJSONObject("dash")
         val audios = dash.getJSONArray("audio")
         val audio = audios.getJSONObject(0)
-        return m4s2mp3(bvid, audio.getStr("baseUrl"))
+        return m4s2mp3(bvid, audio.getString("baseUrl"))
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
@@ -90,13 +91,13 @@ class BiliBiliApi : MusicApi {
     override fun getMusicInfo(id: String): MusicInfo {
         val url = "https://api.bilibili.com/x/web-interface/view?bvid=${id}"
         val result = get(url)
-        val json = JSONObject(result)
+        val json = result.parseObject()
         val data = json.getJSONObject("data")
-        val fullId = "${data.getStr("bvid")},${data["cid"]}"
-        val title = data.getStr("title")
-        val singer = data.getJSONObject("owner").getStr("name")
-        val pic = data.getStr("pic")
-        val duration = data.getInt("duration")
+        val fullId = "${data.getString("bvid")},${data["cid"]}"
+        val title = data.getString("title")
+        val singer = data.getJSONObject("owner").getString("name")
+        val pic = data.getString("pic")
+        val duration = data.getIntValue("duration")
         return MusicInfo(
             fullId,
             title,

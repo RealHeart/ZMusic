@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module.music
 
-import cn.hutool.json.JSONArray
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
@@ -87,7 +87,7 @@ interface MusicApi {
         var singer = ""
         singers.forEach {
             it as JSONObject
-            singer = "$singer${it.getStr("name")}/"
+            singer = "$singer${it.getString("name")}/"
         }
         singer = singer.trimEnd('/')
         return singer

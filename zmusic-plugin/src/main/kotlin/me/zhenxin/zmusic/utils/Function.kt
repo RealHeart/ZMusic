@@ -2,9 +2,7 @@
 
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.http.HttpRequest
-import cn.hutool.json.JSONArray
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
@@ -59,24 +57,13 @@ fun setLocale() {
  * 检测服务器IP是否为中国大陆地区
  */
 fun isChina(): Boolean {
-    val data = queryIP()
-    return data.getStr("country") == "China"
-}
-
-/**
- * 获取公网IP地址
- */
-fun realIP(): String {
-    val data = queryIP()
-    return data.getStr("query")
-}
-
-/**
- * IP请求
- */
-private fun queryIP(): JSONObject {
-    val result = get("http://ip-api.com/json/")
-    return JSONObject(result)
+    return try {
+        val result = get("http://ip-api.com/json/")
+        val data = result.parseObject()
+        data.getString("country") == "China"
+    } catch (e: Exception) {
+        true
+    }
 }
 
 /**
@@ -119,13 +106,13 @@ fun checkUpdate(sender: ProxyCommandSender) {
     val type = "snapshot"
     val api = "https://api.zplu.cc/version"
     val result = get("$api?plugin=$plugin&type=$type")
-    val json = JSONObject(result)
+    val json = result.parseObject()
     val data = json.getJSONObject("data")
     val info = data.getJSONObject("info")
-    val version = info.getStr("version")
-    val versionCode = info.getInt("version_code")
-    val changelog = info.getStr("changelog")
-    val releaseUrl = info.getStr("release_url")
+    val version = info.getString("version")
+    val versionCode = info.getIntValue("version_code")
+    val changelog = info.getString("changelog")
+    val releaseUrl = info.getString("release_url")
     if (versionCode > ZMusicData.VERSION_CODE) {
         Lang.UPDATE_NEW_VERSION.forEach {
             sender.sendMsg(
@@ -145,12 +132,8 @@ fun checkUpdate(sender: ProxyCommandSender) {
 
 fun ConfigurationSection.getStr(path: String): String = getString(path) ?: ""
 
-fun Any.toJSONObject(): JSONObject = JSONObject(this)
-
-fun Any.toJSONArray(): JSONArray = JSONArray(this)
-
-fun getSoundCloudClientId(): String{
-    val content = HttpRequest.get("https://soundcloud.com/discover").execute().body()
+fun getSoundCloudClientId(): String {
+    val content = get("https://soundcloud.com/discover")
     //跨域js正则匹配
     val regex = Regex("<script crossorigin src=\"(https://a-v2.sndcdn.com/assets/.*.js)\"></script>")
     val matches = regex.findAll(content)
@@ -159,7 +142,7 @@ fun getSoundCloudClientId(): String{
     val clientIdRegex = Regex("client_id:\"(.*)\",nonce:")
     //遍历请求寻找
     for (js in jsList) {
-        val jsContent = HttpRequest.get(js).execute().body()
+        val jsContent = get(js)
         val clientId = clientIdRegex.find(jsContent)
         if (clientId != null) {
             return clientId.groupValues[1]

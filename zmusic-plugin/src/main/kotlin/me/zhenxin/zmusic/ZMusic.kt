@@ -84,9 +84,6 @@ object ZMusic : Plugin() {
 
         logger.info(Lang.INIT_LOADING)
 
-        // 获取真实IP
-        ZMusicData.REAL_IP = realIP()
-
         // 注册bStats
         Metrics(7291, ZMusicData.VERSION_NAME, BUKKIT)
         Metrics(8864, ZMusicData.VERSION_NAME, BUNGEE)

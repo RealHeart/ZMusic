@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.config.Config
 import java.net.URLEncoder
 
@@ -25,14 +25,13 @@ fun m4s2mp3(id: String, url: String): String {
             "url" to URLEncoder.encode(url, "UTF-8"),
             "qq" to Config.VIP_QQ,
             "key" to Config.VIP_KEY
-        ),
-        type = PostType.FORM
+        )
     )
-    val json = JSONObject(result)
-    if (json.getInt("code") != 200) {
+    val json = result.parseObject()
+    if (json.getIntValue("code") != 200) {
         return ""
     }
-    return json.getStr("data")
+    return json.getString("data")
 }
 
 /**
@@ -41,9 +40,8 @@ fun m4s2mp3(id: String, url: String): String {
 fun isVip(): Boolean {
     val result = post(
         "https://api.zplu.cc/zmusic/vip/check",
-        mapOf("qq" to Config.VIP_QQ, "key" to Config.VIP_KEY),
-        type = PostType.FORM
+        mapOf("qq" to Config.VIP_QQ, "key" to Config.VIP_KEY)
     )
-    val data = JSONObject(result)
-    return data.getBool("data")
+    val data = result.parseObject()
+    return data.getBoolean("data")
 }

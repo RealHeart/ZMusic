@@ -1,10 +1,10 @@
 @file:Suppress("SpellCheckingInspection")
 
-version = "3.0.0-beta3"
+version = "3.0.0-beta4"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.0"
 }
 
 dependencies {
@@ -21,11 +21,11 @@ dependencies {
     compileOnly(libs.placeholderapi)
 
     compileOnly(libs.bundles.platform)
-    compileOnly(libs.bundles.hutool)
+
+    compileOnly(libs.okhttp)
+    compileOnly(libs.bundles.fastjson)
     compileOnly(libs.bundles.nashorn)
     compileOnly(libs.netty.buffer)
-
-    testImplementation(libs.bundles.hutool)
 }
 
 taboolib {

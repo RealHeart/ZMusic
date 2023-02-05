@@ -1,8 +1,9 @@
 package me.zhenxin.zmusic.module.music.impl
 
-import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.config.Lang
+import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson2.parseObject
 import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
@@ -32,12 +33,12 @@ class NeteaseApi : MusicApi {
                     URLEncoder.encode(keyword, "UTF-8")
                 }&limit=$count&offset=$offset"
             )
-        val data = JSONObject(search)
+        val data = search.parseObject()
         val result = data.getJSONObject("result")
         val songs = result.getJSONArray("songs")
         songs.forEach {
             it as JSONObject
-            val id = it.getStr("id")
+            val id = it.getString("id")
             musics.add(getMusicInfo(id))
         }
         return musics
@@ -46,14 +47,14 @@ class NeteaseApi : MusicApi {
     override fun getPlaylist(id: String): PlaylistInfo {
         val musics = mutableListOf<MusicInfo>()
         val result = get("$api/playlist/detail?id=$id")
-        val data = JSONObject(result)
+        val data = result.parseObject()
         val playlist = data.getJSONObject("playlist")
-        val listId = playlist.getStr("id")
-        val listName = playlist.getStr("name")
+        val listId = playlist.getString("id")
+        val listName = playlist.getString("name")
         val tracks = playlist.getJSONArray("tracks")
         tracks.forEach {
             it as JSONObject
-            val songId = it.getStr("id")
+            val songId = it.getString("id")
             musics.add(getMusicInfo(songId))
         }
 
@@ -66,31 +67,31 @@ class NeteaseApi : MusicApi {
 
     override fun getPlayUrl(id: String): String {
         val result = get("$api/song/url?id=$id&br=320000")
-        val json = JSONObject(result)
-        val data = json.getJSONArray("data")[0] as JSONObject
-        return data.getStr("url")
+        val json = result.parseObject()
+        val data = json.getJSONArray("data").getJSONObject(0)
+        return data.getString("url")
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {
         val result = get("$api/lyric?id=$id")
-        val json = JSONObject(result)
+        val json = result.parseObject()
         val lrc = json.getJSONObject("lrc")
-        val lyric = lrc.getStr("lyric")
+        val lyric = lrc.getString("lyric")
         val tlrc = json.getJSONObject("tlyric")
-        val tlyric = if (tlrc != null) tlrc.getStr("lyric") else ""
+        val tlyric = if (tlrc != null) tlrc.getString("lyric") else ""
         return formatLyric(lyric, tlyric)
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
         val result = get("$api/song/detail?ids=${id}")
-        val info = JSONObject(result)
+        val info = result.parseObject()
         val song = info.getJSONArray("songs").getJSONObject(0)
-        val name = song.getStr("name")
+        val name = song.getString("name")
         val singers = song.getJSONArray("ar")
         val singer = mergeSingers(singers)
         val album = song.getJSONObject("al")
-        val albumName = album.getStr("name")
-        val albumImage = album.getStr("picUrl")
+        val albumName = album.getString("name")
+        val albumImage = album.getString("picUrl")
         val duration = song.getLong("dt") / 1000
 
         return MusicInfo(

@@ -1,9 +1,10 @@
 [versions]
-taboolib = "6.0.10-83"
+taboolib = "6.0.10-85"
 spigot = "1.19.3-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
-hutool = "5.8.10"
+okhttp = "4.10.0"
+fastjson = "2.0.23"
 nashorn = "15.4"
 nashorn_sandbox = "0.2.5"
 netty = "4.1.85.Final"
@@ -14,9 +15,11 @@ placeholderapi = "2.11.2"
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-# hutool
-hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
-hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
+# okhttp
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+# fastjson
+fastjson = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson" }
+fastjson_kotlin = { module = "com.alibaba.fastjson2:fastjson2-kotlin", version.ref = "fastjson" }
 # nashorn
 nashorn = { module = "org.openjdk.nashorn:nashorn-core", version.ref = "nashorn" }
 nashorn_sandbox = { module = "org.javadelight:delight-nashorn-sandbox", version.ref = "nashorn_sandbox" }
@@ -34,6 +37,6 @@ nms_legacy = { module = "ink.ptms:nms-all", version = "1.0.0" }
 
 [bundles]
 platform = ["spigot", "bungeecord", "velocity"]
-hutool = ["hutool_http", "hutool_json"]
+fastjson = ["fastjson", "fastjson_kotlin"]
 nashorn = ["nashorn", "nashorn_sandbox"]
 nms = ["nms_v11903", "nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]

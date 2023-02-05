@@ -11,6 +11,8 @@ debug: false
 proxy:
   # 是否启用代理
   enable: false
+  # 代理类型 HTTP/SOCKS
+  type: HTTP
   # 主机名
   hostname: 127.0.0.1
   # 端口
