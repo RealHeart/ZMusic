@@ -102,9 +102,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * [TabooLib](https://github.com/TabooLib/TabooLib) Plug-in development framework
 * [JetBrains](https://www.jetbrains.com/) Provide powerful IDE support
-* [hutool](https://hutool.cn/) Fully full tool class library
 
-[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Light
+[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto
 
 [java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 

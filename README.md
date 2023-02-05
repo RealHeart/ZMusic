@@ -102,9 +102,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 * [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
 * [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
-* [hutool](https://hutool.cn/) 功能齐全的工具类库
 
-[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Light
+[banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto
 
 [java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
 
