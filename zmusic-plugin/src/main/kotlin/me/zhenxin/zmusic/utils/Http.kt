@@ -97,7 +97,7 @@ private fun request(request: Request): String {
 
 private fun proxy() {
     if (Config.PROXY_ENABLE) {
-        val type = Proxy.Type.HTTP
+        val type = Config.PROXY_TYPE
         val host = Config.PROXY_HOSTNAME
         val port = Config.PROXY_PORT
         val address = InetSocketAddress(host, port)

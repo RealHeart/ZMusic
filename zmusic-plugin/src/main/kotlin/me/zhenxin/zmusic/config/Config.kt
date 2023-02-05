@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.utils.supportBossBar
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.runningPlatform
 import taboolib.module.configuration.Configuration
+import java.net.Proxy
 
 /**
  * 配置文件
@@ -39,6 +40,17 @@ object Config {
     /** 是否使用代理 */
     val PROXY_ENABLE
         get() = config.getBoolean("proxy.enable")
+
+    /** 代理类型 */
+    val PROXY_TYPE: Proxy.Type
+        get() {
+            val type = config.getString("proxy.type")
+            return if (type?.uppercase() == "SOCKS") {
+                Proxy.Type.SOCKS
+            } else {
+                Proxy.Type.HTTP
+            }
+        }
 
     /** 代理主机名 */
     val PROXY_HOSTNAME
