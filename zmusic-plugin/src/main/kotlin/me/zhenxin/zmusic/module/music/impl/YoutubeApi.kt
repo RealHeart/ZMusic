@@ -114,8 +114,8 @@ class YoutubeApi : MusicApi {
         return null
     }
 
-    override fun getLyric(id: String): MutableList<LyricRaw> {
-        return mutableListOf(LyricRaw(1, "", ""))
+    override fun getLyric(id: String): MutableList<LyricRaw>? {
+        return null
     }
 
     override fun getMusicInfo(id: String): MusicInfo {
