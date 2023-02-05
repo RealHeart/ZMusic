@@ -4,7 +4,7 @@ version = "3.0.0-beta4"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.8.10"
 }
 
 dependencies {
