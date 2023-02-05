@@ -12,7 +12,7 @@ import me.zhenxin.zmusic.utils.sendBridgeReset
 import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.function.implementations
+import taboolib.common.platform.function.implementation
 import taboolib.common.platform.function.submit
 
 /**
@@ -35,7 +35,7 @@ fun ProxyCommandSender.sendMsg(msg: String) = sendMessage("${Config.PREFIX}$msg"
  * @param commands 命令
  */
 fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
-    return implementations<JsonMessage>().sendClickMessage(this, "${Config.PREFIX.colored()}$base", commands)
+    return implementation<JsonMessage>().sendClickMessage(this, "${Config.PREFIX.colored()}$base", commands)
 }
 
 /**
@@ -45,7 +45,7 @@ fun ProxyPlayer.sendClickMessage(base: String, commands: Array<ClickCommand>) {
  * @param next 下一页命令
  */
 fun ProxyPlayer.sendClickPageBar(pageBar: String, prev: ClickCommand, next: ClickCommand) {
-    return implementations<JsonMessage>().sendClickPageBar(this, "${Config.PREFIX.colored()}$pageBar", prev, next)
+    return implementation<JsonMessage>().sendClickPageBar(this, "${Config.PREFIX.colored()}$pageBar", prev, next)
 }
 
 /**
@@ -53,7 +53,7 @@ fun ProxyPlayer.sendClickPageBar(pageBar: String, prev: ClickCommand, next: Clic
  * @param channel 频道ID
  */
 fun registerChannel(channel: String) {
-    return implementations<PluginMessage>().registerChannel(channel)
+    return implementation<PluginMessage>().registerChannel(channel)
 }
 
 /**
@@ -63,7 +63,7 @@ fun registerChannel(channel: String) {
  */
 fun ProxyPlayer.sendPluginMessage(channel: String, message: ByteArray) {
     submit(async = true) {
-        implementations<PluginMessage>().sendMessage(this@sendPluginMessage, channel, message)
+        implementation<PluginMessage>().sendMessage(this@sendPluginMessage, channel, message)
     }
 }
 
@@ -74,7 +74,7 @@ fun ProxyPlayer.sendPluginMessage(channel: String, message: ByteArray) {
 fun ProxyPlayer.sendBridgeMessage(message: ByteArray) {
     val channel = "zmusic:bridge"
     submit(async = true) {
-        implementations<PluginMessage>().sendBridgeMessage(this@sendBridgeMessage, channel, message)
+        implementation<PluginMessage>().sendBridgeMessage(this@sendBridgeMessage, channel, message)
     }
 }
 
