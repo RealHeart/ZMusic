@@ -39,7 +39,7 @@ class MusicPlayer(
     private var currentIndex = 0
     private lateinit var currentMusic: MusicInfo
     private var bossBar: BossBar? = null
-    private var currentLyric: MutableList<LyricRaw> = mutableListOf()
+    private var currentLyric: MutableList<LyricRaw>? = null
 
     private var currentTime = 0
     private var currentLyricString = ""
@@ -76,7 +76,6 @@ class MusicPlayer(
     fun stop() {
         player.resetData()
         if (playTask != null) {
-            logger.debug("stop")
             playTask!!.cancel()
             playTask = null
         }
@@ -92,8 +91,9 @@ class MusicPlayer(
     }
 
     private fun sendLyric() {
+        currentLyric ?: return
         submit(async = true) {
-            val lyric = currentLyric.find { it.time == currentTime } ?: return@submit
+            val lyric = currentLyric!!.find { it.time == currentTime } ?: return@submit
             currentLyricString = lyric.content
             val content = "${Config.LYRIC_COLOR.colored()}${lyric.content}"
             if (Config.LYRIC_BOSS_BAR) {

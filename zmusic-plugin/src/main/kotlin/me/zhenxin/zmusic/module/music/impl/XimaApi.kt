@@ -38,6 +38,7 @@ class XimaApi : MusicApi {
 
             val id = it.getString("id")
             val name = it.getString("title")
+            val singer = it.getString("nickname")
             val albumName = it.getString("albumTitle")
             val albumImage = it.getString("albumCoverPath")
             val duration = it.getIntValue("duration")
@@ -46,7 +47,7 @@ class XimaApi : MusicApi {
                 MusicInfo(
                     id,
                     name,
-                    "",
+                    singer,
                     albumName,
                     albumImage,
                     duration
@@ -74,8 +75,9 @@ class XimaApi : MusicApi {
         return track.getString("playUrl64")
     }
 
-    override fun getLyric(id: String): MutableList<LyricRaw> {
-        TODO("Not yet implemented")
+    override fun getLyric(id: String): MutableList<LyricRaw>? {
+        return null
+        // TODO("Not yet implemented")
     }
 
     override fun getMusicInfo(id: String): MusicInfo {

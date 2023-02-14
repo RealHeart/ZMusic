@@ -81,7 +81,7 @@ interface MusicApi {
      * @param id String 音乐ID
      * @return LyricRaw 歌词
      */
-    fun getLyric(id: String): MutableList<LyricRaw>
+    fun getLyric(id: String): MutableList<LyricRaw>?
 
     fun mergeSingers(singers: JSONArray): String {
         var singer = ""
