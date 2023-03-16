@@ -1,18 +1,12 @@
 @file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
 @file:RuntimeDependencies(
     RuntimeDependency(
-        value = "!com.squareup.okhttp3:okhttp:$okhttp",
-        test = "!okhttp3.OkHttp",
-        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
+        value = "!cn.hutool:hutool-http:$hutool",
+        test = "!cn.hutool.http.HttpUtil"
     ),
     RuntimeDependency(
-        value = "!com.alibaba.fastjson2:fastjson2:$fastjson",
-        test = "!import com.alibaba.fastjson2.JSON"
-    ),
-    RuntimeDependency(
-        value = "!com.alibaba.fastjson2:fastjson2-kotlin:$fastjson",
-        test = "!import com.alibaba.fastjson2.JSONKt",
-        relocate = ["!kotlin.", "!kotlin@kotlin_version_escape@."]
+        value = "!cn.hutool:hutool-json:$hutool",
+        test = "!cn.hutool.json.JSONUtil"
     ),
     RuntimeDependency(
         value = "!io.netty:netty-buffer:$netty",
@@ -33,8 +27,7 @@ package me.zhenxin.zmusic
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 
-private const val okhttp = "4.10.0"
-private const val fastjson = "2.0.23"
-private const val netty = "4.1.85.Final"
+private const val hutool = "5.8.15"
+private const val netty = "4.1.89.Final"
 private const val nashorn = "15.4"
 private const val nashornSandbox = "0.2.5"

@@ -2,6 +2,7 @@ rootProject.name = "ZMusic"
 
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
     }
 }

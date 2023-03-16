@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic
 
+import cn.hutool.http.cookie.GlobalCookieManager
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.config.Lang
@@ -11,7 +12,6 @@ import me.zhenxin.zmusic.module.js.Http
 import me.zhenxin.zmusic.module.js.Util
 import me.zhenxin.zmusic.module.js.nashornSandbox
 import me.zhenxin.zmusic.module.taboolib.registerChannel
-import me.zhenxin.zmusic.status.getState
 import me.zhenxin.zmusic.status.playerState
 import me.zhenxin.zmusic.utils.*
 import taboolib.common.platform.Platform.*
@@ -43,37 +43,7 @@ object ZMusic : Plugin() {
     override fun onLoad() {
         // 初始化变量
         ZMusicData.VERSION_NAME = pluginVersion
-
-        // 初始化JS模块
-        initJavaScript()
-
         logger = Logger(console())
-    }
-
-    private fun initJavaScript() {
-        nashornSandbox.allow(Http::class.java)
-        nashornSandbox.allow(Util::class.java)
-        nashornSandbox.inject("http", Http())
-        nashornSandbox.inject("util", Util())
-
-        val files = listOf(
-            "scripts/platform_example.js"
-        )
-
-        files.forEach {
-            if (it.contains("example")) {
-                releaseResourceFile(it, true)
-            } else {
-                releaseResourceFile(it)
-            }
-        }
-
-        val scripts = File(getDataFolder(), "scripts").listFiles() ?: throw ZMusicException("scripts path not found")
-        scripts.forEach {
-            if (it.name.contains("platform_") || !it.name.contains("example")) {
-
-            }
-        }
     }
 
     override fun onEnable() {
@@ -105,6 +75,11 @@ object ZMusic : Plugin() {
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
 
+        // Cookie管理器初始化
+        initCookieManager()
+
+        // 初始化JS模块
+        initJavaScript()
 
         Lang.INIT_LOADED.forEach {
             logger.info(
@@ -138,6 +113,37 @@ object ZMusic : Plugin() {
             it.player?.stop()
         }
         playerState.clear()
+    }
+
+    private fun initCookieManager() {
+        val cookieManager = GlobalCookieManager.getCookieManager()
+
+    }
+
+    private fun initJavaScript() {
+        nashornSandbox.allow(Http::class.java)
+        nashornSandbox.allow(Util::class.java)
+        nashornSandbox.inject("http", Http())
+        nashornSandbox.inject("util", Util())
+
+        val files = listOf(
+            "scripts/platform_example.js"
+        )
+
+        files.forEach {
+            if (it.contains("example")) {
+                releaseResourceFile(it, true)
+            } else {
+                releaseResourceFile(it)
+            }
+        }
+
+        val scripts = File(getDataFolder(), "scripts").listFiles() ?: throw ZMusicException("scripts path not found")
+        scripts.forEach {
+            if (it.name.contains("platform_") || !it.name.contains("example")) {
+
+            }
+        }
     }
 }
 

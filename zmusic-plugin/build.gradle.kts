@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-version = "3.0.0-beta4"
+version = "3.0.0-beta5"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"
@@ -22,8 +22,7 @@ dependencies {
 
     compileOnly(libs.bundles.platform)
 
-    compileOnly(libs.okhttp)
-    compileOnly(libs.bundles.fastjson)
+    compileOnly(libs.bundles.hutool)
     compileOnly(libs.bundles.nashorn)
     compileOnly(libs.netty.buffer)
 }

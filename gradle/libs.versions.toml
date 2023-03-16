@@ -1,13 +1,12 @@
 [versions]
-taboolib = "6.0.10-91"
-spigot = "1.19.3-R0.1-SNAPSHOT"
+taboolib = "6.0.10-98"
+spigot = "1.19.4-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
-okhttp = "4.10.0"
-fastjson = "2.0.23"
+hutool = "5.8.15"
 nashorn = "15.4"
 nashorn_sandbox = "0.2.5"
-netty = "4.1.85.Final"
+netty = "4.1.89.Final"
 placeholderapi = "2.11.2"
 
 [libraries]
@@ -15,11 +14,9 @@ placeholderapi = "2.11.2"
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-# okhttp
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-# fastjson
-fastjson = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson" }
-fastjson_kotlin = { module = "com.alibaba.fastjson2:fastjson2-kotlin", version.ref = "fastjson" }
+# hutool
+hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
+hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
 # nashorn
 nashorn = { module = "org.openjdk.nashorn:nashorn-core", version.ref = "nashorn" }
 nashorn_sandbox = { module = "org.javadelight:delight-nashorn-sandbox", version.ref = "nashorn_sandbox" }
@@ -28,6 +25,7 @@ netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # PAPI
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 # NMS
+nms_v11904 = { module = "ink.ptms.core:v11904", version = "11904" }
 nms_v11903 = { module = "ink.ptms.core:v11903", version = "11903" }
 nms_v11900 = { module = "ink.ptms.core:v11900", version = "11900" }
 nms_v11802 = { module = "ink.ptms.core:v11802", version = "11802" }
@@ -37,6 +35,6 @@ nms_legacy = { module = "ink.ptms:nms-all", version = "1.0.0" }
 
 [bundles]
 platform = ["spigot", "bungeecord", "velocity"]
-fastjson = ["fastjson", "fastjson_kotlin"]
+hutool = ["hutool_http", "hutool_json"]
 nashorn = ["nashorn", "nashorn_sandbox"]
-nms = ["nms_v11903", "nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]
+nms = ["nms_v11904", "nms_v11903", "nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]

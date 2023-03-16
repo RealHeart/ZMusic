@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.music.impl
 
-import com.alibaba.fastjson2.JSONObject
-import com.alibaba.fastjson2.parseObject
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
@@ -22,7 +21,7 @@ class YoutubeApi : MusicApi {
 
     override fun searchPage(keyword: String, page: Int, count: Int): List<MusicInfo>? {
         val result = get("$api/search?q=$keyword&filter=all")
-        val data = result.parseObject()
+        val data = JSONObject(result)
         val songs = data.getJSONArray("items")
         if (songs.isNullOrEmpty()) {
             return null
@@ -31,12 +30,12 @@ class YoutubeApi : MusicApi {
         val videoArray = songs.stream().map { video ->
             video as JSONObject
             MusicInfo(
-                video.getString("url").replaceFirst("/watch?v=", ""),
-                video.getString("title"),
-                video.getString("uploaderName"),
+                video.getStr("url").replaceFirst("/watch?v=", ""),
+                video.getStr("title"),
+                video.getStr("uploaderName"),
                 "",
                 "",
-                video.getIntValue("duration")
+                video.getInt("duration")
             )
         }.toList()
         if (videoArray.isEmpty()) {
@@ -85,30 +84,30 @@ class YoutubeApi : MusicApi {
         val data = get(
             "$api/streams/$id"
         )
-        val json = data.parseObject()
+        val json = JSONObject(data)
         val audioStreams = json.getJSONArray("audioStreams")
         if (audioStreams.isNullOrEmpty()) {
             return null
         }
 
         val opusAudio = audioStreams.stream().filter { audio ->
-            val format = (audio as JSONObject).getString("format")
+            val format = (audio as JSONObject).getStr("format")
             format != null && format.equals("WEBMA_OPUS")
         }.max { audio, audio2 ->
-            (audio as JSONObject).getIntValue("bitrate").compareTo((audio2 as JSONObject).getIntValue("bitrate"))
+            (audio as JSONObject).getInt("bitrate").compareTo((audio2 as JSONObject).getInt("bitrate"))
         }.orElse(null)
         if (opusAudio != null) {
-            return (opusAudio as JSONObject).getString("url")
+            return (opusAudio as JSONObject).getStr("url")
         }
 
         val m4aAudio = audioStreams.stream().filter { audio ->
-            val format = (audio as JSONObject).getString("format")
+            val format = (audio as JSONObject).getStr("format")
             format != null && format.equals("M4A")
         }.max { audio, audio2 ->
-            (audio as JSONObject).getIntValue("bitrate").compareTo((audio2 as JSONObject).getIntValue("bitrate"))
+            (audio as JSONObject).getInt("bitrate").compareTo((audio2 as JSONObject).getInt("bitrate"))
         }.orElse(null)
         if (m4aAudio != null) {
-            return (m4aAudio as JSONObject).getString("url")
+            return (m4aAudio as JSONObject).getStr("url")
         }
 
         return null
@@ -122,14 +121,14 @@ class YoutubeApi : MusicApi {
         val data = get(
             "$api/streams/$id"
         )
-        val json = data.parseObject()
+        val json = JSONObject(data)
         return MusicInfo(
             id,
-            json.getString("title"),
-            json.getString("uploader"),
+            json.getStr("title"),
+            json.getStr("uploader"),
             "",
             "",
-            json.getIntValue("duration")
+            json.getInt("duration")
         )
     }
 }

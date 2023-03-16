@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.music.impl;
 
-import com.alibaba.fastjson2.JSONObject
-import com.alibaba.fastjson2.parseObject
+import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.data.ZMusicData.SOUNDCLOUD_CLIENT_ID
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
@@ -37,15 +36,15 @@ class SoundCloudApi : MusicApi {
                 )
             }&limit=$count&offset=$offset&client_id=$SOUNDCLOUD_CLIENT_ID"
         )
-        val data = result.parseObject()
+        val data = JSONObject(result)
         val songs = data.getJSONArray("collection")
         songs.forEach {
             it as JSONObject
-            val id = it.getString("permalink_url")
-            val name = it.getString("title")
-            val singer = it.getJSONObject("user").getString("username")
-            val albumName = it.getString("tag_list")
-            var albumImage = it.getString("artwork_url")
+            val id = it.getStr("permalink_url")
+            val name = it.getStr("title")
+            val singer = it.getJSONObject("user").getStr("username")
+            val albumName = it.getStr("tag_list")
+            var albumImage = it.getStr("artwork_url")
             val duration = it.getLong("duration") / 1000
 
             if (albumImage == null) albumImage = ""
@@ -74,11 +73,11 @@ class SoundCloudApi : MusicApi {
     override fun getPlayUrl(id: String): String {
         checkClientId()
         val result = get("$api/resolve?url=${URLEncoder.encode(id, "UTF-8")}&client_id=$SOUNDCLOUD_CLIENT_ID")
-        val json = result.parseObject()
+        val json = JSONObject(result)
         val data = json.getJSONObject("media").getJSONArray("transcodings")
-        val urlLink = (data[1] as JSONObject).getString("url")
+        val urlLink = (data[1] as JSONObject).getStr("url")
         val urlResult = get("$urlLink?client_id=$SOUNDCLOUD_CLIENT_ID")
-        return urlResult.parseObject().getString("url")
+        return JSONObject(urlResult).getStr("url")
     }
 
     override fun getLyric(id: String): MutableList<LyricRaw> {

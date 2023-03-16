@@ -44,11 +44,11 @@ object Config {
     /** 代理类型 */
     val PROXY_TYPE: Proxy.Type
         get() {
-            val type = config.getString("proxy.type")
-            return if (type?.uppercase() == "SOCKS") {
-                Proxy.Type.SOCKS
-            } else {
-                Proxy.Type.HTTP
+            val type = config.getString("proxy.type")?.uppercase()
+            return when (type) {
+                "HTTP" -> Proxy.Type.HTTP
+                "SOCKS" -> Proxy.Type.SOCKS
+                else -> Proxy.Type.DIRECT
             }
         }
 
