@@ -1,0 +1,55 @@
+platform-netease: '네티즌 음악'
+platform-bili: 'BiliBili'
+platform-xima: '히말라야'
+
+init-loading: '&a로딩 중...'
+init-loaded:
+  - '&a플러그인이 로드되었습니다!'
+  - '&a플러그인 버전: &b{0}'
+  - '&a현재 플랫폼: &b{1}'
+  - '&a사용 문서: &bm.zplu.cc'
+  - '&a플러그인 저작자: &b真心'
+
+help-tips: '&a/&e{0} &bhelp &a을 입력하여 도움말을 확인하세요.'
+
+command-incorrect-command:
+  - '&c명령 실행 중 오류 발생.'
+  - '&7/{0} {1}&c<- 여기'
+  - '&c가능한 원인:'
+  - '&7- &c잘못된 명령 매개변수 입력.'
+  - '&7- &c이 명령을 실행할 수 있는 권한이 없습니다.'
+  - '&7- &c해당 명령이 존재하지 않습니다.'
+command-incorrect-sender: '&c이 명령은 플레이어만 사용할 수 있습니다.'
+command-searching: '&a검색 중...'
+command-nosupported-idplay: '&c현재 플랫폼은 &e-id&c 모드를 지원하지 않습니다.'
+command-play-success: '&a&b{0}&a에서 &r[&e{1}&r]&a을(를) 성공적으로 재생했습니다.'
+command-music-success: '&a플레이어 &b{0}&a이(가) &r[&e{1}&r]&a에서 &r[&e{2}&r]&a을(를) 요청했습니다. 음악을 즐겨보세요~'
+command-search-header: '&6===============&a[ &b검색 결과 &a]&6================'
+command-reload-success: '&a구성 파일과 언어 파일이 다시 로드되었습니다!'
+
+platform-netease-not-found-api: "&c'네티즌 음악' 플랫폼 API가 설정되지 않았습니다. 설정 파일을 확인하세요."
+
+command-suggestion-platform: '플랫폼'
+command-suggestion-song: '노래 제목'
+
+message-json-play: '재생'
+message-json-music: '노래 요청'
+message-json-stop: '재생 중지'
+message-json-playall: '전 서버 재생'
+message-json-queue: '대기열 추가'
+message-json-tips: '&a클릭하여 실행'
+message-json-tips-prev: '&b이전 페이지'
+message-json-tips-next: '&b다음 페이지'
+
+toast-playing: '&a현재 재생 중\n&e{0}'
+
+no-supported-region: '&c현재 서버 위치에서는 이 기능을 지원하지 않습니다.'
+
+music-not-found: '&c해당 음악을 찾을 수 없습니다.'
+
+update-checking: '&a업데이트 확인 중...'
+update-no-update: '&a플러그인이 최신 버전입니다.'
+update-new-version:
+  - '&a새 버전이 발견되었습니다: &b{0}'
+  - '&a다운로드 링크: &b{1}'
+  - '&a업데이트 로그:'

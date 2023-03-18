@@ -1,0 +1,55 @@
+platform-netease: '网易云音乐'
+platform-bili: '哔哩哔哩'
+platform-xima: '喜马拉雅'
+
+init-loading: '&aЗагрузка...'
+init-loaded:
+  - '&aПлагин успешно загружен!'
+  - '&aВерсия плагина: &b{0}'
+  - '&aТекущая платформа: &b{1}'
+  - '&aДокументация: &bm.zplu.cc'
+  - '&aАвтор плагина: &b真心'
+
+help-tips: '&aВведите &a/&e{0} &bhelp &aдля просмотра помощи.'
+
+command-incorrect-command:
+  - '&cОшибка выполнения команды.'
+  - '&7/{0} {1}&c<- здесь'
+  - '&cВозможные причины:'
+  - '&7- &cОшибка ввода параметров команды.'
+  - '&7- &cОтсутствие прав для выполнения данной команды.'
+  - '&7- &cДанная команда не существует.'
+command-incorrect-sender: '&cЭта команда может быть использована только игроками.'
+command-searching: '&aПоиск...'
+command-nosupported-idplay: '&cЭта платформа не поддерживает режим &e-id&c.'
+command-play-success: '&aУспешно воспроизведено в &r[&e{0}&r]&a:&r[&e{1}&r]&a.'
+command-music-success: '&aИгрок &b{0}&a заказал музыку на &r[&e{1}&r]&a:&r[&e{2}&r]&a. Наслаждайтесь музыкой~'
+command-search-header: '&6===============&a[ &bРезультаты поиска &a]&6================'
+command-reload-success: '&aФайлы конфигурации и языка успешно перезагружены!'
+
+platform-netease-not-found-api: "&cНе найден API для платформы '网易云音乐', пожалуйста, проверьте файл конфигурации."
+
+command-suggestion-platform: 'Платформа'
+command-suggestion-song: 'Название песни'
+
+message-json-play: 'Воспроизвести'
+message-json-music: 'Заказать музыку'
+message-json-stop: 'Остановить воспроизведение'
+message-json-playall: 'Воспроизвести на всех серверах'
+message-json-queue: 'Добавить в очередь'
+message-json-tips: '&aНажмите для выполнения'
+message-json-tips-prev: '&bПредыдущая страница'
+message-json-tips-next: '&bСледующая страница'
+
+toast-playing: '&aСейчас воспроизводится\n&e{0}'
+
+no-supported-region: '&cЭта функция не поддерживается в вашей стране.'
+
+music-not-found: '&cНе найдено музыки.'
+
+update-checking: '&aПроверка обновлений...'
+update-no-update: '&aВаш плагин обновлен до последней версии.'
+update-new-version:
+  - '&aОбнаружена новая версия: &b{0}'
+  - '&aСсылка для загрузки: &b{1}'
+  - '&aЖурнал изменений:'
