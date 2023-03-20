@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.command.impl
 
 import me.zhenxin.zmusic.config.Config
-import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.logger
@@ -24,7 +23,6 @@ val reloadCommand = subCommand {
     execute<ProxyCommandSender> { sender, _, _ ->
         Config.reload()
         Language.reload()
-        GlobalData.reload()
         setLocale()
         ZMusicData.IS_VIP = isVip()
         sender.sendMsg(Lang.COMMAND_RELOAD_SUCCESS)

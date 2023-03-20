@@ -2,7 +2,6 @@ package me.zhenxin.zmusic.login
 
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Config
-import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.post
 import taboolib.common.platform.ProxyCommandSender
@@ -27,7 +26,6 @@ object NeteaseLogin {
         val cookie = loginCellphone(phone, captcha)
         if (cookie.isNotEmpty()) {
             welcome(sender)
-            GlobalData.COOKIE = cookie
         } else {
             sender.sendMsg("登录失败, 请检查参数是否正确!")
         }
@@ -51,12 +49,11 @@ object NeteaseLogin {
      * 刷新登录状态
      * @param sender ProxyCommandSender 发送者
      */
-    fun refresh(sender: ProxyCommandSender, cookies: String = "") {
-        val cookie = loginRefresh(cookies)
+    fun refresh(sender: ProxyCommandSender) {
+        val cookie = loginRefresh()
         if (cookie.isNotEmpty()) {
             sender.sendMsg("刷新登录状态成功!")
             welcome(sender)
-            GlobalData.COOKIE = cookie
         } else {
             sender.sendMsg("刷新登录状态失败, 建议执行重新登录操作!")
         }
@@ -69,8 +66,14 @@ object NeteaseLogin {
         val result = post("$api/register/anonimous")
         val data = JSONObject(result)
         val cookies = data.getStr("cookie")
-        GlobalData.COOKIE = cookies
         welcome(sender)
+    }
+
+    /**
+     * 是否已登录
+     */
+    fun isLogin(): Boolean {
+        return userNickname().isNotEmpty()
     }
 
     /**
@@ -124,13 +127,8 @@ object NeteaseLogin {
      * 刷新登录状态
      * @return Boolean 是否成功
      */
-    private fun loginRefresh(cookies: String = ""): String {
-
-        val result = if (cookies.isEmpty()) {
-            post("$api/login/refresh")
-        } else {
-            post("$api/login/refresh")
-        }
+    private fun loginRefresh(): String {
+        val result = post("$api/login/refresh")
         val data = JSONObject(result)
         val code = data.getInt("code")
         if (code != 200) return ""

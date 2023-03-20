@@ -1,12 +1,9 @@
 package me.zhenxin.zmusic
 
-import cn.hutool.http.cookie.GlobalCookieManager
 import me.zhenxin.zmusic.config.Config
-import me.zhenxin.zmusic.config.GlobalData
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
-import me.zhenxin.zmusic.login.NeteaseLogin
 import me.zhenxin.zmusic.module.PlaceholderAPI
 import me.zhenxin.zmusic.module.js.Http
 import me.zhenxin.zmusic.module.js.Util
@@ -75,8 +72,11 @@ object ZMusic : Plugin() {
         registerChannel("zmusic:channel")
         registerChannel("allmusic:channel")
 
-        // Cookie管理器初始化
-        initCookieManager()
+        // 初始化目录/文件
+        initDirAndFiles()
+
+        // Cookie初始化
+        initCookie()
 
         // 初始化JS模块
         initJavaScript()
@@ -93,14 +93,12 @@ object ZMusic : Plugin() {
         }
 
         submit(async = true) {
-            logger.info("&a正在尝试登录网易云音乐...")
-            if (GlobalData.COOKIE != "") {
-                val cookie = GlobalData.COOKIE
-                NeteaseLogin.refresh(console(), cookie)
-            } else {
-                logger.info("&c未获取到Cookie, 已登录游客账户!")
-                NeteaseLogin.loginGuest(console())
-            }
+            // TODO: 网易云登录
+            /**
+             * 目前好像只能二维码登录
+             * https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1687
+             * 待解决
+             */
         }
 
         submit {
@@ -115,9 +113,15 @@ object ZMusic : Plugin() {
         playerState.clear()
     }
 
-    private fun initCookieManager() {
-        val cookieManager = GlobalCookieManager.getCookieManager()
-
+    private fun initDirAndFiles() {
+        val dataDir = File(getDataFolder(), "data")
+        if (!dataDir.exists()) {
+            dataDir.mkdirs()
+        }
+        val cookies = File(getDataFolder(), "data/cookies.json")
+        if (!cookies.exists()) {
+            cookies.createNewFile()
+        }
     }
 
     private fun initJavaScript() {
