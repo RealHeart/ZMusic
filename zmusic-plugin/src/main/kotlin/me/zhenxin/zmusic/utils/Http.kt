@@ -2,9 +2,13 @@
 
 package me.zhenxin.zmusic.utils
 
+import cn.hutool.core.net.url.UrlBuilder
+import cn.hutool.http.Header
 import cn.hutool.http.HttpRequest
+import cn.hutool.http.useragent.UserAgentUtil
 import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
 import java.net.InetSocketAddress
@@ -26,20 +30,22 @@ import java.net.Proxy
 fun get(
     url: String,
     paramsMap: Map<String, Any?> = mutableMapOf(),
-    headers: Map<String, String> = mutableMapOf()
+    headers: Map<String, String> = mutableMapOf(),
+    disableCache: Boolean = false
 ): String {
-    val params = paramsMap.map { "${it.key}=${it.value}" }.joinToString("&")
-    var fullUrl = url
-    if (params.isNotEmpty()) {
-        fullUrl += "?$params"
+    val ub = UrlBuilder.of(url)
+    paramsMap.map { ub.addQuery(it.key, it.value) }
+    if (disableCache) {
+        ub.addQuery("timestamp", System.currentTimeMillis())
     }
+    val u = ub.build()
 
-    val request = HttpRequest.get(fullUrl)
+    val request = HttpRequest.get(u)
     headers.forEach {
         request.header(it.key, it.value)
     }
 
-    logger.debug("Request GET: $fullUrl")
+    logger.debug("Request GET: $u")
     return request(request)
 }
 
@@ -53,8 +59,15 @@ fun post(
     data: Map<String, Any?> = mutableMapOf(),
     headers: Map<String, String> = mutableMapOf(),
     type: PostType = PostType.JSON,
+    disableCache: Boolean = false
 ): String {
-    val request = HttpRequest.post(url)
+    val ub = UrlBuilder.of(url)
+    if (disableCache) {
+        ub.addQuery("timestamp", System.currentTimeMillis())
+    }
+    val u = ub.build()
+
+    val request = HttpRequest.post(u)
 
     headers.forEach {
         request.header(it.key, it.value)
@@ -65,7 +78,7 @@ fun post(
         PostType.FORM -> request.form(data.toMap())
     }
 
-    logger.debug("Request POST: $url")
+    logger.debug("Request POST: $u")
     logger.debug("POST Type: ${type.name}")
     logger.debug("POST Data: $data")
     return request(request)
@@ -83,6 +96,9 @@ private fun request(request: HttpRequest): String {
         logger.debug("Use $type Proxy: $address")
         request.setProxy(proxy)
     }
+
+    request.header(Header.USER_AGENT, "ZMusic/${ZMusicData.VERSION_NAME}")
+
     try {
         val res = request.execute()
         if (res.isOk) {

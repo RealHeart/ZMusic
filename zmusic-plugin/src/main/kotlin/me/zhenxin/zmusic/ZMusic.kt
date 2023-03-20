@@ -4,6 +4,7 @@ import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
+import me.zhenxin.zmusic.login.NeteaseLogin
 import me.zhenxin.zmusic.module.PlaceholderAPI
 import me.zhenxin.zmusic.module.js.Http
 import me.zhenxin.zmusic.module.js.Util
@@ -89,16 +90,15 @@ object ZMusic : Plugin() {
         }
 
         if (Config.CHECK_UPDATE) {
-            submit(async = true) { checkUpdate(console()) }
+            submit { checkUpdate(console()) }
         }
 
-        submit(async = true) {
-            // TODO: 网易云登录
-            /**
-             * 目前好像只能二维码登录
-             * https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1687
-             * 待解决
-             */
+        submit {
+            if (NeteaseLogin.isLogin()) {
+                NeteaseLogin.refresh(console())
+            } else {
+                NeteaseLogin.guest(console())
+            }
         }
 
         submit {

@@ -43,7 +43,7 @@ fun initCookie() {
             cookie.secure = secure
             cookie.isHttpOnly = httpOnly
             cookie.version = version
-            val uri = URI.create(domain)
+            val uri = URI.create("$domain$path")
             cookieManager.cookieStore.add(uri, cookie)
         }
     }

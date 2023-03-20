@@ -24,17 +24,7 @@ val loginCommand = subCommand {
             when (platform) {
                 // 暂时实验性 后续加入语言文件
                 MusicPlatform.NETEASE -> {
-                    try {
-                        val num = arguments[1]
-                        if (num.length == 4) {
-                            NeteaseLogin.login(phone, num.toInt(), sender)
-                        } else {
-                            phone = num.toLong()
-                            NeteaseLogin.sent(phone, sender)
-                        }
-                    } catch (e: Exception) {
-                        NeteaseLogin.refresh(sender)
-                    }
+                    NeteaseLogin.qrcode(sender)
                 }
 
                 else -> return@execute

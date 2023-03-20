@@ -4,7 +4,10 @@ import cn.hutool.json.JSONObject
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.post
+import me.zhenxin.zmusic.utils.saveCookie
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.function.submit
+import java.net.URLEncoder
 
 /**
  * 网易云登录操作
@@ -16,41 +19,66 @@ import taboolib.common.platform.ProxyCommandSender
 object NeteaseLogin {
     val api by lazy { Config.API_NETEASE_LINK }
 
-    /**
-     * 登录
-     * @param phone Long 手机号
-     * @param captcha Int 验证码
-     * @param sender ProxyCommandSender 发送者
-     */
-    fun login(phone: Long, captcha: Int, sender: ProxyCommandSender) {
-        val cookie = loginCellphone(phone, captcha)
-        if (cookie.isNotEmpty()) {
-            welcome(sender)
-        } else {
-            sender.sendMsg("登录失败, 请检查参数是否正确!")
+    fun qrcode(sender: ProxyCommandSender) {
+        val key = key()
+        val qrcode = create(key)
+        sender.sendMsg("请打开如下网址扫描二维码登录:")
+        sender.sendMsg(
+            "https://cli.im/api/qrcode/code?text=${
+                URLEncoder.encode(qrcode, "UTF-8")
+            }"
+        )
+        submit(async = true, period = 60) {
+            val result = check(key)
+            val data = JSONObject(result)
+            val code = data.getInt("code")
+            when (code) {
+                800 -> {
+                    sender.sendMsg("二维码已过期!")
+                    cancel()
+                }
+
+                802 -> {
+                    val nickname = data.getStr("nickname")
+                    sender.sendMsg("$nickname, 请在手机上确认登录!")
+                }
+
+                803 -> {
+                    welcome(sender)
+                    saveCookie()
+                    cancel()
+                }
+            }
         }
     }
 
-    /**
-     * 发送验证码
-     * @param phone Long 手机号
-     * @param sender ProxyCommandSender 发送者
-     */
-    fun sent(phone: Long, sender: ProxyCommandSender) {
-        val success = sentCaptcha(phone)
-        if (success) {
-            sender.sendMsg("已发送验证码!")
-        } else {
-            sender.sendMsg("发送验证码失败!")
-        }
+    private fun create(key: String): String {
+        val result = post("$api/login/qr/create", mapOf("key" to key), disableCache = true)
+        val json = JSONObject(result)
+        val data = json.getJSONObject("data")
+        return data.getStr("qrurl")
     }
 
-    /**
-     * 刷新登录状态
-     * @param sender ProxyCommandSender 发送者
-     */
+    private fun check(key: String): JSONObject {
+        val result = post("$api/login/qr/check", mapOf("key" to key), disableCache = true)
+        return JSONObject(result)
+    }
+
+    private fun key(): String {
+        val result = post("$api/login/qr/key", disableCache = true)
+        val json = JSONObject(result)
+        val data = json.getJSONObject("data")
+        return data.getStr("unikey")
+    }
+
     fun refresh(sender: ProxyCommandSender) {
-        val cookie = loginRefresh()
+        var cookie = ""
+        val result = post("$api/login/refresh", disableCache = true)
+        val data = JSONObject(result)
+        val code = data.getInt("code")
+        if (code == 200) {
+            cookie = data.getStr("cookie")
+        }
         if (cookie.isNotEmpty()) {
             sender.sendMsg("刷新登录状态成功!")
             welcome(sender)
@@ -59,27 +87,18 @@ object NeteaseLogin {
         }
     }
 
-    /**
-     * 游客登录
-     */
-    fun loginGuest(sender: ProxyCommandSender) {
-        val result = post("$api/register/anonimous")
-        val data = JSONObject(result)
-        val cookies = data.getStr("cookie")
+    fun guest(sender: ProxyCommandSender) {
+        post("$api/register/anonimous", disableCache = true)
         welcome(sender)
     }
 
-    /**
-     * 是否已登录
-     */
     fun isLogin(): Boolean {
-        return userNickname().isNotEmpty()
+        val result = post("$api/login/status", disableCache = true)
+        val data = JSONObject(result).getJSONObject("data")
+        val profile = data.getJSONObject("profile")
+        return !profile.isNullOrEmpty()
     }
 
-    /**
-     * 发送欢迎信息
-     * @param sender ProxyCommandSender 发送者
-     */
     private fun welcome(sender: ProxyCommandSender) {
         val name = userNickname()
         if (name.isEmpty()) {
@@ -89,58 +108,8 @@ object NeteaseLogin {
         }
     }
 
-    /**
-     * 发送验证码
-     * @param phone Long 手机号
-     * @return Boolean 是否成功
-     */
-    private fun sentCaptcha(phone: Long): Boolean {
-        val result = post(
-            "$api/captcha/sent", mutableMapOf(
-                "phone" to phone
-            )
-        )
-        val data = JSONObject(result)
-        return data.getInt("code") == 200
-    }
-
-    /**
-     * 通过验证码登录
-     * @param phone Long 手机号
-     * @param captcha Int 验证码
-     * @return Boolean 是否登录成功
-     */
-    private fun loginCellphone(phone: Long, captcha: Int): String {
-        val result = post(
-            "$api/login/cellphone", mutableMapOf(
-                "phone" to phone,
-                "captcha" to captcha
-            )
-        )
-        val data = JSONObject(result)
-        val code = data.getInt("code")
-        if (code != 200) return ""
-        return data.getStr("cookie")
-    }
-
-    /**
-     * 刷新登录状态
-     * @return Boolean 是否成功
-     */
-    private fun loginRefresh(): String {
-        val result = post("$api/login/refresh")
-        val data = JSONObject(result)
-        val code = data.getInt("code")
-        if (code != 200) return ""
-        return data.getStr("cookie")
-    }
-
-    /**
-     * 获取账号昵称
-     * @return String 昵称
-     */
     private fun userNickname(): String {
-        val result = post("$api/user/account")
+        val result = post("$api/user/account", disableCache = true)
         val data = JSONObject(result)
         if (data.getInt("code") != 200) {
             return ""
