@@ -81,6 +81,7 @@ object NeteaseLogin {
         }
         if (cookie.isNotEmpty()) {
             sender.sendMsg("刷新登录状态成功!")
+            saveCookie()
             welcome(sender)
         } else {
             sender.sendMsg("刷新登录状态失败, 建议执行重新登录操作!")
