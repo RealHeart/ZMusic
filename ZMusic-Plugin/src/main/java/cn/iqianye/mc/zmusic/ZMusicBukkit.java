@@ -6,6 +6,7 @@ import cn.iqianye.mc.zmusic.bstats.MetricsBukkit;
 import cn.iqianye.mc.zmusic.command.CmdBukkit;
 import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.event.EventBukkit;
+import cn.iqianye.mc.zmusic.utils.CookieUtils;
 import cn.iqianye.mc.zmusic.utils.log.LogBukkit;
 import cn.iqianye.mc.zmusic.utils.message.MessageBukkit;
 import cn.iqianye.mc.zmusic.utils.mod.SendBukkit;
@@ -15,9 +16,6 @@ import cn.iqianye.mc.zmusic.utils.runtask.RunTaskBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-
 public class ZMusicBukkit extends JavaPlugin {
 
     public static JavaPlugin plugin;
@@ -26,8 +24,6 @@ public class ZMusicBukkit extends JavaPlugin {
     public void onEnable() {
         ZMusic.log = new LogBukkit(getServer().getConsoleSender());
         ZMusic.log.sendNormalMessage("正在加载中....");
-        CookieManager manager = new CookieManager();
-        CookieHandler.setDefault(manager);
         plugin = this;
         ZMusic.isBC = false;
         ZMusic.runTask = new RunTaskBukkit();
@@ -42,6 +38,7 @@ public class ZMusicBukkit extends JavaPlugin {
         Config.debug = true;
         ZMusic.thisVer = getDescription().getVersion();
         Version version = new Version();
+        CookieUtils.initCookieManager();
         //注册bStats
         new MetricsBukkit(this, 7291);
         //注册命令对应的执行器

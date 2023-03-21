@@ -32,6 +32,7 @@ public class HelpUtils {
                 ZMusic.message.sendNormalMessage("/zm playAll [搜索源] [歌名] - 强制为所有玩家播放音乐.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm stopAll - 强制为所有玩家停止播放音乐.", playerObj);
                 ZMusic.message.sendNormalMessage("/zm update - 检查更新.", playerObj);
+                ZMusic.message.sendNormalMessage("/zm login - 登录网易云音乐..", playerObj);
                 ZMusic.message.sendNormalMessage("/zm reload - 重载配置文件.", playerObj);
                 ZMusic.message.sendNormalMessage("§6=========================================", playerObj);
                 break;

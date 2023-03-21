@@ -6,15 +6,19 @@ import cn.iqianye.mc.zmusic.config.Config;
 import cn.iqianye.mc.zmusic.config.LoadConfig;
 import cn.iqianye.mc.zmusic.data.PlayerData;
 import cn.iqianye.mc.zmusic.language.LoadLang;
+import cn.iqianye.mc.zmusic.login.NeteaseLogin;
 import cn.iqianye.mc.zmusic.music.PlayList;
 import cn.iqianye.mc.zmusic.music.PlayListPlayer;
 import cn.iqianye.mc.zmusic.music.PlayMusic;
 import cn.iqianye.mc.zmusic.music.SearchMusic;
+import cn.iqianye.mc.zmusic.utils.CookieUtils;
 import cn.iqianye.mc.zmusic.utils.HelpUtils;
 import cn.iqianye.mc.zmusic.utils.OtherUtils;
 import cn.iqianye.mc.zmusic.utils.Vault;
+import lombok.var;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -210,6 +214,51 @@ public class Cmd {
                                     ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                 }
                                 break;
+                            case "login":
+                                if (isAdmin) {
+                                    ZMusic.runTask.runAsync(() -> {
+                                        try {
+                                            var key = NeteaseLogin.key();
+                                            var qrcode = NeteaseLogin.create(key);
+                                            ZMusic.message.sendNormalMessage("请打开如下网址扫描二维码登录:", sender);
+                                            ZMusic.message.sendNormalMessage(qrcode, sender);
+                                            ZMusic.runTask.runAsync(() -> {
+                                                var cancel = false;
+                                                while (!cancel) {
+                                                    try {
+                                                        Thread.sleep(3000);
+                                                        var code = NeteaseLogin.check(key);
+                                                        switch (code) {
+                                                            case 800:
+                                                                ZMusic.message.sendErrorMessage("二维码已过期!", sender);
+                                                                cancel = true;
+                                                                break;
+                                                            case 802:
+                                                                ZMusic.message.sendNormalMessage("请在手机上确认登录!", sender);
+                                                                break;
+                                                            case 803:
+                                                                ZMusic.message.sendNormalMessage(NeteaseLogin.welcome(), sender);
+                                                                CookieUtils.saveCookies();
+                                                                cancel = true;
+                                                                break;
+                                                            default:
+                                                        }
+                                                    } catch (InterruptedException e) {
+                                                        ZMusic.message.sendErrorMessage("登录失败! 请检查后台错误.", sender);
+                                                        e.printStackTrace();
+                                                        cancel = true;
+                                                    }
+                                                }
+                                            });
+                                        } catch (UnsupportedEncodingException e) {
+                                            ZMusic.message.sendErrorMessage("登录失败! 请检查后台错误.", sender);
+                                            e.printStackTrace();
+                                        }
+                                    });
+                                } else {
+                                    ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+                                }
+                                break;
                             case "help":
                                 if (args.length == 2) {
                                     HelpUtils.sendHelp(args[1], sender);
@@ -221,7 +270,7 @@ public class Cmd {
                                 if (isAdmin) {
                                     new LoadConfig().reload(sender);
                                     ZMusic.runTask.runAsync(() -> new LoadLang().load());
-                                    OtherUtils.loginNetease(sender, true);
+                                    ZMusic.message.sendNormalMessage(NeteaseLogin.refresh(), sender);
                                 } else {
                                     ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
                                 }
@@ -296,13 +345,14 @@ public class Cmd {
                             "music",
                             "stop",
                             "loop",
+                            "login",
                             "search",
                             "url",
                             "playAll",
                             "stopAll",
                             "163hot",
                             "update",
-                            "reload"};
+                            "reload" };
                 } else {
                     commandList = new String[]{"help",
                             "play",
@@ -312,7 +362,7 @@ public class Cmd {
                             "loop",
                             "search",
                             "163hot",
-                            "url"};
+                            "url" };
                 }
                 return Arrays.stream(commandList).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
             } else if (args[0].equalsIgnoreCase("play")
@@ -328,7 +378,7 @@ public class Cmd {
                             "163",
                             "netease",
                             "kuwo",
-                            "bilibili"};
+                            "bilibili" };
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else {
                     return new ArrayList<>();
@@ -336,9 +386,9 @@ public class Cmd {
             } else if (args[0].equalsIgnoreCase("help")) {
                 if (args.length == 2) {
                     if (isAdmin) {
-                        commandList = new String[]{"play", "playlist", "music", "search", "url", "admin"};
+                        commandList = new String[]{"play", "playlist", "music", "search", "url", "admin" };
                     } else {
-                        commandList = new String[]{"play", "playlist", "music", "search", "url"};
+                        commandList = new String[]{"play", "playlist", "music", "search", "url" };
                     }
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else {
@@ -346,24 +396,24 @@ public class Cmd {
                 }
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[]{"qq", "netease", "163", "type", "global", "next", "prev", "jump"};
+                    commandList = new String[]{"qq", "netease", "163", "type", "global", "next", "prev", "jump" };
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else if (args.length == 3) {
                     if (args[1].equalsIgnoreCase("type")) {
-                        commandList = new String[]{"random", "normal", "loop"};
+                        commandList = new String[]{"random", "normal", "loop" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     } else if (args[1].equalsIgnoreCase("global")) {
-                        commandList = new String[]{"qq", "netease", "163"};
+                        commandList = new String[]{"qq", "netease", "163" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     } else {
-                        commandList = new String[]{"import", "play", "list", "update", "show"};
+                        commandList = new String[]{"import", "play", "list", "update", "show" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2])).collect(Collectors.toList());
                     }
                 } else if (args.length == 4) {
                     if (args[2].equalsIgnoreCase("qq") ||
                             args[2].equalsIgnoreCase("163") ||
                             args[2].equalsIgnoreCase("netease")) {
-                        commandList = new String[]{"import", "play", "list", "update", "show"};
+                        commandList = new String[]{"import", "play", "list", "update", "show" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[3])).collect(Collectors.toList());
                     } else {
                         return new ArrayList<>();

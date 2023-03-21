@@ -74,14 +74,6 @@ public class LoadConfig {
         JsonObject account = config.get("account").getAsJsonObject();
         // Netease
         JsonObject netease = account.get("netease").getAsJsonObject();
-        Config.neteaseloginType = netease.get("loginType").getAsString();
-        Config.neteaseAccount = netease.get("account").getAsString();
-        Config.neteasePasswordType = netease.get("passwordType").getAsString();
-        if (Config.neteasePasswordType.equalsIgnoreCase("normal")) {
-            Config.neteasePassword = OtherUtils.getMD5String(netease.get("password").getAsString());
-        } else if (Config.neteasePasswordType.equalsIgnoreCase("md5")) {
-            Config.neteasePassword = netease.get("password").getAsString();
-        }
         Config.neteaseFollow = netease.get("follow").getAsBoolean();
         // Bilibili
         JsonObject bilibili = account.get("bilibili").getAsJsonObject();

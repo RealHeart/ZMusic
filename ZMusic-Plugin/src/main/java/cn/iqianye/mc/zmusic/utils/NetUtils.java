@@ -179,6 +179,7 @@ public class NetUtils {
             InputStream is = con.getInputStream();
             String s = OtherUtils.readInputStream(is);
             is.close();
+            ZMusic.log.sendDebugMessage(s);
             return s;
         } else {
             InputStream is = con.getErrorStream();

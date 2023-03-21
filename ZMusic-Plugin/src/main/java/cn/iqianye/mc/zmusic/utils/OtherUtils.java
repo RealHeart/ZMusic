@@ -133,50 +133,6 @@ public class OtherUtils {
         } else r.run();
     }
 
-    /**
-     * 登录网易云音乐
-     */
-    public static void loginNetease(Object sender, boolean aSync) {
-        Runnable r = () -> {
-            try {
-                if (!Config.neteaseAccount.equalsIgnoreCase("18888888888")) {
-                    ZMusic.message.sendNormalMessage("正在尝试登录网易云音乐...", sender);
-                    String s = null;
-                    if (Config.neteaseloginType.equalsIgnoreCase("phone")) {
-                        s = Config.neteaseApiRoot + "login/cellphone?phone=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
-                    } else if (Config.neteaseloginType.equalsIgnoreCase("email")) {
-                        s = Config.neteaseApiRoot + "login?email=" + Config.neteaseAccount + "&md5_password=" + URLEncoder.encode(Config.neteasePassword, "UTF-8");
-                    }
-                    String jsonText = NetUtils.getNetString(s, null);
-                    Gson gson = new GsonBuilder().create();
-                    if (jsonText != null) {
-                        JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                        int code = json.get("code").getAsInt();
-                        if (code != 200) {
-                            ZMusic.message.sendErrorMessage("登录失败: " + code, sender);
-                            ZMusic.message.sendErrorMessage(json.get("msg").getAsString(), sender);
-                            return;
-                        }
-                        ZMusic.message.sendNormalMessage("登录成功,欢迎你: " + json.get("profile").getAsJsonObject().get("nickname").getAsString(), sender);
-                        if (Config.neteaseFollow) {
-                            // 关注“QG真心”的网易云账号
-                            NetUtils.getNetString(Config.neteaseApiRoot + "follow?id=265857414&t=1", null);
-                        }
-                    } else {
-                        ZMusic.message.sendErrorMessage("登录失败: 请检查账号密码是否正确。", sender);
-                    }
-                } else {
-                    ZMusic.message.sendErrorMessage("登录失败：请在配置文件设置账号密码。", sender);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-        if (aSync) {
-            ZMusic.runTask.runAsync(r);
-        } else r.run();
-    }
-
     public static void neteaseHotComments(Object player, String musicName) {
         ZMusic.runTask.runAsync(() -> {
             try {

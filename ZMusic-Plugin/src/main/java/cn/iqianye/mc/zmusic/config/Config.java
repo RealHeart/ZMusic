@@ -7,7 +7,7 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 9;
+    public static int latestVersion = 10;
     // Debug
     public static boolean debug;
     // Update
@@ -16,11 +16,7 @@ public class Config {
     public static String neteaseApiRoot;
     // Account
     // Netease
-    public static String neteaseloginType;
-    public static String neteaseAccount;
-    public static String neteasePassword;
     public static boolean neteaseFollow;
-    public static String neteasePasswordType;
     // Bilibili
     public static String bilibiliQQ;
     public static String bilibiliKey;
