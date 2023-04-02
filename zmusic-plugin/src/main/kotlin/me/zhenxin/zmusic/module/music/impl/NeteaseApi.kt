@@ -20,11 +20,10 @@ import java.net.URLEncoder
  */
 @Suppress("DuplicatedCode")
 class NeteaseApi : MusicApi {
-    private val api = Config.API_NETEASE_LINK
+    private val api = Config.NETEASE_API_LINK
     override val name: String = Lang.PLATFORM_NETEASE
 
-    override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
-        val musics = mutableListOf<MusicInfo>()
+    override fun searchPage(keyword: String, page: Int, count: Int): List<MusicInfo> {
         val offset = (page - 1) * count
         val search =
             get(
@@ -35,26 +34,23 @@ class NeteaseApi : MusicApi {
         val data = JSONObject(search)
         val result = data.getJSONObject("result")
         val songs = result.getJSONArray("songs")
-        songs.forEach {
+        val musics = songs.map {
             it as JSONObject
             val id = it.getStr("id")
-            musics.add(getMusicInfo(id))
+            getMusicInfo(id)
         }
         return musics
     }
 
-    override fun getPlaylist(id: String): PlaylistInfo {
-        val musics = mutableListOf<MusicInfo>()
-        val result = get("$api/playlist/detail?id=$id")
-        val data = JSONObject(result)
+    override fun getPlaylist(id: String): PlaylistInfo? {
+        val data = JSONObject(get("$api/playlist/detail?id=$id"))
         val playlist = data.getJSONObject("playlist")
         val listId = playlist.getStr("id")
         val listName = playlist.getStr("name")
         val tracks = playlist.getJSONArray("tracks")
-        tracks.forEach {
+        val musics = tracks.map {
             it as JSONObject
-            val songId = it.getStr("id")
-            musics.add(getMusicInfo(songId))
+            getMusicInfo(it.getStr("id"))
         }
 
         return PlaylistInfo(listId, listName, musics)

@@ -22,8 +22,12 @@ proxy:
 api:
   # 网易云音乐
   #
-  # 公共API列表和部署说明: https://m.zplu.cc/zh-cn/deploy-api/netease-api.html
+  # 公共 API 列表和部署说明: https://m.zplu.cc/zh-cn/deploy-api/netease-api.html
   netease-link: ''
+  # YouTube (Piped)
+  #
+  # 公共 API 列表：https://github.com/TeamPiped/Piped/wiki/Instances
+  youtube-link: 'https://watchapi.whatever.social'
 
 # ZMusic VIP设置
 vip:

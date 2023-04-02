@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.module.music.impl
 
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo
@@ -15,19 +16,17 @@ import me.zhenxin.zmusic.utils.get
  * @email whksoft@gmail.com
  */
 class YoutubeApi : MusicApi {
-    //暂时硬编码
     override val name: String = "YouTube"
-    private val api = "https://pipedapi.syncpundit.io"
+    private val api = Config.YOUTUBE_API_LINK
 
     override fun searchPage(keyword: String, page: Int, count: Int): List<MusicInfo>? {
-        val result = get("$api/search?q=$keyword&filter=all")
-        val data = JSONObject(result)
+        val data = JSONObject(get("$api/search?q=$keyword&filter=all"))
         val songs = data.getJSONArray("items")
         if (songs.isNullOrEmpty()) {
             return null
         }
 
-        val videoArray = songs.stream().map { video ->
+        val videoArray = songs.map { video ->
             video as JSONObject
             MusicInfo(
                 video.getStr("url").replaceFirst("/watch?v=", ""),
@@ -38,42 +37,23 @@ class YoutubeApi : MusicApi {
                 video.getInt("duration")
             )
         }.toList()
-        if (videoArray.isEmpty()) {
-            return null
-        }
         return videoArray
     }
 
-    override fun getPlaylist(id: String): PlaylistInfo {
-        //获取playlist需要两个数据，一个是playlist的id，一个是其中的一个视频的id
-        //目前考虑传入参数格式为v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ
-        val params = id.split("&")
-        if (params.size != 2) {
-            throw IllegalArgumentException("Invalid playlist id format")
+    override fun getPlaylist(id: String): PlaylistInfo? {
+        // untested
+        val json = JSONObject(get("$api/playlists/$id"))
+        val name = json.getStr("name")
+        val streams = json.getJSONArray("relatedStreams")
+        if (streams.isNullOrEmpty()) {
+            return null
         }
-        if (params[0].startsWith("v=")) {
-            val videoId = params[0].substring(2)
-            if (params[1].startsWith("list=")) {
-                val playlistId = params[1].substring(5)
-                return getPlaylist(videoId, playlistId)
-            } else {
-                throw IllegalArgumentException("Invalid playlist id format")
-            }
-        } else if (params[0].startsWith("list=")) {
-            val playlistId = params[0].substring(5)
-            if (params[1].startsWith("v=")) {
-                val videoId = params[1].substring(2)
-                return getPlaylist(videoId, playlistId)
-            } else {
-                throw IllegalArgumentException("Invalid playlist id format")
-            }
-        } else {
-            throw IllegalArgumentException("Invalid playlist id format")
-        }
-    }
 
-    private fun getPlaylist(videoId: String, playListId: String): PlaylistInfo {
-        TODO("not yet implemented")
+        val videoArray = streams.map { stream ->
+            stream as JSONObject
+            getMusicInfo(stream.getStr("url").replaceFirst("/watch?v=", ""))
+        }.toList()
+        return PlaylistInfo(id, name, videoArray)
     }
 
     override fun getAlbum(id: String) {
@@ -81,10 +61,7 @@ class YoutubeApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String? {
-        val data = get(
-            "$api/streams/$id"
-        )
-        val json = JSONObject(data)
+        val json = JSONObject(get("$api/streams/$id"))
         val audioStreams = json.getJSONArray("audioStreams")
         if (audioStreams.isNullOrEmpty()) {
             return null

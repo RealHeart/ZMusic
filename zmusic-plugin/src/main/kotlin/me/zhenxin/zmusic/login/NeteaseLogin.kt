@@ -17,7 +17,7 @@ import java.net.URLEncoder
  * @email qgzhenxin@qq.com
  */
 object NeteaseLogin {
-    val api by lazy { Config.API_NETEASE_LINK }
+    val api by lazy { Config.NETEASE_API_LINK }
 
     fun qrcode(sender: ProxyCommandSender) {
         val key = key()
