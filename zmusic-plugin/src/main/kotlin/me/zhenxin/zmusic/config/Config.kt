@@ -60,9 +60,13 @@ object Config {
     val PROXY_PORT
         get() = config.getInt("proxy.port")
 
-    /** 网易云音乐 API链接 */
-    val API_NETEASE_LINK
+    /** 网易云音乐 API 链接 */
+    val NETEASE_API_LINK
         get() = config.getStr("api.netease-link")
+
+    /** YouTube (Piped) API 链接 */
+    val YOUTUBE_API_LINK
+        get() = config.getStr("api.youtube-link")
 
     /** ZMusic VIP QQ */
     val VIP_QQ

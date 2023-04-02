@@ -51,7 +51,7 @@ val searchCommand = subCommand {
                     }
                 }
                 if (platform == "netease") {
-                    if (Config.API_NETEASE_LINK.isEmpty()) {
+                    if (Config.NETEASE_API_LINK.isEmpty()) {
                         sender.sendMsg(Lang.PLATFORM_NETEASE_NOT_FOUND_API)
                         return@execute
                     }

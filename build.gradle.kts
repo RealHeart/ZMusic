@@ -22,7 +22,7 @@ subprojects {
         plugin("java")
     }
     configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
