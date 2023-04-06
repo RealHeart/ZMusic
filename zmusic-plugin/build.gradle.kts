@@ -1,10 +1,12 @@
 @file:Suppress("SpellCheckingInspection")
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 version = "3.0.0-beta6"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
 }
 
 dependencies {
@@ -65,8 +67,8 @@ taboolib {
     version = libs.versions.taboolib.get()
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.jar {
