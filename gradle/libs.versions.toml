@@ -15,6 +15,7 @@ spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 # hutool
+hutool_core = { module = "cn.hutool:hutool-core", version.ref = "hutool" }
 hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
 hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
 # nashorn
@@ -35,6 +36,6 @@ nms_legacy = { module = "ink.ptms:nms-all", version = "1.0.0" }
 
 [bundles]
 platform = ["spigot", "bungeecord", "velocity"]
-hutool = ["hutool_http", "hutool_json"]
+hutool = ["hutool_core", "hutool_http", "hutool_json"]
 nashorn = ["nashorn", "nashorn_sandbox"]
 nms = ["nms_v11904", "nms_v11903", "nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]

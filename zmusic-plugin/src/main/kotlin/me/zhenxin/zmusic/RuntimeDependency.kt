@@ -1,6 +1,10 @@
 @file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
 @file:RuntimeDependencies(
     RuntimeDependency(
+        value = "!cn.hutool:hutool-core:$hutool",
+        test = "!cn.hutool.core.util.ArrayUtil"
+    ),
+    RuntimeDependency(
         value = "!cn.hutool:hutool-http:$hutool",
         test = "!cn.hutool.http.HttpUtil"
     ),
