@@ -21,7 +21,7 @@ import java.net.URI;
  * @since 2023/3/21 12:25
  */
 public class CookieUtils {
-    private static final Gson GSON = new Gson().newBuilder().create();
+    private static final Gson GSON = new Gson();
     ;
     private static CookieManager cookieManager;
 

@@ -19,7 +19,7 @@ import java.net.URLEncoder;
  */
 public class NeteaseLogin {
     private static final String API = Config.neteaseApiRoot;
-    private static final Gson GSON = new Gson().newBuilder().create();
+    private static final Gson GSON = new Gson();
 
     public static String create(String key) throws UnsupportedEncodingException {
         var result = NetUtils.getNetString(API + "login/qr/create?key=" + key + "&timestamp=" + time(), null);
