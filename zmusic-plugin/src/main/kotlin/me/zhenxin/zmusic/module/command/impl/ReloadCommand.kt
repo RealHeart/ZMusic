@@ -1,8 +1,8 @@
 package me.zhenxin.zmusic.module.command.impl
 
+import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.logger
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.isVip
