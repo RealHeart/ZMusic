@@ -25,7 +25,7 @@ public class CookieUtils {
     ;
     private static CookieManager cookieManager;
 
-    public static CookieManager initCookieManager() {
+    public static void initCookieManager() {
         cookieManager = new CookieManager();
         var file = new File(ZMusic.dataFolder, "cookies.json");
         if (!file.exists()) {
@@ -60,11 +60,11 @@ public class CookieUtils {
             }
             CookieManager.setDefault(cookieManager);
         }
-        return cookieManager;
     }
 
     public static void saveCookies() {
-        var cookies = cookieManager.getCookieStore().getCookies();
+        var manager = (CookieManager) CookieManager.getDefault();
+        var cookies = manager.getCookieStore().getCookies();
         var file = new File(ZMusic.dataFolder, "cookies.json");
         var array = new JsonArray();
         for (HttpCookie cookie : cookies) {
