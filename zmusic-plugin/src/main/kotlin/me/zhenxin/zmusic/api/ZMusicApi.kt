@@ -1,6 +1,6 @@
 package me.zhenxin.zmusic.api
 
-import me.zhenxin.zmusic.data.ZMusicData
+import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.utils.playMusic
 import me.zhenxin.zmusic.utils.stopMusic
 import taboolib.common.platform.function.adaptPlayer

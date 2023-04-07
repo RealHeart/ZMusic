@@ -3,9 +3,9 @@
 package me.zhenxin.zmusic.utils
 
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.module.music.MusicApi
 import me.zhenxin.zmusic.module.music.impl.*
@@ -110,10 +110,10 @@ fun checkUpdate(sender: ProxyCommandSender) {
     val data = json.getJSONObject("data")
     val info = data.getJSONObject("info")
     val version = info.getStr("version")
-    val versionCode = info.getInt("version_code")
     val changelog = info.getStr("changelog")
     val releaseUrl = info.getStr("release_url")
-    if (versionCode > ZMusicData.VERSION_CODE) {
+    val checker = VersionChecker(version, ZMusicData.VERSION_NAME)
+    if (checker.isHigherThan()) {
         Lang.UPDATE_NEW_VERSION.forEach {
             sender.sendMsg(
                 it

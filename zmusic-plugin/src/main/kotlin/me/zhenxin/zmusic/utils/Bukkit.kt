@@ -23,7 +23,7 @@ private var supportBossBar: Boolean? = null
 
 fun supportBossBar(): Boolean {
     if (supportBossBar == null) {
-        val result = VersionCheck("1.9", bukkitVersion()).isLowerThan()
+        val result = VersionChecker("1.9", bukkitVersion()).isLowerThan()
         supportBossBar = result
     }
     return supportBossBar!!

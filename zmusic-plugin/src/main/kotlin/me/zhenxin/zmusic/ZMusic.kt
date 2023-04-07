@@ -2,7 +2,6 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.config.Lang
-import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.login.NeteaseLogin
 import me.zhenxin.zmusic.module.PlaceholderAPI
@@ -11,7 +10,10 @@ import me.zhenxin.zmusic.module.js.Util
 import me.zhenxin.zmusic.module.js.nashornSandbox
 import me.zhenxin.zmusic.module.taboolib.registerChannel
 import me.zhenxin.zmusic.status.playerState
-import me.zhenxin.zmusic.utils.*
+import me.zhenxin.zmusic.utils.Logger
+import me.zhenxin.zmusic.utils.checkUpdate
+import me.zhenxin.zmusic.utils.initCookie
+import me.zhenxin.zmusic.utils.isVip
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -145,7 +147,8 @@ object ZMusic : Plugin() {
         val scripts = File(getDataFolder(), "scripts").listFiles() ?: throw ZMusicException("scripts path not found")
         scripts.forEach {
             if (it.name.contains("platform_") || !it.name.contains("example")) {
-
+                // TODO: 音乐平台扩展
+                logger.debug("TODO: 音乐平台扩展")
             }
         }
     }

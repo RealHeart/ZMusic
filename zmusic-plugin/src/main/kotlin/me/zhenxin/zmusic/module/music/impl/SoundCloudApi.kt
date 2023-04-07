@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module.music.impl;
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.data.ZMusicData.SOUNDCLOUD_CLIENT_ID
+import me.zhenxin.zmusic.ZMusicData.SOUNDCLOUD_CLIENT_ID
 import me.zhenxin.zmusic.entity.LyricRaw
 import me.zhenxin.zmusic.entity.MusicInfo
 import me.zhenxin.zmusic.entity.PlaylistInfo

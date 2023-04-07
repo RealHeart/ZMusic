@@ -2,7 +2,7 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-version = "3.0.0-beta6"
+version = "3.0.0-beta7"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"

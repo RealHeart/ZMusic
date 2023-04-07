@@ -23,7 +23,7 @@ api:
   # 网易云音乐
   #
   # 公共 API 列表和部署说明: https://m.zplu.cc/zh-cn/deploy-api/netease-api.html
-  netease-link: ''
+  netease-link: 'https://zm.armoe.cn'
   # YouTube (Piped)
   #
   # 公共 API 列表：https://github.com/TeamPiped/Piped/wiki/Instances

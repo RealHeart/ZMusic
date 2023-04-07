@@ -8,7 +8,7 @@ package me.zhenxin.zmusic.utils
  * @param targetVersion 目标版本
  * @param localVersion 本地版本
  */
-class VersionCheck(private val targetVersion: String, private val localVersion: String) {
+class VersionChecker(private val targetVersion: String, private val localVersion: String) {
 
     private val localVerInt = ("1" + localVersion
         .replace("[^0-9.]".toRegex(), "")

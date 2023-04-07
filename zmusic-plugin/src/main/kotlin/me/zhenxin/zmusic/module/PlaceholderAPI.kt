@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.module
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import me.zhenxin.zmusic.data.ZMusicData
+import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.status.getState
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer

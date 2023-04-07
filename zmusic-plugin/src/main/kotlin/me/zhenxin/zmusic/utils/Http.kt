@@ -5,10 +5,9 @@ package me.zhenxin.zmusic.utils
 import cn.hutool.core.net.url.UrlBuilder
 import cn.hutool.http.Header
 import cn.hutool.http.HttpRequest
-import cn.hutool.http.useragent.UserAgentUtil
 import cn.hutool.json.JSONObject
+import me.zhenxin.zmusic.ZMusicData
 import me.zhenxin.zmusic.config.Config
-import me.zhenxin.zmusic.data.ZMusicData
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
 import java.net.InetSocketAddress
@@ -84,9 +83,7 @@ fun post(
     return request(request)
 }
 
-@Suppress("HttpUrlsUsage")
 private fun request(request: HttpRequest): String {
-    logger.debug("Proxy Enable: ${Config.PROXY_ENABLE}")
     if (Config.PROXY_ENABLE) {
         val type = Config.PROXY_TYPE
         val host = Config.PROXY_HOSTNAME
@@ -104,7 +101,7 @@ private fun request(request: HttpRequest): String {
         if (res.isOk) {
             if (!res.body().isNullOrEmpty()) {
                 val body = res.body()
-                logger.debug("Request Body: $body")
+                logger.debug("Response Body: $body")
                 return body
             }
         }

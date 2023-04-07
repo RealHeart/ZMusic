@@ -1,4 +1,4 @@
-@file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
+@file:Suppress("SpellCheckingInspection")
 @file:RuntimeDependencies(
     RuntimeDependency(
         value = "!cn.hutool:hutool-core:$hutool",
