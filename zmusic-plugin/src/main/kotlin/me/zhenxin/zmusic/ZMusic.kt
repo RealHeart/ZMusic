@@ -10,10 +10,7 @@ import me.zhenxin.zmusic.module.js.Util
 import me.zhenxin.zmusic.module.js.nashornSandbox
 import me.zhenxin.zmusic.module.taboolib.registerChannel
 import me.zhenxin.zmusic.status.playerState
-import me.zhenxin.zmusic.utils.Logger
-import me.zhenxin.zmusic.utils.checkUpdate
-import me.zhenxin.zmusic.utils.initCookie
-import me.zhenxin.zmusic.utils.isVip
+import me.zhenxin.zmusic.utils.*
 import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
@@ -51,6 +48,9 @@ object ZMusic : Plugin() {
             logger.info("&b$it")
         }
         logger.info("\t&6v${ZMusicData.VERSION_NAME}\tby ZhenXin")
+
+        // 设置语言
+        setLocale()
 
         logger.info(Lang.INIT_LOADING)
 
