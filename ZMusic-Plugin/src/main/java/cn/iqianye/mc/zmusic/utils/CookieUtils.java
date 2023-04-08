@@ -22,11 +22,9 @@ import java.net.URI;
  */
 public class CookieUtils {
     private static final Gson GSON = new Gson();
-    ;
-    private static CookieManager cookieManager;
 
     public static void initCookieManager() {
-        cookieManager = new CookieManager();
+        CookieManager cookieManager = new CookieManager();
         var file = new File(ZMusic.dataFolder, "cookies.json");
         if (!file.exists()) {
             try {
@@ -58,8 +56,8 @@ public class CookieUtils {
                 var uri = URI.create(domain + path);
                 cookieManager.getCookieStore().add(uri, cookie);
             }
-            CookieManager.setDefault(cookieManager);
         }
+        CookieManager.setDefault(cookieManager);
     }
 
     public static void saveCookies() {
