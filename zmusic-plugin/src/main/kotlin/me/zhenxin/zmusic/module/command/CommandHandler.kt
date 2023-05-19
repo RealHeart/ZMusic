@@ -4,15 +4,14 @@ import me.zhenxin.zmusic.config.Lang
 import me.zhenxin.zmusic.module.command.impl.*
 import me.zhenxin.zmusic.module.taboolib.sendMsg
 import me.zhenxin.zmusic.utils.playMusic
-import me.zhenxin.zmusic.utils.sendBridgeToast
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.PermissionDefault.*
+import taboolib.common.platform.command.PermissionDefault.OP
+import taboolib.common.platform.command.PermissionDefault.TRUE
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.function.submit
 
 /**
  * 命令处理器
@@ -21,30 +20,14 @@ import taboolib.common.platform.function.submit
  * @since 2021/8/14 20:41
  * @email qgzhenxin@qq.com
  */
-@Suppress("unused", "SpellCheckingInspection")
+@Suppress("unused")
 @CommandHeader(
-    name = "zm",
-    aliases = ["zmusic", "music"],
+    name = "zmusic",
+    aliases = ["zm", "music"],
     permission = "zmusic.use",
-    permissionDefault = TRUE
+    permissionDefault = TRUE,
 )
 object CommandHandler {
-
-    @CommandBody(
-        optional = true,
-        permission = "zmusic.devloper.test",
-        permissionDefault = FALSE
-    )
-    val test = subCommand {
-        execute<ProxyPlayer> { sender, _, _ ->
-            submit(async = true) {
-                submit(async = true) {
-                    sender.sendBridgeToast("Test Toast")
-                }
-            }
-        }
-    }
-
 
     @CommandBody
     val main = mainCommand {
@@ -52,17 +35,7 @@ object CommandHandler {
             sender.sendMsg(Lang.HELP_TIPS.replace("{0}", context.name))
         }
         incorrectCommand { sender, context, _, _ ->
-            val src = context.args()
-            val args = src.last().split(" ").toMutableList()
-            val command = if (src.size > 1) src.first() + " " else ""
-            args[args.lastIndex] = "&c&n${args.last()}"
-            val arg = args.joinToString(" ") { it }.trimEnd(' ')
-            Lang.COMMAND_INCORRECT_COMMAND.forEach {
-                sender.sendMsg(
-                    it.replace("{0}", context.name)
-                        .replace("{1}", "$command$arg")
-                )
-            }
+            sender.sendMsg(Lang.HELP_TIPS.replace("{0}", context.name))
         }
         incorrectSender { sender, _ ->
             sender.sendMsg(Lang.COMMAND_INCORRECT_SENDER)
