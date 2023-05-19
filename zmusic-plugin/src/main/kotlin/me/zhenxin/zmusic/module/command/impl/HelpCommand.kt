@@ -1,7 +1,9 @@
 package me.zhenxin.zmusic.module.command.impl
 
-import me.zhenxin.zmusic.module.taboolib.sendMsg
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.command.component.CommandComponent
+import taboolib.common.platform.command.component.CommandComponentDynamic
+import taboolib.common.platform.command.component.CommandComponentLiteral
 import taboolib.common.platform.command.subCommand
 import taboolib.expansion.createHelper
 
@@ -14,10 +16,28 @@ import taboolib.expansion.createHelper
  */
 
 val helpCommand = subCommand {
-    execute<ProxyCommandSender> { sender, _, _ ->
-        sender.sendMsg("&6========== &r[&bZMusic&r] &eBy: ZhenXin &6==========")
-        createHelper()
-        sender.sendMsg("&6==================================")
+    createHelper()
+    execute<ProxyCommandSender> { sender, context, _ ->
+        println(context.commandCompound.findChildren(context))
 
+        fun message(component: CommandComponent): String {
+            val sb = StringBuilder()
+            if (component.children.isNotEmpty()) {
+                component.children.forEach {
+                    it as CommandComponentDynamic
+                    println(it.children)
+                    sb.append(it.comment)
+                }
+            }
+            return sb.toString()
+        }
+
+        val filterChildren = context.commandCompound.children.filter { sender.hasPermission(it.permission) }
+        val checkedChildren = filterChildren.filter { it !is CommandComponentLiteral || !it.hidden }
+
+        checkedChildren.forEach {
+            val message = message(it)
+            println(message)
+        }
     }
 }
