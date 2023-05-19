@@ -1,13 +1,13 @@
 [versions]
-taboolib = "6.0.10-113"
+taboolib = "6.0.10-119"
 spigot = "1.19.4-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
-hutool = "5.8.15"
+hutool = "5.8.18"
 nashorn = "15.4"
 nashorn_sandbox = "0.2.5"
 netty = "4.1.89.Final"
-placeholderapi = "2.11.2"
+placeholderapi = "2.11.3"
 
 [libraries]
 # Platform API
