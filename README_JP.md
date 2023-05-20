@@ -2,10 +2,7 @@
 
 ![][banner]
 
-![][java]
-![][kotlin]
 ![][tested-versions]
-
 ![][players]
 ![][servers]
 
@@ -15,9 +12,9 @@
 
 [简体中文](README.md) | 日本語 | [English](README_EN.md)
 
-V3 バージョンは開発中です TabooLib 6　に基づいています
+V3 バージョンは開発中です TabooLib 6 に基づいています
 
-[V2](../../tree/v2) バージョンは現在 LTS(ロングタームサポート) 状態です
+[V2](https://github.com/RealHeart/ZMusic/tree/v2) バージョンは現在 LTS(ロングタームサポート) 状態です
 
 </div>
 
@@ -43,8 +40,8 @@ V3 バージョンは開発中です TabooLib 6　に基づいています
 
 ## フィードバック
 
-*  [Issues](../../issues) を送信する
-*  [Discord](https://discord.gg/twQgJNufYn) サーバーに参加する
+* [Issues](https://github.com/RealHeart/ZMusic/issues) を送信する
+* [Discord](https://discord.gg/twQgJNufYn) サーバーに参加する
 
 ## 開発
 
@@ -63,7 +60,7 @@ V3 バージョンは開発中です TabooLib 6　に基づいています
 
 ## 使う
 
-1. [release](../../releases)ページから最新バージョンをダウンロードしています
+1. [release](https://github.com/RealHeart/ZMusic/releases)ページから最新バージョンをダウンロードしています
 
 2. サーバープラグインディレクトリに配置します
 
@@ -103,20 +100,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * [TabooLib](https://github.com/TabooLib/TabooLib) プラグイン開発フレームワーク
 * [JetBrains](https://www.jetbrains.com/zh-cn/) 強力なIDEサポートを提供する
 
+## 貢献者
+
+[![][contrib]](https://github.com/RealHeart/ZMusic/graphs/contributors)
+
 [banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto
-
-[java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
-
-[kotlin]: https://img.shields.io/badge/kotlin-1.8.10-blue?style=for-the-badge
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 
-[players]: https://img.shields.io/bstats/players/7291?label=bukkit-players&style=for-the-badge
+[players]: https://img.shields.io/bstats/players/7291?label=players&style=for-the-badge
 
-[servers]: https://img.shields.io/bstats/servers/7291?label=bukkit-servers&style=for-the-badge
+[servers]: https://img.shields.io/bstats/servers/7291?label=servers&style=for-the-badge
 
 [tested-versions]: https://img.shields.io/spiget/tested-versions/83027?style=for-the-badge
 
 [releases]: https://img.shields.io/github/v/release/RealHeart/ZMusic?style=for-the-badge
 
 [downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?style=for-the-badge
+
+[contrib]: https://contrib.rocks/image?repo=RealHeart/ZMusic

@@ -2,10 +2,7 @@
 
 ![][banner]
 
-![][java]
-![][kotlin]
 ![][tested-versions]
-
 ![][players]
 ![][servers]
 
@@ -17,7 +14,7 @@
 
 V3 版本正在开发中 基于TabooLib 6
 
-[V2](../../tree/v2) 版本现为LTS(长期支持)状态
+[V2](https://github.com/RealHeart/ZMusic/tree/v2) 版本现为LTS(长期支持)状态
 
 </div>
 
@@ -43,7 +40,7 @@ V3 版本正在开发中 基于TabooLib 6
 
 ## 反馈
 
-* 提交 [Issues](../../issues)
+* 提交 [Issues](https://github.com/RealHeart/ZMusic/issues)
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
 ## 开发
@@ -63,7 +60,7 @@ V3 版本正在开发中 基于TabooLib 6
 
 ## 使用
 
-1. 在[release](../../releases)页下载最新版本
+1. 在[release](https://github.com/RealHeart/ZMusic/releases)页下载最新版本
 
 2. 放入服务端插件目录
 
@@ -103,20 +100,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
 * [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
 
+## 贡献者
+
+[![][contrib]](https://github.com/RealHeart/ZMusic/graphs/contributors)
+
 [banner]: https://socialify.git.ci/RealHeart/ZMusic/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto
-
-[java]: https://img.shields.io/badge/java-17-blue?style=for-the-badge
-
-[kotlin]: https://img.shields.io/badge/kotlin-1.8.10-blue?style=for-the-badge
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?style=for-the-badge
 
-[players]: https://img.shields.io/bstats/players/7291?label=bukkit-players&style=for-the-badge
+[players]: https://img.shields.io/bstats/players/7291?label=players&style=for-the-badge
 
-[servers]: https://img.shields.io/bstats/servers/7291?label=bukkit-servers&style=for-the-badge
+[servers]: https://img.shields.io/bstats/servers/7291?label=servers&style=for-the-badge
 
 [tested-versions]: https://img.shields.io/spiget/tested-versions/83027?style=for-the-badge
 
 [releases]: https://img.shields.io/github/v/release/RealHeart/ZMusic?style=for-the-badge
 
 [downloads]: https://img.shields.io/github/downloads/RealHeart/ZMusic/total?style=for-the-badge
+
+[contrib]: https://contrib.rocks/image?repo=RealHeart/ZMusic
