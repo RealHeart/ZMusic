@@ -1,5 +1,5 @@
 name: ZMusic
-main: me.zhenxin.zmusic.ZMusicBC
+main: me.zhenxin.zmusic.ZMusicBungee
 version: ${version}
-author: 真心
-description: 真心音乐系统
+author: ZhenXin, BlackNeko
+description: ZMusic

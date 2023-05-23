@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.bungee
+package me.zhenxin.zmusic
 
 import net.md_5.bungee.api.plugin.Plugin
 

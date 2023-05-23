@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.bukkit
+package me.zhenxin.zmusic
 
 import org.bukkit.plugin.java.JavaPlugin
 

@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.velocity
+package me.zhenxin.zmusic
 
 import com.google.inject.Inject
 import com.velocitypowered.api.plugin.Plugin
