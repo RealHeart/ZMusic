@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 'ZMusic Bridge'
-          path: zmusic-bridge/build/libs/ZMusicBridge*.jar
+          path: zmusic-bridge/build/libs/ZMusicBridge*all.jar

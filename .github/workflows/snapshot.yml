@@ -30,5 +30,5 @@ jobs:
         with:
           name: 'ZMusic Snapshot'
           path: |
-            zmusic-bridge/build/libs/**.jar
+            zmusic-bridge/build/libs/ZMusicBridge*all.jar
             zmusic-plugin/build/libs/ZMusic*all.jar
