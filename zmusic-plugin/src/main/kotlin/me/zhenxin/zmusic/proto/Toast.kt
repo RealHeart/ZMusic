@@ -23,6 +23,7 @@ fun ProxyPlayer.sendToast(title: String) {
     when (runningPlatform) {
         Platform.BUKKIT -> {
             val packet = when (nmsVersion()) {
+                "v1_20_R1" -> AdvancementPacket_1_20_R1(cast(), title)
                 "v1_19_R3" -> AdvancementPacket_1_19_R3(cast(), title)
                 "v1_19_R2" -> AdvancementPacket_1_19_R2(cast(), title)
                 "v1_19_R1" -> AdvancementPacket_1_19_R1(cast(), title)

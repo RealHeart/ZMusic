@@ -2,7 +2,7 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-version = "3.0.0-beta7"
+version = "3.0.0-beta8"
 
 plugins {
     id("io.izzel.taboolib") version "1.56"
@@ -10,15 +10,12 @@ plugins {
 }
 
 dependencies {
-    libs.bundles.nms.get().forEach {
-        compileOnly(
-            group = it.module.group,
-            name = it.module.name,
-            version = it.versionConstraint.toString(),
-            classifier = "universal"
-        )
-    }
-    compileOnly(libs.nms.legacy)
+    taboo(project(":zmusic-nms:zmusic-nms-core"))
+    taboo(project(":zmusic-nms:zmusic-nms-legacy"))
+    taboo(project(":zmusic-nms:zmusic-nms-1.17"))
+    taboo(project(":zmusic-nms:zmusic-nms-1.18"))
+    taboo(project(":zmusic-nms:zmusic-nms-1.19"))
+    taboo(project(":zmusic-nms:zmusic-nms-1.20"))
 
     compileOnly(libs.placeholderapi)
 

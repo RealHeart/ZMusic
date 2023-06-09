@@ -1,22 +1,18 @@
 @file:Suppress("SpellCheckingInspection")
 
-version = "3.1.0"
-
-repositories {
-    // TabooLib
-    maven("https://repo.tabooproject.org/repository/releases")
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
+version = "3.1.0"
+
 dependencies {
-    libs.bundles.nms.get().forEach {
-        compileOnly(
-            group = it.module.group,
-            name = it.module.name,
-            version = it.versionConstraint.toString(),
-            classifier = "universal"
-        )
-    }
-    compileOnly(libs.nms.legacy)
+    implementation(project(":zmusic-nms:zmusic-nms-core"))
+    implementation(project(":zmusic-nms:zmusic-nms-legacy"))
+    implementation(project(":zmusic-nms:zmusic-nms-1.17"))
+    implementation(project(":zmusic-nms:zmusic-nms-1.18"))
+    implementation(project(":zmusic-nms:zmusic-nms-1.19"))
+    implementation(project(":zmusic-nms:zmusic-nms-1.20"))
 
     compileOnly(libs.spigot)
 
@@ -33,4 +29,8 @@ tasks.processResources {
 
 tasks.jar {
     archiveBaseName.set("ZMusicBridge")
+}
+
+tasks.build {
+    dependsOn("shadowJar")
 }

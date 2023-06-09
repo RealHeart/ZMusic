@@ -1,5 +1,5 @@
 [versions]
-taboolib = "6.0.10-119"
+taboolib = "6.0.10-121"
 spigot = "1.19.4-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
@@ -25,17 +25,8 @@ nashorn_sandbox = { module = "org.javadelight:delight-nashorn-sandbox", version.
 netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # PAPI
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
-# NMS
-nms_v11904 = { module = "ink.ptms.core:v11904", version = "11904" }
-nms_v11903 = { module = "ink.ptms.core:v11903", version = "11903" }
-nms_v11900 = { module = "ink.ptms.core:v11900", version = "11900" }
-nms_v11802 = { module = "ink.ptms.core:v11802", version = "11802" }
-nms_v11801 = { module = "ink.ptms.core:v11801", version = "11801" }
-nms_v11701 = { module = "ink.ptms.core:v11701", version = "11701" }
-nms_legacy = { module = "ink.ptms:nms-all", version = "1.0.0" }
 
 [bundles]
 platform = ["spigot", "bungeecord", "velocity"]
 hutool = ["hutool_core", "hutool_http", "hutool_json"]
 nashorn = ["nashorn", "nashorn_sandbox"]
-nms = ["nms_v11904", "nms_v11903", "nms_v11900", "nms_v11802", "nms_v11801", "nms_v11701"]

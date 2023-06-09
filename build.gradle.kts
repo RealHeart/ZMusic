@@ -12,6 +12,8 @@ allprojects {
         maven("https://repo.papermc.io/repository/maven-public/")
         // PlaceholderAPI
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
+        // TabooLib
+        maven("https://repo.tabooproject.org/repository/releases")
         mavenCentral()
     }
 }
