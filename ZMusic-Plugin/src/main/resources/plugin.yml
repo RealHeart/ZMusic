@@ -1,5 +1,5 @@
 name: ZMusic
-main: cn.iqianye.mc.zmusic.ZMusicBukkit
+main: me.zhenxin.zmusic.ZMusicBukkit
 version: ${pom.version}
 api-version: '1.13'
 author: 真心

@@ -1,5 +1,5 @@
 name: ZMusic
-main: cn.iqianye.mc.zmusic.ZMusicBC
+main: me.zhenxin.zmusic.ZMusicBC
 version: ${pom.version}
 author: 真心
 description: 真心音乐系统

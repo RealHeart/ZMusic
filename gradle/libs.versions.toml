@@ -1,0 +1,22 @@
+[versions]
+spigot = "1.20-R0.1-SNAPSHOT"
+bungeecord = "1.20-R0.1-SNAPSHOT"
+velocity = "3.1.1"
+netty = "4.1.89.Final"
+placeholderapi = "2.11.3"
+vault = "1.7.1"
+lombok = "1.18.28"
+
+[libraries]
+# Platform API
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
+velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
+# netty
+netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+# PAPI
+placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
+# Vault
+vault = { module = "com.github.MilkBowl:VaultAPI", version.ref = "vault" }
+# Lombok
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }

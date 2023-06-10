@@ -1,5 +1,5 @@
 name: ZMusic-Addon
-main: cn.iqianye.mc.zmusic.addon.Addon
+main: me.zhenxin.zmusic.ZMusicAddon
 version: ${pom.version}
 api-version: '1.13'
 author: 真心

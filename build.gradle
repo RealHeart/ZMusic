@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url 'https://repo.papermc.io/repository/maven-public' }
+        maven { url 'https://repo.tabooproject.org/repository/releases' }
+        maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi' }
+        maven { url 'https://libraries.minecraft.net' }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        compileOnly libs.spigot
+        compileOnly libs.bungeecord
+        compileOnly libs.velocity
+
+        compileOnly libs.netty.buffer
+
+        compileOnly libs.placeholderapi
+        compileOnly libs.vault
+
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = 'UTF-8'
+        }
+    }
+}
