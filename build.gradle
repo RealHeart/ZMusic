@@ -19,13 +19,8 @@ subprojects {
 
     dependencies {
         compileOnly libs.spigot
-        compileOnly libs.bungeecord
-        compileOnly libs.velocity
 
         compileOnly libs.netty.buffer
-
-        compileOnly libs.placeholderapi
-        compileOnly libs.vault
 
         compileOnly libs.lombok
         annotationProcessor libs.lombok
