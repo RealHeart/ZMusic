@@ -13,6 +13,12 @@ dependencies {
     implementation(project(":zmusic-nms:zmusic-nms-1.18"))
     implementation(project(":zmusic-nms:zmusic-nms-1.19"))
     implementation(project(":zmusic-nms:zmusic-nms-1.20"))
+
+    compileOnly libs.bungeecord
+    compileOnly libs.velocity
+
+    compileOnly libs.placeholderapi
+    compileOnly libs.vault
 }
 
 build {
