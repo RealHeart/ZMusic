@@ -1,6 +1,6 @@
 name: ZMusic-Addon
 main: me.zhenxin.zmusic.ZMusicAddon
-version: ${pom.version}
+version: ${version}
 api-version: '1.13'
 author: 真心
 description: 真心音乐系统-扩展插件

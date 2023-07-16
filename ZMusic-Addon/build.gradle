@@ -18,3 +18,11 @@ dependencies {
 build {
     dependsOn shadowJar
 }
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("plugin.yml") {
+        expand "version": project.version
+    }
+}
