@@ -20,63 +20,71 @@ public class NeteaseCloudMusic {
      */
     public static JsonObject getMusicUrl(String musicName) {
         try {
-            if (musicName.contains("-id:")) {
-                musicName = musicName.split("-id:")[1];
-            }
-            String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1";
             Gson gson = new Gson();
+            int musicId;
+            if (!musicName.contains("-id:")) {
+                String getUrl = Config.neteaseApiRoot + "search?keywords=" + URLEncoder.encode(musicName, "UTF-8") + "&limit=1&type=1";
+                String jsonText = NetUtils.getNetString(getUrl, null);
+                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                JsonObject result = json.getAsJsonObject("result");
+                if (result != null || result.get("songCount").getAsInt() != 0) {
+                    JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
+                    musicId = jsonOut.get("id").getAsInt();
+                } else {
+                    return null;
+                }
+            } else {
+                musicId = Integer.parseInt(musicName.substring(musicName.indexOf("-id:") + 4));
+            }
+            String getUrl = Config.neteaseApiRoot + "song/detail?ids=" + musicId;
             String jsonText = NetUtils.getNetString(getUrl, null);
             JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-            JsonObject result = json.getAsJsonObject("result");
-            if (result != null || result.get("songCount").getAsInt() != 0) {
-                JsonObject jsonOut = result.getAsJsonArray("songs").get(0).getAsJsonObject();
-                int musicID = jsonOut.get("id").getAsInt();
-                JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/url?id=" + musicID + "&br=320000", null), JsonObject.class);
-                String musicUrl = null;
-                try {
-                    musicUrl = getUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            JsonObject result = json.getAsJsonArray("songs").get(0).getAsJsonObject();
+            String name = result.get("name").getAsString();
+            int inttime = result.get("dt").getAsInt();
+            inttime = inttime / 1000;
+            String time = String.valueOf(inttime);
+            JsonArray singer = result.get("ar").getAsJsonArray();
+            String singerName = "";
+            for (JsonElement j : singer) {
+                singerName += j.getAsJsonObject().get("name").getAsString() + "/";
+            }
+            singerName = singerName.substring(0, singerName.length() - 1);
 
+            String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + musicId, null);
+            JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
 
-                String lyricJsonText = NetUtils.getNetString(Config.neteaseApiRoot + "lyric?id=" + musicID, null);
-                JsonObject lyricJson = gson.fromJson(lyricJsonText, JsonObject.class);
-                String name = jsonOut.get("name").getAsString();
-                int inttime = jsonOut.get("duration").getAsInt();
-                inttime = inttime / 1000;
-                String time = String.valueOf(inttime);
-                JsonArray singer = jsonOut.get("artists").getAsJsonArray();
-                String singerName = "";
-                for (JsonElement j : singer) {
-                    singerName += j.getAsJsonObject().get("name").getAsString() + "/";
-                }
-                singerName = singerName.substring(0, singerName.length() - 1);
-                String lyric = "";
-                String lyricTr = "";
-                try {
-                    lyric = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
-                    lyric = lyric.replaceAll("\r", "");
-                    lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
-                    lyricTr = lyricTr.replaceAll("\r", "");
-                } catch (Exception ignored) {
-                }
-                StringBuilder sb = new StringBuilder();
-                JsonObject returnJson = new JsonObject();
-                returnJson.addProperty("id", musicID);
-                returnJson.addProperty("url", musicUrl);
-                returnJson.addProperty("time", time);
-                returnJson.addProperty("name", name);
-                returnJson.addProperty("singer", singerName);
-                returnJson.addProperty("lyric", lyric);
-                returnJson.addProperty("lyricTr", lyricTr);
-                returnJson.addProperty("error", sb.toString());
-                return returnJson;
-            } else {
-                return null;
+            String lyric = "";
+            String lyricTr = "";
+            try {
+                lyric = lyricJson.get("lrc").getAsJsonObject().get("lyric").getAsString();
+                lyric = lyric.replaceAll("\r", "");
+                lyricTr = lyricJson.get("tlyric").getAsJsonObject().get("lyric").getAsString();
+                lyricTr = lyricTr.replaceAll("\r", "");
+            } catch (Exception ignored) {
             }
 
-        } catch (Exception e) {
+            JsonObject getUrlJson = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/url/v1?id=" + musicId + "&level=exhigh", null), JsonObject.class);
+            String musicUrl = null;
+            try {
+                musicUrl = getUrlJson.get("data").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            StringBuilder sb = new StringBuilder();
+            JsonObject returnJson = new JsonObject();
+            returnJson.addProperty("id", musicId);
+            returnJson.addProperty("url", musicUrl);
+            returnJson.addProperty("time", time);
+            returnJson.addProperty("name", name);
+            returnJson.addProperty("singer", singerName);
+            returnJson.addProperty("lyric", lyric);
+            returnJson.addProperty("lyricTr", lyricTr);
+            returnJson.addProperty("error", sb.toString());
+            return returnJson;
+        } catch (
+                Exception e) {
             e.printStackTrace();
             return null;
         }
