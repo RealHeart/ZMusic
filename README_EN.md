@@ -10,41 +10,37 @@
 ![][downloads]
 ![][license]
 
-[下载][download-link] | [安装][install-link] | [文档][docs-link] | [QQ 群][qq-group-link] | [Discord][discord-link]
+[Download][download-link] | [Install][install-link] | [Documentation][docs-link] | [Discord][discord-link]
 
-简体中文 | [English](README_EN.md)
+[简体中文](README.md) | English
 
 </div>
 
-## 简介
+## Introduction
 
-这是一个功能强大的音乐系统，支持以下功能。
+This is a powerful music system that supports the following functions.
 
-* 全服点歌
-* 单独播放
-* 歌词显示
-* 歌词翻译显示
-* 多搜索源
-* 关键词搜索
-* 个人歌单
-* 全服歌单
-* 歌单播放
-* 音量调节
-* 支持BungeeCord
+* Full service song
+* Play separately
+* Lyrics display
+* Lyrics translation display
+* Multi -search source
+* Keyword search
+* Personal song list
+* Full service song list
+* Play of the song list
+* Volume adjustment
+* Support BungeeCord
 
-## 文档
+## Repositories
 
-[点击查看使用文档](https://m.zplu.cc/)
+* [ZMusic](https://github.com/RealHeart/ZMusic) - Server Plugin
+* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - Client Mod
+* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - Documentation
 
-## 仓库
+## Open Source License
 
-* [ZMusic](https://github.com/RealHeart/ZMusic) - 插件
-* [ZMusic Mod](https://github.com/RealHeart/ZMusic-Mod) - 配套模组
-* [ZMusic Docs](https://github.com/RealHeart/ZMusic-Docs) - 使用文档
-
-## 开源协议
-
-本项目使用 [GPL-3.0](LICENSE) 协议开放源代码
+This project uses [GPL-3.0](LICENSE) license for open source code
 
 ```text
 ZMusic - Powerful Music System
@@ -61,13 +57,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
 
-## 鸣谢
+## Thank
 
-* [Hutool](https://hutool.cn/) - 全面、强大的Java工具类库
-* [Kotlin](https://kotlinlang.org/) - 语法简洁、安全、易用的编程语言
-* [JetBrains](https://www.jetbrains.com/zh-cn/) - 提供了免费的开发工具
+* [Hutool](https://hutool.cn/) - A set of tools that keep Java sweet.
+* [Kotlin](https://kotlinlang.org/) - Statically typed programming language for modern multiplatform applications.
+* [JetBrains](https://www.jetbrains.com/zh-cn/) - Provides free development tools.
 
-## 贡献者
+## Contributors
 
 [![][contrib]](https://github.com/RealHeart/ZMusic/graphs/contributors)
 
@@ -92,7 +88,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 [install-link]: https://m.zplu.cc/install.html
 
 [docs-link]: https://m.zplu.cc
-
-[qq-group-link]: https://jq.qq.com/?_wv=1027&k=9Xs1RMt5
 
 [discord-link]: https://discord.gg/twQgJNufYn
