@@ -21,16 +21,32 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    tasks.processResources {
+        inputs.property("version", version)
+
+        filesMatching("plugin.yml") {
+            expand(mapOf("version" to version))
+        }
+
+        filesMatching("bungee.yml") {
+            expand(mapOf("version" to version))
+        }
+
+        filesMatching("velocity-plugin.json") {
+            expand(mapOf("version" to version))
+        }
+    }
+
+    tasks.build {
+        dependsOn(tasks.shadowJar)
+    }
+
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-    }
-
-    tasks.build {
-        dependsOn(tasks.shadowJar)
     }
 }
 

@@ -13,4 +13,8 @@ class ZMusicBukkit : JavaPlugin() {
     override fun onEnable() {
 
     }
+
+    override fun onDisable() {
+
+    }
 }
