@@ -70,7 +70,7 @@ public class Toast {
 
             packet.grant();
             packet.revoke();
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
 
         }
     }

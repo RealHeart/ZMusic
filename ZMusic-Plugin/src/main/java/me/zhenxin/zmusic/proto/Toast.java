@@ -70,7 +70,7 @@ public class Toast {
 
             packet.grant();
             packet.revoke();
-        } catch (Exception e) {
+        } catch (Throwable ignored) {
             ZMusic.log.sendDebugMessage("当前服务端不支持Toast功能.");
         }
     }
