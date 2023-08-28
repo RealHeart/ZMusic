@@ -34,6 +34,8 @@ subprojects {
         relocate("kotlin", "me.zhenxin.zmusic.library.kotlin")
         relocate("me.lucko", "me.zhenxin.zmusic.library")
         relocate("org.objectweb", "me.zhenxin.zmusic.library")
+
+        archiveClassifier.set("")
         minimize()
     }
 
