@@ -28,6 +28,9 @@ subprojects {
     }
 
     tasks.shadowJar {
+        exclude("kotlin/**")
+        exclude("org/jetbrains/**")
+
         relocate("kotlin", "me.zhenxin.zmusic.library.kotlin")
         relocate("me.lucko", "me.zhenxin.zmusic.library")
         relocate("org.objectweb", "me.zhenxin.zmusic.library")
@@ -40,10 +43,6 @@ subprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-    }
-
-    dependencies {
-        compileOnly(kotlin("stdlib-jdk8"))
     }
 }
 
