@@ -57,9 +57,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
 
-## Thank
+## Thanks
 
 * [Hutool](https://hutool.cn/) - A set of tools that keep Java sweet.
+* [TabooLib](https://github.com/TabooLib/taboolib) - Dynamic loading of dependent related code sources.
 * [Kotlin](https://kotlinlang.org/) - Statically typed programming language for modern multiplatform applications.
 * [JetBrains](https://www.jetbrains.com/zh-cn/) - Provides free development tools.
 

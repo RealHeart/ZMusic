@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## 鸣谢
 
 * [Hutool](https://hutool.cn/) - 全面、强大的Java工具类库
+* [TabooLib](https://github.com/TabooLib/taboolib) - 依赖动态加载相关代码来源
 * [Kotlin](https://kotlinlang.org/) - 语法简洁、安全、易用的编程语言
 * [JetBrains](https://www.jetbrains.com/zh-cn/) - 提供了免费的开发工具
 
