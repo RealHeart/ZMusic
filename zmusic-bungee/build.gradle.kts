@@ -4,5 +4,13 @@ repositories {
 
 dependencies {
     api(project(":zmusic-common"))
-    compileOnly("net.md-5", "bungeecord-api", "1.19-R0.1-SNAPSHOT")
+    compileOnly(libs.bungeecord)
+}
+
+tasks.processResources {
+    inputs.property("version", version)
+
+    filesMatching("bungee.yml") {
+        expand(mapOf("version" to version))
+    }
 }

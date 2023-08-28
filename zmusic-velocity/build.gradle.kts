@@ -4,5 +4,13 @@ repositories {
 
 dependencies {
     api(project(":zmusic-common"))
-    compileOnly("com.velocitypowered:velocity-api:3.1.1")
+    compileOnly(libs.velocity)
+}
+
+tasks.processResources {
+    inputs.property("version", version)
+
+    filesMatching("velocity-plugin.json") {
+        expand(mapOf("version" to version))
+    }
 }

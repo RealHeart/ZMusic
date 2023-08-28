@@ -3,9 +3,7 @@ main: me.zhenxin.zmusic.ZMusicBukkit
 version: ${version}
 api-version: 1.13
 folia-supported: true
-authors:
-  - ZhenXin
-  - BlackNeko
+author: ZhenXin
 description: ZMusic
 softdepend:
   - PlaceholderAPI

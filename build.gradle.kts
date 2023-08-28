@@ -4,8 +4,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("net.kyori.blossom") version "1.3.1"
 }
 
 subprojects {
@@ -15,30 +16,22 @@ subprojects {
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("com.github.johnrengelman.shadow")
+        plugin("net.kyori.blossom")
     }
     configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    tasks.processResources {
-        inputs.property("version", version)
-
-        filesMatching("plugin.yml") {
-            expand(mapOf("version" to version))
-        }
-
-        filesMatching("bungee.yml") {
-            expand(mapOf("version" to version))
-        }
-
-        filesMatching("velocity-plugin.json") {
-            expand(mapOf("version" to version))
-        }
-    }
-
     tasks.build {
         dependsOn(tasks.shadowJar)
+    }
+
+    tasks.shadowJar {
+        relocate("kotlin", "me.zhenxin.zmusic.library.kotlin")
+        relocate("me.lucko", "me.zhenxin.zmusic.library")
+        relocate("org.objectweb", "me.zhenxin.zmusic.library")
+        minimize()
     }
 
     tasks.withType<KotlinCompile> {
@@ -47,6 +40,10 @@ subprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
+    }
+
+    dependencies {
+        compileOnly(kotlin("stdlib-jdk8"))
     }
 }
 

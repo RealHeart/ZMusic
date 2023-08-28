@@ -1,8 +1,9 @@
 rootProject.name = "ZMusic"
 
 include(
-    "zmusic-common",
     "zmusic-bukkit",
     "zmusic-bungee",
+    "zmusic-common",
+    "zmusic-runtime",
     "zmusic-velocity"
 )

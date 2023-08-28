@@ -1,6 +1,13 @@
 dependencies {
-    implementation("cn.hutool:hutool-http:5.8.16")
-    implementation("cn.hutool:hutool-json:5.8.16")
+    api(project(":zmusic-runtime"))
+
+    compileOnly(libs.bundles.hutool)
+    compileOnly(libs.nightconfig.yaml)
+}
+
+blossom {
+    val constants = "src/main/kotlin/me/zhenxin/zmusic/ZMusic.kt"
+    replaceToken("#VERSION_NAME#", project.version, constants)
 }
 
 tasks.shadowJar {
