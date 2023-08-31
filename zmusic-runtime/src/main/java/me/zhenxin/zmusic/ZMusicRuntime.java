@@ -37,12 +37,20 @@ import java.util.logging.Logger;
         value = "!com.electronwill.night-config:toml:#NIGHT_CONFIG_VERSION#",
         test = "!com.electronwill.nightconfig.toml.TomlFormat"
 )
+@RuntimeDependency(
+        value = "!org.bstats:bstats-base:#BSTATS_VERSION#",
+        test = "!me.zhenxin.zmusic.library.bstats.MetricsBase",
+        relocate = {"!org.bstats.", "!me.zhenxin.zmusic.library.bstats."}
+)
 public class ZMusicRuntime {
 
-    public static void setup(String dataFolder, Logger logger) {
+    public static void setup(String dataFolder, Logger logger, Class<?>... classes) {
         logger.info("Loading libraries, please wait...");
         RuntimeEnv.ENV.setup(dataFolder);
         RuntimeEnv.ENV.inject(ZMusicRuntime.class);
+        for (Class<?> clazz : classes) {
+            RuntimeEnv.ENV.inject(clazz);
+        }
         logger.info("Libraries loaded.");
     }
 }

@@ -5,6 +5,7 @@ repositories {
 dependencies {
     api(project(":zmusic-common"))
     compileOnly(libs.velocity)
+    implementation(libs.bstats.velocity)
 }
 
 tasks.processResources {

@@ -6,6 +6,7 @@ hutool = "5.8.21"
 netty = "4.1.97.Final"
 placeholderapi = "2.11.3"
 nightconfig = "3.6.6"
+bstats = "3.0.2"
 
 [libraries]
 # Platform API
@@ -13,6 +14,7 @@ spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 # hutool
+hutool_core = { module = "cn.hutool:hutool-core", version.ref = "hutool" }
 hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
 hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
 # netty
@@ -22,7 +24,11 @@ placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholder
 # Night Config
 nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
 nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+# bStats
+bstats_bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+bstats_bungeecord = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
+bstats_velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
 [bundles]
-hutool = ["hutool_http", "hutool_json"]
+hutool = ["hutool_core", "hutool_http", "hutool_json"]
 nightconfig = ["nightconfig_core", "nightconfig_toml"]

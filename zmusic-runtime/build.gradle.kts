@@ -16,6 +16,7 @@ blossom {
     replaceToken("#HUTOOL_VERSION#", libs.versions.hutool.get(), zmusicRuntime)
     replaceToken("#NETTY_VERSION#", libs.versions.netty.get(), zmusicRuntime)
     replaceToken("#NIGHT_CONFIG_VERSION#", libs.versions.nightconfig.get(), zmusicRuntime)
+    replaceToken("#BSTATS_VERSION#", libs.versions.bstats.get(), zmusicRuntime)
 }
 
 tasks.shadowJar {
