@@ -15,6 +15,7 @@ blossom {
     val zmusicRuntime = "src/main/java/me/zhenxin/zmusic/ZMusicRuntime.java"
     replaceToken("#HUTOOL_VERSION#", libs.versions.hutool.get(), zmusicRuntime)
     replaceToken("#NETTY_VERSION#", libs.versions.netty.get(), zmusicRuntime)
+    replaceToken("#NIGHT_CONFIG_VERSION#", libs.versions.nightconfig.get(), zmusicRuntime)
 }
 
 tasks.shadowJar {

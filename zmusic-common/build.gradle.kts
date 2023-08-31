@@ -2,7 +2,7 @@ dependencies {
     api(project(":zmusic-runtime"))
 
     compileOnly(libs.bundles.hutool)
-    compileOnly(libs.nightconfig.yaml)
+    compileOnly(libs.bundles.nightconfig)
 }
 
 blossom {

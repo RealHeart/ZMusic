@@ -30,6 +30,7 @@ subprojects {
     tasks.shadowJar {
         exclude("kotlin/**")
         exclude("org/jetbrains/**")
+        exclude("org/intellij/**")
 
         relocate("kotlin", "me.zhenxin.zmusic.library.kotlin")
         relocate("me.lucko", "me.zhenxin.zmusic.library")

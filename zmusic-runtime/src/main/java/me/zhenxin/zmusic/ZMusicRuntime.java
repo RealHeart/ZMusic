@@ -29,6 +29,14 @@ import java.util.logging.Logger;
         value = "!io.netty:netty-buffer:#NETTY_VERSION#",
         test = "!io.netty.buffer.ByteBuf"
 )
+@RuntimeDependency(
+        value = "!com.electronwill.night-config:core:#NIGHT_CONFIG_VERSION#",
+        test = "!com.electronwill.nightconfig.core.Config"
+)
+@RuntimeDependency(
+        value = "!com.electronwill.night-config:toml:#NIGHT_CONFIG_VERSION#",
+        test = "!com.electronwill.nightconfig.toml.TomlFormat"
+)
 public class ZMusicRuntime {
 
     public static void setup(String dataFolder, Logger logger) {

@@ -13,7 +13,6 @@ spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 # hutool
-hutool_core = { module = "cn.hutool:hutool-core", version.ref = "hutool" }
 hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
 hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
 # netty
@@ -21,7 +20,9 @@ netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # PAPI
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 # Night Config
-nightconfig_yaml = { module = "com.electronwill.night-config:yaml", version.ref = "nightconfig" }
+nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
+nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
 
 [bundles]
-hutool = ["hutool_core", "hutool_http", "hutool_json"]
+hutool = ["hutool_http", "hutool_json"]
+nightconfig = ["nightconfig_core", "nightconfig_toml"]

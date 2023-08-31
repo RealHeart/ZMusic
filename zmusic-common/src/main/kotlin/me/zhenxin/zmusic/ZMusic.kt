@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic
 
+import me.zhenxin.zmusic.config.initConfig
 import me.zhenxin.zmusic.platform.Logger
 import java.io.File
 
@@ -31,7 +32,11 @@ object ZMusic {
     fun onEnable() {
         logo.split("\n").forEach { logger.info("&b$it") }
         logger.info("\t&6v$VERSION_NAME\tby ZhenXin")
+        logger.info("")
         logger.info("ZMusic is loading...")
+
+        initConfig()
+
         logger.info("ZMusic is enabled.")
     }
 
