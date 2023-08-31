@@ -4,7 +4,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":zmusic-common"))
+    api(project(":zmusic-core"))
 
     compileOnly(libs.spigot)
     compileOnly(libs.bstats.bukkit)

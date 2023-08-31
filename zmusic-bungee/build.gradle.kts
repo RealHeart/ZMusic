@@ -3,7 +3,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":zmusic-common"))
+    api(project(":zmusic-core"))
 
     compileOnly(libs.bungeecord)
     compileOnly(libs.bstats.bungeecord)

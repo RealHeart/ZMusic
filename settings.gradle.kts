@@ -3,7 +3,7 @@ rootProject.name = "ZMusic"
 include(
     "zmusic-bukkit",
     "zmusic-bungee",
-    "zmusic-common",
+    "zmusic-core",
     "zmusic-runtime",
     "zmusic-velocity"
 )
