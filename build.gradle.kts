@@ -2,6 +2,14 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+fun gitCommitHash(): String {
+    val builder = ProcessBuilder("git", "rev-parse", "--short", "HEAD")
+    val process = builder.start()
+    val reader = process.inputReader()
+    val hash = reader.readText().trim()
+    return if (hash.isNotEmpty()) ".$hash" else ""
+}
+
 plugins {
     java
     kotlin("jvm") version "1.9.10"
@@ -11,7 +19,7 @@ plugins {
 
 subprojects {
     group = "me.zhenxin"
-    version = "4.0.0-dev"
+    version = "4.0.0-dev" + gitCommitHash()
     apply {
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
