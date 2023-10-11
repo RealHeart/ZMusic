@@ -2,7 +2,9 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.initConfig
 import me.zhenxin.zmusic.platform.Logger
+import me.zhenxin.zmusic.utils.httpGet
 import java.io.File
+import kotlin.concurrent.thread
 
 /**
  * ZMusic
@@ -36,6 +38,10 @@ object ZMusic {
         logger.info("ZMusic is loading...")
 
         initConfig()
+
+        thread {
+            httpGet("https://api.zplu.cc/version?plugin=zmusic&type=dev")
+        }
 
         logger.info("ZMusic is enabled.")
     }

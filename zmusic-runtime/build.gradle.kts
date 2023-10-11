@@ -13,7 +13,9 @@ blossom {
     replaceToken("#KOTLIN_VERSION#", kotlinVersion, kotlinEnvNoRelocate)
 
     val zmusicRuntime = "src/main/java/me/zhenxin/zmusic/ZMusicRuntime.java"
-    replaceToken("#HUTOOL_VERSION#", libs.versions.hutool.get(), zmusicRuntime)
+    replaceToken("#OKIO_VERSION#", libs.versions.okio.get(), zmusicRuntime)
+    replaceToken("#OKHTTP_VERSION#", libs.versions.okhttp.get(), zmusicRuntime)
+    replaceToken("#FASTJSON_VERSION#", libs.versions.fastjson.get(), zmusicRuntime)
     replaceToken("#NETTY_VERSION#", libs.versions.netty.get(), zmusicRuntime)
     replaceToken("#NIGHT_CONFIG_VERSION#", libs.versions.nightconfig.get(), zmusicRuntime)
     replaceToken("#BSTATS_VERSION#", libs.versions.bstats.get(), zmusicRuntime)

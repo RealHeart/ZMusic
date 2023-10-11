@@ -1,12 +1,16 @@
 package me.zhenxin.zmusic.utils
 
-import cn.hutool.core.net.url.UrlBuilder
-import cn.hutool.http.Header
-import cn.hutool.http.HttpRequest
-import cn.hutool.json.JSONObject
+import com.alibaba.fastjson2.toJSONString
 import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
+import okhttp3.FormBody
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
  * HTTP工具
@@ -15,31 +19,23 @@ import me.zhenxin.zmusic.logger
  * @since 2023/7/24 10:04
  * @email qgzhenxin@qq.com
  */
+val client = OkHttpClient()
 
 /**
  * GET获取
  * @param url 链接
  * @param paramsMap 参数(Map)
  */
-fun get(
+fun httpGet(
     url: String,
-    paramsMap: Map<String, Any?> = mutableMapOf(),
-    headers: Map<String, String> = mutableMapOf(),
-    disableCache: Boolean = false
+    paramsMap: Map<String, String> = mapOf(),
+    headers: Map<String, String> = mapOf(),
+    cache: Boolean = false
 ): String {
-    val ub = UrlBuilder.of(url)
-    paramsMap.map { ub.addQuery(it.key, it.value) }
-    if (disableCache) {
-        ub.addQuery("timestamp", System.currentTimeMillis())
-    }
-    val u = ub.build()
+    val httpUrl = buildUrl(url, paramsMap, cache)
+    val request = Request.Builder().url(httpUrl)
+    addHeaders(request, headers)
 
-    val request = HttpRequest.get(u)
-    headers.forEach {
-        request.header(it.key, it.value)
-    }
-
-    logger.debug("Request GET: $u")
     return request(request)
 }
 
@@ -48,63 +44,76 @@ fun get(
  * @param url 连接
  * @param data 参数
  */
-fun post(
+fun httpPost(
     url: String,
-    data: Map<String, Any?> = mutableMapOf(),
-    headers: Map<String, String> = mutableMapOf(),
+    data: Map<String, Any?> = mapOf(),
+    headers: Map<String, String> = mapOf(),
     type: PostType = PostType.JSON,
-    disableCache: Boolean = false
+    cache: Boolean = false
 ): String {
-    val ub = UrlBuilder.of(url)
-    if (disableCache) {
-        ub.addQuery("timestamp", System.currentTimeMillis())
-    }
-    val u = ub.build()
-
-    val request = HttpRequest.post(u)
-
-    headers.forEach {
-        request.header(it.key, it.value)
-    }
+    val httpUrl = buildUrl(url, cache = cache)
+    val request = Request.Builder().url(httpUrl)
+    addHeaders(request, headers)
 
     when (type) {
-        PostType.JSON -> request.body(JSONObject(data).toString())
-        PostType.FORM -> request.form(data.toMap())
+        PostType.JSON -> {
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+            val body = data.toJSONString().toRequestBody(mediaType)
+            request.post(body)
+        }
+
+        PostType.FORM -> {
+            val from = FormBody.Builder()
+            data.forEach {
+                from.add(it.key, it.value.toString())
+            }
+            val body = from.build()
+            request.post(body)
+        }
     }
 
-    logger.debug("Request POST: $u")
-    logger.debug("POST Type: ${type.name}")
-    logger.debug("POST Data: $data")
     return request(request)
 }
 
-private fun request(request: HttpRequest): String {
-//    if (Config.PROXY_ENABLE) {
-//        val type = Config.PROXY_TYPE
-//        val host = Config.PROXY_HOSTNAME
-//        val port = Config.PROXY_PORT
-//        val address = InetSocketAddress(host, port)
-//        val proxy = Proxy(type, address)
-//        logger.debug("Use $type Proxy: $address")
-//        request.setProxy(proxy)
-//    }
+private fun buildUrl(url: String, paramsMap: Map<String, String> = mapOf(), cache: Boolean): HttpUrl {
+    val builder = url.toHttpUrl().newBuilder()
+    paramsMap.map {
+        builder.addQueryParameter(it.key, it.value)
+    }
+    if (cache) {
+        builder.addQueryParameter("timestamp", System.currentTimeMillis().toString())
+    }
+    return builder.build()
+}
 
-    request.header(Header.USER_AGENT, "ZMusic/${ZMusic.VERSION_NAME}")
+private fun addHeaders(request: Request.Builder, headers: Map<String, String>) {
+    headers.forEach {
+        request.addHeader(it.key, it.value)
+    }
+}
 
+private fun request(builder: Request.Builder): String {
+    builder.addHeader("User-Agent", "ZMusic/${ZMusic.VERSION_NAME}")
+    val request = builder.build()
+
+    logger.debug("HTTP Request: ${request.method} ${request.url}")
+    if (request.body != null) {
+        logger.debug("Request Body: ${request.body}")
+    }
+
+    val call = client.newCall(request)
     try {
-        val res = request.execute()
-        if (res.isOk) {
-            if (!res.body().isNullOrEmpty()) {
-                val body = res.body()
-                logger.debug("Response Body: $body")
-                return body
-            }
+        val res = call.execute()
+        if (res.isSuccessful) {
+            val body = res.body?.string()
+            logger.debug("Response Body: $body")
+            return body ?: throw ZMusicException("response body is null")
         }
-        throw ZMusicException("HTTP Exception ${res.status}, body: ${res.body()}")
     } catch (e: Exception) {
         e.printStackTrace()
-        throw ZMusicException("HTTP Exception, ${e.message}")
+        throw ZMusicException("request error: ${e.message}")
     }
+    return ""
 }
 
 enum class PostType {

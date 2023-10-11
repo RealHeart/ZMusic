@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.platform.impl
 
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.platform.Logger
 import me.zhenxin.zmusic.utils.colored
 import org.bukkit.command.CommandSender
@@ -25,6 +26,8 @@ class LoggerBukkit(private val sender: CommandSender) : Logger {
     }
 
     override fun debug(msg: String) {
-        sender.sendMessage("&b$msg".colored())
+        if (Config.debug) {
+            sender.sendMessage("&b$msg".colored())
+        }
     }
 }

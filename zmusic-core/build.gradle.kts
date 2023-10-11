@@ -1,7 +1,8 @@
 dependencies {
     api(project(":zmusic-runtime"))
 
-    compileOnly(libs.bundles.hutool)
+    compileOnly(libs.bundles.okhttp)
+    compileOnly(libs.bundles.fastjson)
     compileOnly(libs.bundles.nightconfig)
 }
 

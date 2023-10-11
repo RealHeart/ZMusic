@@ -14,16 +14,23 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @RuntimeDependency(
-        value = "!cn.hutool:hutool-core:#HUTOOL_VERSION#",
-        test = "!cn.hutool.core.util.ArrayUtil"
+        value = "!com.squareup.okio:okio-jvm:#OKIO_VERSION#",
+        test = "!okio.Buffer",
+        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
 )
 @RuntimeDependency(
-        value = "!cn.hutool:hutool-http:#HUTOOL_VERSION#",
-        test = "!cn.hutool.http.HttpUtil"
+        value = "!com.squareup.okhttp3:okhttp:#OKHTTP_VERSION#",
+        test = "!okhttp3.OkHttpClient",
+        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
 )
 @RuntimeDependency(
-        value = "!cn.hutool:hutool-json:#HUTOOL_VERSION#",
-        test = "!cn.hutool.json.JSONUtil"
+        value = "!com.alibaba.fastjson2:fastjson2:#FASTJSON_VERSION#",
+        test = "!com.alibaba.fastjson2.JSON"
+)
+@RuntimeDependency(
+        value = "!com.alibaba.fastjson2:fastjson2-kotlin:#FASTJSON_VERSION#",
+        test = "!com.alibaba.fastjson2.JSONKt",
+        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
 )
 @RuntimeDependency(
         value = "!io.netty:netty-buffer:#NETTY_VERSION#",

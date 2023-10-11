@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.platform.impl
 
 import com.velocitypowered.api.command.CommandSource
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.platform.Logger
 import me.zhenxin.zmusic.utils.colored
 import net.kyori.adventure.text.Component
@@ -29,7 +30,9 @@ class LoggerVelocity(private val sender: CommandSource) : Logger {
     }
 
     override fun debug(msg: String) {
-        val message = Component.text("&b$msg".colored())
-        sender.sendMessage(message)
+        if (Config.debug) {
+            val message = Component.text("&b$msg".colored())
+            sender.sendMessage(message)
+        }
     }
 }

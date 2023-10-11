@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.platform.impl
 
+import me.zhenxin.zmusic.config.Config
 import me.zhenxin.zmusic.platform.Logger
 import me.zhenxin.zmusic.utils.colored
 import net.md_5.bungee.api.CommandSender
@@ -27,6 +28,8 @@ class LoggerBungee(private val sender: CommandSender) : Logger {
     }
 
     override fun debug(msg: String) {
-        sender.sendMessage("&b$msg".colored())
+        if (Config.debug) {
+            sender.sendMessage("&b$msg".colored())
+        }
     }
 }

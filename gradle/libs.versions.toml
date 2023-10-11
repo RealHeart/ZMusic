@@ -2,7 +2,9 @@
 spigot = "1.20.1-R0.1-SNAPSHOT"
 bungeecord = "1.20-R0.2-SNAPSHOT"
 velocity = "3.1.1"
-hutool = "5.8.21"
+okio = "3.2.0"
+okhttp = "4.11.0"
+fastjson = "2.0.41"
 netty = "4.1.97.Final"
 placeholderapi = "2.11.3"
 nightconfig = "3.6.6"
@@ -13,10 +15,12 @@ bstats = "3.0.2"
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-# hutool
-hutool_core = { module = "cn.hutool:hutool-core", version.ref = "hutool" }
-hutool_http = { module = "cn.hutool:hutool-http", version.ref = "hutool" }
-hutool_json = { module = "cn.hutool:hutool-json", version.ref = "hutool" }
+# okhttp
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+# fastjson
+fastjson_core = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson" }
+fastjson_kotlin = { module = "com.alibaba.fastjson2:fastjson2-kotlin", version.ref = "fastjson" }
 # netty
 netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # PAPI
@@ -30,5 +34,6 @@ bstats_bungeecord = { module = "org.bstats:bstats-bungeecord", version.ref = "bs
 bstats_velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
 [bundles]
-hutool = ["hutool_core", "hutool_http", "hutool_json"]
+okhttp = ["okio", "okhttp"]
+fastjson = ["fastjson_core", "fastjson_kotlin"]
 nightconfig = ["nightconfig_core", "nightconfig_toml"]
