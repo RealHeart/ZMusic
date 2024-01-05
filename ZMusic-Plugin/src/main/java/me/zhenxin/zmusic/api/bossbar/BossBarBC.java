@@ -2,15 +2,14 @@ package me.zhenxin.zmusic.api.bossbar;
 
 import com.google.common.collect.Sets;
 import me.zhenxin.zmusic.ZMusic;
+import me.zhenxin.zmusic.utils.BCTextPacketHelper;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.chat.ComponentSerializer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class BossBarBC implements BossBar {
 
@@ -24,14 +23,14 @@ public class BossBarBC implements BossBar {
     private double progress = 0;
     private BarColor barColor;
     private BarStyle barStyle;
-    private String compiledTitle;
+    private TextComponent compiledTitle;
     private boolean visible = false;
 
     public BossBarBC(Object palyer, String title, BarColor barColor, BarStyle barStyle, float seconds) {
         this.uuid = UUID.nameUUIDFromBytes(("BBB:" + barID.getAndIncrement()).getBytes(StandardCharsets.UTF_8));
         this.player = palyer;
         this.title = title;
-        this.compiledTitle = ComponentSerializer.toString(new TextComponent(this.title));
+        this.compiledTitle = new TextComponent(this.title);
         this.barColor = barColor;
         this.barStyle = barStyle;
         this.seconds = seconds;
@@ -66,11 +65,12 @@ public class BossBarBC implements BossBar {
     @Override
     public void setTitle(String title) {
         this.title = title;
-        this.compiledTitle = ComponentSerializer.toString(new TextComponent(this.title));
+        this.compiledTitle = new TextComponent(this.title);
 
         if (visible) {
             net.md_5.bungee.protocol.packet.BossBar packet = new net.md_5.bungee.protocol.packet.BossBar(uuid, 3);
-            packet.setTitle(this.compiledTitle);
+            //packet.setTitle(this.compiledTitle);
+            BCTextPacketHelper.setTitle(this.compiledTitle, packet);
             this.players.forEach(player -> player.unsafe().sendPacket(packet));
         }
     }
@@ -153,7 +153,7 @@ public class BossBarBC implements BossBar {
 
     @Override
     public void removeAll() {
-        this.players.stream().collect(Collectors.toSet()).forEach(this::removePlayer);
+        this.players.forEach(this::removePlayer);
     }
 
     @Override
@@ -175,7 +175,8 @@ public class BossBarBC implements BossBar {
 
     private net.md_5.bungee.protocol.packet.BossBar getAddPacket() {
         net.md_5.bungee.protocol.packet.BossBar packet = new net.md_5.bungee.protocol.packet.BossBar(uuid, 0);
-        packet.setTitle(this.compiledTitle);
+        BCTextPacketHelper.setTitle(this.compiledTitle, packet);
+        //packet.setTitle(this.compiledTitle);
         packet.setColor(this.barColor.ordinal());
         packet.setDivision(this.barStyle.ordinal());
         packet.setHealth((float) this.progress);
