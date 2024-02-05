@@ -1,0 +1,31 @@
+name: Dev Build
+
+on:
+  push:
+    paths:
+      - "**.kt"
+      - "**.kts"
+      - "**.java"
+      - "gradle/libs.versions.toml"
+    branches:
+      - "v4"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+      - name: Build with Gradle
+        run: ./gradlew clean build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: 'ZMusic Dev'
+          path: |
+            zmusic-bukkit-*.jar
+            zmusic-bungee-*.jar
+            zmusic-velocity-*.jar
