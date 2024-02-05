@@ -23,17 +23,6 @@ interface Logger {
     }
 
     /**
-     * 警告日志
-     * @param msg String 日志信息
-     */
-    fun warn(msg: String) {
-        val prefix = Config.prefix.colored()
-        val color = "&e".colored()
-        val message = msg.colored()
-        log("$prefix$color$message")
-    }
-
-    /**
      * 错误日志
      * @param msg String 日志信息
      */
@@ -51,9 +40,8 @@ interface Logger {
     fun debug(msg: String) {
         if (Config.debug) {
             val prefix = Config.prefix.colored()
-            val color = "&b".colored()
-            val message = msg.colored()
-            log("$prefix$color$message")
+            val color = "&e[Debug] ".colored()
+            log("$prefix$color$msg")
         }
     }
 
