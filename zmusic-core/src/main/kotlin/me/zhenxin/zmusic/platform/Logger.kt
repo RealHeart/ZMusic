@@ -1,5 +1,8 @@
 package me.zhenxin.zmusic.platform
 
+import me.zhenxin.zmusic.config.Config
+import me.zhenxin.zmusic.utils.colored
+
 /**
  * 日志
  *
@@ -12,23 +15,51 @@ interface Logger {
      * 信息日志
      * @param msg String 日志信息
      */
-    fun info(msg: String)
+    fun info(msg: String) {
+        val prefix = Config.prefix.colored()
+        val color = "&a".colored()
+        val message = msg.colored()
+        log("$prefix$color$message")
+    }
 
     /**
      * 警告日志
      * @param msg String 日志信息
      */
-    fun warn(msg: String)
+    fun warn(msg: String) {
+        val prefix = Config.prefix.colored()
+        val color = "&e".colored()
+        val message = msg.colored()
+        log("$prefix$color$message")
+    }
 
     /**
      * 错误日志
      * @param msg String 日志信息
      */
-    fun error(msg: String)
+    fun error(msg: String) {
+        val prefix = Config.prefix.colored()
+        val color = "&c".colored()
+        val message = msg.colored()
+        log("$prefix$color$message")
+    }
 
     /**
      * 调试日志
      * @param msg String 日志信息
      */
-    fun debug(msg: String)
+    fun debug(msg: String) {
+        if (Config.debug) {
+            val prefix = Config.prefix.colored()
+            val color = "&b".colored()
+            val message = msg.colored()
+            log("$prefix$color$message")
+        }
+    }
+
+    /**
+     * 打印日志
+     * @param msg String 日志信息
+     */
+    fun log(msg: String)
 }

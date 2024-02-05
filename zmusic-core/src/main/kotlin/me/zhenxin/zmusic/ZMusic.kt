@@ -2,6 +2,7 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.config.initConfig
 import me.zhenxin.zmusic.platform.Logger
+import me.zhenxin.zmusic.utils.colored
 import me.zhenxin.zmusic.utils.httpGet
 import java.io.File
 import kotlin.concurrent.thread
@@ -27,10 +28,10 @@ object ZMusic {
      * 插件启用
      */
     fun onEnable() {
-        LOGO.split("\n").forEach { logger.info("&b$it") }
-        logger.info("\t&6v${ZMusicConstants.PLUGIN_VERSION}\tby ZhenXin")
-        logger.info("")
-        logger.info("ZMusic is loading...")
+        LOGO.split("\n").forEach { logger.log("&b$it".colored()) }
+        logger.log("\t&6v${ZMusicConstants.PLUGIN_VERSION}\tby ZhenXin".colored())
+        logger.log("")
+        logger.log("&aZMusic is loading...".colored())
 
         initConfig()
 
@@ -38,14 +39,14 @@ object ZMusic {
             httpGet("https://api.zplu.cc/version?plugin=zmusic&type=dev")
         }
 
-        logger.info("ZMusic is enabled.")
+        logger.log("&aZMusic is enabled.".colored())
     }
 
     /**
      * 插件禁用
      */
     fun onDisable() {
-        logger.info("ZMusic is disabled.")
+        logger.log("ZMusic is disabled.")
     }
 }
 
