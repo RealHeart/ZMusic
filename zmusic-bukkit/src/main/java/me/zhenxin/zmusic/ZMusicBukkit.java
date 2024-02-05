@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @RuntimeDependency(
-        value = "!org.bstats:bstats-bukkit:#BSTATS_VERSION#",
+        value = "!org.bstats:bstats-bukkit:" + ZMusicConstants.BSTATS_VERSION,
         test = "!me.zhenxin.zmusic.library.bstats.bukkit.Metrics",
         relocate = {"!org.bstats.", "!me.zhenxin.zmusic.library.bstats."}
 )

@@ -17,8 +17,3 @@ tasks.processResources {
         expand(mapOf("version" to version))
     }
 }
-
-blossom {
-    val constants = "src/main/java/me/zhenxin/zmusic/ZMusicBukkit.java"
-    replaceToken("#BSTATS_VERSION#", libs.versions.bstats.get(), constants)
-}

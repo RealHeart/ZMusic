@@ -1,6 +1,9 @@
 [versions]
-spigot = "1.20.1-R0.1-SNAPSHOT"
-bungeecord = "1.20-R0.2-SNAPSHOT"
+kotlin = "1.9.22"
+blossom = "2.1.0"
+shadow = "8.1.1"
+spigot = "1.19.4-R0.1-SNAPSHOT"
+bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
 okio = "3.2.0"
 okhttp = "4.11.0"
@@ -9,6 +12,11 @@ netty = "4.1.97.Final"
 placeholderapi = "2.11.3"
 nightconfig = "3.6.6"
 bstats = "3.0.2"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kyori-blossom = { id = "net.kyori.blossom", version.ref = "blossom" }
+johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 
 [libraries]
 # Platform API

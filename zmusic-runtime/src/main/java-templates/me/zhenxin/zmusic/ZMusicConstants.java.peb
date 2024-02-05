@@ -1,0 +1,51 @@
+package me.zhenxin.zmusic;
+
+/**
+ * ZMusic 常量
+ *
+ * @author 真心
+ * @since 2024/2/5 13:48
+ */
+@SuppressWarnings("SpellCheckingInspection")
+public class ZMusicConstants {
+    /**
+     * 插件版本
+     */
+    public static final String PLUGIN_VERSION = "{{ pluginVersion }}";
+
+    /**
+     * Kotlin 版本
+     */
+    public static final String KOTLIN_VERSION = "{{ kotlinVersion }}";
+
+    /**
+     * Okio 版本
+     */
+    public static final String OKIO_VERSION = "{{ okioVersion }}";
+
+    /**
+     * OkHttp 版本
+     */
+    public static final String OKHTTP_VERSION = "{{ okhttpVersion }}";
+
+    /**
+     * fastjson 版本
+     */
+    public static final String FASTJSON_VERSION = "{{ fastjsonVersion }}";
+
+    /**
+     * Netty 版本
+     */
+    public static final String NETTY_VERSION = "{{ nettyVersion }}";
+
+    /**
+     * Night Config 版本
+     */
+    public static final String NIGHT_CONFIG_VERSION = "{{ nightConfigVersion }}";
+
+    /**
+     * bStats 版本
+     */
+    public static final String BSTATS_VERSION = "{{ bstatsVersion }}";
+
+}

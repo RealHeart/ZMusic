@@ -1,7 +1,7 @@
 package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.toJSONString
-import me.zhenxin.zmusic.ZMusic
+import me.zhenxin.zmusic.ZMusicConstants
 import me.zhenxin.zmusic.exception.ZMusicException
 import me.zhenxin.zmusic.logger
 import okhttp3.FormBody
@@ -93,7 +93,7 @@ private fun addHeaders(request: Request.Builder, headers: Map<String, String>) {
 }
 
 private fun request(builder: Request.Builder): String {
-    builder.addHeader("User-Agent", "ZMusic/${ZMusic.VERSION_NAME}")
+    builder.addHeader("User-Agent", "ZMusic/${ZMusicConstants.PLUGIN_VERSION}")
     val request = builder.build()
 
     logger.debug("HTTP Request: ${request.method} ${request.url}")

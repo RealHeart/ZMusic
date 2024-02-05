@@ -14,7 +14,7 @@ import org.bstats.bungeecord.Metrics;
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @RuntimeDependency(
-        value = "!org.bstats:bstats-bungeecord:#BSTATS_VERSION#",
+        value = "!org.bstats:bstats-bungeecord:" + ZMusicConstants.BSTATS_VERSION,
         test = "!me.zhenxin.zmusic.library.bstats.bungeecord.Metrics",
         relocate = {"!org.bstats.", "!me.zhenxin.zmusic.library.bstats."}
 )

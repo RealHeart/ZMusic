@@ -15,7 +15,7 @@ import kotlin.concurrent.thread
  */
 object ZMusic {
 
-    private const val logo = "" +
+    private const val LOGO = "" +
             "  ______  __  __                 _        \n" +
             " |___  / |  \\/  |               (_)       \n" +
             "    / /  | \\  / |  _   _   ___   _    ___ \n" +
@@ -24,16 +24,11 @@ object ZMusic {
             " /_____| |_|  |_|  \\__,_| |___/ |_|  \\___|\n"
 
     /**
-     * 版本号
-     */
-    const val VERSION_NAME = "#VERSION_NAME#"
-
-    /**
      * 插件启用
      */
     fun onEnable() {
-        logo.split("\n").forEach { logger.info("&b$it") }
-        logger.info("\t&6v$VERSION_NAME\tby ZhenXin")
+        LOGO.split("\n").forEach { logger.info("&b$it") }
+        logger.info("\t&6v${ZMusicConstants.PLUGIN_VERSION}\tby ZhenXin")
         logger.info("")
         logger.info("ZMusic is loading...")
 

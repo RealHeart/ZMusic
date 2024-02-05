@@ -12,20 +12,26 @@ fun gitCommitHash(): String {
 
 plugins {
     java
-    kotlin("jvm") version "1.9.10"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("net.kyori.blossom") version "1.3.1"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.johnrengelman.shadow)
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
 subprojects {
     group = "me.zhenxin"
     version = "4.0.0-dev" + gitCommitHash()
+
     apply {
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("com.github.johnrengelman.shadow")
-        plugin("net.kyori.blossom")
     }
+
     configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
