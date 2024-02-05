@@ -15,7 +15,7 @@ on:
       - "v4"
 
 jobs:
-  build:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
