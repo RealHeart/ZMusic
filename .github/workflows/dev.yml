@@ -27,6 +27,6 @@ jobs:
         with:
           name: 'ZMusic Dev'
           path: |
-            zmusic-bukkit-*.jar
-            zmusic-bungee-*.jar
-            zmusic-velocity-*.jar
+            zmusic-bukkit/build/libs/*.jar
+            zmusic-bungee/build/libs/*.jar
+            zmusic-velocity/build/libs/*.jar
