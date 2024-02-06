@@ -4,10 +4,14 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "**.kt"
-      - "**.kts"
-      - "**.java"
+      - ".github/workflows/**"
       - "gradle/libs.versions.toml"
+      - "gradle/wrapper/gradle-wrapper.properties"
+      - "gradle.properties"
+      - "**/src/**"
+      - "**/build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
     branches:
       - "v4"
   pull_request:
