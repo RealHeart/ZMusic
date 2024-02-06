@@ -2,7 +2,7 @@
 name: 提交Bug / Submit Bug
 about: 向我们报告一个Bug以帮助我们改进
 title: 'bug: '
-labels: bug
+labels: 'type: bug'
 ---
 
 警告: 在进一步操作之前，请检查下列选项。如果您忽视此模板或者没有提供关键信息，您的 Issue 将直接被关闭
