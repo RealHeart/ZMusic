@@ -19,9 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: java-kotlin
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -29,9 +26,6 @@ jobs:
           cache: 'gradle'
       - name: Build with Gradle
         run: ./gradlew clean build
-      - uses: github/codeql-action/analyze@v3
-        with:
-          category: /language:java-kotlin
       - uses: actions/upload-artifact@v4
         with:
           name: 'ZMusic Dev'
