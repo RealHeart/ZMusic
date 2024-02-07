@@ -7,6 +7,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import me.zhenxin.zmusic.platform.Platform;
 import me.zhenxin.zmusic.platform.impl.LoggerVelocity;
 import org.bstats.velocity.Metrics;
 
@@ -40,12 +41,13 @@ public class ZMusicVelocity {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         ZMusicKt.setLogger(new LoggerVelocity(server.getConsoleCommandSource()));
         ZMusicKt.setDataFolder(dataDirectory.toFile());
+        ZMusicKt.setPlatform(Platform.VELOCITY);
         metricsFactory.make(this, 12426);
-        ZMusic.INSTANCE.onEnable();
+        ZMusic.onEnable();
     }
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        ZMusic.INSTANCE.onDisable();
+        ZMusic.onDisable();
     }
 }

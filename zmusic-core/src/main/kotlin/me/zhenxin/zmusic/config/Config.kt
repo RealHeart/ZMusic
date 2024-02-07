@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.config
 
+import com.electronwill.nightconfig.core.CommentedConfig
 import com.electronwill.nightconfig.core.file.CommentedFileConfig
 import me.zhenxin.zmusic.ZMusic
 import me.zhenxin.zmusic.dataFolder
@@ -95,15 +96,16 @@ fun initConfig() {
     }
 
     config = CommentedFileConfig.builder(configPath).autoreload().charset(Charsets.UTF_8).build()
-    config.load()
+    (config as CommentedFileConfig).load()
 
     val currentVersion = 15
     if (Config.version != currentVersion) {
-        // TODO: 通过语言文件获取消息
-        logger.error("配置文件版本不匹配，当前版本：$currentVersion，配置文件版本：${Config.version}")
+        logger.error("Config is outdated, please delete the config file and restart the server.")
         // TODO: disablePlugin()
+        return
+    } else {
+        logger.info("Configuration is initialized.")
     }
-
 }
 
-private lateinit var config: CommentedFileConfig
+private var config: CommentedConfig = CommentedConfig.inMemory()

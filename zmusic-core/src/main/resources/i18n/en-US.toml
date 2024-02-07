@@ -1,0 +1,36 @@
+###############################################
+#   ______  __  __                 _          #
+#  |___  / |  \/  |               (_)         #
+#     / /  | \  / |  _   _   ___   _    ___   #
+#    / /   | |\/| | | | | | / __| | |  / __|  #
+#   / /__  | |  | | | |_| | \__ \ | | | (__   #
+#  /_____| |_|  |_|  \__,_| |___/ |_|  \___|  #
+#                                             #
+###############################################
+
+# Language file format: TOML (Please modify according to the specification)
+# For specification, please refer to https://toml.io/en/
+
+[platform]
+netease = "Netease Cloud Music"
+bilibili = "BiliBili"
+
+[init]
+loaded = [
+    "&aPlugin Loaded!",
+    "&aVersion: &b{version}",
+    "&aPlatform: &b{platform}",
+    "&aDocs: &b{docs-url}",
+    "&aAuthor: &b{author}",
+]
+
+[update]
+checking = "&aChecking for updates..."
+available = [
+    "&aNew version available: &b{version}",
+    "&aChangeLog:"
+]
+not_available = "&aNo new version available."
+
+[help]
+tips = "&aInput &a/&e{command} &bhelp &aShow Help."

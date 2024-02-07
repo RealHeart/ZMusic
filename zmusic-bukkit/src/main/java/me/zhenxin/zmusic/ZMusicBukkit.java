@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic;
 
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
+import me.zhenxin.zmusic.platform.Platform;
 import me.zhenxin.zmusic.platform.impl.LoggerBukkit;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,12 +30,13 @@ public class ZMusicBukkit extends JavaPlugin {
     public void onEnable() {
         ZMusicKt.setLogger(new LoggerBukkit(getServer().getConsoleSender()));
         ZMusicKt.setDataFolder(getDataFolder());
+        ZMusicKt.setPlatform(Platform.BUKKIT);
         new Metrics(this, 7291);
-        ZMusic.INSTANCE.onEnable();
+        ZMusic.onEnable();
     }
 
     @Override
     public void onDisable() {
-        ZMusic.INSTANCE.onDisable();
+        ZMusic.onDisable();
     }
 }

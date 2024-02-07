@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic;
 
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
+import me.zhenxin.zmusic.platform.Platform;
 import me.zhenxin.zmusic.platform.impl.LoggerBungee;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
@@ -29,12 +30,13 @@ public class ZMusicBungee extends Plugin {
     public void onEnable() {
         ZMusicKt.setLogger(new LoggerBungee(getProxy().getConsole()));
         ZMusicKt.setDataFolder(getDataFolder());
+        ZMusicKt.setPlatform(Platform.BUNGEE);
         new Metrics(this, 8864);
-        ZMusic.INSTANCE.onEnable();
+        ZMusic.onEnable();
     }
 
     @Override
     public void onDisable() {
-        ZMusic.INSTANCE.onDisable();
+        ZMusic.onDisable();
     }
 }
