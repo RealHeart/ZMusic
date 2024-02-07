@@ -44,7 +44,7 @@ This project uses [GPL-3.0](LICENSE) license for open source code
 
 ```text
 ZMusic - Powerful Music System
-Copyright (C) 2023 ZhenXin
+Copyright (C) 2024 ZhenXin
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
