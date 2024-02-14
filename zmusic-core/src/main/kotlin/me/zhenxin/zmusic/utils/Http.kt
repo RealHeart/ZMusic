@@ -108,12 +108,14 @@ private fun request(builder: Request.Builder): String {
             val body = res.body?.string()
             logger.debug("Response Body: $body")
             return body ?: throw ZMusicException("response body is null")
+        } else {
+            res.body?.close()
+            throw ZMusicException("request error: ${res.code} ${res.message}")
         }
     } catch (e: Exception) {
         e.printStackTrace()
         throw ZMusicException("request error: ${e.message}")
     }
-    return ""
 }
 
 enum class PostType {
