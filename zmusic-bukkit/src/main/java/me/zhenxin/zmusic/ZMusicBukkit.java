@@ -32,11 +32,11 @@ public class ZMusicBukkit extends JavaPlugin {
         ZMusicKt.setDataFolder(getDataFolder());
         ZMusicKt.setPlatform(Platform.BUKKIT);
         new Metrics(this, 7291);
-        ZMusic.onEnable();
+        ZMusic.INSTANCE.onEnable();
     }
 
     @Override
     public void onDisable() {
-        ZMusic.onDisable();
+        ZMusic.INSTANCE.onDisable();
     }
 }

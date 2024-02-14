@@ -43,11 +43,11 @@ public class ZMusicVelocity {
         ZMusicKt.setDataFolder(dataDirectory.toFile());
         ZMusicKt.setPlatform(Platform.VELOCITY);
         metricsFactory.make(this, 12426);
-        ZMusic.onEnable();
+        ZMusic.INSTANCE.onEnable();
     }
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        ZMusic.onDisable();
+        ZMusic.INSTANCE.onDisable();
     }
 }

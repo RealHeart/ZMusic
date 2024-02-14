@@ -30,7 +30,6 @@ object ZMusic {
     /**
      * 插件启用
      */
-    @JvmStatic
     fun onEnable() {
         LOGO.split("\n").forEach { logger.log("&b$it".colored()) }
         logger.log("\t&6v${ZMusicConstants.PLUGIN_VERSION}\tby ZhenXin".colored())
@@ -46,21 +45,20 @@ object ZMusic {
             logger.info(
                 it.replace("{version}", ZMusicConstants.PLUGIN_VERSION)
                     .replace("{platform}", platform.name.lowercase())
-                    .replace("{docs-url}", "m.zplu.cc")
+                    .replace("{docs-url}", "zmusic.zhenxin.me")
                     .replace("{author}", "ZhenXin")
             )
         }
 
         thread {
             logger.info(I18n.Update.checking)
-            httpGet("https://api.zplu.cc/version?plugin=zmusic&type=dev")
+            httpGet("https://api.zhenxin.me/zmusic/version?type=dev")
         }
     }
 
     /**
      * 插件禁用
      */
-    @JvmStatic
     fun onDisable() {
         logger.info("Disabling ZMusic...")
         logger.info("ZMusic is disabled.")

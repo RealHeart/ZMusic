@@ -10,7 +10,7 @@
 ![][downloads]
 ![][license]
 
-[下载][download-link] | [安装][install-link] | [文档][docs-link] | [QQ 群][qq-group-link] | [Discord][discord-link]
+[文档][docs-link] | [QQ 群][qq-group-link] | [Discord][discord-link]
 
 简体中文 | [English](README_EN.md)
 
@@ -34,7 +34,7 @@
 
 ## 文档
 
-[点击查看使用文档](https://m.zplu.cc/)
+[点击查看使用文档][docs-link]
 
 ## 仓库
 
@@ -88,11 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [contrib]: https://contrib.rocks/image?repo=RealHeart/ZMusic
 
-[download-link]: https://m.zplu.cc/download.html
-
-[install-link]: https://m.zplu.cc/install.html
-
-[docs-link]: https://m.zplu.cc
+[docs-link]: https://zmusic.zhenxin.me
 
 [qq-group-link]: https://jq.qq.com/?_wv=1027&k=9Xs1RMt5
 

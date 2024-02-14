@@ -10,7 +10,7 @@
 ![][downloads]
 ![][license]
 
-[Download][download-link] | [Install][install-link] | [Documentation][docs-link] | [Discord][discord-link]
+[Documentation][docs-link] | [Discord][discord-link]
 
 [简体中文](README.md) | English
 
@@ -84,10 +84,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [contrib]: https://contrib.rocks/image?repo=RealHeart/ZMusic
 
-[download-link]: https://m.zplu.cc/download.html
-
-[install-link]: https://m.zplu.cc/install.html
-
-[docs-link]: https://m.zplu.cc
+[docs-link]: https://zmusic.zhenxin.me/
 
 [discord-link]: https://discord.gg/twQgJNufYn

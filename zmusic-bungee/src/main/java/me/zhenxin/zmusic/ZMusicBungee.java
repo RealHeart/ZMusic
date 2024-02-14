@@ -32,11 +32,11 @@ public class ZMusicBungee extends Plugin {
         ZMusicKt.setDataFolder(getDataFolder());
         ZMusicKt.setPlatform(Platform.BUNGEE);
         new Metrics(this, 8864);
-        ZMusic.onEnable();
+        ZMusic.INSTANCE.onEnable();
     }
 
     @Override
     public void onDisable() {
-        ZMusic.onDisable();
+        ZMusic.INSTANCE.onDisable();
     }
 }
