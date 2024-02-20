@@ -1,11 +1,10 @@
 package me.zhenxin.zmusic.utils
 
 /**
- * 其他工具
+ * 字符串工具
  *
  * @author 真心
- * @since 2023/7/23 15:49
- * @email qgzhenxin@qq.com
+ * @since 2024/2/20 10:22
  */
 
 /**

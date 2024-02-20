@@ -15,26 +15,29 @@ import java.util.*
 object I18n {
     object Platform {
         val netease: String
-            get() = i18n.get("platform.netease") ?: ""
+            get() = i18n.get("platform.netease") ?: "{platform.netease}"
 
         val bilibili: String
-            get() = i18n.get("platform.bilibili") ?: ""
+            get() = i18n.get("platform.bilibili") ?: "{platform.bilibili}"
     }
 
     object Init {
         val loaded: List<String>
-            get() = i18n.get("init.loaded") ?: emptyList()
+            get() = i18n.get("init.loaded") ?: listOf("{init.loaded}")
     }
 
     object Update {
         val checking: String
-            get() = i18n.get("update.checking") ?: ""
+            get() = i18n.get("update.checking") ?: "{update.checking}"
+
+        val checkFailed: String
+            get() = i18n.get("update.check_failed") ?: "{update.check_failed}"
 
         val available: List<String>
-            get() = i18n.get("update.available") ?: emptyList()
+            get() = i18n.get("update.available") ?: listOf("{update.available}")
 
         val notAvailable: String
-            get() = i18n.get("update.not_available") ?: ""
+            get() = i18n.get("update.not_available") ?: "{update.not_available}"
     }
 
     object Help {

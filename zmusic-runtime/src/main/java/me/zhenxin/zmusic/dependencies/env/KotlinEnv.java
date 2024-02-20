@@ -22,5 +22,11 @@ import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
         relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."},
         initiative = true
 )
+@RuntimeDependency(
+        value = "!org.jetbrains.kotlin:kotlin-reflect:" + ZMusicConstants.KOTLIN_VERSION,
+        test = "!me.zhenxin.zmusic.library.kotlin.reflect.KotlinReflect",
+        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."},
+        initiative = true
+)
 public class KotlinEnv {
 }

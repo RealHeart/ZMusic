@@ -26,6 +26,7 @@ loaded = [
 
 [update]
 checking = "&a正在检查更新..."
+checking_failed = "&c检查更新失败!"
 available = [
     "&a发现新版本: &b{version}",
     "&a更新日志:",

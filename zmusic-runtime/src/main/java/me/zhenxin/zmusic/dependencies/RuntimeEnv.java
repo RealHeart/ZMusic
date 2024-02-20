@@ -2,20 +2,19 @@ package me.zhenxin.zmusic.dependencies;
 
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependencies;
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
-import me.zhenxin.zmusic.dependencies.annotation.RuntimeResource;
-import me.zhenxin.zmusic.dependencies.annotation.RuntimeResources;
 import me.zhenxin.zmusic.dependencies.env.KotlinEnv;
-import me.zhenxin.zmusic.dependencies.env.KotlinEnvNoRelocate;
 import me.zhenxin.zmusic.dependencies.utils.IO;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.zip.ZipFile;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * TabooLib
@@ -29,99 +28,19 @@ public class RuntimeEnv {
 
     public static final RuntimeEnv ENV = new RuntimeEnv();
 
-    private static final String ENV_FILE_NAME = "zmusic-env.properties";
-    private static final Properties ENV_PROPERTIES = new Properties();
-
-    private static String defaultAssets = "assets";
     private static String defaultLibrary = "libraries";
-    private static String defaultRepositoryCentral = "https://maven.aliyun.com/repository/public";
-
-    RuntimeEnv() {
-        try {
-            File libs = new File("libs", "custom.txt");
-            if (libs.exists()) {
-                defaultLibrary = Files.readAllLines(libs.toPath(), StandardCharsets.UTF_8).get(0);
-            }
-            File env = new File(ENV_FILE_NAME);
-            if (env.exists()) {
-                ENV_PROPERTIES.load(new ByteArrayInputStream(Files.readAllBytes(env.toPath())));
-                defaultAssets = ENV_PROPERTIES.getProperty("assets", defaultAssets);
-                defaultLibrary = ENV_PROPERTIES.getProperty("library", defaultLibrary);
-                defaultRepositoryCentral = ENV_PROPERTIES.getProperty("repository-central", defaultRepositoryCentral);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static final String defaultRepositoryCentral = "https://maven.aliyun.com/repository/public";
 
     public void setup(String dataFolder) {
-        defaultAssets = dataFolder + "/" + defaultAssets;
         defaultLibrary = dataFolder + "/" + defaultLibrary;
         try {
             loadDependency(KotlinEnv.class, true);
         } catch (NoClassDefFoundError ignored) {
-            // 若开启 skip-kotlin-relocate 则加载原始版本
-            try {
-                loadDependency(KotlinEnvNoRelocate.class, true);
-            } catch (NoClassDefFoundError ignored2) {
-            }
         }
     }
 
     public void inject(@NotNull Class<?> clazz) {
-        loadAssets(clazz);
         loadDependency(clazz, false);
-    }
-
-    public void loadAssets(@NotNull Class<?> clazz) {
-        RuntimeResource[] resources = null;
-        if (clazz.isAnnotationPresent(RuntimeResource.class)) {
-            resources = clazz.getAnnotationsByType(RuntimeResource.class);
-        } else {
-            RuntimeResources annotation = clazz.getAnnotation(RuntimeResources.class);
-            if (annotation != null) {
-                resources = annotation.value();
-            }
-        }
-        if (resources == null) {
-            return;
-        }
-        for (RuntimeResource resource : resources) {
-            loadAssets(resource.name(), resource.hash(), resource.value(), resource.zip());
-        }
-    }
-
-    public void loadAssets(String name, String hash, String url, boolean zip) {
-        File file;
-        if (name.isEmpty()) {
-            file = new File(defaultAssets, hash.substring(0, 2) + "/" + hash);
-        } else {
-            file = new File(defaultAssets, name);
-        }
-        if (file.exists() && IO.getHash(file).equals(hash)) {
-            return;
-        }
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
-        try {
-            if (zip) {
-                File cacheFile = new File(file.getParentFile(), file.getName() + ".zip");
-                IO.downloadFile(new URL(url + ".zip"), cacheFile);
-                try (ZipFile zipFile = new ZipFile(cacheFile)) {
-                    InputStream inputStream = zipFile.getInputStream(zipFile.getEntry(url.substring(url.lastIndexOf('/') + 1)));
-                    try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-                        fileOutputStream.write(IO.readFully(inputStream));
-                    }
-                } finally {
-                    cacheFile.delete();
-                }
-            } else {
-                IO.downloadFile(new URL(url), file);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private boolean test(String path) {
@@ -198,12 +117,7 @@ public class RuntimeEnv {
     public void loadDependency(@NotNull String url, @NotNull File baseDir, @NotNull List<JarRelocation> relocation, @Nullable String repository, boolean ignoreOptional, boolean ignoreException, boolean transitive, boolean isolated, boolean initiative, @NotNull DependencyScope[] dependencyScopes) throws IOException {
         String[] args = url.split(":");
         DependencyDownloader downloader = new DependencyDownloader(baseDir, relocation);
-        // 支持用户对源进行替换
-        if (repository == null || repository.isEmpty()) {
-            repository = defaultRepositoryCentral;
-        } else if (ENV_PROPERTIES.contains("repository-" + repository)) {
-            repository = ENV_PROPERTIES.getProperty("repository-" + repository);
-        }
+        repository = defaultRepositoryCentral;
         downloader.addRepository(new Repository(repository));
         downloader.setIgnoreOptional(ignoreOptional);
         downloader.setIgnoreException(ignoreException);

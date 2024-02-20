@@ -26,6 +26,7 @@ loaded = [
 
 [update]
 checking = "&aChecking for updates..."
+checking_failed = "&cFailed to check for updates."
 available = [
     "&aNew version available: &b{version}",
     "&aChangeLog:"

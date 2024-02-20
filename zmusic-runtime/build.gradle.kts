@@ -38,6 +38,6 @@ fun versionCode(): String {
     }
 
     val time = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+    val formatter = DateTimeFormatter.ofPattern("yyMMddHHmm")
     return time.format(formatter)
 }

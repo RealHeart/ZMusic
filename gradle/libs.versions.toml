@@ -15,6 +15,7 @@ bstats = "3.0.2"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-noarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
 kyori-blossom = { id = "net.kyori.blossom", version.ref = "blossom" }
 johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 

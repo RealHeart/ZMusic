@@ -5,8 +5,8 @@ import me.zhenxin.zmusic.config.initConfig
 import me.zhenxin.zmusic.config.initI18n
 import me.zhenxin.zmusic.platform.Logger
 import me.zhenxin.zmusic.platform.Platform
+import me.zhenxin.zmusic.utils.checkUpdate
 import me.zhenxin.zmusic.utils.colored
-import me.zhenxin.zmusic.utils.httpGet
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -50,10 +50,7 @@ object ZMusic {
             )
         }
 
-        thread {
-            logger.info(I18n.Update.checking)
-            httpGet("https://api.zhenxin.me/zmusic/version?type=dev")
-        }
+        thread { checkUpdate() }
     }
 
     /**
