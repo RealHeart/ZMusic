@@ -1,3 +1,6 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
     alias(libs.plugins.kyori.blossom)
 }
@@ -11,6 +14,7 @@ sourceSets {
         blossom {
             javaSources {
                 property("pluginVersion", project.version.toString())
+                property("pluginVersionCode", versionCode())
                 property("kotlinVersion", libs.versions.kotlin.get())
                 property("okioVersion", libs.versions.okio.get())
                 property("okhttpVersion", libs.versions.okhttp.get())
@@ -25,4 +29,15 @@ sourceSets {
 
 tasks.shadowJar {
     enabled = false
+}
+
+fun versionCode(): String {
+    val runId = System.getenv("GITHUB_RUN_ID") ?: ""
+    if (runId.isNotEmpty()) {
+        return runId
+    }
+
+    val time = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+    return time.format(formatter)
 }

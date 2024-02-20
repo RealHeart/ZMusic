@@ -14,6 +14,11 @@ public class ZMusicConstants {
     public static final String PLUGIN_VERSION = "{{ pluginVersion }}";
 
     /**
+     * 插件版本代码
+     */
+    public static final String PLUGIN_VERSION_CODE = "{{ pluginVersionCode }}";
+
+    /**
      * Kotlin 版本
      */
     public static final String KOTLIN_VERSION = "{{ kotlinVersion }}";
