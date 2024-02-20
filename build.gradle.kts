@@ -13,7 +13,6 @@ fun gitCommitHash(): String {
 plugins {
     java
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.noarg)
     alias(libs.plugins.johnrengelman.shadow)
 }
 
@@ -30,16 +29,7 @@ subprojects {
     apply {
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
-        plugin("org.jetbrains.kotlin.plugin.noarg")
         plugin("com.github.johnrengelman.shadow")
-    }
-
-    dependencies {
-        implementation(kotlin("reflect"))
-    }
-
-    noArg {
-        annotation("me.zhenxin.zmusic.annotation.NoArgsConstructor")
     }
 
     java {

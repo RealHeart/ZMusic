@@ -2,7 +2,6 @@ package me.zhenxin.zmusic.dependencies;
 
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependencies;
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
-import me.zhenxin.zmusic.dependencies.env.KotlinEnv;
 import me.zhenxin.zmusic.dependencies.utils.IO;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

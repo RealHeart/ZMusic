@@ -30,6 +30,8 @@ checking_failed = "&c检查更新失败!"
 available = [
     "&a发现新版本: &b{version}",
     "&a更新日志:",
+    "{changelog}",
+    "&a下载地址: &b{download}",
 ]
 not_available = "&a当前已是最新版本!"
 

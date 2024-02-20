@@ -29,7 +29,9 @@ checking = "&aChecking for updates..."
 checking_failed = "&cFailed to check for updates."
 available = [
     "&aNew version available: &b{version}",
-    "&aChangeLog:"
+    "&aChangeLog:",
+    "{changelog}",
+    "&aDownload: &b{download}",
 ]
 not_available = "&aNo new version available."
 

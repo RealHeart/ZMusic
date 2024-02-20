@@ -1,15 +1,12 @@
 package me.zhenxin.zmusic.entity
 
-import me.zhenxin.zmusic.annotation.NoArgsConstructor
-
 /**
  * 版本信息
  *
  * @author 真心
  * @since 2024/2/20 10:27
  */
-@NoArgsConstructor
-data class VersionInfo(
+class VersionInfo(
     /**
      * 版本号
      */

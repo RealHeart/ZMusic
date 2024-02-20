@@ -1,4 +1,4 @@
-package me.zhenxin.zmusic.dependencies.env;
+package me.zhenxin.zmusic.dependencies;
 
 import me.zhenxin.zmusic.ZMusicConstants;
 import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
@@ -19,12 +19,6 @@ import me.zhenxin.zmusic.dependencies.annotation.RuntimeDependency;
 @RuntimeDependency(
         value = "!org.jetbrains.kotlin:kotlin-stdlib-jdk8:" + ZMusicConstants.KOTLIN_VERSION,
         test = "!me.zhenxin.zmusic.library.kotlin.collections.jdk8.CollectionsJDK8Kt",
-        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."},
-        initiative = true
-)
-@RuntimeDependency(
-        value = "!org.jetbrains.kotlin:kotlin-reflect:" + ZMusicConstants.KOTLIN_VERSION,
-        test = "!me.zhenxin.zmusic.library.kotlin.reflect.KotlinReflect",
         relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."},
         initiative = true
 )

@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.utils
 
 import com.alibaba.fastjson2.parseObject
+import com.alibaba.fastjson2.to
 import me.zhenxin.zmusic.ZMusicConstants
 import me.zhenxin.zmusic.config.I18n
 import me.zhenxin.zmusic.entity.VersionInfo
@@ -27,24 +28,24 @@ fun checkUpdate() {
     }
 
     val data = json.getJSONObject("data")
-    logger.debug("Latest version info: $data")
-    val versionInfo = VersionInfo(
-        version = data.getString("version"),
-        versionCode = data.getLongValue("versionCode"),
-        changelog = data.getString("changelog"),
-        download = data.getString("download")
-    )
-    logger.debug("version: $versionInfo")
+    val versionInfo = data.to<VersionInfo>()
 
     logger.debug("Current version: ${ZMusicConstants.PLUGIN_VERSION}(${ZMusicConstants.PLUGIN_VERSION_CODE})")
     logger.debug("Latest version: ${versionInfo.version}(${versionInfo.versionCode})")
 
     if (versionInfo.versionCode > ZMusicConstants.PLUGIN_VERSION_CODE.toLong()) {
         I18n.Update.available.forEach {
-            logger.info(it.replace("{version}", versionInfo.version))
-        }
-        versionInfo.changelog.split("\n").forEach {
-            logger.info("&b$it")
+            if (it.contains("{version}")) {
+                logger.info(it.replace("{version}", versionInfo.version))
+            } else if (it.contains("{changelog}")) {
+                versionInfo.changelog.split("\n").forEach { log ->
+                    logger.info("&b$log")
+                }
+            } else if (it.contains("{download}")) {
+                logger.info(it.replace("{download}", versionInfo.download))
+            } else {
+                logger.info(it)
+            }
         }
     } else {
         logger.info(I18n.Update.notAvailable)
