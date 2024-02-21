@@ -45,8 +45,15 @@ public class BiliBiliMusic {
             data.addProperty("secret", Config.vipSecret);
             data.addProperty("id", "bilibili_" + musicId);
             data.addProperty("url", musicUrl);
-            musicUrl = NetUtils.postNetString("https://api.zhenxin.me/zmusic/vip/m4a2mp3", null, data);
-
+            String res = NetUtils.postNetString("https://api.zhenxin.me/zmusic/vip/m4a2mp3", null, data);
+            JsonObject resJson = gson.fromJson(res, JsonObject.class);
+            if (resJson.get("code").getAsInt() == 200) {
+                JsonObject dataJson = resJson.get("data").getAsJsonObject();
+                String name = dataJson.get("name").getAsString();
+                musicUrl = "https://api.zhenxin.me/zmusic/vip/download/" + name;
+            } else {
+                throw new Exception("M4A转MP3失败");
+            }
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("id", musicId);
             returnJSON.addProperty("url", musicUrl);
