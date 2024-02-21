@@ -60,7 +60,7 @@ public class LoadConfig {
         Config.version = config.get("version").getAsInt();
         // Debug
         Config.debug = config.get("debug").getAsBoolean();
-        Config.update = config.get("update").getAsBoolean();
+        Config.checkUpdate = config.get("check-update").getAsBoolean();
         // Prefix
         Config.prefix = config.get("prefix").getAsString().replaceAll("&", "§");
         // Api
@@ -70,21 +70,25 @@ public class LoadConfig {
             neteaseApiRoot += "/";
         }
         Config.neteaseApiRoot = neteaseApiRoot;
-        // Account
-        JsonObject account = config.get("account").getAsJsonObject();
-        // Netease
-        JsonObject netease = account.get("netease").getAsJsonObject();
-        Config.neteaseFollow = netease.get("follow").getAsBoolean();
-        // Bilibili
-        JsonObject bilibili = account.get("bilibili").getAsJsonObject();
-        Config.bilibiliQQ = bilibili.get("qq").getAsString();
-        Config.bilibiliKey = bilibili.get("key").getAsString();
-        if (!Config.bilibiliKey.equalsIgnoreCase("none")) {
+        // NeteaseFollow
+        Config.neteaseFollow = config.get("netease-follow").getAsBoolean();
+        // VIP
+        JsonObject vip = config.get("vip").getAsJsonObject();
+        Config.vipAccount = vip.get("account").getAsString();
+        Config.vipSecret = vip.get("secret").getAsString();
+        if (!Config.vipSecret.equalsIgnoreCase("none")) {
             ZMusic.runTask.runAsync(() -> {
                 Gson gson = new GsonBuilder().create();
-                String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/checkVIP.php", null, "qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey);
+                JsonObject data = new JsonObject();
+                data.addProperty("account", Config.vipAccount);
+                data.addProperty("secret", Config.vipSecret);
+                String jsonText = NetUtils.postNetString("https://api.zhenxin.me/zmusic/vip/check", null, data);
                 JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                ZMusic.bilibiliIsVIP = json.get("isVIP").getAsBoolean();
+                int code = json.get("code").getAsInt();
+                if (code == 200) {
+                    JsonObject dataJson = json.get("data").getAsJsonObject();
+                    ZMusic.isVip = dataJson.get("isVip").getAsBoolean();
+                }
             });
         }
         // Music

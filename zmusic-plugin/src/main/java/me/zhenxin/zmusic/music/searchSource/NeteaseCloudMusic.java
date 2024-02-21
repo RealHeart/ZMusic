@@ -156,7 +156,7 @@ public class NeteaseCloudMusic {
             s = sb.toString();
             s = s.substring(0, s.length() - 1);
 
-            JsonObject playListInfo = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
+            JsonObject playListInfo = gson.fromJson(NetUtils.postNetString(Config.neteaseApiRoot + "song/detail", null, "ids=" + s), JsonObject.class);
             JsonArray songList = playListInfo.get("songs").getAsJsonArray();
 
             JsonObject returnJson = new JsonObject();

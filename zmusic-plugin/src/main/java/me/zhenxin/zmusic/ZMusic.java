@@ -28,8 +28,8 @@ public final class ZMusic {
 
     public static File dataFolder;
     public static String thisVer;
-    public static int thisVerCode = 202307220;
-    public static boolean bilibiliIsVIP = false;
+    public static int thisVerCode = 202402210;
+    public static boolean isVip = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;
     public static boolean isEnableEd = false;
@@ -49,7 +49,7 @@ public final class ZMusic {
             }
         }
         ZMusic.log.sendNormalMessage("插件作者: 真心");
-        ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
+        ZMusic.log.sendNormalMessage("主页：zhenxin.me");
         ZMusic.log.sendNormalMessage("QQ：1307993674");
         ZMusic.log.sendNormalMessage("插件交流群：1032722724");
         ZMusic.log.sendNormalMessage("插件已卸载完成!");
@@ -67,7 +67,7 @@ public final class ZMusic {
                 NeteaseLogin.anonymous();
             }
             ZMusic.log.sendNormalMessage("插件作者: 真心");
-            ZMusic.log.sendNormalMessage("博客：www.zhenxin.xyz");
+            ZMusic.log.sendNormalMessage("主页：zhenxin.me");
             ZMusic.log.sendNormalMessage("QQ：1307993674");
             ZMusic.log.sendNormalMessage("插件交流群：1032722724");
             ZMusic.log.sendNormalMessage("插件已加载完成!");

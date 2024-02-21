@@ -1,8 +1,8 @@
 {
   // 配置文件版本(请勿修改)
-  "version": 10,
-  // 是否自动下载插件更新
-  "update": false,
+  "version": 11,
+  // 是否字段检查更新
+  "check-update": true,
   // 插件提示信息显示前缀
   "prefix": "&bZMusic &e>>> &r",
   // 是否开启调试模式
@@ -16,25 +16,14 @@
     // 地址: https://github.com/Binaryify/NeteaseCloudMusicApi
     "netease": "https://zm.armoe.cn/"
   },
-  // 账号设置
-  "account": {
-    // 网易云音乐
-    "netease": {
-      // 是否关注作者的网易云音乐账号
-      "follow": true
-    },
-    // 哔哩哔哩
-    "bilibili": {
-      // 由于哔哩哔哩为m4a音频格式
-      // 需要服务器用来转换
-      // 因此哔哩哔哩播放功能收费5元/永久
-      // 联系作者获取授权
-      //
-      // 授权QQ
-      "qq": "1307993674",
-      // 授权Key
-      "key": "none"
-    }
+  // 是否关注作者的网易云音乐账号
+  "netease-follow": true,
+  // ZMusic VIP 设置
+  "vip": {
+    // 授权账号
+    "account": "1307993674",
+    // 授权密钥
+    "secret": "none"
   },
   // 点歌设置
   "music": {

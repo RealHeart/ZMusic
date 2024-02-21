@@ -64,8 +64,9 @@ public class NeteaseLogin {
 
     public static Boolean isLogin() {
         String result = NetUtils.getNetString(API + "login/status?timestamp=" + time(), null);
-        JsonObject data = GSON.fromJson(result, JsonObject.class);
+        JsonObject root = GSON.fromJson(result, JsonObject.class);
         try {
+            JsonObject data = root.getAsJsonObject("data");
             data.get("profile").getAsJsonObject();
             return true;
         } catch (Exception e) {

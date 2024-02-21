@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.utils;
 
+import com.google.gson.JsonObject;
 import me.zhenxin.zmusic.ZMusic;
 
 import java.io.DataOutputStream;
@@ -124,7 +125,7 @@ public class NetUtils {
      * @param url 网络地址
      * @return 获取的文本
      */
-    public static String getNetString(String url, String Referer, String content) {
+    public static String postNetString(String url, String Referer, String content) {
         try {
             String ua = "Mozilla/5.0 (Linux; Android 11; Mi 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + ZMusic.thisVer;
 
@@ -160,6 +161,45 @@ public class NetUtils {
             return null;
         }
     }
+
+    public static String postNetString(String url, String Referer, JsonObject data) {
+        try {
+            String ua = "Mozilla/5.0 (Linux; Android 11; Mi 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + ZMusic.thisVer;
+
+            if (!url.contains("?")) {
+                url = url + "?timestamp=" + System.currentTimeMillis();
+            } else {
+                url = url + "&timestamp=" + System.currentTimeMillis();
+            }
+
+            ZMusic.log.sendDebugMessage(url);
+
+            URL getUrl = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) getUrl.openConnection();
+            con.setReadTimeout(20000);
+            con.setConnectTimeout(5000);
+            con.addRequestProperty("Charset", "UTF-8");
+            con.addRequestProperty("Referer", Referer);
+            con.addRequestProperty("User-Agent", ua);
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.connect();
+            //DataOutputStream流
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            //将要上传的内容写入流中
+            out.writeBytes(data.toString());
+            //刷新、关闭
+            out.flush();
+            out.close();
+            return getString(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     private static String getString(String url, String Referer, String ua) throws IOException {
         URL getUrl = new URL(url);

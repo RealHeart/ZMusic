@@ -282,14 +282,10 @@ public class Cmd {
                                 }
                                 break;
                             case "163hot":
-                                if (ZMusic.player.isPlayer(sender)) {
-                                    if (args.length == 2) {
-                                        OtherUtils.neteaseHotComments(sender, OtherUtils.argsXin1(args, ""));
-                                    } else {
-                                        HelpUtils.sendHelp("main", sender);
-                                    }
+                                if (args.length == 2) {
+                                    OtherUtils.neteaseHotComments(sender, OtherUtils.argsXin1(args, ""));
                                 } else {
-                                    ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+                                    HelpUtils.sendHelp("main", sender);
                                 }
                                 break;
                             case "test":

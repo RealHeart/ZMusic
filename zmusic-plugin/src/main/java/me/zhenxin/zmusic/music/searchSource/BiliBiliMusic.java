@@ -39,8 +39,14 @@ public class BiliBiliMusic {
                     .split("<audio preload=\"auto\" src=\"")[1]
                     .split("\"")[0];
             musicUrl = musicUrl.replaceAll("&amp;", "&");
-            musicUrl = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/bilibili/getMp3.php", null,
-                    "qq=" + Config.bilibiliQQ + "&key=" + Config.bilibiliKey + "&id=" + musicId + "&url=" + URLEncoder.encode(musicUrl, "UTF-8"));
+
+            JsonObject data = new JsonObject();
+            data.addProperty("account", Config.vipAccount);
+            data.addProperty("secret", Config.vipSecret);
+            data.addProperty("id", "bilibili_" + musicId);
+            data.addProperty("url", musicUrl);
+            musicUrl = NetUtils.postNetString("https://api.zhenxin.me/zmusic/vip/m4a2mp3", null, data);
+
             JsonObject returnJSON = new JsonObject();
             returnJSON.addProperty("id", musicId);
             returnJSON.addProperty("url", musicUrl);

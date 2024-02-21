@@ -2,28 +2,28 @@ name: ZMusic
 main: me.zhenxin.zmusic.ZMusicBukkit
 version: ${version}
 api-version: '1.13'
-author: 真心
-description: 真心音乐系统
+author: ZhenXin
+description: ZMusic
 softdepend:
   - Vault
   - PlaceholderAPI
 commands:
   zm:
     usage: /zm help
-    description: 主命令
+    description: Main Command
     aliases:
       - zmusic
       - music
 permissions:
   zmusic.use:
     default: true
-    description: 普通玩家使用权限
+    description: zmusic.use
   zmusic.bypass:
     default: op
-    description: 绕过冷却和扣钱权限
+    description: zmusic.bypass
   zmusic.playall:
     default: op
-    description: 全服点歌权限
+    description: zmusic.playall
   zmusic.admin:
     default: op
-    description: 管理员权限
+    description: zmusic.admin

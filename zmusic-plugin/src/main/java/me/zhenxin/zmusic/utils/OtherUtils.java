@@ -81,9 +81,13 @@ public class OtherUtils {
     }
 
     public static void checkUpdate(Object sender, boolean aSync) {
+        if (!Config.checkUpdate) {
+            return;
+        }
+
         Runnable r = () -> {
             ZMusic.message.sendNormalMessage("正在检查更新...", sender);
-            String jsonText = NetUtils.getNetString("https://api.zhenxin.xyz/minecraft/plugins/ZMusic/version.json", null);
+            String jsonText = NetUtils.getNetString("https://api.zhenxin.me/zmusic/version?type=legacy", null);
             if (jsonText != null) {
                 Gson gson = new Gson();
                 JsonObject json = gson.fromJson(jsonText, JsonObject.class);
@@ -91,8 +95,6 @@ public class OtherUtils {
                 int latestVerCode = json.get("latestVerCode").getAsInt();
                 String updateLog = json.get("updateLog").getAsString();
                 String downloadUrl = json.get("downloadUrl").getAsString();
-                String updateUrl = json.get("updateUrl").getAsString();
-                String updateMD5 = json.get("updateMD5").getAsString();
                 if (ZMusic.thisVerCode < latestVerCode) {
                     ZMusic.message.sendNormalMessage("发现新版本 V" + latestVer, sender);
                     ZMusic.message.sendNormalMessage("更新日志:", sender);
@@ -100,26 +102,7 @@ public class OtherUtils {
                     for (String s : log) {
                         ZMusic.message.sendNormalMessage(s, sender);
                     }
-                    if (Config.update) {
-                        ZMusic.message.sendNormalMessage("已开启自动更新，正在下载最新版本中....", sender);
-                        File file = ZMusic.dataFolder;
-                        file = new File(file, "ZMusic-" + latestVer + ".jar");
-                        String md5 = "";
-                        try {
-                            md5 = getMD5Three(file.getAbsolutePath());
-                        } catch (Exception ignored) {
-                        }
-                        if (!md5.equals(updateMD5)) {
-                            try {
-                                OtherUtils.writeToLocal(file.getAbsolutePath(), NetUtils.getNetInputStream(updateUrl));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        ZMusic.message.sendNormalMessage("下载完成，文件已保存至插件文件夹update目录，请手动更新.", sender);
-                    } else {
-                        ZMusic.message.sendNormalMessage("下载地址: §e§n" + downloadUrl, sender);
-                    }
+                    ZMusic.message.sendNormalMessage("下载地址: " + downloadUrl, sender);
                 } else {
                     ZMusic.message.sendNormalMessage("已是最新版本!", sender);
                 }
@@ -138,7 +121,7 @@ public class OtherUtils {
                 Gson gson = new GsonBuilder().create();
                 JsonObject json = NeteaseCloudMusic.getMusicUrl(musicName);
                 String musicId = json.get("id").getAsString();
-                JsonObject jsonObject = gson.fromJson(NetUtils.getNetString("http://netease.api.zhenxin.xyz/comment/hot?limit=3&type=0&id=" + musicId, null), JsonObject.class);
+                JsonObject jsonObject = gson.fromJson(NetUtils.getNetString(Config.neteaseApiRoot + "comment/hot?id=" + musicId + "&type=0&limit=3", null), JsonObject.class);
                 JsonArray jsonArray = jsonObject.get("hotComments").getAsJsonArray();
                 ZMusic.message.sendNormalMessage("====== [" + json.get("name").getAsString() + "] 的热门评论 =====", player);
                 for (JsonElement j : jsonArray) {

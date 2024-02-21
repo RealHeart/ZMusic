@@ -7,19 +7,18 @@ public class Config {
     // Version
     public static int version;
     // LatestVersion
-    public static int latestVersion = 10;
+    public static int latestVersion = 11;
     // Debug
     public static boolean debug;
-    // Update
-    public static boolean update;
+    // CheckUpdate
+    public static boolean checkUpdate;
     // Api
     public static String neteaseApiRoot;
-    // Account
-    // Netease
+    // NeteaseFollow
     public static boolean neteaseFollow;
-    // Bilibili
-    public static String bilibiliQQ;
-    public static String bilibiliKey;
+    // VIP
+    public static String vipAccount;
+    public static String vipSecret;
     // Music
     public static int money;
     public static int cooldown;
