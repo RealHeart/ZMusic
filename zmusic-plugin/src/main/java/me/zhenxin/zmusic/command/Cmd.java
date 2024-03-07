@@ -48,53 +48,53 @@ public class Cmd {
                         switch (args[0].toLowerCase()) {
                             case "music":
                                 if (ZMusic.player.isPlayer(sender)) {
-                                    int cooldownSec = Config.cooldown;
-                                    Runnable startPlay = () -> {
-                                        if (args.length >= 2) {
+                                    if (args.length >= 2) {
+                                        int cooldownSec = Config.cooldown;
+                                        Runnable startPlay = () -> {
                                             List<Object> players = ZMusic.player.getOnlinePlayerList();
                                             PlayMusic.play(OtherUtils.argsXin1(args), args[1], sender, "music", players);
-                                        } else {
-                                            HelpUtils.sendHelp("music", sender);
-                                        }
-                                    };
-                                    if (!ZMusic.player.hasPermission(sender, "zmusic.bypass")) {
-                                        if (!cooldownStats.contains(sender)) {
-                                            if (!ZMusic.isBC) {
-                                                if (Config.realSupportVault) {
-                                                    if (Config.money > 0) {
-                                                        if (!Vault.take(sender)) {
-                                                            return true;
+                                        };
+                                        if (!ZMusic.player.hasPermission(sender, "zmusic.bypass")) {
+                                            if (!cooldownStats.contains(sender)) {
+                                                if (!ZMusic.isBC) {
+                                                    if (Config.realSupportVault) {
+                                                        if (Config.money > 0) {
+                                                            if (!Vault.take(sender)) {
+                                                                return true;
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            ZMusic.runTask.runAsync(startPlay);
-                                            if (cooldownSec > 0) {
-                                                cooldownStats.add(sender);
-                                                cooldown.put(sender, cooldownSec);
-                                                Timer timer = new Timer();
-                                                TimerTask timerTask = new TimerTask() {
-                                                    @Override
-                                                    public void run() {
-                                                        int sec = cooldown.get(sender);
-                                                        if (sec != 1) {
-                                                            sec--;
-                                                            cooldown.put(sender, sec);
-                                                        } else {
-                                                            cooldownStats.remove(sender);
-                                                            cancel();
+                                                ZMusic.runTask.runAsync(startPlay);
+                                                if (cooldownSec > 0) {
+                                                    cooldownStats.add(sender);
+                                                    cooldown.put(sender, cooldownSec);
+                                                    Timer timer = new Timer();
+                                                    TimerTask timerTask = new TimerTask() {
+                                                        @Override
+                                                        public void run() {
+                                                            int sec = cooldown.get(sender);
+                                                            if (sec != 1) {
+                                                                sec--;
+                                                                cooldown.put(sender, sec);
+                                                            } else {
+                                                                cooldownStats.remove(sender);
+                                                                cancel();
+                                                            }
                                                         }
-                                                    }
-                                                };
-                                                timer.schedule(timerTask, 1000L, 1000L);
+                                                    };
+                                                    timer.schedule(timerTask, 1000L, 1000L);
+                                                } else {
+                                                    break;
+                                                }
                                             } else {
-                                                break;
+                                                ZMusic.message.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
                                             }
                                         } else {
-                                            ZMusic.message.sendErrorMessage("冷却时间未到,还有§e " + cooldown.get(sender) + "§c 秒", sender);
+                                            ZMusic.runTask.runAsync(startPlay);
                                         }
                                     } else {
-                                        ZMusic.runTask.runAsync(startPlay);
+                                        HelpUtils.sendHelp("music", sender);
                                     }
                                 } else {
                                     ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
