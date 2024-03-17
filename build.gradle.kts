@@ -16,6 +16,12 @@ plugins {
     alias(libs.plugins.johnrengelman.shadow)
 }
 
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
 subprojects {
     group = "me.zhenxin"
     version = "4.0.0-dev" + gitCommitHash()
