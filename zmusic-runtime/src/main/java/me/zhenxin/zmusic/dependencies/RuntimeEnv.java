@@ -28,7 +28,7 @@ public class RuntimeEnv {
     public static final RuntimeEnv ENV = new RuntimeEnv();
 
     private static String defaultLibrary = "libraries";
-    private static final String defaultRepositoryCentral = "https://maven.aliyun.com/repository/public";
+    private static final String defaultRepositoryCentral = "https://repo.nju.edu.cn/repository/maven-public";
 
     public void setup(String dataFolder) {
         defaultLibrary = dataFolder + "/" + defaultLibrary;

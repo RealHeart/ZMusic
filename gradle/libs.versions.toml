@@ -5,9 +5,7 @@ shadow = "8.1.1"
 spigot = "1.19.4-R0.1-SNAPSHOT"
 bungeecord = "1.19-R0.1-SNAPSHOT"
 velocity = "3.1.1"
-okio = "3.6.0"
-okhttp = "4.12.0"
-fastjson = "2.0.46"
+hutool = "6.0.0-M11"
 netty = "4.1.97.Final"
 placeholderapi = "2.11.5"
 nightconfig = "3.6.7"
@@ -23,25 +21,22 @@ johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 bungeecord = { module = "net.md-5:bungeecord-api", version.ref = "bungeecord" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-# okhttp
-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-# fastjson
-fastjson_core = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson" }
-fastjson_kotlin = { module = "com.alibaba.fastjson2:fastjson2-kotlin", version.ref = "fastjson" }
+# hutool
+hutool-core = { module = "org.dromara.hutool:hutool-core", version.ref = "hutool" }
+hutool-http = { module = "org.dromara.hutool:hutool-http", version.ref = "hutool" }
+hutool-json = { module = "org.dromara.hutool:hutool-json", version.ref = "hutool" }
 # netty
-netty_buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+netty-buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # PAPI
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 # Night Config
-nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
-nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+nightconfig-core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
+nightconfig-toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
 # bStats
-bstats_bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
-bstats_bungeecord = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
-bstats_velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
+bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+bstats-bungeecord = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
+bstats-velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
 
 [bundles]
-okhttp = ["okio", "okhttp"]
-fastjson = ["fastjson_core", "fastjson_kotlin"]
-nightconfig = ["nightconfig_core", "nightconfig_toml"]
+hutool = ["hutool-core", "hutool-http", "hutool-json"]
+nightconfig = ["nightconfig-core", "nightconfig-toml"]

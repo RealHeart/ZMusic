@@ -24,7 +24,7 @@ public class Repository extends AbstractXmlParser {
     /**
      * 中央仓库地址
      */
-    private static final String MAVEN_CENTRAL = "https://maven.aliyun.com/repository/public";
+    private static final String MAVEN_CENTRAL = "https://repo.nju.edu.cn/repository/maven-public";
 
     /**
      * 仓库地址

@@ -14,23 +14,16 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings({"AlibabaClassNamingShouldBeCamel", "SpellCheckingInspection"})
 @RuntimeDependency(
-        value = "!com.squareup.okio:okio-jvm:" + ZMusicConstants.OKIO_VERSION,
-        test = "!okio.Buffer",
-        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
+        value = "!org.dromara.hutool:hutool-core:" + ZMusicConstants.HUTOOL_VERSION,
+        test = "!org.dromara.hutool.core.text.StrUtil"
 )
 @RuntimeDependency(
-        value = "!com.squareup.okhttp3:okhttp:" + ZMusicConstants.OKHTTP_VERSION,
-        test = "!okhttp3.OkHttpClient",
-        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
+        value = "!org.dromara.hutool:hutool-http:" + ZMusicConstants.HUTOOL_VERSION,
+        test = "!org.dromara.hutool.http.HttpUtil"
 )
 @RuntimeDependency(
-        value = "!com.alibaba.fastjson2:fastjson2:" + ZMusicConstants.FASTJSON_VERSION,
-        test = "!com.alibaba.fastjson2.JSON"
-)
-@RuntimeDependency(
-        value = "!com.alibaba.fastjson2:fastjson2-kotlin:" + ZMusicConstants.FASTJSON_VERSION,
-        test = "!com.alibaba.fastjson2.JSONKt",
-        relocate = {"!kotlin.", "!me.zhenxin.zmusic.library.kotlin."}
+        value = "!org.dromara.hutool:hutool-json:" + ZMusicConstants.HUTOOL_VERSION,
+        test = "!org.dromara.hutool.json.JSONUtil"
 )
 @RuntimeDependency(
         value = "!io.netty:netty-buffer:" + ZMusicConstants.NETTY_VERSION,

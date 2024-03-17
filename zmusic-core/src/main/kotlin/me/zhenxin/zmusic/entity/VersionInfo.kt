@@ -6,21 +6,21 @@ package me.zhenxin.zmusic.entity
  * @author 真心
  * @since 2024/2/20 10:27
  */
-class VersionInfo(
+data class VersionInfo(
     /**
      * 版本号
      */
-    val version: String,
+    var version: String = "",
     /**
      * 版本代码
      */
-    val versionCode: Long,
+    var versionCode: Long = 0,
     /**
      * 更新日志
      */
-    val changelog: String,
+    var changelog: String = "",
     /**
      * 下载链接
      */
-    val download: String,
+    var download: String = ""
 )

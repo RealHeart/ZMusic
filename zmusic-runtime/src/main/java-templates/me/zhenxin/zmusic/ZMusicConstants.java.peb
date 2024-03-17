@@ -24,19 +24,9 @@ public class ZMusicConstants {
     public static final String KOTLIN_VERSION = "{{ kotlinVersion }}";
 
     /**
-     * Okio 版本
+     * HuTool 版本
      */
-    public static final String OKIO_VERSION = "{{ okioVersion }}";
-
-    /**
-     * OkHttp 版本
-     */
-    public static final String OKHTTP_VERSION = "{{ okhttpVersion }}";
-
-    /**
-     * fastjson 版本
-     */
-    public static final String FASTJSON_VERSION = "{{ fastjsonVersion }}";
+    public static final String HUTOOL_VERSION = "{{ hutoolVersion }}";
 
     /**
      * Netty 版本

@@ -1,11 +1,11 @@
 package me.zhenxin.zmusic.utils
 
-import com.alibaba.fastjson2.parseObject
-import com.alibaba.fastjson2.to
 import me.zhenxin.zmusic.ZMusicConstants
 import me.zhenxin.zmusic.config.I18n
 import me.zhenxin.zmusic.entity.VersionInfo
 import me.zhenxin.zmusic.logger
+import org.dromara.hutool.json.JSONUtil
+import kotlin.math.log
 
 /**
  * 公共工具
@@ -21,14 +21,14 @@ import me.zhenxin.zmusic.logger
 fun checkUpdate() {
     logger.info(I18n.Update.checking)
     val res = httpGet("https://api.zhenxin.me/zmusic/version?type=dev")
-    val json = res.parseObject()
-    if (json.getIntValue("code") != 200) {
+    val json = JSONUtil.parseObj(res)
+    if (json.getInt("code") != 200) {
         logger.error(I18n.Update.checkFailed)
         return
     }
 
     val data = json.getJSONObject("data")
-    val versionInfo = data.to<VersionInfo>()
+    val versionInfo = JSONUtil.toBean(data, VersionInfo::class.java)
 
     logger.debug("Current version: ${ZMusicConstants.PLUGIN_VERSION}(${ZMusicConstants.PLUGIN_VERSION_CODE})")
     logger.debug("Latest version: ${versionInfo.version}(${versionInfo.versionCode})")
