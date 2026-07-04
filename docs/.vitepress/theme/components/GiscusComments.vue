@@ -14,7 +14,7 @@ const giscusLangMap: Record<string, string> = {
 <template>
   <div>
     <Giscus
-      repo="zmusic-dev/zmusic-comments"
+      repo="starhui-dev/zmusic-comments"
       repo-id="R_kgDORwUV4A"
       category="comments"
       category-id="DIC_kwDORwUV4M4C5PI7"

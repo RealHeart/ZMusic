@@ -4,7 +4,7 @@
     image: node:lts
   breakIfModify: true
   imports:
-    - https://cnb.cool/zmusic-dev/zmusic-secrets/-/blob/main/envs.yml
+    - https://cnb.cool/starhui-dev/zmusic-secrets/-/blob/main/envs.yml
   env:
     DEPLOY_HOST_ALIAS: deploy-server
     DEPLOY_HISTORY_LIMIT: "5"

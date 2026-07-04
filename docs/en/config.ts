@@ -7,7 +7,7 @@ export default defineAdditionalConfig({
     search: { options: searchOptions() },
 
     editLink: {
-      pattern: 'https://github.com/zmusic-dev/zmusic-plugin/edit/v4/docs/:path',
+      pattern: 'https://github.com/starhui-dev/zmusic-plugin/edit/v4/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
@@ -62,7 +62,7 @@ function nav(): DefaultTheme.NavItem[] {
       text: '4.0.0-dev',
       items: [
         { text: '2.11.0 (LTS)', link: '/en/v2/' },
-        { text: 'Changelog', link: 'https://github.com/zmusic-dev/zmusic-plugin/blob/v4/CHANGELOG.md' }
+        { text: 'Changelog', link: 'https://github.com/starhui-dev/zmusic-plugin/blob/v4/CHANGELOG.md' }
       ]
     }
   ]

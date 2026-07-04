@@ -42,5 +42,5 @@ title: はじめに
 
 ## フィードバック {#feedback}
 
-- [GitHub](https://github.com/zmusic-dev/zmusic-plugin) で Issues を提出
+- [GitHub](https://github.com/starhui-dev/zmusic-plugin) で Issues を提出
 - Discord: [discord.gg/twQgJNufYn](https://discord.gg/twQgJNufYn) でフィードバック

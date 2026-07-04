@@ -79,19 +79,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Contributors
 
-[![][contrib]](https://github.com/zmusic-dev/zmusic-plugin/graphs/contributors)
+[![][contrib]](https://github.com/starhui-dev/zmusic-plugin/graphs/contributors)
 
-[banner]: https://socialify.git.ci/zmusic-dev/zmusic-plugin/image?description=1&forks=1&issues=1&language=1&name=1&pulls=1&stargazers=1&theme=Auto
+[banner]: https://socialify.git.ci/starhui-dev/zmusic-plugin/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto
 
-[build-status]: https://img.shields.io/github/actions/workflow/status/zmusic-dev/zmusic-plugin/dev.yml?branch=v4&style=for-the-badge
+[build-status]: https://img.shields.io/github/actions/workflow/status/starhui-dev/zmusic-plugin/dev.yml?branch=v4&style=for-the-badge
 
-[codefactor]: https://img.shields.io/codefactor/grade/github/zmusic-dev/zmusic-plugin/v4?style=for-the-badge
+[codefactor]: https://img.shields.io/codefactor/grade/github/starhui-dev/zmusic-plugin/v4?style=for-the-badge
 
-[language]: https://img.shields.io/github/languages/top/zmusic-dev/zmusic-plugin?style=for-the-badge
+[language]: https://img.shields.io/github/languages/top/starhui-dev/zmusic-plugin?style=for-the-badge
 
-[last-commit]: https://img.shields.io/github/last-commit/zmusic-dev/zmusic-plugin?style=for-the-badge
+[last-commit]: https://img.shields.io/github/last-commit/starhui-dev/zmusic-plugin?style=for-the-badge
 
-[license]: https://img.shields.io/github/license/zmusic-dev/zmusic-plugin?style=for-the-badge
+[license]: https://img.shields.io/github/license/starhui-dev/zmusic-plugin?style=for-the-badge
 
 [players]: https://img.shields.io/bstats/players/7291?label=players&style=for-the-badge
 
@@ -99,11 +99,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 [tested-versions]: https://img.shields.io/spiget/tested-versions/83027?style=for-the-badge
 
-[releases]: https://img.shields.io/github/v/release/zmusic-dev/zmusic-plugin?style=for-the-badge
+[releases]: https://img.shields.io/github/v/release/starhui-dev/zmusic-plugin?style=for-the-badge
 
-[downloads]: https://img.shields.io/github/downloads/zmusic-dev/zmusic-plugin/total?style=for-the-badge
+[downloads]: https://img.shields.io/github/downloads/starhui-dev/zmusic-plugin/total?style=for-the-badge
 
-[contrib]: https://contrib.rocks/image?repo=zmusic-dev/zmusic-plugin
+[contrib]: https://contrib.rocks/image?repo=starhui-dev/zmusic-plugin
 
 [docs-link]: https://docs.zmusic.cc
 

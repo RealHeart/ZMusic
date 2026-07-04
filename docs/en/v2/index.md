@@ -63,7 +63,7 @@ ZMusic is a powerful music system that supports the following functions.
 
 ## Feedback {#feedback}
 
-- Submit issues on [GitHub](https://github.com/zmusic-dev/zmusic-plugin)
+- Submit issues on [GitHub](https://github.com/starhui-dev/zmusic-plugin)
 - Join our Discord: [https://discord.gg/twQgJNufYn](https://discord.gg/twQgJNufYn)
 
 # Command {#commands}
@@ -276,9 +276,9 @@ Example: `/zm play bilibili -id:374305`
 
 [java]: https://img.shields.io/badge/java-1.8-blue
 [kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
-[license]: https://img.shields.io/github/license/zmusic-dev/zmusic-plugin?color=blue
+[license]: https://img.shields.io/github/license/starhui-dev/zmusic-plugin?color=blue
 [players]: https://img.shields.io/bstats/players/7291
 [servers]: https://img.shields.io/bstats/servers/7291
 [tested-versions]: https://img.shields.io/spiget/tested-versions/83027
-[release]: https://img.shields.io/github/v/release/zmusic-dev/zmusic-plugin
-[downloads]: https://img.shields.io/github/downloads/zmusic-dev/zmusic-plugin/total?color=blue
+[release]: https://img.shields.io/github/v/release/starhui-dev/zmusic-plugin
+[downloads]: https://img.shields.io/github/downloads/starhui-dev/zmusic-plugin/total?color=blue

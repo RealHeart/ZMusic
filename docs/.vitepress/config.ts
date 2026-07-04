@@ -51,11 +51,11 @@ export default defineConfig({
   },
   themeConfig: {
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/zmusic-dev/zmusic-plugin' }
+      { icon: 'github', link: 'https://github.com/starhui-dev/zmusic-plugin' }
     ],
     i18nRouting: true,
-    repo: 'zmusic-dev/zmusic-plugin',
-    modRepo: 'zmusic-dev/zmusic-client'
+    repo: 'starhui-dev/zmusic-plugin',
+    modRepo: 'starhui-dev/zmusic-client'
   },
   locales: {
     root: {

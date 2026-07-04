@@ -7,8 +7,8 @@ labels: 'type: bug'
 
 警告: 在进一步操作之前，请检查下列选项。如果您忽视此模板或者没有提供关键信息，您的 Issue 将直接被关闭
 
-- [ ] 确保您使用的是 [最新开发版本](https://github.com/zmusic-dev/zmusic-plugin/actions/workflows/dev.yml) 的 ZMusic 插件.
-- [ ] 确保您的问题尚未在 [Issues](https://github.com/zmusic-dev/zmusic-plugin/issues) 列表中提出.
+- [ ] 确保您使用的是 [最新开发版本](https://github.com/starhui-dev/zmusic-plugin/actions/workflows/dev.yml) 的 ZMusic 插件.
+- [ ] 确保您的问题尚未在 [Issues](https://github.com/starhui-dev/zmusic-plugin/issues) 列表中提出.
 - [ ] 确保您的问题不是由于您的代码错误导致的.
 
 ### 描述 Bug

@@ -42,5 +42,5 @@ title: 快速开始
 
 ## 反馈 {#feedback}
 
-- 前往 [GitHub](https://github.com/zmusic-dev/zmusic-plugin) 提交 Issues
+- 前往 [GitHub](https://github.com/starhui-dev/zmusic-plugin) 提交 Issues
 - 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈

@@ -42,5 +42,5 @@ The current long-term support version is V2. See [V2 Docs](/en/v2/)
 
 ## Feedback {#feedback}
 
-- Submit issues on [GitHub](https://github.com/zmusic-dev/zmusic-plugin)
+- Submit issues on [GitHub](https://github.com/starhui-dev/zmusic-plugin)
 - Join Discord: [discord.gg/twQgJNufYn](https://discord.gg/twQgJNufYn)
