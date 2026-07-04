@@ -205,14 +205,8 @@ public class Cmd {
                 };
                 if (!ZMusic.player.hasPermission(sender, "zmusic.bypass")) {
                     if (!cooldownStats.contains(sender)) {
-                        if (!ZMusic.isBC) {
-                            if (Config.realSupportVault) {
-                                if (Config.money > 0) {
-                                    if (!Vault.take(sender)) {
-                                        return;
-                                    }
-                                }
-                            }
+                        if (!takeMoneyIfNecessary(sender)) {
+                            return;
                         }
                         ZMusic.runTask.runAsync(startPlay);
                         if (cooldownSec > 0) {
@@ -246,6 +240,13 @@ public class Cmd {
         } else {
             ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
         }
+    }
+
+    private static boolean takeMoneyIfNecessary(Object sender) {
+        if (ZMusic.isBC || ZMusic.isVelocity || !Config.realSupportVault || Config.money <= 0) {
+            return true;
+        }
+        return Vault.take(sender);
     }
 
     private static void handlePlayCommand(Object sender, String[] args) {

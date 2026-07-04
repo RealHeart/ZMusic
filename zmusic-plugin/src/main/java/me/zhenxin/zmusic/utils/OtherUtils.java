@@ -330,7 +330,7 @@ public class OtherUtils {
 
     public static void sendAdv(Object player, String title) {
         if (Config.realSupportAdvancement) {
-            if (ZMusic.isBC) {
+            if (ZMusic.isBC || ZMusic.isVelocity) {
                 JsonObject json = new JsonObject();
                 json.addProperty("isAdv", true);
                 json.addProperty("title", title);
