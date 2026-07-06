@@ -174,8 +174,13 @@ public class NeteaseLogin {
 
     private static JsonObject status() {
         String result = NetUtils.postNetString(API + "login/status", null, "");
-        JsonObject root = GSON.fromJson(result, JsonObject.class);
-        return root.getAsJsonObject("data");
+        try {
+            JsonObject root = parseJsonObject(result);
+            return getObject(root, "data");
+        } catch (Exception e) {
+            ZMusic.log.sendDebugMessage("[网易云登录] 登录状态接口返回解析失败: " + e.getMessage());
+            return new JsonObject();
+        }
     }
 
     private static JsonObject parseJsonObject(String result) {

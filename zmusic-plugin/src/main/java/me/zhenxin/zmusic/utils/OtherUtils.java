@@ -2,6 +2,7 @@ package me.zhenxin.zmusic.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import me.zhenxin.zmusic.ZMusic;
 import me.zhenxin.zmusic.api.MultiMap;
 import me.zhenxin.zmusic.api.bossbar.BossBar;
@@ -71,31 +72,57 @@ public class OtherUtils {
             ZMusic.message.sendNormalMessage("正在检查更新...", sender);
             String jsonText = NetUtils.getNetString("https://api.zhenxin.me/zmusic/version?type=legacy", null);
             if (jsonText != null) {
-                Gson gson = new Gson();
-                JsonObject json = gson.fromJson(jsonText, JsonObject.class);
-                String latestVer = json.get("latestVer").getAsString();
-                int latestVerCode = json.get("latestVerCode").getAsInt();
-                String updateLog = json.get("updateLog").getAsString();
-                String downloadUrl = json.get("downloadUrl").getAsString();
-                if (ZMusic.thisVerCode < latestVerCode) {
-                    ZMusic.message.sendNormalMessage("发现新版本 V" + latestVer, sender);
-                    ZMusic.message.sendNormalMessage("更新日志:", sender);
-                    String[] log = updateLog.split("\\n");
-                    for (String s : log) {
-                        ZMusic.message.sendNormalMessage(s, sender);
+                try {
+                    Gson gson = new Gson();
+                    JsonObject json = gson.fromJson(jsonText, JsonObject.class);
+                    if (!isValidUpdateInfo(json)) {
+                        sendCheckUpdateFailed(sender, "更新接口返回内容缺少必要字段");
+                        return;
                     }
-                    ZMusic.message.sendNormalMessage("下载地址: " + downloadUrl, sender);
-                } else {
-                    ZMusic.message.sendNormalMessage("已是最新版本!", sender);
+
+                    String latestVer = json.get("latestVer").getAsString();
+                    int latestVerCode = json.get("latestVerCode").getAsInt();
+                    String updateLog = json.get("updateLog").getAsString();
+                    String downloadUrl = json.get("downloadUrl").getAsString();
+                    if (ZMusic.thisVerCode < latestVerCode) {
+                        ZMusic.message.sendNormalMessage("发现新版本 V" + latestVer, sender);
+                        ZMusic.message.sendNormalMessage("更新日志:", sender);
+                        String[] log = updateLog.split("\\n");
+                        for (String s : log) {
+                            ZMusic.message.sendNormalMessage(s, sender);
+                        }
+                        ZMusic.message.sendNormalMessage("下载地址: " + downloadUrl, sender);
+                    } else {
+                        ZMusic.message.sendNormalMessage("已是最新版本!", sender);
+                    }
+                } catch (JsonSyntaxException | IllegalStateException e) {
+                    sendCheckUpdateFailed(sender, "更新接口返回内容不是有效 JSON: " + e.getMessage());
                 }
             } else {
-                ZMusic.message.sendErrorMessage("检查更新失败!", sender);
+                sendCheckUpdateFailed(sender, "更新接口无响应");
             }
         };
         if (aSync) {
             ZMusic.runTask.runAsync(r);
         } else
             r.run();
+    }
+
+    private static boolean isValidUpdateInfo(JsonObject json) {
+        return json != null
+                && hasJsonMember(json, "latestVer")
+                && hasJsonMember(json, "latestVerCode")
+                && hasJsonMember(json, "updateLog")
+                && hasJsonMember(json, "downloadUrl");
+    }
+
+    private static boolean hasJsonMember(JsonObject json, String member) {
+        return json.has(member) && !json.get(member).isJsonNull();
+    }
+
+    private static void sendCheckUpdateFailed(Object sender, String reason) {
+        ZMusic.message.sendErrorMessage("检查更新失败!", sender);
+        ZMusic.log.sendDebugMessage("[更新检查] " + reason);
     }
 
     /**
