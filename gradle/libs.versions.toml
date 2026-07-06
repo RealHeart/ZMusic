@@ -16,7 +16,7 @@ velocity = "3.4.0-SNAPSHOT"
 adventure = "4.26.1"
 
 bstats = "3.2.1"
-placeholderapi = "2.12.2"
+placeholderapi = "2.12.3"
 
 hutool = "5.8.46"
 netty = "4.2.15.Final"
