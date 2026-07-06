@@ -67,6 +67,8 @@ public class ZMusicVelocity {
         if (!ZMusic.dataFolder.exists()) {
             ZMusic.dataFolder.mkdir();
         }
+        Config.realSupportBossBar = false;
+        Config.realSupportVault = false;
         Config.debug = true;
         ZMusic.thisVer = "2.12.1";
         ZMusic.log.sendNormalMessage("正在加载中....");
