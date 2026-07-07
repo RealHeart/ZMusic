@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
-version = '2.12.1'
+version = '2.13.0'
 
 dependencies {
     compileOnly 'ink.ptms:nms-all:1.0.0'

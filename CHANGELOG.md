@@ -1,3 +1,12 @@
+# 2.13.0 | 2026-07-07
+
+* 修复 Folia 下 BossBar 非线程安全导致的问题（#245，感谢 @Yuncan050115）
+* 修复部分 CalVer 服务端 BossBar、Title、HUD 判断异常的问题（#245，感谢 @Yuncan050115）
+* 修复插件消息发送竞态导致播放偶发无响应的问题（#239，感谢 @mclvlc）
+* 修复 Arclight 环境插件消息通道检查导致 Bukkit 播放失败的问题（#232，感谢 @leodenglovescode）
+* 修复部分 BungeeCord 判断未覆盖 Velocity 的问题（#247，感谢 @Longtianmu）
+* 修复音乐接口返回非 JSON 响应时的容错处理
+
 # 2.12.0 | 2026-05-12
 
 * 重构登录系统，支持多种登录方式
