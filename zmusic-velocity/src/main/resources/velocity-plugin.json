@@ -1,0 +1,11 @@
+{
+  "id": "zmusic",
+  "name": "ZMusic",
+  "description": "ZMusic",
+  "main": "me.zhenxin.zmusic.velocity.VelocityPlugin",
+  "version": "${version}",
+  "authors": [
+    "${author}",
+    "${organization}"
+  ]
+}

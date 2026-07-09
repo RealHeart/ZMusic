@@ -1,0 +1,24 @@
+name: ZMusic
+main: me.zhenxin.zmusic.bukkit.BukkitPlugin
+version: ${version}
+api-version: 1.13
+folia-supported: true
+author: ${author}
+description: ZMusic
+softdepend:
+  - PlaceholderAPI
+commands:
+  zmusic:
+    description: ZMusic main command
+    usage: /zmusic
+    aliases:
+      - music
+      - zm
+    permission: zmusic.use
+permissions:
+  zmusic.use:
+    description: Allow using ZMusic
+    default: true
+  zmusic.reload:
+    description: Allow reloading ZMusic
+    default: op

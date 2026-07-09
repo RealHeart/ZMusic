@@ -1,0 +1,5 @@
+name: ZMusic
+main: me.zhenxin.zmusic.bungee.BungeePlugin
+version: ${version}
+author: ${author}
+description: ZMusic
