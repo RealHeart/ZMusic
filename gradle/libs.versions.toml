@@ -13,7 +13,7 @@ spigot = "26.2-R0.1-SNAPSHOT"
 bungeecord = "1.21-R0.4"
 velocity = "3.4.0"
 
-adventure = "4.26.1"
+adventure = "5.2.0"
 
 bstats = "3.2.1"
 placeholderapi = "2.12.3"
