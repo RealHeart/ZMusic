@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.file.DuplicatesStrategy
 
 val zmusicAuthors = listOf("ZhenXin", "StarHui Technology")
 val zmusicAuthor = zmusicAuthors.joinToString(", ")
@@ -69,6 +70,11 @@ subprojects {
 
     tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
         archiveClassifier.set("")
+        eachFile {
+            if (name.endsWith(".kotlin_module")) {
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            }
+        }
         manifest {
             attributes(
                 "Implementation-Title" to "ZMusic",

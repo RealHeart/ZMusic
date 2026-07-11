@@ -4,6 +4,7 @@ import me.zhenxin.zmusic.platform.entity.ZCommandSender
 import me.zhenxin.zmusic.platform.entity.ZPlayer
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
+import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import java.util.UUID
 
@@ -36,7 +37,8 @@ open class BungeeCommandSender(private val sender: CommandSender) : ZCommandSend
      * @param message 消息内容
      */
     override fun sendMessage(message: String) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message))
+        val translatedMessage = ChatColor.translateAlternateColorCodes('&', message)
+        sender.sendMessage(*ComponentBuilder().appendLegacy(translatedMessage).create())
     }
 
     /**
