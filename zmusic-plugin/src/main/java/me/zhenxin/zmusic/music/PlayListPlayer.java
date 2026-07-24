@@ -22,11 +22,11 @@ public class PlayListPlayer extends Thread {
     public List<JsonObject> playList;
     public String type = "normal";
     public String id;
-    public boolean isStop = false;
-    public boolean singleIsPlayEd = true;
-    public boolean nextMusic = false;
-    public boolean prevMusic = false;
-    public boolean jumpMusic = false;
+    public volatile boolean isStop = false;
+    public volatile boolean singleIsPlayEd = true;
+    public volatile boolean nextMusic = false;
+    public volatile boolean prevMusic = false;
+    public volatile boolean jumpMusic = false;
     public int jumpSong = 0;
     public String platform;
     public String playListName;
@@ -54,6 +54,10 @@ public class PlayListPlayer extends Thread {
     @Override
     public void run() {
         while (!isStop) {
+            if (PlayerData.getPlayerPlayListPlayer(player) != this) {
+                isStop = true;
+                break;
+            }
             if (ZMusic.player.isOnline(player)) {
                 if (nextMusic) {
                     if (songs != maxSongs) {
@@ -174,28 +178,33 @@ public class PlayListPlayer extends Thread {
                         }
                         lyric = OtherUtils.formatLyric(lyricText, lyricTrText);
                     }
-                    OtherUtils.resetPlayerStatus(player);
-                    LyricSender lyricSender = PlayerData.getPlayerLyricSender(player);
-                    if (lyricSender != null) {
-                        lyricSender.stopThis();
+                    LyricSender nextLyricSender = new LyricSender();
+                    nextLyricSender.player = player;
+                    nextLyricSender.lyric = lyric;
+                    nextLyricSender.maxTime = time;
+                    nextLyricSender.name = name;
+                    nextLyricSender.singer = singer;
+                    nextLyricSender.fullName = fullName;
+                    nextLyricSender.platform = searchSourceName;
+                    nextLyricSender.src = "歌单<" + playListName + ">";
+                    nextLyricSender.url = url;
+                    nextLyricSender.isPlayList = true;
+                    nextLyricSender.nextMusicName = nextfullName;
+                    nextLyricSender.playListPlayer = this;
+                    synchronized (player) {
+                        if (isStop || PlayerData.getPlayerPlayListPlayer(player) != this) {
+                            continue;
+                        }
+                        LyricSender previousLyricSender = PlayerData.getPlayerLyricSender(player);
+                        PlayerData.setPlayerLyricSender(player, nextLyricSender);
+                        if (previousLyricSender != null) {
+                            previousLyricSender.stopThis();
+                        }
+                        OtherUtils.resetPlayerStatus(player);
+                        nextLyricSender.init();
+                        ZMusic.runTask.runAsync(nextLyricSender);
+                        ZMusic.music.play(url, player);
                     }
-                    lyricSender = new LyricSender();
-                    PlayerData.setPlayerLyricSender(player, lyricSender);
-                    lyricSender.player = player;
-                    lyricSender.lyric = lyric;
-                    lyricSender.maxTime = time;
-                    lyricSender.name = name;
-                    lyricSender.singer = singer;
-                    lyricSender.fullName = fullName;
-                    lyricSender.platform = searchSourceName;
-                    lyricSender.src = "歌单<" + playListName + ">";
-                    lyricSender.url = url;
-                    lyricSender.isPlayList = true;
-                    lyricSender.nextMusicName = nextfullName;
-                    lyricSender.playListPlayer = this;
-                    lyricSender.init();
-                    ZMusic.runTask.runAsync(lyricSender);
-                    ZMusic.music.play(url, player);
                     singleIsPlayEd = false;
                     successTime = System.currentTimeMillis() - successTime;
                     ZMusic.log.sendDebugMessage("[歌单] 歌单播放器(ID:" + getId() + ")为[" + ZMusic.player.getName(player) + "]播放歌单<" + playListName + ">中的" + fullName);

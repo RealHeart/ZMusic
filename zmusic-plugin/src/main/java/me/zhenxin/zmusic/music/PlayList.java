@@ -425,13 +425,6 @@ public class PlayList {
             for (JsonElement j : list) {
                 playList.add(j.getAsJsonObject());
             }
-            PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(player);
-            if (plp != null) {
-                plp.isStop = true;
-                PlayerData.setPlayerPlayListPlayer(player, null);
-                OtherUtils.resetPlayerStatus(player);
-                ZMusic.music.stop(player);
-            }
             PlayListPlayer playListPlayer = new PlayListPlayer();
             String type = PlayerData.getPlayerPlayListType(player);
             if (type == null || type.isEmpty()) {
@@ -444,8 +437,15 @@ public class PlayList {
             playListPlayer.platform = platform;
             playListPlayer.player = player;
             playListPlayer.init();
-            ZMusic.runTask.runAsync(playListPlayer);
-            PlayerData.setPlayerPlayListPlayer(player, playListPlayer);
+            synchronized (player) {
+                PlayListPlayer previousPlayListPlayer = PlayerData.getPlayerPlayListPlayer(player);
+                PlayerData.setPlayerPlayListPlayer(player, playListPlayer);
+                if (previousPlayListPlayer != null) {
+                    previousPlayListPlayer.isStop = true;
+                }
+                OtherUtils.resetPlayerStatus(player);
+                ZMusic.runTask.runAsync(playListPlayer);
+            }
         }
     }
 

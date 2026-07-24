@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.component.ZComponent;
 import me.zhenxin.zmusic.component.adapter.BungeeComponentAdapter;
 import me.zhenxin.zmusic.config.Config;
 import me.zhenxin.zmusic.language.Lang;
+import me.zhenxin.zmusic.utils.runtask.BukkitTaskScheduler;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -38,7 +39,8 @@ public class MessageBukkit implements Message {
     public void sendActionBarMessage(ZComponent message, Object playerObj) {
         Player player = (Player) playerObj;
         TextComponent bungeeComponent = adapter.adapt(message);
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, bungeeComponent);
+        BukkitTaskScheduler.run(player,
+                () -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, bungeeComponent));
     }
 
     @Override

@@ -30,7 +30,7 @@ public class LyricSender extends Thread {
     boolean is1_8 = false;
     StringBuilder hudInfo = new StringBuilder();
     ProgressBar progressBar;
-    private boolean isStop = false;
+    private volatile boolean isStop = false;
 
     public void init() {
         PlayerData.setPlayerPlayStatus(player, true);
@@ -89,6 +89,10 @@ public class LyricSender extends Thread {
     @Override
     public void run() {
         while (!isStop) {
+            if (!isCurrentSender()) {
+                isStop = true;
+                break;
+            }
             if (ZMusic.player.isOnline(player)) {
                 time++;
                 if (PlayerData.getPlayerPlayStatus(player)) {
@@ -111,20 +115,11 @@ public class LyricSender extends Thread {
                             });
                         }
                     } else {
-                        OtherUtils.resetPlayerStatus(player);
-                        if (Config.supportHud) {
-                            ZMusic.send.sendAM(player, "[Lyric]");
-                            ZMusic.send.sendAM(player, "[Info]");
-                            hudInfo = new StringBuilder();
-                        }
                         if (!isPlayList) {
                             ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 非歌单模式 检测循环播放状态");
                             Boolean loop = PlayerData.getPlayerLoopPlay(player);
                             if (loop != null && loop) {
-                                ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放开启 重新播放当前音乐");
-                                time = -1;
-                                ZMusic.music.play(url, player);
-                                init();
+                                restartLoop();
                             } else {
                                 ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放关闭 线程停止");
                                 stopThis();
@@ -153,6 +148,9 @@ public class LyricSender extends Thread {
     }
 
     private void sendHud(JsonObject j) {
+        if (!isCurrentSender()) {
+            return;
+        }
         String l = j.get("lrc").getAsString();
         String lT = j.get("lrcTr").getAsString();
         StringBuilder sb = new StringBuilder();
@@ -172,6 +170,9 @@ public class LyricSender extends Thread {
     }
 
     private void sendLyric(JsonObject j) {
+        if (!isCurrentSender()) {
+            return;
+        }
         String lrc = j.get("lrc").getAsString();
         String lrcTr = j.get("lrcTr").getAsString();
         String[] lrcs = lrc.split("\n");
@@ -245,7 +246,32 @@ public class LyricSender extends Thread {
     }
 
     public void stopThis() {
-        OtherUtils.resetPlayerStatus(player);
         isStop = true;
+        synchronized (player) {
+            if (!isCurrentSender()) {
+                return;
+            }
+            PlayerData.setPlayerLyricSender(player, null);
+            OtherUtils.resetPlayerStatus(player);
+        }
+    }
+
+    private void restartLoop() {
+        synchronized (player) {
+            if (!isCurrentSender()) {
+                isStop = true;
+                return;
+            }
+            OtherUtils.resetPlayerStatus(player);
+            ZMusic.log.sendDebugMessage("[播放器](ID:" + getId() + ") 循环播放开启 重新播放当前音乐");
+            time = -1;
+            hudInfo = new StringBuilder();
+            ZMusic.music.play(url, player);
+            init();
+        }
+    }
+
+    private boolean isCurrentSender() {
+        return PlayerData.getPlayerLyricSender(player) == this;
     }
 }

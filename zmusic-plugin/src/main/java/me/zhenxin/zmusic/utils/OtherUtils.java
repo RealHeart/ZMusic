@@ -39,28 +39,30 @@ public class OtherUtils {
     }
 
     public static void resetPlayerStatus(Object player) {
-        ZMusic.music.stop(player);
-        if (Config.supportBossBar) {
-            BossBar bossBar = PlayerData.getPlayerBoosBar(player);
-            if (bossBar != null) {
-                bossBar.removePlayer(player);
+        synchronized (player) {
+            ZMusic.music.stop(player);
+            if (Config.supportBossBar) {
+                BossBar bossBar = PlayerData.getPlayerBoosBar(player);
+                if (bossBar != null) {
+                    bossBar.removePlayer(player);
+                }
             }
+            if (Config.supportTitle) {
+                ZMusic.message.sendTitleMessage("", "", player);
+            }
+            if (Config.supportHud) {
+                ZMusic.send.sendAM(player, "[Lyric]");
+                ZMusic.send.sendAM(player, "[Info]");
+            }
+            PlayerData.setPlayerPlayStatus(player, false);
+            PlayerData.setPlayerMusicName(player, null);
+            PlayerData.setPlayerMusicSinger(player, null);
+            PlayerData.setPlayerCurrentTime(player, null);
+            PlayerData.setPlayerMaxTime(player, null);
+            PlayerData.setPlayerLyric(player, null);
+            PlayerData.setPlayerPlatform(player, null);
+            PlayerData.setPlayerPlaySource(player, null);
         }
-        if (Config.supportTitle) {
-            ZMusic.message.sendTitleMessage("", "", player);
-        }
-        if (Config.supportHud) {
-            ZMusic.send.sendAM(player, "[Lyric]");
-            ZMusic.send.sendAM(player, "[Info]");
-        }
-        PlayerData.setPlayerPlayStatus(player, false);
-        PlayerData.setPlayerMusicName(player, null);
-        PlayerData.setPlayerMusicSinger(player, null);
-        PlayerData.setPlayerCurrentTime(player, null);
-        PlayerData.setPlayerMaxTime(player, null);
-        PlayerData.setPlayerLyric(player, null);
-        PlayerData.setPlayerPlatform(player, null);
-        PlayerData.setPlayerPlaySource(player, null);
     }
 
     public static void checkUpdate(Object sender, boolean aSync) {

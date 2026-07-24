@@ -8,6 +8,7 @@ import me.zhenxin.zmusic.music.PlayListPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 玩家状态类，处理玩家状态信息等
@@ -15,7 +16,7 @@ import java.util.Map;
 public class PlayerData {
 
     // 播放状态
-    private static final Map<Object, Boolean> playingMap = new HashMap<>();
+    private static final Map<Object, Boolean> playingMap = new ConcurrentHashMap<>();
     // 当前播放音乐名称
     private static final Map<Object, String> musicNameMap = new HashMap<>();
     // 当前播放音乐歌手
@@ -25,7 +26,7 @@ public class PlayerData {
     // 当前播放音乐平台
     private static final Map<Object, String> playSourceMap = new HashMap<>();
     // LyricSender
-    private static final Map<Object, LyricSender> lyricSenderMap = new HashMap<>();
+    private static final Map<Object, LyricSender> lyricSenderMap = new ConcurrentHashMap<>();
     // BossBar
     private static final Map<Object, BossBar> boosBarMap = new HashMap<>();
     // 播放进度：当前时间
@@ -37,7 +38,7 @@ public class PlayerData {
     // 循环播放
     private static final Map<Object, Boolean> loopPlayMap = new HashMap<>();
     // 歌单播放器
-    private static final Map<Object, PlayListPlayer> playListPlayer = new HashMap<>();
+    private static final Map<Object, PlayListPlayer> playListPlayer = new ConcurrentHashMap<>();
     // 歌单播放类型
     private static final Map<Object, String> playListType = new HashMap<>();
 
@@ -199,7 +200,11 @@ public class PlayerData {
      * @param lyricSender LyricSender
      */
     public static void setPlayerLyricSender(Object player, LyricSender lyricSender) {
-        lyricSenderMap.put(player, lyricSender);
+        if (lyricSender == null) {
+            lyricSenderMap.remove(player);
+        } else {
+            lyricSenderMap.put(player, lyricSender);
+        }
     }
 
     /**
@@ -336,7 +341,11 @@ public class PlayerData {
      * @param plp    歌单播放器
      */
     public static void setPlayerPlayListPlayer(Object player, PlayListPlayer plp) {
-        playListPlayer.put(player, plp);
+        if (plp == null) {
+            playListPlayer.remove(player);
+        } else {
+            playListPlayer.put(player, plp);
+        }
     }
 
     /**

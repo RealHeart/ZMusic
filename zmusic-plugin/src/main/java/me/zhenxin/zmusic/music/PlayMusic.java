@@ -19,18 +19,6 @@ import java.util.List;
 
 public class PlayMusic {
 
-    static String[] errMsg;
-    static String musicID;
-    static String musicName;
-    static String musicSinger;
-    static String musicFullName;
-    static String musicUrl;
-    static JsonObject musicLyric;
-    static long musicMaxTime;
-    static String searchSourceName;
-    static JsonObject json;
-
-
     /**
      * 播放音乐
      *
@@ -44,6 +32,8 @@ public class PlayMusic {
         try {
             long time = System.currentTimeMillis();
             ZMusic.message.sendNormalMessage(Lang.searching, player);
+            JsonObject json;
+            String searchSourceName;
             switch (source) {
                 case "163":
                 case "netease":
@@ -78,6 +68,14 @@ public class PlayMusic {
                 source.equalsIgnoreCase("netease") ||
                 source.equalsIgnoreCase("qq") ||
                 source.equalsIgnoreCase("bilibili");
+            String musicID = null;
+            String musicName;
+            String musicSinger;
+            String musicFullName;
+            String musicUrl;
+            JsonObject musicLyric;
+            long musicMaxTime;
+            String[] errMsg;
             if (json != null) {
                 if (supportId) {
                     musicID = json.get("id").getAsString();
@@ -93,13 +91,15 @@ public class PlayMusic {
                 ZMusic.message.sendPlayError(player, searchKey);
                 return;
             }
+            MusicData musicData = new MusicData(errMsg, musicName, musicSinger, musicFullName,
+                musicUrl, musicLyric, musicMaxTime, searchSourceName);
             switch (type) {
                 case "all":
                     play(null, players, Lang.playAllSource
-                        .replaceAll("%player%", ZMusic.player.getName(player)), time);
+                        .replaceAll("%player%", ZMusic.player.getName(player)), time, musicData);
                     break;
                 case "self":
-                    play(player, new ArrayList<>(), "搜索", time);
+                    play(player, new ArrayList<>(), "搜索", time, musicData);
                     break;
                 case "music":
                     String s = Lang.musicMessage;
@@ -130,44 +130,46 @@ public class PlayMusic {
         }
     }
 
-    private static void play(Object player, List<Object> players, String src, long time) {
+    private static void play(Object player, List<Object> players, String src, long time, MusicData musicData) {
         if (player != null) {
             players.add(player);
         }
         for (Object p : players) {
-            OtherUtils.resetPlayerStatus(p);
-            PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(p);
-            if (plp != null) {
-                plp.isStop = true;
-                PlayerData.setPlayerPlayListPlayer(p, null);
+            LyricSender nextLyricSender = new LyricSender();
+            nextLyricSender.player = p;
+            nextLyricSender.lyric = musicData.lyric;
+            nextLyricSender.maxTime = musicData.maxTime;
+            nextLyricSender.name = musicData.name;
+            nextLyricSender.singer = musicData.singer;
+            nextLyricSender.fullName = musicData.fullName;
+            nextLyricSender.platform = musicData.sourceName;
+            nextLyricSender.src = src;
+            nextLyricSender.url = musicData.url;
+            synchronized (p) {
+                PlayListPlayer plp = PlayerData.getPlayerPlayListPlayer(p);
+                if (plp != null) {
+                    plp.isStop = true;
+                    PlayerData.setPlayerPlayListPlayer(p, null);
+                }
+                LyricSender previousLyricSender = PlayerData.getPlayerLyricSender(p);
+                PlayerData.setPlayerLyricSender(p, nextLyricSender);
+                if (previousLyricSender != null) {
+                    previousLyricSender.stopThis();
+                }
+                OtherUtils.resetPlayerStatus(p);
+                nextLyricSender.init();
+                ZMusic.runTask.runAsync(nextLyricSender);
+                ZMusic.music.play(musicData.url, p);
             }
-            LyricSender lyricSender = PlayerData.getPlayerLyricSender(p);
-            if (lyricSender != null) {
-                lyricSender.stopThis();
-            }
-            lyricSender = new LyricSender();
-            PlayerData.setPlayerLyricSender(p, lyricSender);
-            lyricSender.player = p;
-            lyricSender.lyric = musicLyric;
-            lyricSender.maxTime = musicMaxTime;
-            lyricSender.name = musicName;
-            lyricSender.singer = musicSinger;
-            lyricSender.fullName = musicFullName;
-            lyricSender.platform = searchSourceName;
-            lyricSender.src = src;
-            lyricSender.url = musicUrl;
-            lyricSender.init();
-            ZMusic.runTask.runAsync(lyricSender);
-            for (String msg : errMsg) {
+            for (String msg : musicData.errorMessages) {
                 if (!msg.isEmpty()) {
                     ZMusic.message.sendErrorMessage(msg, p);
                 }
             }
-            ZMusic.music.play(musicUrl, p);
             time = System.currentTimeMillis() - time;
             ZComponent success = ZTextComponent.of(Config.prefix + "§a" + Lang.playSuccess
-                .replaceAll("%source%", searchSourceName)
-                .replaceAll("%fullName%", musicFullName)
+                .replaceAll("%source%", musicData.sourceName)
+                .replaceAll("%fullName%", musicData.fullName)
                 .replaceAll("%time%", String.valueOf(time)));
             ZComponent stop = ZTextComponent.of("§r[§e" + Lang.clickStop + "§r]");
             stop.setClickEvent(ZClickEvent.runCommand("/zm stop"));
@@ -176,9 +178,32 @@ public class PlayMusic {
             loop.setClickEvent(ZClickEvent.runCommand("/zm loop"));
             success.addChild(loop);
             ZMusic.message.sendJsonMessage(success, p);
-            String title = "§a" + Lang.playing + "\n§e" + musicFullName;
+            String title = "§a" + Lang.playing + "\n§e" + musicData.fullName;
             OtherUtils.sendAdv(p, title);
         }
     }
 
+    private static final class MusicData {
+
+        private final String[] errorMessages;
+        private final String name;
+        private final String singer;
+        private final String fullName;
+        private final String url;
+        private final JsonObject lyric;
+        private final long maxTime;
+        private final String sourceName;
+
+        private MusicData(String[] errorMessages, String name, String singer, String fullName,
+                          String url, JsonObject lyric, long maxTime, String sourceName) {
+            this.errorMessages = errorMessages;
+            this.name = name;
+            this.singer = singer;
+            this.fullName = fullName;
+            this.url = url;
+            this.lyric = lyric;
+            this.maxTime = maxTime;
+            this.sourceName = sourceName;
+        }
+    }
 }
