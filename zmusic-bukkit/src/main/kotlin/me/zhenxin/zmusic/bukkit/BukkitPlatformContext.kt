@@ -20,6 +20,8 @@ import java.io.File
 class BukkitPlatformContext(private val plugin: JavaPlugin) : PlatformContext {
     /** 当前平台类型。 */
     override val platform: Platform = Platform.BUKKIT
+    /** Bukkit 服务端版本。 */
+    override val platformVersion: String = plugin.server.version
     /** Bukkit 插件数据目录。 */
     override val dataFolder: File = plugin.dataFolder
     /** Bukkit logger 适配器。 */
@@ -27,7 +29,7 @@ class BukkitPlatformContext(private val plugin: JavaPlugin) : PlatformContext {
     /** Bukkit 命令注册器。 */
     override val commandRegistry: CommandRegistry = BukkitCommandRegistry(plugin)
     /** Bukkit 在线玩家查询。 */
-    override val players: PlayerGateway = BukkitPlayerGateway()
+    override val players: PlayerGateway = BukkitPlayerGateway(plugin)
     /** Bukkit 插件消息通道。 */
     override val pluginMessenger: PluginMessenger = BukkitPluginMessenger(plugin)
     /** Bukkit 调度器。 */

@@ -31,7 +31,12 @@ class ConfigLoader(private val dataFolder: File) {
             return ZMusicConfig(
                 language = config.get<String>("language") ?: "zh-CN",
                 debug = config.get<Boolean>("debug") ?: false,
-                channel = config.get<String>("plugin-message.channel") ?: "zmusic:channel"
+                channel = config.get<String>("plugin-message.channel") ?: "zmusic:packet",
+                api = APIConfig(
+                    enabled = config.get<Boolean>("api.enabled") ?: false,
+                    webSocketUrl = config.get<String>("api.websocket-url") ?: "ws://localhost:8389/api/v1/plugin/ws",
+                    deviceToken = config.get<String>("api.device-token") ?: ""
+                )
             )
         }
     }
@@ -43,7 +48,12 @@ language = "zh-CN"
 debug = false
 
 [plugin-message]
-channel = "zmusic:channel"
+channel = "zmusic:packet"
+
+[api]
+enabled = false
+websocket-url = "ws://localhost:8389/api/v1/plugin/ws"
+device-token = ""
 """
     }
 }

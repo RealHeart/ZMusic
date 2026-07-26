@@ -11,6 +11,8 @@ import java.io.File
 interface PlatformContext {
     /** 当前平台。 */
     val platform: Platform
+    /** 当前服务端或代理端的平台版本。 */
+    val platformVersion: String
     /** 插件数据目录。 */
     val dataFolder: File
     /** 日志适配器。 */

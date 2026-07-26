@@ -149,6 +149,24 @@ object ZMusicRuntime {
             artifact = "toml",
             version = "3.9.0",
             testClass = "com.electronwill.nightconfig.toml.TomlFormat"
+        ),
+        RuntimeDependency(
+            group = "com.google.code.gson",
+            artifact = "gson",
+            version = "2.14.0",
+            testClass = "com.google.gson.Gson"
+        ),
+        RuntimeDependency(
+            group = "org.java-websocket",
+            artifact = "Java-WebSocket",
+            version = "1.6.0",
+            testClass = "org.java_websocket.client.WebSocketClient"
+        ),
+        RuntimeDependency(
+            group = "org.slf4j",
+            artifact = "slf4j-api",
+            version = "2.0.13",
+            testClass = "org.slf4j.Logger"
         )
     )
 }

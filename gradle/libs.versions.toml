@@ -21,6 +21,8 @@ placeholderapi = "2.12.3"
 hutool = "5.8.47"
 netty = "4.2.16.Final"
 nightconfig = "3.9.0"
+java-websocket = "1.6.0"
+slf4j = "2.0.13"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -66,6 +68,8 @@ netty-buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 # Night Config
 nightconfig-core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
 nightconfig-toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+java-websocket = { module = "org.java-websocket:Java-WebSocket", version.ref = "java-websocket" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 
 
 [bundles]

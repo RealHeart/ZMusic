@@ -1,6 +1,7 @@
 package me.zhenxin.zmusic.bukkit
 
 import me.zhenxin.zmusic.platform.PluginMessenger
+import me.zhenxin.zmusic.platform.PluginMessageListener
 import me.zhenxin.zmusic.platform.entity.ZPlayer
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -17,9 +18,11 @@ class BukkitPluginMessenger(private val plugin: JavaPlugin) : PluginMessenger {
      *
      * @param channel 通道名
      */
-    override fun registerChannel(channel: String) {
+    override fun registerChannel(channel: String, listener: PluginMessageListener) {
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, channel)
-        plugin.server.messenger.registerIncomingPluginChannel(plugin, channel) { _, _, _ -> }
+        plugin.server.messenger.registerIncomingPluginChannel(plugin, channel) { _, player, payload ->
+            listener.onMessage(BukkitPlayer(player), payload)
+        }
     }
 
     /**

@@ -30,6 +30,8 @@ class VelocityPlatformContext(
 ) : PlatformContext {
     /** 当前平台类型。 */
     override val platform: Platform = Platform.VELOCITY
+    /** Velocity 代理版本。 */
+    override val platformVersion: String = server.version.version
     /** Velocity 插件数据目录。 */
     override val dataFolder: File = dataDirectory.toFile()
     /** Velocity logger 适配器。 */
@@ -37,9 +39,9 @@ class VelocityPlatformContext(
     /** Velocity 命令注册器。 */
     override val commandRegistry: CommandRegistry = VelocityCommandRegistry(server)
     /** Velocity 玩家查询。 */
-    override val players: PlayerGateway = VelocityPlayerGateway(server)
+    override val players: PlayerGateway = VelocityPlayerGateway(server, plugin)
     /** Velocity 插件消息通道。 */
-    override val pluginMessenger: PluginMessenger = VelocityPluginMessenger(server)
+    override val pluginMessenger: PluginMessenger = VelocityPluginMessenger(server, plugin)
     /** Velocity 调度器。 */
     override val scheduler: Scheduler = VelocityScheduler(server, plugin)
 }

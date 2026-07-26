@@ -4,7 +4,11 @@ import me.zhenxin.zmusic.command.CommandManager
 import me.zhenxin.zmusic.config.ConfigLoader
 import me.zhenxin.zmusic.music.NoopMusicCatalog
 import me.zhenxin.zmusic.platform.PlatformContext
+import me.zhenxin.zmusic.platform.PlayerListener
+import me.zhenxin.zmusic.platform.entity.ZPlayer
 import me.zhenxin.zmusic.playback.PlaybackService
+import me.zhenxin.zmusic.playback.PlayerStateRegistry
+import me.zhenxin.zmusic.realtime.PluginRealtimeClient
 import me.zhenxin.zmusic.runtime.RuntimeLifecycle
 
 /**
@@ -33,8 +37,21 @@ class ZMusicApplication(
     )
 
     private var started = false
-    private var playbackService = PlaybackService(context.pluginMessenger)
     private var config = configLoader.load()
+    private val playerStates = PlayerStateRegistry()
+    private val playbackService = PlaybackService(context, playerStates)
+    private var realtimeClient = PluginRealtimeClient(context, config.api, playerStates, playbackService)
+    private val playerListener = object : PlayerListener {
+        override fun onJoin(player: ZPlayer) {
+            playerStates.state(player)
+            realtimeClient.publishPlayerJoined(player)
+        }
+
+        override fun onQuit(player: ZPlayer) {
+            playerStates.remove(player)
+            realtimeClient.publishPlayerLeft(player)
+        }
+    }
 
     /**
      * 平台命令系统实际注册的命令处理器。
@@ -57,7 +74,9 @@ class ZMusicApplication(
         started = true
         context.logger.info("ZMusic ${ZMusicInfo.VERSION} starting on ${context.platform.displayName}")
         context.commandRegistry.register(commandManager)
-        context.pluginMessenger.registerChannel(config.channel)
+        context.players.registerListener(playerListener)
+        playbackService.start(config.channel, realtimeClient::publishClientEvent)
+        realtimeClient.start()
         context.logger.info("ZMusic started.")
     }
 
@@ -68,7 +87,10 @@ class ZMusicApplication(
         if (!started) {
             return
         }
-        context.pluginMessenger.unregisterChannel(config.channel)
+        realtimeClient.stop()
+        playbackService.stop()
+        context.players.unregisterListener()
+        playerStates.clear()
         started = false
         context.logger.info("ZMusic stopped.")
     }
@@ -81,9 +103,13 @@ class ZMusicApplication(
     fun reload(): Boolean {
         return runCatching {
             val nextConfig = configLoader.load()
-            if (nextConfig.channel != config.channel) {
-                context.pluginMessenger.unregisterChannel(config.channel)
-                context.pluginMessenger.registerChannel(nextConfig.channel)
+            playbackService.changeChannel(nextConfig.channel)
+            if (nextConfig.api != config.api) {
+                realtimeClient.stop()
+                realtimeClient = PluginRealtimeClient(context, nextConfig.api, playerStates, playbackService)
+                playbackService.stop()
+                playbackService.start(nextConfig.channel, realtimeClient::publishClientEvent)
+                realtimeClient.start()
             }
             config = nextConfig
         }.onFailure { throwable ->

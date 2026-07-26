@@ -40,6 +40,24 @@
 
 [点击查看使用文档][docs-link]
 
+## API 实时连接
+
+Plugin 使用设备授权流程签发的 `device_token` 连接 ZMusic API，并同步服务器、在线玩家和播放状态。管理员可通过 API 向全部服务器、指定服务器或指定玩家下发播放和停止命令。
+
+首次启动后编辑插件数据目录中的 `config.toml`：
+
+```toml
+[plugin-message]
+channel = "zmusic:packet"
+
+[api]
+enabled = true
+websocket-url = "wss://api.example.com/api/v1/plugin/ws"
+device-token = "设备授权流程签发的 device_token"
+```
+
+生产环境应使用 `wss`。`zmusic:packet` 是当前 Mod 与 Plugin 的统一协议通道，不应单独修改一端。
+
 ## 开源协议
 
 本项目使用 [GPL-3.0](LICENSE) 协议开放源代码

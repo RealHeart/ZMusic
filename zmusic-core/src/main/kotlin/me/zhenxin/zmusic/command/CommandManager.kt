@@ -151,8 +151,11 @@ class CommandManager(
             sender.sendMessage("没有找到歌曲：$keyword")
             return
         }
-        playbackService.play(player, song)
-        sender.sendMessage("正在播放：${song.title}")
+        if (playbackService.play(player, song)) {
+            sender.sendMessage("已向客户端发送播放请求：${song.title}")
+        } else {
+            sender.sendMessage("客户端 Mod 尚未完成 ZMusic 协议握手。")
+        }
     }
 
     /**
@@ -166,8 +169,11 @@ class CommandManager(
             sender.sendMessage("只有玩家可以停止自己的音乐。")
             return
         }
-        playbackService.stop(player)
-        sender.sendMessage("已停止播放。")
+        if (playbackService.stop(player)) {
+            sender.sendMessage("已向客户端发送停止请求。")
+        } else {
+            sender.sendMessage("客户端 Mod 尚未完成 ZMusic 协议握手。")
+        }
     }
 
     private companion object {

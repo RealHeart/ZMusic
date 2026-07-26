@@ -20,6 +20,8 @@ import java.io.File
 class BungeePlatformContext(private val plugin: Plugin) : PlatformContext {
     /** 当前平台类型。 */
     override val platform: Platform = Platform.BUNGEE
+    /** BungeeCord 代理版本。 */
+    override val platformVersion: String = plugin.proxy.version
     /** BungeeCord 插件数据目录。 */
     override val dataFolder: File = plugin.dataFolder
     /** BungeeCord logger 适配器。 */
@@ -27,9 +29,9 @@ class BungeePlatformContext(private val plugin: Plugin) : PlatformContext {
     /** BungeeCord 命令注册器。 */
     override val commandRegistry: CommandRegistry = BungeeCommandRegistry(plugin)
     /** BungeeCord 玩家查询。 */
-    override val players: PlayerGateway = BungeePlayerGateway()
+    override val players: PlayerGateway = BungeePlayerGateway(plugin)
     /** BungeeCord 插件消息通道。 */
-    override val pluginMessenger: PluginMessenger = BungeePluginMessenger()
+    override val pluginMessenger: PluginMessenger = BungeePluginMessenger(plugin)
     /** BungeeCord 调度器。 */
     override val scheduler: Scheduler = BungeeScheduler(plugin)
 }

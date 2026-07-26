@@ -7,6 +7,7 @@ import me.zhenxin.zmusic.platform.PlatformContext
 import me.zhenxin.zmusic.platform.PlatformLogger
 import me.zhenxin.zmusic.platform.PlayerGateway
 import me.zhenxin.zmusic.platform.PluginMessenger
+import me.zhenxin.zmusic.platform.PluginMessageListener
 import me.zhenxin.zmusic.platform.Scheduler
 import me.zhenxin.zmusic.platform.entity.ZPlayer
 import java.nio.file.Files
@@ -98,6 +99,8 @@ class ZMusicRuntimeTest {
     ) : PlatformContext {
         /** 测试平台类型。 */
         override val platform: Platform = Platform.BUKKIT
+        /** 测试平台版本。 */
+        override val platformVersion: String = "test"
         /** 空命令注册器。 */
         override val commandRegistry: CommandRegistry = CommandRegistry { }
         /** 空玩家网关。 */
@@ -107,7 +110,7 @@ class ZMusicRuntimeTest {
         }
         /** 空插件消息网关。 */
         override val pluginMessenger: PluginMessenger = object : PluginMessenger {
-            override fun registerChannel(channel: String) {}
+            override fun registerChannel(channel: String, listener: PluginMessageListener) {}
             override fun unregisterChannel(channel: String) {}
             override fun send(player: ZPlayer, channel: String, payload: ByteArray) {}
         }
