@@ -77,6 +77,29 @@ public class NeteaseLogin {
         }
     }
 
+    public static boolean refresh() {
+        if (!CookieUtils.hasCookie("MUSIC_U")) {
+            return false;
+        }
+
+        String result = NetUtils.postNetString(API + "login/refresh", null, "");
+        try {
+            JsonObject json = parseJsonObject(result);
+            if (getInt(json, "code", -1) != 200) {
+                return false;
+            }
+
+            String cookie = getString(json, "cookie", null);
+            if (cookie != null && !cookie.isEmpty()) {
+                CookieUtils.saveCookies(cookie);
+            }
+            return true;
+        } catch (Exception e) {
+            ZMusic.log.sendDebugMessage("[网易云登录] 刷新登录状态失败: " + e.getMessage());
+            return false;
+        }
+    }
+
     public static void login_fromlink(String url) {
         String result = NetUtils.postNetString(url, null, "");
         JsonObject json = parseJsonObject(result);

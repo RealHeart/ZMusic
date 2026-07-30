@@ -31,7 +31,7 @@ public final class ZMusic {
 
     public static File dataFolder;
     public static String thisVer;
-    public static int thisVerCode = 202607070;
+    public static int thisVerCode = 202607300;
     public static boolean isVip = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;
@@ -62,6 +62,7 @@ public final class ZMusic {
         ZMusic.runTask.runAsync(() -> {
             OtherUtils.checkUpdate(sender, false);
             new LoadLang().load();
+            NeteaseLogin.refresh();
             NeteaseLogin.welcome();
             ZMusic.log.sendNormalMessage("插件作者: 真心");
             ZMusic.log.sendNormalMessage("主页：zhenxin.me");

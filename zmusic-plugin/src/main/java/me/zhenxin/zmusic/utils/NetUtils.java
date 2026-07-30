@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
 
@@ -120,7 +121,7 @@ public class NetUtils {
 
             if (url.contains(Config.neteaseApiRoot)) {
                 ZMusic.log.sendDebugMessage("[NetUtils] 发送网易云音乐API请求，附加Cookie");
-                content = content + "&cookie=" + CookieUtils.getCookies();
+                content = appendFormParameter(content, "cookie", CookieUtils.getCookies());
             }
 
             URL getUrl = new URL(url);
@@ -130,6 +131,7 @@ public class NetUtils {
             con.addRequestProperty("Charset", "UTF-8");
             con.addRequestProperty("Referer", Referer);
             con.addRequestProperty("User-Agent", ua);
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setDoInput(true);
@@ -137,7 +139,7 @@ public class NetUtils {
             //DataOutputStream流
             DataOutputStream out = new DataOutputStream(con.getOutputStream());
             //将要上传的内容写入流中
-            out.writeBytes(content);
+            out.write(content.getBytes(StandardCharsets.UTF_8));
             //刷新、关闭
             out.flush();
             out.close();
@@ -146,6 +148,17 @@ public class NetUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    static String appendFormParameter(String content, String name, String value) throws IOException {
+        StringBuilder result = new StringBuilder(content == null ? "" : content);
+        if (result.length() > 0) {
+            result.append('&');
+        }
+        result.append(URLEncoder.encode(name, "UTF-8"));
+        result.append('=');
+        result.append(URLEncoder.encode(value == null ? "" : value, "UTF-8"));
+        return result.toString();
     }
 
     public static String postNetString(String url, String Referer, JsonObject data) {
