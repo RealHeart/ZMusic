@@ -19,7 +19,7 @@ bstats = "3.2.1"
 placeholderapi = "2.12.3"
 
 hutool = "5.8.47"
-netty = "4.2.16.Final"
+netty = "4.2.17.Final"
 nightconfig = "3.9.0"
 java-websocket = "1.6.0"
 slf4j = "2.0.13"
