@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.notice;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.zhenxin.zmusic.ZMusic;
@@ -94,18 +93,14 @@ public class NoticeService {
 
     static Notice parseCurrentNotice(String response) {
         try {
-            JsonArray array = GSON.fromJson(response, JsonArray.class);
-            if (array == null) {
-                throw new IllegalArgumentException("响应为空");
-            }
-            if (array.size() == 0) {
+            JsonElement root = GSON.fromJson(response, JsonElement.class);
+            if (root == null || root.isJsonNull()) {
                 return null;
             }
-            JsonElement element = array.get(0);
-            if (!element.isJsonObject()) {
+            if (!root.isJsonObject()) {
                 throw new IllegalArgumentException("公告不是 JSON 对象");
             }
-            JsonObject json = element.getAsJsonObject();
+            JsonObject json = root.getAsJsonObject();
             String id = requiredString(json, "id");
             String title = requiredString(json, "title");
             String content = requiredString(json, "content");
@@ -116,7 +111,7 @@ public class NoticeService {
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (RuntimeException e) {
-            throw new IllegalArgumentException("响应不是公告数组", e);
+            throw new IllegalArgumentException("响应不是公告对象", e);
         }
     }
 

@@ -10,8 +10,8 @@ class NoticeServiceTest {
 
     @Test
     void parsesCurrentNoticeFromApiResponse() {
-        String response = "[{\"id\":\"notice-1\",\"title\":\"维护公告\","
-                + "\"content\":\"今晚维护\",\"created_at\":\"2026-08-10T00:00:00Z\"}]";
+        String response = "{\"id\":\"notice-1\",\"title\":\"维护公告\","
+                + "\"content\":\"今晚维护\",\"created_at\":\"2026-08-10T00:00:00Z\"}";
 
         Notice notice = NoticeService.parseCurrentNotice(response);
 
@@ -22,12 +22,12 @@ class NoticeServiceTest {
 
     @Test
     void parsesEmptyResponseAsNoCurrentNotice() {
-        assertNull(NoticeService.parseCurrentNotice("[]"));
+        assertNull(NoticeService.parseCurrentNotice("null"));
     }
 
     @Test
     void rejectsNoticeWithoutRequiredFields() {
         assertThrows(IllegalArgumentException.class,
-                () -> NoticeService.parseCurrentNotice("[{\"id\":\"notice-1\",\"title\":\"维护公告\"}]"));
+                () -> NoticeService.parseCurrentNotice("{\"id\":\"notice-1\",\"title\":\"维护公告\"}"));
     }
 }
