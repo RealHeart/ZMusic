@@ -14,9 +14,6 @@ import me.zhenxin.zmusic.utils.NetUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 拉取公告并向玩家发送尚未读过的内容。
@@ -27,7 +24,7 @@ public class NoticeService {
     private static final Gson GSON = new Gson();
 
     private final NoticeReadStore readStore;
-    private volatile List<Notice> notices = Collections.emptyList();
+    private volatile Notice notice;
 
     public NoticeService(File dataFolder) {
         this.readStore = new NoticeReadStore(new File(dataFolder, "notice-read.json"));
@@ -43,18 +40,20 @@ public class NoticeService {
             return;
         }
         try {
-            notices = Collections.unmodifiableList(parseNotices(response));
+            notice = parseCurrentNotice(response);
         } catch (IllegalArgumentException e) {
             ZMusic.log.sendDebugMessage("[公告] 无法解析公告接口响应: " + e.getMessage());
         }
     }
 
     public void sendUnread(Object player) {
+        Notice currentNotice = notice;
+        if (currentNotice == null) {
+            return;
+        }
         String playerId = ZMusic.player.getUniqueId(player);
-        for (Notice notice : notices) {
-            if (!readStore.isRead(playerId, notice.getId())) {
-                ZMusic.message.sendJsonMessage(createMessage(notice), player);
-            }
+        if (!readStore.isRead(playerId, currentNotice.getId())) {
+            ZMusic.message.sendJsonMessage(createMessage(currentNotice), player);
         }
     }
 
@@ -76,10 +75,9 @@ public class NoticeService {
     }
 
     private Notice findNotice(String noticeId) {
-        for (Notice notice : notices) {
-            if (notice.getId().equals(noticeId)) {
-                return notice;
-            }
+        Notice currentNotice = notice;
+        if (currentNotice != null && currentNotice.getId().equals(noticeId)) {
+            return currentNotice;
         }
         return null;
     }
@@ -94,27 +92,27 @@ public class NoticeService {
         return message;
     }
 
-    static List<Notice> parseNotices(String response) {
+    static Notice parseCurrentNotice(String response) {
         try {
             JsonArray array = GSON.fromJson(response, JsonArray.class);
             if (array == null) {
                 throw new IllegalArgumentException("响应为空");
             }
-            List<Notice> result = new ArrayList<>();
-            for (JsonElement element : array) {
-                if (!element.isJsonObject()) {
-                    throw new IllegalArgumentException("公告不是 JSON 对象");
-                }
-                JsonObject json = element.getAsJsonObject();
-                String id = requiredString(json, "id");
-                String title = requiredString(json, "title");
-                String content = requiredString(json, "content");
-                if (id.isEmpty()) {
-                    throw new IllegalArgumentException("公告 id 不能为空");
-                }
-                result.add(new Notice(id, title, content));
+            if (array.size() == 0) {
+                return null;
             }
-            return result;
+            JsonElement element = array.get(0);
+            if (!element.isJsonObject()) {
+                throw new IllegalArgumentException("公告不是 JSON 对象");
+            }
+            JsonObject json = element.getAsJsonObject();
+            String id = requiredString(json, "id");
+            String title = requiredString(json, "title");
+            String content = requiredString(json, "content");
+            if (id.isEmpty()) {
+                throw new IllegalArgumentException("公告 id 不能为空");
+            }
+            return new Notice(id, title, content);
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (RuntimeException e) {

@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.notice;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -12,9 +11,7 @@ import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 按玩家 UUID 持久化已读公告，避免玩家改名后重复收到公告。
@@ -24,7 +21,7 @@ class NoticeReadStore {
     private static final Gson GSON = new Gson();
 
     private final File file;
-    private final Map<String, Set<String>> readNotices = new LinkedHashMap<>();
+    private final Map<String, String> readNotices = new LinkedHashMap<>();
 
     NoticeReadStore(File file) {
         this.file = file;
@@ -32,21 +29,21 @@ class NoticeReadStore {
     }
 
     synchronized boolean isRead(String playerId, String noticeId) {
-        Set<String> noticeIds = readNotices.get(playerId);
-        return noticeIds != null && noticeIds.contains(noticeId);
+        return noticeId.equals(readNotices.get(playerId));
     }
 
     synchronized boolean markRead(String playerId, String noticeId) throws IOException {
-        Set<String> noticeIds = readNotices.computeIfAbsent(playerId, ignored -> new LinkedHashSet<>());
-        if (!noticeIds.add(noticeId)) {
+        String previousNoticeId = readNotices.put(playerId, noticeId);
+        if (noticeId.equals(previousNoticeId)) {
             return false;
         }
         try {
             save();
         } catch (IOException e) {
-            noticeIds.remove(noticeId);
-            if (noticeIds.isEmpty()) {
+            if (previousNoticeId == null) {
                 readNotices.remove(playerId);
+            } else {
+                readNotices.put(playerId, previousNoticeId);
             }
             throw e;
         }
@@ -64,17 +61,24 @@ class NoticeReadStore {
                 return;
             }
             for (Map.Entry<String, JsonElement> entry : root.entrySet()) {
-                if (!entry.getValue().isJsonArray()) {
-                    throw new IllegalStateException("玩家已读记录不是数组: " + entry.getKey());
-                }
-                Set<String> noticeIds = new LinkedHashSet<>();
-                for (JsonElement element : entry.getValue().getAsJsonArray()) {
-                    if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isString()) {
-                        throw new IllegalStateException("公告 ID 不是字符串: " + entry.getKey());
+                JsonElement value = entry.getValue();
+                String noticeId;
+                if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                    noticeId = value.getAsString();
+                } else if (value.isJsonArray()) {
+                    noticeId = null;
+                    for (JsonElement element : value.getAsJsonArray()) {
+                        if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isString()) {
+                            throw new IllegalStateException("公告 ID 不是字符串: " + entry.getKey());
+                        }
+                        noticeId = element.getAsString();
                     }
-                    noticeIds.add(element.getAsString());
+                } else {
+                    throw new IllegalStateException("玩家已读记录格式无效: " + entry.getKey());
                 }
-                readNotices.put(entry.getKey(), noticeIds);
+                if (noticeId != null && !noticeId.isEmpty()) {
+                    readNotices.put(entry.getKey(), noticeId);
+                }
             }
         } catch (IOException | RuntimeException e) {
             throw new IllegalStateException("无法读取公告已读记录: " + file.getPath(), e);
@@ -88,12 +92,8 @@ class NoticeReadStore {
         }
 
         JsonObject root = new JsonObject();
-        for (Map.Entry<String, Set<String>> entry : readNotices.entrySet()) {
-            JsonArray noticeIds = new JsonArray();
-            for (String noticeId : entry.getValue()) {
-                noticeIds.add(noticeId);
-            }
-            root.add(entry.getKey(), noticeIds);
+        for (Map.Entry<String, String> entry : readNotices.entrySet()) {
+            root.addProperty(entry.getKey(), entry.getValue());
         }
 
         File temporary = new File(file.getPath() + ".tmp");

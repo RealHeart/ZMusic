@@ -505,6 +505,10 @@ public class Cmd {
             ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
             return;
         }
+        if (!ZMusic.player.hasPermission(sender, "zmusic.admin")) {
+            ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限使用此命令.", sender);
+            return;
+        }
         if (args.length != 3 || !args[1].equalsIgnoreCase("read")) {
             ZMusic.message.sendErrorMessage("无效的公告操作.", sender);
             return;
