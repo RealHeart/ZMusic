@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class NoticeService {
 
-    private static final String NOTICE_API = "https://api.zhenxin.me/zmusic/notices";
+    private static final String NOTICE_API = "https://api.zhenxin.me/zmusic/notice";
     private static final Gson GSON = new Gson();
 
     private final NoticeReadStore readStore;
@@ -95,12 +95,27 @@ public class NoticeService {
         try {
             JsonElement root = GSON.fromJson(response, JsonElement.class);
             if (root == null || root.isJsonNull()) {
-                return null;
+                throw new IllegalArgumentException("响应为空");
             }
             if (!root.isJsonObject()) {
-                throw new IllegalArgumentException("公告不是 JSON 对象");
+                throw new IllegalArgumentException("响应不是 JSON 对象");
             }
-            JsonObject json = root.getAsJsonObject();
+            JsonObject envelope = root.getAsJsonObject();
+            int code = requiredInt(envelope, "code");
+            if (code != 200) {
+                throw new IllegalArgumentException("公告接口返回失败: " + code);
+            }
+            if (!envelope.has("data")) {
+                throw new IllegalArgumentException("公告接口缺少 data 字段");
+            }
+            JsonElement data = envelope.get("data");
+            if (data == null || data.isJsonNull()) {
+                return null;
+            }
+            if (!data.isJsonObject()) {
+                throw new IllegalArgumentException("公告 data 不是 JSON 对象");
+            }
+            JsonObject json = data.getAsJsonObject();
             String id = requiredString(json, "id");
             String title = requiredString(json, "title");
             String content = requiredString(json, "content");
@@ -121,6 +136,14 @@ public class NoticeService {
             throw new IllegalArgumentException("公告缺少字符串字段: " + name);
         }
         return json.get(name).getAsString();
+    }
+
+    private static int requiredInt(JsonObject json, String name) {
+        if (!json.has(name) || json.get(name).isJsonNull() || !json.get(name).isJsonPrimitive()
+                || !json.get(name).getAsJsonPrimitive().isNumber()) {
+            throw new IllegalArgumentException("公告接口缺少数字字段: " + name);
+        }
+        return json.get(name).getAsInt();
     }
 
     public enum MarkReadResult {
