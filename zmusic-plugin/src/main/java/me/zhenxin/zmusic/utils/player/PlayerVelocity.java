@@ -44,4 +44,9 @@ public class PlayerVelocity implements me.zhenxin.zmusic.utils.player.Player {
         }
         return "Unknown";
     }
+
+    @Override
+    public String getUniqueId(Object playerObj) {
+        return ((Player) playerObj).getUniqueId().toString();
+    }
 }

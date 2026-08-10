@@ -32,7 +32,7 @@ public class MessageBukkit implements Message {
     public void sendJsonMessage(ZComponent message, Object playerObj) {
         Player player = (Player) playerObj;
         TextComponent bungeeComponent = adapter.adapt(message);
-        player.spigot().sendMessage(bungeeComponent);
+        BukkitTaskScheduler.run(player, () -> player.spigot().sendMessage(bungeeComponent));
     }
 
     @Override

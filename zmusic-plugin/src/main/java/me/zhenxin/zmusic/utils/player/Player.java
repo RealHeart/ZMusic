@@ -13,4 +13,6 @@ public interface Player {
     boolean isPlayer(Object sender);
 
     String getName(Object sender);
+
+    String getUniqueId(Object playerObj);
 }

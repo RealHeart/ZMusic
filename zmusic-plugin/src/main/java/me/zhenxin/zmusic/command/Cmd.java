@@ -11,6 +11,7 @@ import me.zhenxin.zmusic.music.PlayList;
 import me.zhenxin.zmusic.music.PlayListPlayer;
 import me.zhenxin.zmusic.music.PlayMusic;
 import me.zhenxin.zmusic.music.SearchMusic;
+import me.zhenxin.zmusic.notice.NoticeService;
 import me.zhenxin.zmusic.utils.HelpUtils;
 import me.zhenxin.zmusic.utils.OtherUtils;
 import me.zhenxin.zmusic.utils.Vault;
@@ -29,6 +30,10 @@ public class Cmd {
     public static boolean cmd(Object sender, String[] args) { // 指令输出
         if (ZMusic.isEnableEd) {
             if (ZMusic.isEnable) {
+                if (args.length > 0 && args[0].equalsIgnoreCase("notice")) {
+                    handleNoticeCommand(sender, args);
+                    return true;
+                }
                 boolean isUse;
                 boolean isAdmin;
                 boolean isPlayAll;
@@ -484,9 +489,47 @@ public class Cmd {
         // Extracted logic for "reload" command
         if (isAdmin) {
             new LoadConfig().reload(sender);
-            ZMusic.runTask.runAsync(() -> new LoadLang().load());
+            ZMusic.runTask.runAsync(() -> {
+                new LoadLang().load();
+                if (ZMusic.notice != null) {
+                    ZMusic.notice.refresh();
+                }
+            });
         } else {
             ZMusic.message.sendErrorMessage("权限不足，你需要 zmusic.admin 权限此使用命令.", sender);
+        }
+    }
+
+    private static void handleNoticeCommand(Object sender, String[] args) {
+        if (!ZMusic.player.isPlayer(sender)) {
+            ZMusic.message.sendErrorMessage("错误: 该命令只能由玩家使用", sender);
+            return;
+        }
+        if (args.length != 3 || !args[1].equalsIgnoreCase("read")) {
+            ZMusic.message.sendErrorMessage("无效的公告操作.", sender);
+            return;
+        }
+        if (ZMusic.notice == null) {
+            ZMusic.message.sendErrorMessage("公告功能当前不可用.", sender);
+            return;
+        }
+
+        NoticeService.MarkReadResult result = ZMusic.notice.markRead(sender, args[2]);
+        switch (result) {
+            case MARKED:
+                ZMusic.message.sendNormalMessage("已标记为已读，之后不再提醒此条公告.", sender);
+                break;
+            case ALREADY_READ:
+                ZMusic.message.sendNormalMessage("此条公告已经标记为已读.", sender);
+                break;
+            case NOT_FOUND:
+                ZMusic.message.sendErrorMessage("公告不存在或已下架.", sender);
+                break;
+            case FAILED:
+                ZMusic.message.sendErrorMessage("保存公告已读状态失败.", sender);
+                break;
+            default:
+                throw new IllegalStateException("未知公告已读结果: " + result);
         }
     }
 

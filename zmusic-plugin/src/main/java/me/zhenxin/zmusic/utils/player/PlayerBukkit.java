@@ -35,4 +35,9 @@ public class PlayerBukkit implements Player {
         return ((CommandSender) sender).getName();
     }
 
+    @Override
+    public String getUniqueId(Object playerObj) {
+        return ((org.bukkit.entity.Player) playerObj).getUniqueId().toString();
+    }
+
 }

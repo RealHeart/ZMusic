@@ -5,6 +5,7 @@ import me.zhenxin.zmusic.data.PlayerData;
 import me.zhenxin.zmusic.language.LoadLang;
 import me.zhenxin.zmusic.login.NeteaseLogin;
 import me.zhenxin.zmusic.music.PlayListPlayer;
+import me.zhenxin.zmusic.notice.NoticeService;
 import me.zhenxin.zmusic.utils.OtherUtils;
 import me.zhenxin.zmusic.utils.log.Log;
 import me.zhenxin.zmusic.utils.message.Message;
@@ -28,6 +29,7 @@ public final class ZMusic {
     public static Music music;
     public static Send send;
     public static Player player;
+    public static NoticeService notice;
 
     public static File dataFolder;
     public static String thisVer;
@@ -59,7 +61,15 @@ public final class ZMusic {
     public static void loadEnd(Object sender) {
         new LoadConfig().load();
         ZMusic.log.sendNormalMessage("成功加载配置文件!");
+        try {
+            notice = new NoticeService(dataFolder);
+        } catch (IllegalStateException e) {
+            ZMusic.log.sendErrorMessage("公告功能初始化失败: " + e.getMessage());
+        }
         ZMusic.runTask.runAsync(() -> {
+            if (notice != null) {
+                notice.refresh();
+            }
             OtherUtils.checkUpdate(sender, false);
             new LoadLang().load();
             NeteaseLogin.refresh();

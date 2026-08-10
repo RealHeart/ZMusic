@@ -10,10 +10,14 @@ public class Event {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                return;
             }
             boolean isAdmin = ZMusic.player.hasPermission(player, "zmusic.admin");
             if (isAdmin) {
+                if (ZMusic.notice != null) {
+                    ZMusic.notice.sendUnread(player);
+                }
                 OtherUtils.checkUpdate(player, true);
             }
         });

@@ -35,4 +35,9 @@ public class PlayerBC implements Player {
     public String getName(Object sender) {
         return ((CommandSender) sender).getName();
     }
+
+    @Override
+    public String getUniqueId(Object playerObj) {
+        return ((ProxiedPlayer) playerObj).getUniqueId().toString();
+    }
 }
