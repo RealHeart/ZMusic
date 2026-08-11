@@ -28,6 +28,8 @@ dependencies {
     compileOnly libs.vault
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testImplementation libs.placeholderapi
+    testImplementation libs.spigot
     testRuntimeOnly 'com.google.code.gson:gson:2.11.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
