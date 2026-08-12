@@ -42,9 +42,6 @@ public class PlayListPlayer extends Thread {
             case "netease":
                 searchSourceName = "网易云音乐";
                 break;
-            case "qq":
-                searchSourceName = "QQ音乐";
-                break;
         }
         maxSongs = playList.size();
         maxSongs = maxSongs - 1;

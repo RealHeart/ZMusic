@@ -136,7 +136,7 @@ public class Cmd {
                     args[0].equalsIgnoreCase("search") ||
                     args[0].equalsIgnoreCase("playAll")) {
                 if (args.length == 2) {
-                    commandList = new String[] { "qq", "163", "netease", "kuwo", "bilibili" };
+                    commandList = new String[] { "163", "netease", "kuwo", "bilibili" };
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 }
                 return new ArrayList<>();
@@ -152,7 +152,7 @@ public class Cmd {
                 return new ArrayList<>();
             } else if (args[0].equalsIgnoreCase("playlist")) {
                 if (args.length == 2) {
-                    commandList = new String[] { "qq", "netease", "163", "type", "global", "next", "prev", "jump" };
+                    commandList = new String[] { "netease", "163", "type", "global", "next", "prev", "jump" };
                     return Arrays.stream(commandList).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
                 } else if (args.length == 3) {
                     if (args[1].equalsIgnoreCase("type")) {
@@ -160,7 +160,7 @@ public class Cmd {
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2]))
                                 .collect(Collectors.toList());
                     } else if (args[1].equalsIgnoreCase("global")) {
-                        commandList = new String[] { "qq", "netease", "163" };
+                        commandList = new String[] { "netease", "163" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[2]))
                                 .collect(Collectors.toList());
                     } else {
@@ -169,8 +169,7 @@ public class Cmd {
                                 .collect(Collectors.toList());
                     }
                 } else if (args.length == 4) {
-                    if (args[2].equalsIgnoreCase("qq") ||
-                            args[2].equalsIgnoreCase("163") ||
+                    if (args[2].equalsIgnoreCase("163") ||
                             args[2].equalsIgnoreCase("netease")) {
                         commandList = new String[] { "import", "play", "list", "update", "show" };
                         return Arrays.stream(commandList).filter(s -> s.startsWith(args[3]))

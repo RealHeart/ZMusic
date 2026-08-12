@@ -13,6 +13,10 @@ import me.zhenxin.zmusic.utils.HelpUtils;
 import me.zhenxin.zmusic.utils.OtherUtils;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,8 +106,6 @@ public class PlayList {
                         case "netease":
                             platform = "netease";
                             break;
-                        case "qq":
-                            break;
                         default:
                             ZMusic.message.sendErrorMessage("错误：未知的平台", player);
                             return;
@@ -116,6 +118,10 @@ public class PlayList {
                     switch (args[3]) {
                         case "import":
                             if (ZMusic.player.hasPermission(player, "zmusic.admin")) {
+                                if (args.length < 5) {
+                                    HelpUtils.sendHelp("playlist", player);
+                                    break;
+                                }
                                 importPlayList(args[4], platform, player, true);
                                 break;
                             } else {
@@ -171,16 +177,16 @@ public class PlayList {
                 case "netease":
                     platform = "netease";
                     break;
-                case "qq":
-                    ZMusic.message.sendErrorMessage("由于不可抗力因素。", player);
-                    ZMusic.message.sendErrorMessage("QQ音乐搜索源已于2.5.0版本移除, API服务已关闭。", player);
-                    return;
                 default:
                     ZMusic.message.sendErrorMessage("错误：未知的平台", player);
                     return;
             }
             switch (args[2]) {
                 case "import":
+                    if (args.length < 4) {
+                        HelpUtils.sendHelp("playlist", player);
+                        break;
+                    }
                     importPlayList(args[3], platform, player, false);
                     break;
                 case "list":
@@ -218,7 +224,7 @@ public class PlayList {
             String platformName;
             switch (platform) {
                 case "netease":
-                    id = url.split("playlist\\?id=")[1].split("&")[0];
+                    id = parseNeteasePlaylistId(url);
                     json = NeteaseCloudMusic.getMusicSongList(id);
                     platformName = "网易云音乐";
                     break;
@@ -250,8 +256,56 @@ public class PlayList {
         } catch (Exception e) {
             e.printStackTrace();
             ZMusic.message.sendErrorMessage("导入失败,请检查链接格式是否正确.", player);
-            ZMusic.message.sendErrorMessage("QQ音乐: https://y.qq.com/n/yqq/playlist/1937967578.html", player);
-            ZMusic.message.sendErrorMessage("网易云音乐: https://music.163.com/#/my/m/music/playlist?id=363046232", player);
+            ZMusic.message.sendErrorMessage("网易云音乐: https://music.163.com/playlist?id=363046232", player);
+        }
+    }
+
+    static String parseNeteasePlaylistId(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            throw new IllegalArgumentException("歌单链接不能为空");
+        }
+
+        try {
+            URI uri = new URI(url.trim());
+            String id = findQueryParameter(uri.getRawQuery(), "id");
+            if (id == null && uri.getRawFragment() != null) {
+                String fragment = uri.getRawFragment();
+                int queryStart = fragment.indexOf('?');
+                if (queryStart >= 0) {
+                    id = findQueryParameter(fragment.substring(queryStart + 1), "id");
+                }
+            }
+            if (id == null || !id.matches("\\d+")) {
+                throw new IllegalArgumentException("歌单链接中缺少有效的 ID");
+            }
+            return id;
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("歌单链接格式不正确", e);
+        }
+    }
+
+    private static String findQueryParameter(String query, String name) {
+        if (query == null || query.isEmpty()) {
+            return null;
+        }
+        for (String parameter : query.split("&")) {
+            int separator = parameter.indexOf('=');
+            if (separator < 0) {
+                continue;
+            }
+            String parameterName = decodeQueryValue(parameter.substring(0, separator));
+            if (name.equals(parameterName)) {
+                return decodeQueryValue(parameter.substring(separator + 1));
+            }
+        }
+        return null;
+    }
+
+    private static String decodeQueryValue(String value) {
+        try {
+            return URLDecoder.decode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException("当前运行时不支持 UTF-8", e);
         }
     }
 
@@ -460,15 +514,8 @@ public class PlayList {
         if (files != null) {
             for (String s : files) {
                 ZMusic.message.sendNormalMessage("§6=========================================", player);
-                switch (platform) {
-                    case "qq":
-                        importPlayList("playlist/" + s.split("\\.json")[0] + ".html", platform, player, isGlobal);
-                        break;
-                    case "netease":
-                        importPlayList("playlist?id=" + s.split("\\.json")[0], platform, player, isGlobal);
-                        break;
-                    default:
-                        break;
+                if (platform.equals("netease")) {
+                    importPlayList("playlist?id=" + s.split("\\.json")[0], platform, player, isGlobal);
                 }
             }
             ZMusic.message.sendNormalMessage("§6=========================================", player);

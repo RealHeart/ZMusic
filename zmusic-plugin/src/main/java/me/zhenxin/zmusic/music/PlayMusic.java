@@ -23,7 +23,7 @@ public class PlayMusic {
      * 播放音乐
      *
      * @param searchKey 搜索词
-     * @param source    搜索源 [qq(QQ音乐)163|netease(网易云音乐)kugou(酷狗音乐))
+     * @param source    搜索源 [163|netease(网易云音乐)kuwo(酷我音乐)bilibili(哔哩哔哩))
      * @param player    玩家
      * @param type      类型 [all(全体),self(个人)music(点歌)
      * @param players   玩家列表 [类型为all传入，非all可传入null]
@@ -56,17 +56,12 @@ public class PlayMusic {
                         ZMusic.message.sendErrorMessage("错误,本服务器未授权.", player);
                         return;
                     }
-                case "qq":
-                    ZMusic.message.sendErrorMessage("由于不可抗力因素。", player);
-                    ZMusic.message.sendErrorMessage("QQ音乐搜索源已于2.5.0版本移除, API服务已关闭。", player);
-                    return;
                 default:
                     ZMusic.message.sendErrorMessage("错误：未知的搜索源", player);
                     return;
             }
             boolean supportId = source.equalsIgnoreCase("163") ||
                 source.equalsIgnoreCase("netease") ||
-                source.equalsIgnoreCase("qq") ||
                 source.equalsIgnoreCase("bilibili");
             String musicID = null;
             String musicName;

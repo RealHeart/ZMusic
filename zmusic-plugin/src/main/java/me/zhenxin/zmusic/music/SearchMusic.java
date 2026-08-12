@@ -56,7 +56,6 @@ public class SearchMusic {
                 ZComponent music = ZTextComponent.of("§r[§e" + Lang.clickMusic + "§r]§r");
                 if (source.equalsIgnoreCase("163") ||
                     source.equalsIgnoreCase("netease") ||
-                    source.equalsIgnoreCase("qq") ||
                     source.equalsIgnoreCase("bilibili")) {
                     musicID = j.getAsJsonObject().get("id").getAsString();
                     play.setClickEvent(ZClickEvent.runCommand("/zm play " + source + " -id:" + musicID));
