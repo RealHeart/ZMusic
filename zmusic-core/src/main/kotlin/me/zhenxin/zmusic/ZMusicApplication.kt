@@ -2,12 +2,13 @@ package me.zhenxin.zmusic
 
 import me.zhenxin.zmusic.command.CommandManager
 import me.zhenxin.zmusic.config.ConfigLoader
-import me.zhenxin.zmusic.music.NoopMusicCatalog
 import me.zhenxin.zmusic.platform.PlatformContext
 import me.zhenxin.zmusic.platform.PlayerListener
 import me.zhenxin.zmusic.platform.entity.ZPlayer
 import me.zhenxin.zmusic.playback.PlaybackService
 import me.zhenxin.zmusic.playback.PlayerStateRegistry
+import me.zhenxin.zmusic.provider.MusicProviderGateway
+import me.zhenxin.zmusic.provider.SearchSessionRegistry
 import me.zhenxin.zmusic.realtime.PluginRealtimeClient
 import me.zhenxin.zmusic.runtime.RuntimeLifecycle
 
@@ -16,14 +17,12 @@ import me.zhenxin.zmusic.runtime.RuntimeLifecycle
  *
  * @property context 平台上下文
  * @property configLoader 配置加载器
- * @property musicCatalog 音乐搜索来源
  * @author 真心
  * @since 5.0.0
  */
 class ZMusicApplication(
     private val context: PlatformContext,
-    private val configLoader: ConfigLoader = ConfigLoader(context.dataFolder),
-    private val musicCatalog: NoopMusicCatalog = NoopMusicCatalog()
+    private val configLoader: ConfigLoader = ConfigLoader(context.dataFolder)
 ) : RuntimeLifecycle {
     /**
      * runtime 反射使用的构造函数。
@@ -32,8 +31,7 @@ class ZMusicApplication(
      */
     constructor(context: PlatformContext) : this(
         context = context,
-        configLoader = ConfigLoader(context.dataFolder),
-        musicCatalog = NoopMusicCatalog()
+        configLoader = ConfigLoader(context.dataFolder)
     )
 
     private var started = false
@@ -41,6 +39,8 @@ class ZMusicApplication(
     private val playerStates = PlayerStateRegistry()
     private val playbackService = PlaybackService(context, playerStates)
     private var realtimeClient = PluginRealtimeClient(context, config.api, playerStates, playbackService)
+    private val providerGateway = MusicProviderGateway(realtimeClient)
+    private val searches = SearchSessionRegistry()
     private val playerListener = object : PlayerListener {
         override fun onJoin(player: ZPlayer) {
             playerStates.state(player)
@@ -49,6 +49,7 @@ class ZMusicApplication(
 
         override fun onQuit(player: ZPlayer) {
             playerStates.remove(player)
+            searches.remove(player.uniqueId)
             realtimeClient.publishPlayerLeft(player)
         }
     }
@@ -59,9 +60,10 @@ class ZMusicApplication(
     val commandManager = CommandManager(
         context = context,
         reload = ::reload,
-        musicCatalog = musicCatalog,
+        providers = providerGateway,
         playbackService = playbackService,
-        version = ZMusicInfo.VERSION
+        version = ZMusicInfo.VERSION,
+        searches = searches
     )
 
     /**
@@ -91,6 +93,7 @@ class ZMusicApplication(
         playbackService.stop()
         context.players.unregisterListener()
         playerStates.clear()
+        searches.clear()
         started = false
         context.logger.info("ZMusic stopped.")
     }
@@ -106,7 +109,9 @@ class ZMusicApplication(
             playbackService.changeChannel(nextConfig.channel)
             if (nextConfig.api != config.api) {
                 realtimeClient.stop()
+                searches.clear()
                 realtimeClient = PluginRealtimeClient(context, nextConfig.api, playerStates, playbackService)
+                providerGateway.replace(realtimeClient)
                 playbackService.stop()
                 playbackService.start(nextConfig.channel, realtimeClient::publishClientEvent)
                 realtimeClient.start()

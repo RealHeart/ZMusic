@@ -33,8 +33,10 @@
 * TOML 配置
 * 插件消息通道
 * 运行时依赖加载
-* 关键词搜索
-* 播放控制
+* 远程音乐 Provider
+* 玩家账号绑定
+* 异步关键词搜索
+* 播放控制与状态同步
 
 ## 文档
 
@@ -57,6 +59,12 @@ device-token = "设备授权流程签发的 device_token"
 ```
 
 生产环境应使用 `wss`。`zmusic:packet` 是当前 Mod 与 Plugin 的统一协议通道，不应单独修改一端。
+
+## 音乐 Provider
+
+Plugin 不内置第三方音乐平台私有接口，也不要求面板服安装 Node.js 或 npm。玩家通过 `/zmusic account bind <平台>` 在浏览器完成账号授权，使用 `/zmusic search` 搜索，并通过 `/zmusic play <序号>` 播放最近的搜索结果。
+
+Provider 应由 ZMusic API 在获得对应平台授权后提供。搜索结果只向 Plugin 返回短期、不透明的歌曲引用；播放时由 API 重新校验玩家账号、地区、会员权益和内容可用性。协议字段与安全边界见 [Provider 协议](docs/provider-protocol.md)。
 
 ## 开源协议
 

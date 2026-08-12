@@ -8,6 +8,7 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(libs.google.gson)
+    testImplementation(libs.java.websocket)
 }
 
 tasks.test {

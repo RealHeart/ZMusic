@@ -1,5 +1,6 @@
 package me.zhenxin.zmusic.playback
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import me.zhenxin.zmusic.platform.CommandRegistry
 import me.zhenxin.zmusic.platform.Platform
@@ -17,6 +18,7 @@ import java.io.File
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -27,6 +29,30 @@ import kotlin.test.assertTrue
  */
 class PlaybackServiceTest {
     @Test
+    fun `normalizes provider playback and drops undeclared fields`() {
+        val fixture = Fixture()
+        fixture.states.markReady(fixture.player, validHello())
+        val requestId = UUID.randomUUID().toString()
+        val command = validPlayback(requestId).apply {
+            addProperty("playerUuid", UUID.randomUUID().toString())
+            getAsJsonObject("song").addProperty("cookie", "sensitive")
+            getAsJsonObject("audio").addProperty("authorization", "Bearer sensitive")
+            getAsJsonObject("lyrics").addProperty("headers", "sensitive")
+        }
+
+        assertTrue(fixture.service.play(fixture.player, command))
+
+        val message = PacketCodec.decode(fixture.messenger.sent.single())
+        assertEquals("server.play", message.type)
+        assertEquals(setOf("requestId", "mode", "song", "audio", "lyrics"), message.data.keySet())
+        assertEquals(requestId, message.data.get("requestId").asString)
+        assertEquals(setOf("id", "source", "title", "artists", "album"),
+            message.data.getAsJsonObject("song").keySet())
+        assertEquals(setOf("type", "url"), message.data.getAsJsonObject("audio").keySet())
+        assertEquals(setOf("type", "format", "url"), message.data.getAsJsonObject("lyrics").keySet())
+    }
+
+    @Test
     fun `maps websocket admin stop reason to packet command reason`() {
         val fixture = Fixture()
         fixture.states.markReady(fixture.player, validHello())
@@ -36,6 +62,54 @@ class PlaybackServiceTest {
         val message = PacketCodec.decode(fixture.messenger.sent.single())
         assertEquals("server.stop", message.type)
         assertEquals("command", message.data.get("reason").asString)
+    }
+
+    @Test
+    fun `rejects non https playback resource`() {
+        val fixture = Fixture()
+        fixture.states.markReady(fixture.player, validHello())
+        val command = validPlayback().apply {
+            getAsJsonObject("audio").addProperty("url", "http://media.example.test/song.mp3")
+        }
+
+        assertFalse(fixture.service.play(fixture.player, command))
+        assertTrue(fixture.messenger.sent.isEmpty())
+    }
+
+    @Test
+    fun `rejects invalid request id and lyrics resource`() {
+        val fixture = Fixture()
+        fixture.states.markReady(fixture.player, validHello())
+
+        assertFalse(fixture.service.play(fixture.player, validPlayback("not-a-uuid")))
+        assertFalse(fixture.service.play(fixture.player, validPlayback().apply {
+            getAsJsonObject("lyrics").addProperty("url", "https://user:password@media.example.test/song.lrc")
+        }))
+        assertTrue(fixture.messenger.sent.isEmpty())
+    }
+
+    @Test
+    fun `rejects local and private playback hosts`() {
+        val fixture = Fixture()
+        fixture.states.markReady(fixture.player, validHello())
+        val blockedUrls = listOf(
+            "https://localhost/song.mp3",
+            "https://127.0.0.1/song.mp3",
+            "https://10.0.0.1/song.mp3",
+            "https://169.254.169.254/latest/meta-data",
+            "https://2130706433/song.mp3",
+            "https://0x7f000001/song.mp3",
+            "https://0177.0.0.1/song.mp3",
+            "https://[::1]/song.mp3",
+            "https://[fc00::1]/song.mp3"
+        )
+
+        blockedUrls.forEach { url ->
+            assertFalse(fixture.service.play(fixture.player, validPlayback().apply {
+                getAsJsonObject("audio").addProperty("url", url)
+            }), url)
+        }
+        assertTrue(fixture.messenger.sent.isEmpty())
     }
 
     @Test
@@ -91,6 +165,19 @@ class PlaybackServiceTest {
             assertEquals(code, message.data.get("code").asString)
         }
     }
+}
+
+private fun validPlayback(requestId: String = UUID.randomUUID().toString()) = JsonObject().apply {
+    addProperty("requestId", requestId)
+    add("song", JsonObject().apply {
+        addProperty("id", "track-1")
+        addProperty("source", "netease")
+        addProperty("title", "测试歌曲")
+        add("artists", JsonArray().apply { add("测试歌手") })
+        addProperty("album", "测试专辑")
+    })
+    add("audio", JsonObject().apply { addProperty("url", "https://media.example.test/song.mp3") })
+    add("lyrics", JsonObject().apply { addProperty("url", "https://media.example.test/song.lrc") })
 }
 
 private fun validHello() = JsonObject().apply {

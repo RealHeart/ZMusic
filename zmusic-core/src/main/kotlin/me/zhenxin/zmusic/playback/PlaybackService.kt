@@ -2,11 +2,12 @@ package me.zhenxin.zmusic.playback
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import me.zhenxin.zmusic.music.Song
 import me.zhenxin.zmusic.platform.PlatformContext
 import me.zhenxin.zmusic.platform.entity.ZPlayer
 import me.zhenxin.zmusic.protocol.PacketCodec
 import me.zhenxin.zmusic.protocol.PacketProtocol
+import java.net.InetAddress
+import java.net.URI
 import java.util.UUID
 
 /**
@@ -60,28 +61,6 @@ class PlaybackService(
     }
 
     /**
-     * 向玩家客户端发送本地命令搜索得到的播放指令。
-     *
-     * @param player 目标玩家
-     * @param song 目标歌曲
-     * @return true 表示玩家 Mod 已握手且消息已投递
-     */
-    fun play(player: ZPlayer, song: Song): Boolean {
-        val songJson = JsonObject().apply {
-            addProperty("id", song.id)
-            addProperty("source", song.source)
-            addProperty("title", song.title)
-            add("artists", JsonArray().also { array -> song.artists.forEach(array::add) })
-        }
-        val data = JsonObject().apply {
-            addProperty("requestId", UUID.randomUUID().toString())
-            add("song", songJson)
-            add("audio", JsonObject().apply { addProperty("url", song.audioUrl.orEmpty()) })
-        }
-        return play(player, data)
-    }
-
-    /**
      * 将 API 的播放命令映射为 `server.play`。
      *
      * @param player 目标玩家
@@ -90,25 +69,37 @@ class PlaybackService(
      */
     fun play(player: ZPlayer, commandData: JsonObject): Boolean {
         if (!states.state(player).hasMod) return false
-        val requestId = commandData.string("requestId")
-        val song = commandData.getAsJsonObject("song") ?: return false
-        val audioInput = commandData.getAsJsonObject("audio") ?: return false
-        if (requestId.isBlank() || audioInput.string("url").isBlank()) return false
+        val requestId = commandData.requiredString("requestId", 36) ?: return false
+        if (runCatching { UUID.fromString(requestId) }.isFailure) return false
+        val song = normalizeSong(commandData.objectField("song") ?: return false) ?: return false
+        val audioUrl = commandData.objectField("audio")?.requiredString("url", MAX_URL_LENGTH) ?: return false
+        if (!isHttpsUrl(audioUrl)) return false
+        val lyricsInput = commandData.get("lyrics")?.takeUnless { it.isJsonNull }
+        val lyricsUrl = if (lyricsInput == null) {
+            null
+        } else {
+            if (!lyricsInput.isJsonObject) return false
+            lyricsInput.asJsonObject.requiredString("url", MAX_URL_LENGTH)?.takeIf(::isHttpsUrl) ?: return false
+        }
 
         val data = JsonObject().apply {
             addProperty("requestId", requestId)
             addProperty("mode", "replace")
-            add("song", song.deepCopy())
-            add("audio", audioInput.deepCopy().apply { addProperty("type", "url") })
-            commandData.get("lyrics")?.takeUnless { it.isJsonNull }?.let { lyricsElement ->
-                add("lyrics", lyricsElement.asJsonObject.deepCopy().apply {
+            add("song", song)
+            add("audio", JsonObject().apply {
+                addProperty("type", "url")
+                addProperty("url", audioUrl)
+            })
+            lyricsUrl?.let { url ->
+                add("lyrics", JsonObject().apply {
                     addProperty("type", "url")
                     addProperty("format", "lrc")
+                    addProperty("url", url)
                 })
             }
         }
-        states.markRequested(player, requestId, song)
         context.pluginMessenger.send(player, channel, PacketCodec.encode("server.play", data))
+        states.markRequested(player, requestId, song)
         return true
     }
 
@@ -272,7 +263,76 @@ class PlaybackService(
     }
 }
 
+private fun normalizeSong(input: JsonObject): JsonObject? {
+    val id = input.requiredString("id", 256) ?: return null
+    val source = input.requiredString("source", 64)?.takeIf(PROVIDER_ID::matches) ?: return null
+    val title = input.requiredString("title", 256) ?: return null
+    val artistsInput = input.get("artists")?.takeIf { it.isJsonArray }?.asJsonArray ?: return null
+    if (artistsInput.size() > MAX_ARTISTS) return null
+    val artists = artistsInput.map { element ->
+        if (!element.isJsonPrimitive || !element.asJsonPrimitive.isString) return null
+        element.asString.takeIf {
+            it.isNotBlank() && it.length <= 128 && it.none(Char::isISOControl)
+        } ?: return null
+    }
+    val album = input.optionalString("album", 256) ?: if (input.has("album") && !input.get("album").isJsonNull) return null else null
+    return JsonObject().apply {
+        addProperty("id", id)
+        addProperty("source", source)
+        addProperty("title", title)
+        add("artists", JsonArray().apply { artists.forEach(::add) })
+        album?.let { addProperty("album", it) }
+    }
+}
+
+private fun isHttpsUrl(value: String): Boolean {
+    val uri = runCatching { URI(value) }.getOrNull()
+    if (uri == null || !uri.scheme.equals("https", ignoreCase = true) ||
+        uri.host.isNullOrBlank() || uri.userInfo != null) return false
+    val host = uri.host.removePrefix("[").removeSuffix("]").lowercase()
+    if (host == "localhost" || host.endsWith(".localhost")) return false
+    if (host.matches(Regex("^0x[0-9a-f]+$")) || host.all(Char::isDigit)) return false
+    val dottedNumeric = host.takeIf { it.matches(Regex("^\\d+(?:\\.\\d+){3}$")) }?.split('.')
+    if (dottedNumeric != null && dottedNumeric.any {
+            it.length > 1 && it.startsWith('0') || it.toIntOrNull() !in 0..255
+        }) return false
+    val address = parseIpLiteral(host) ?: return true
+    if (address.isAnyLocalAddress || address.isLoopbackAddress || address.isLinkLocalAddress ||
+        address.isSiteLocalAddress || address.isMulticastAddress) return false
+    val bytes = address.address
+    if (bytes.size == 4 && bytes[0].toInt() and 0xff == 100 && bytes[1].toInt() and 0xc0 == 64) return false
+    return bytes.size != 16 || bytes[0].toInt() and 0xfe != 0xfc
+}
+
+private fun parseIpLiteral(host: String): InetAddress? {
+    val ipv4 = host.matches(Regex("^\\d{1,3}(?:\\.\\d{1,3}){3}$"))
+    if (!ipv4 && ':' !in host) return null
+    if (ipv4) {
+        val parts = host.split('.')
+        val octets = parts.map { it.toIntOrNull() ?: return null }
+        if (octets.any { it !in 0..255 }) return null
+        return InetAddress.getByAddress(octets.map(Int::toByte).toByteArray())
+    }
+    return runCatching { InetAddress.getByName(host) }.getOrNull()
+}
+
+private fun JsonObject.objectField(name: String): JsonObject? =
+    get(name)?.takeIf { it.isJsonObject }?.asJsonObject
+
+private fun JsonObject.requiredString(name: String, maximumLength: Int): String? =
+    optionalString(name, maximumLength)?.takeUnless(String::isBlank)
+
+private fun JsonObject.optionalString(name: String, maximumLength: Int): String? {
+    val element = get(name) ?: return null
+    if (element.isJsonNull || !element.isJsonPrimitive || !element.asJsonPrimitive.isString) return null
+    return element.asString.takeIf { it.length <= maximumLength && it.none(Char::isISOControl) }
+}
+
 private fun JsonObject.stringField(name: String): String? {
     val element = get(name) ?: return null
     return if (element.isJsonPrimitive && element.asJsonPrimitive.isString) element.asString else null
 }
+
+private val PROVIDER_ID = Regex("^[a-z0-9][a-z0-9._-]{0,63}$")
+private const val MAX_ARTISTS = 10
+private const val MAX_URL_LENGTH = 2048
