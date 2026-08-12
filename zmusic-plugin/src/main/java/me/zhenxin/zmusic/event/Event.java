@@ -15,10 +15,10 @@ public class Event {
             }
             boolean isAdmin = ZMusic.player.hasPermission(player, "zmusic.admin");
             if (isAdmin) {
+                OtherUtils.checkUpdate(player, false);
                 if (ZMusic.notice != null) {
                     ZMusic.notice.sendUnread(player);
                 }
-                OtherUtils.checkUpdate(player, true);
             }
         });
     }

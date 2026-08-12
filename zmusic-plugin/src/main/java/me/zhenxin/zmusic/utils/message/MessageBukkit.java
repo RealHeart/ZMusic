@@ -19,13 +19,13 @@ public class MessageBukkit implements Message {
     @Override
     public void sendNormalMessage(String message, Object playerObj) {
         CommandSender sender = (CommandSender) playerObj;
-        sender.sendMessage(Config.prefix + ChatColor.GREEN + message);
+        sendMessage(sender, Config.prefix + ChatColor.GREEN + message);
     }
 
     @Override
     public void sendErrorMessage(String message, Object playerObj) {
         CommandSender sender = (CommandSender) playerObj;
-        sender.sendMessage(Config.prefix + ChatColor.RED + message);
+        sendMessage(sender, Config.prefix + ChatColor.RED + message);
     }
 
     @Override
@@ -57,6 +57,14 @@ public class MessageBukkit implements Message {
     @Override
     public void sendNull(Object playerObj) {
         CommandSender sender = (CommandSender) playerObj;
-        sender.sendMessage(Config.prefix + ChatColor.GREEN + Lang.helpHelp);
+        sendMessage(sender, Config.prefix + ChatColor.GREEN + Lang.helpHelp);
+    }
+
+    private void sendMessage(CommandSender sender, String message) {
+        if (sender instanceof Player) {
+            BukkitTaskScheduler.run((Player) sender, () -> sender.sendMessage(message));
+        } else {
+            sender.sendMessage(message);
+        }
     }
 }

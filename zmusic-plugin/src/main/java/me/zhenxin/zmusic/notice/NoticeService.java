@@ -13,6 +13,10 @@ import me.zhenxin.zmusic.utils.NetUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 拉取公告并向玩家发送尚未读过的内容。
@@ -21,6 +25,8 @@ public class NoticeService {
 
     private static final String NOTICE_API = "https://api.zhenxin.me/zmusic/notice";
     private static final Gson GSON = new Gson();
+    private static final Pattern URL_PATTERN = Pattern.compile(
+            "https?://[^\\s<>\\[\\](){}，。；：！？、]+", Pattern.CASE_INSENSITIVE);
 
     private final NoticeReadStore readStore;
     private volatile Notice notice;
@@ -52,7 +58,9 @@ public class NoticeService {
         }
         String playerId = ZMusic.player.getUniqueId(player);
         if (!readStore.isRead(playerId, currentNotice.getId())) {
-            ZMusic.message.sendJsonMessage(createMessage(currentNotice), player);
+            for (ZComponent message : createMessages(currentNotice)) {
+                ZMusic.message.sendJsonMessage(message, player);
+            }
         }
     }
 
@@ -81,13 +89,42 @@ public class NoticeService {
         return null;
     }
 
-    private ZComponent createMessage(Notice notice) {
-        ZTextComponent message = ZTextComponent.of(Config.prefix + "§6[公告] §e" + notice.getTitle()
-                + "\n§f" + notice.getContent() + "\n");
-        ZTextComponent readButton = ZTextComponent.of("§a[点击标记为已读]");
+    static List<ZComponent> createMessages(Notice notice) {
+        List<ZComponent> messages = new ArrayList<>();
+        messages.add(ZTextComponent.of(Config.prefix + "§a[公告] " + notice.getTitle()));
+        for (String line : notice.getContent().split("\\r?\\n", -1)) {
+            messages.add(createContentLine(line));
+        }
+
+        ZTextComponent readMessage = ZTextComponent.of(Config.prefix);
+        ZTextComponent readButton = ZTextComponent.of("§e[点击标记为已读]");
         readButton.setClickEvent(ZClickEvent.runCommand("/zm notice read " + notice.getId()));
         readButton.setHoverEvent(ZHoverEvent.showText("§7点击后将不再接收此条公告"));
-        message.addChild(readButton);
+        readMessage.addChild(readButton);
+        messages.add(readMessage);
+        return messages;
+    }
+
+    private static ZComponent createContentLine(String line) {
+        ZTextComponent message = ZTextComponent.of(Config.prefix);
+        Matcher matcher = URL_PATTERN.matcher(line);
+        int start = 0;
+        while (matcher.find()) {
+            if (matcher.start() > start) {
+                message.addChild(ZTextComponent.of("§a" + line.substring(start, matcher.start())));
+            }
+            ZTextComponent openButton = ZTextComponent.of("§e[点击打开]");
+            openButton.setClickEvent(ZClickEvent.openUrl(matcher.group()));
+            openButton.setHoverEvent(ZHoverEvent.showText("§7点击打开链接"));
+            message.addChild(openButton);
+            start = matcher.end();
+        }
+        if (start < line.length()) {
+            message.addChild(ZTextComponent.of("§a" + line.substring(start)));
+        }
+        if (message.getChildren().isEmpty()) {
+            message.addChild(ZTextComponent.of("§a"));
+        }
         return message;
     }
 
