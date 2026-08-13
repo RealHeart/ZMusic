@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21"
 }
 
 repositories {
@@ -10,7 +10,10 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
-    compileOnly("net.kyori:adventure-text-serializer-gson:4.23.0")
+    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
     compileOnly(project(":zmusic-nms:zmusic-nms-core"))
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
