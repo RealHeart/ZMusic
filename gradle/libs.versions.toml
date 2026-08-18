@@ -4,7 +4,7 @@ blossom = "2.2.0"
 shadow = "9.6.1"
 
 lucko-jar-relocator = "1.7"
-google-guava = "33.6.0-jre"
+google-guava = "33.7.1-jre"
 google-gson = "2.14.0"
 maven-resolver = "2.0.21"
 maven-resolver-provider = "3.9.16"
