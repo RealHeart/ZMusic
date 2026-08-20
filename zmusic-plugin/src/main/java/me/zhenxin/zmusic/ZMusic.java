@@ -33,7 +33,7 @@ public final class ZMusic {
 
     public static File dataFolder;
     public static String thisVer;
-    public static int thisVerCode = 202607300;
+    public static int thisVerCode = 202608200;
     public static boolean isVip = false;
     public static boolean isViaVer = true;
     public static boolean isEnable = true;
