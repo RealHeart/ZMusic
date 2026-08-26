@@ -11,7 +11,7 @@ maven-resolver-provider = "3.9.16"
 
 spigot = "26.2-R0.1-SNAPSHOT"
 bungeecord = "1.21-R0.4"
-velocity = "3.4.0"
+velocity = "4.1.1"
 
 adventure = "5.2.0"
 
