@@ -12,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 public class NetUtils {
@@ -109,6 +111,7 @@ public class NetUtils {
     public static String postNetString(String url, String Referer, String content) {
         try {
             String ua = "Mozilla/5.0 (Linux; Android 11; Mi 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36 ZMusic/" + ZMusic.thisVer;
+            boolean neteaseRequest = Config.neteaseApiRoot != null && url.contains(Config.neteaseApiRoot);
 
             if (!url.contains("?")) {
                 url = url + "?timestamp=" + System.currentTimeMillis();
@@ -119,7 +122,7 @@ public class NetUtils {
             ZMusic.log.sendDebugMessage(url);
             ZMusic.log.sendDebugMessage(content);
 
-            if (url.contains(Config.neteaseApiRoot)) {
+            if (neteaseRequest) {
                 ZMusic.log.sendDebugMessage("[NetUtils] 发送网易云音乐API请求，附加Cookie");
                 content = appendFormParameter(content, "cookie", CookieUtils.getCookies());
             }
@@ -143,7 +146,7 @@ public class NetUtils {
             //刷新、关闭
             out.flush();
             out.close();
-            return getString(con);
+            return getString(con, neteaseRequest);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -217,7 +220,14 @@ public class NetUtils {
     }
 
     private static String getString(HttpURLConnection con) throws IOException {
+        return getString(con, false);
+    }
+
+    private static String getString(HttpURLConnection con, boolean persistResponseCookies) throws IOException {
         int code = con.getResponseCode();
+        if (persistResponseCookies) {
+            persistResponseCookies(con);
+        }
         if (code == 200 || code == 201 || code == 202) {
             InputStream is = con.getInputStream();
             String s = OtherUtils.readInputStream(is);
@@ -230,6 +240,27 @@ public class NetUtils {
             is.close();
             ZMusic.log.sendDebugMessage(s);
             return s;
+        }
+    }
+
+    private static void persistResponseCookies(HttpURLConnection con) {
+        StringBuilder cookies = new StringBuilder();
+        for (Map.Entry<String, List<String>> header : con.getHeaderFields().entrySet()) {
+            if (header.getKey() == null || !"Set-Cookie".equalsIgnoreCase(header.getKey())) {
+                continue;
+            }
+            for (String cookie : header.getValue()) {
+                if (cookie == null || cookie.isEmpty()) {
+                    continue;
+                }
+                if (cookies.length() > 0) {
+                    cookies.append("; ");
+                }
+                cookies.append(cookie);
+            }
+        }
+        if (cookies.length() > 0) {
+            CookieUtils.saveCookies(cookies.toString());
         }
     }
 

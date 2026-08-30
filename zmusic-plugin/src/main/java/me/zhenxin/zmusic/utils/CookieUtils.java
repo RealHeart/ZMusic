@@ -4,6 +4,11 @@ import me.zhenxin.zmusic.ZMusic;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -115,8 +120,15 @@ public class CookieUtils {
         }
         cookieString = result.toString();
 
+        Path target = cookieFile.toPath();
+        Path temporary = target.resolveSibling(target.getFileName() + ".tmp");
         try {
-            OtherUtils.saveStringToLocal(cookieFile, cookieString);
+            Files.write(temporary, cookieString.getBytes(StandardCharsets.UTF_8));
+            try {
+                Files.move(temporary, target, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException ignored) {
+                Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             ZMusic.log.sendDebugMessage("[CookieUtils] 保存Cookies失败: " + e.getMessage());
         }

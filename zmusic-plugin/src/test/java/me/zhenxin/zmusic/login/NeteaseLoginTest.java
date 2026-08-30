@@ -61,6 +61,19 @@ class NeteaseLoginTest {
         assertEquals(deviceId, cookies.get("deviceId"));
     }
 
+    @Test
+    void persistsServerIssuedDeviceCookieAcrossRestart() {
+        CookieUtils.saveCookies("MUSIC_U=restart-old; NMTID=client-device");
+
+        assertTrue(NeteaseLogin.refresh());
+        CookieUtils.initCookieManager();
+
+        Map<String, String> cookies = parseCookies(CookieUtils.getCookies());
+        assertEquals("restart-new", cookies.get("MUSIC_U"));
+        assertEquals("server-device", cookies.get("NMTID"));
+        assertTrue(NeteaseLogin.refresh());
+    }
+
     private static void handleRefresh(HttpExchange exchange) throws IOException {
         String requestBody;
         try (InputStream input = exchange.getRequestBody()) {
@@ -72,15 +85,23 @@ class NeteaseLoginTest {
             }
             requestBody = new String(output.toByteArray(), StandardCharsets.UTF_8);
         }
-        if (!requestBody.contains("cookie=") || !requestBody.contains("MUSIC_U%3Dold")) {
-            exchange.sendResponseHeaders(400, -1);
-            exchange.close();
-            return;
+
+        String responseBody;
+        if (requestBody.contains("MUSIC_U%3Dold")) {
+            responseBody = "{\"code\":200,\"cookie\":"
+                    + "\"MUSIC_U=new; __csrf=new-token; Path=/; HttpOnly\"}";
+        } else if (requestBody.contains("MUSIC_U%3Drestart-old")) {
+            exchange.getResponseHeaders().add("Set-Cookie",
+                    "NMTID=server-device; Max-Age=315360000; Path=/; HttpOnly");
+            responseBody = "{\"code\":200,\"cookie\":\"MUSIC_U=restart-new; __csrf=restart-token\"}";
+        } else if (requestBody.contains("MUSIC_U%3Drestart-new")
+                && requestBody.contains("NMTID%3Dserver-device")) {
+            responseBody = "{\"code\":200}";
+        } else {
+            responseBody = "{\"code\":301}";
         }
 
-        byte[] response = ("{\"code\":200,\"cookie\":"
-                + "\"MUSIC_U=new; __csrf=new-token; Path=/; HttpOnly\"}")
-                .getBytes(StandardCharsets.UTF_8);
+        byte[] response = responseBody.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
         exchange.sendResponseHeaders(200, response.length);
         exchange.getResponseBody().write(response);
