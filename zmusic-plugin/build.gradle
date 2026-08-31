@@ -13,9 +13,10 @@ dependencies {
     implementation(project(":zmusic-nms:zmusic-nms-1.18"))
     implementation(project(":zmusic-nms:zmusic-nms-1.19"))
     implementation(project(":zmusic-nms:zmusic-nms-1.20"))
-    implementation(project(":zmusic-nms:zmusic-nms-1.21.4"))
-    implementation(project(":zmusic-nms:zmusic-nms-1.21.7"))
-    implementation(project(":zmusic-nms:zmusic-nms-1.21.11"))
+    implementation(project(":zmusic-nms:zmusic-nms-paper-1.21.4"))
+    implementation(project(":zmusic-nms:zmusic-nms-paper-1.21.8"))
+    implementation(project(":zmusic-nms:zmusic-nms-paper-1.21.11"))
+    implementation(project(":zmusic-nms:zmusic-nms-paper-26.2"))
 
     compileOnly libs.bungeecord
     compileOnly libs.velocity
@@ -40,6 +41,14 @@ test {
 
 build {
     dependsOn shadowJar
+}
+
+evaluationDependsOn(":zmusic-nms:zmusic-nms-paper-26.2")
+shadowJar {
+    // Thank you paper 26.2
+    def paper262Jar = project(":zmusic-nms:zmusic-nms-paper-26.2").tasks.named("jar")
+    dependsOn paper262Jar
+    from({ zipTree(paper262Jar.get().archiveFile.get().asFile) })
 }
 
 processResources {
