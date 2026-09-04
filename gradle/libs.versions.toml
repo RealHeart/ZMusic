@@ -22,7 +22,7 @@ hutool = "5.8.47"
 netty = "4.2.17.Final"
 nightconfig = "3.9.0"
 java-websocket = "1.6.0"
-slf4j = "2.0.13"
+slf4j = "2.0.19"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
